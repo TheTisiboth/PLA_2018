@@ -1,5 +1,5 @@
 # PLA
-## Splatoon :
+## Nom du jeu :
 
 ### Objectif :
 * manger / colorer le plus vite possible (une pizza) / un plateau (peinture illimité)

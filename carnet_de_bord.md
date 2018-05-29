@@ -2,7 +2,7 @@
 
 ## 29/05/18
 
-### Définition du Game designe
+### Définition du Game design
 * Brainstorming sur les caractéristiques de notre jeu
 
 ### Attribution des roles :

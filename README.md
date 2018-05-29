@@ -8,14 +8,17 @@
 * On peut ramasser des items nous permettant de : lancer des bombes, casser des obstacles
 * Pas de points de vie
 * Ramassage et peinture du sol automatique
+* Vitesse de déplacement des personnages peut etre modifié
 
 
 ###  Objets :
 * Bombes qui retirent les couleurs des autres
-* Bombes qui modifient la couleur par la sienne
+* Bombes qui remplace une couleur par une autre
 * Bombe surprise : qui s’estompe au bout d’un certain temps (on ne peut stocker qu'une seule bombe à la fois)
 * Obstacles sur le plateau à détruire pour pouvoir mettre sa couleur
 * On ramasse un item nous donnant un sbire aléatoire : on peut en stocker 1 a la fois
+* Glue : ralenti l'adversaire
+* Speed : accelere le déplacement
 
 ###  Type de sbire :
 * Peintre : meurt au bout de X cases coloriées

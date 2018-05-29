@@ -4,6 +4,7 @@
 ### Objectif :
 • manger / colorer le plus vite possible (une pizza) / un plateau (peinture illimité)
 • multijoueurs : 1 contre 1 joueurs
+
 • Lorsque l'on se déplace, on colorie les cases sur lesquelles on est passé
 • On peut ramasser des items nous permettant de : lancer des bombes, casser des obstacles
 • Pas de points de vie

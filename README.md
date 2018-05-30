@@ -5,15 +5,17 @@
 * manger / colorer le plus vite possible (une pizza) / un plateau (peinture illimité)
 * multijoueurs : 1 contre 1 joueurs
 * Lorsque l'on se déplace, on colorie les cases sur lesquelles on est passé
-* On peut ramasser des items nous permettant de : lancer des bombes, casser des obstacles
-* Pas de points de vie
+* On peut ramasser des items nous permettant de : ralentir, accelerer, geler...
+* Pas de points de vie (ou alors 1 point de vie, et lorsque l'on prend un dégat, on retourne a notre base)
 * Ramassage et peinture du sol automatique
 * Vitesse de déplacement des personnages peut etre modifié
+* Les 2 joueurs peuvent frapper
+* Choix de classe au début du jeu, qui influe sur la chance d'obtenir certain type de sbire
 
 
 ###  Objets :
-* Item qui retire les couleurs des autres
-* Item qui remplace une couleur par une autre
+* Item qui retire les couleurs des autres dans un certain rayon
+* Item qui explose en projettant la couleur de celui qui l'a récupéré
 * Obstacles sur le plateau à détruire pour pouvoir mettre sa couleur
 * On ramasse un item nous donnant un sbire (on peut en stocker 1 ou plusieurs)
 * Glue : ralenti l'adversaire

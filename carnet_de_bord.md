@@ -8,9 +8,11 @@
 * Vue : Interface graphique. C'est ce que l'on choisit d'afficher à l'écran
 * Controleur : Traite les actions de l'utilisateur, modifie le modele et la vue en conséquence
 
+Il faut utiliser cette architecture, pour bien découper les différentes tâches.
+
 ### Attribution des roles :
 * Jade : Interface graphique
-* Guillaume : Automate
+* Guillaume : Automates
 * Léo : Polyvalent
 * Elisa : Automates
 * Loïc : 
@@ -38,4 +40,3 @@
 * Gestion d'evenement (appui clavier, souris)
 * Lecture de fichier contenant les automates
 
-[MVC](#organisation-mvc)

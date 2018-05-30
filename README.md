@@ -20,8 +20,6 @@
 * Glue : ralenti l'adversaire
 * Speed : accelere le déplacement
 
-[anchor](#objectif)
-
 ###  Type de sbire :
 * Peintre : meurt au bout de X cases coloriées
 * Kamikaze : Explose au bout de X temps, en faisant des dégats et en coloriant les cases adjacentes

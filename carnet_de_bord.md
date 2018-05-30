@@ -1,5 +1,22 @@
 # Carnet de bord
 
+## 30/05/18
+
+### Organisation MVC
+
+* Modele : contient les structures de données
+* Vue : Interface graphique. C'est ce que l'on choisit d'afficher à l'écran
+* Controleur : Traite les actions de l'utilisateur, modifie le modele et la vue en conséquence
+
+### Attribution des roles :
+* Jade : Interface graphique
+* Guillaume : Automate
+* Léo : Polyvalent
+* Elisa : Automates
+* Loïc : 
+* Marceau :
+
+
 ## 29/05/18
 
 ### Définition du Game design
@@ -20,3 +37,5 @@
 * Gestion de l'arbre du parser, pour le rendre utilisable
 * Gestion d'evenement (appui clavier, souris)
 * Lecture de fichier contenant les automates
+
+[MVC](#organisation-mvc)

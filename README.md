@@ -16,7 +16,7 @@
 * Bombes qui remplace une couleur par une autre
 * Bombe surprise : qui s’estompe au bout d’un certain temps (on ne peut stocker qu'une seule bombe à la fois)
 * Obstacles sur le plateau à détruire pour pouvoir mettre sa couleur
-* On ramasse un item nous donnant un sbire aléatoire : on peut en stocker 1 a la fois
+* On ramasse un item nous donnant un sbire (on peut en stocker 1 ou plusieurs)
 * Glue : ralenti l'adversaire
 * Speed : accelere le déplacement
 

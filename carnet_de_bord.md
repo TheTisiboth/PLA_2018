@@ -10,6 +10,15 @@
 
 Il faut utiliser cette architecture, pour bien découper les différentes tâches.
 
+### Prototypage
+(tester les parties difficiles)
+
+* Affichage de plusieurs fenetre (rafraichissement de l'image, gestion des différents éléments graphique)
+* Gestion des collisions
+* Gestion d'evenement (appui clavier, souris)
+* Gestion de l'arbre du parser, pour le rendre utilisable
+* Lecture de fichier contenant les automates
+
 ### Attribution des roles :
 * Jade : Interface graphique
 * Guillaume : Automates

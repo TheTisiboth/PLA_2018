@@ -12,9 +12,8 @@
 
 
 ###  Objets :
-* Bombes qui retirent les couleurs des autres
-* Bombes qui remplace une couleur par une autre
-* Bombe surprise : qui s’estompe au bout d’un certain temps (on ne peut stocker qu'une seule bombe à la fois)
+* Item qui retire les couleurs des autres
+* Item qui remplace une couleur par une autre
 * Obstacles sur le plateau à détruire pour pouvoir mettre sa couleur
 * On ramasse un item nous donnant un sbire (on peut en stocker 1 ou plusieurs)
 * Glue : ralenti l'adversaire

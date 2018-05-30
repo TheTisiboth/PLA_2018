@@ -2,6 +2,12 @@
 
 ## 30/05/18
 
+### Objectifs pour la présentation
+* Faire un planning  
+* Faire un diapo
+* les convaincres qu'on est capable de réaliser ce qu'on leur propose
+* Faire les prototypes
+
 ### Organisation MVC
 
 * Modele : contient les structures de données
@@ -16,16 +22,16 @@ Il faut utiliser cette architecture, pour bien découper les différentes tâche
 * Affichage de plusieurs fenetre (rafraichissement de l'image, gestion des différents éléments graphique)
 * Gestion des collisions
 * Gestion d'evenement (appui clavier, souris)
-* Gestion de l'arbre du parser, pour le rendre utilisable
-* Lecture de fichier contenant les automates
+* Gestion de l'arbre du parser, pour le rendre utilisable ?
+* Lecture de fichier contenant les automates ?
 
 ### Attribution des roles :
 * Jade : Interface graphique
 * Guillaume : Automates
 * Léo : Polyvalent
 * Elisa : Automates
-* Loïc : 
-* Marceau :
+* Loïc : Automates
+* Marceau : Interface graphique
 
 ___
 

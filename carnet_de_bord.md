@@ -18,7 +18,7 @@ Il faut utiliser cette architecture, pour bien découper les différentes tâche
 * Loïc : 
 * Marceau :
 
-_________________________________________________________________________________
+___
 
 ## 29/05/18
 

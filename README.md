@@ -2,22 +2,23 @@
 ## Nom du jeu :
 
 ### Objectif :
-* manger / colorer le plus vite possible (une pizza) / un plateau (peinture illimité)
+* colorer le plus vite possible un plateau (peinture limité)
 * multijoueurs : 1 contre 1 joueurs
 * Lorsque l'on se déplace, on colorie les cases sur lesquelles on est passé
 * On peut ramasser des items nous permettant de : ralentir, accelerer, geler...
-* Pas de points de vie (ou alors 1 point de vie, et lorsque l'on prend un dégat, on retourne a notre base)
-* Ramassage et peinture du sol automatique
+* 1 point de vie, et lorsque l'on prend un dégat, on retourne a notre base
+* Ramassage et activation d'item automatique
 * Vitesse de déplacement des personnages peut etre modifié
 * Les 2 joueurs peuvent frapper
 * Choix de classe au début du jeu, qui influe sur la chance d'obtenir certain type de sbire
 
 
 ###  Objets :
+* Item qui recharge la peinture
 * Item qui retire les couleurs des autres dans un certain rayon
 * Item qui explose en projettant la couleur de celui qui l'a récupéré
 * Obstacles sur le plateau à détruire pour pouvoir mettre sa couleur
-* On ramasse un item nous donnant un sbire (on peut en stocker 1 ou plusieurs)
+* 4 types de sbires ramassable et stockable (on peut en stocker 4 différents)
 * Glue : ralenti l'adversaire
 * Speed : accelere le déplacement
 
@@ -32,11 +33,7 @@
 
 ### Variante :
 * plusieurs couleurs à choisir au début du jeu
-* Pousser l’autre du plateau : s’il tombe il disparaît pendant 1 seconde et on peut
-gagner du terrain en attendant
-* Olives sur la pizza : 1 seul mystère qui permet d’accéder à un raccourci vers les
-autres olives aléatoirement
-* Invoquer un petit IA sbire qui va mettre X tâches colorées puis disparaître
+* Passage secret qui permet d’accéder à un autre endroit de la carte
 * Une roulette à pizza qui tranche les bonhommes sur le plateau qui disparaissent et
 reviennent 2s plus tard
 
@@ -50,7 +47,7 @@ reviennent 2s plus tard
 * Choix du nom
 
 ###  Actions :
-* HIT : Envoie une bombe
+* HIT : Frapper
 * MOVE : se deplace sur une case adjacente (pas de diagonale)
 * POP : téléportation aléatoire sur le plateau
-* WIZZ : invoque 1 sbire 
+* WIZZ : à voir

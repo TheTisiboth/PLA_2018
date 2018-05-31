@@ -20,6 +20,8 @@ public class View extends GameView {
 	protected void _paint(Graphics g) {
 
 		Circle c = m_model.getCircle();
+		Circle c1 = m_model.getCircle2();
+		c1.paint(g);
 		c.paint(g);
 	}
 }

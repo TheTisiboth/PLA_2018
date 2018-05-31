@@ -13,9 +13,11 @@ public class Circle extends Entity {
 	private int last_y;
 	private int diameter;
 	private long m_lastMove;
-	private int step = 40;
+	private int step = 1;
 	private boolean canMove = false;
 	private Color couleur;
+	char direction;
+	boolean inMovement;
 
 	Circle(int x, int y, Color couleur) {
 		super.x = x;
@@ -40,37 +42,21 @@ public class Circle extends Entity {
 
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
-		if (elapsed > 70L) {
-			canMove = true;
+		if (inMovement && elapsed > 100L) {
+			last_x = x;
+			last_y = y;
+			if (direction == 'R' && x < 31) {
+				x += step;
+			} else if (direction == 'L' && x > 0) {
+				x -= step;
+			} else if (direction == 'D' && y < 17) {
+				y += step;
+			} else if (direction == 'U' && y > 0) {
+				y -= step;
+			}
 			m_lastMove = now;
 		}
 	}
-
-	public void step(char direction) {
-		if(canMove) {
-			canMove = false;
-			if (direction == 'R' && x < 31) {
-
-				last_x = x;
-				last_y = y;
-				x += 1;
-			} else if (direction == 'L' && x > 0) {
-				last_x = x;
-				last_y = y;
-				x -= 1;
-			} else if (direction == 'D' && y < 17) {
-				last_x = x;
-				last_y = y;
-				y += 1;
-			} else if (direction == 'U' && y > 0) {
-				last_x = x;
-				last_y = y;
-				y -= 1;
-			}
-		}
-		
-	}
-
 
 	// GETTER SETTER
 
@@ -92,5 +78,18 @@ public class Circle extends Entity {
 
 	public int getDiameter() {
 		return diameter;
+	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(char direction) {
+		this.direction = direction;
+		setMovement(true);
+	}
+
+	public void setMovement(boolean b) {
+		inMovement = b;
 	}
 }

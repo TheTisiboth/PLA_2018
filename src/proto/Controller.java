@@ -8,7 +8,6 @@ import proto.Model;
 
 public class Controller extends GameController {
 	private Model m_model;
-	boolean P1_move, P2_move;
 
 	public Controller(Model m) {
 		m_model = m;
@@ -34,38 +33,28 @@ public class Controller extends GameController {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		//Circle 1
+		// Circle 1
 		if (e.getKeyCode() == 39) {
-			P1_move = true;
-			m_model.getCircle().step('R');
+			m_model.getCircle().setDirection('R');
 		} else if (e.getKeyCode() == 38) {
-			P1_move = true;
-			m_model.getCircle().step('U');
+			m_model.getCircle().setDirection('U');
 		} else if (e.getKeyCode() == 37) {
-			P1_move = true;
-			m_model.getCircle().step('L');
+			m_model.getCircle().setDirection('L');
 		} else if (e.getKeyCode() == 40) {
-			P1_move = true;
-			m_model.getCircle().step('D');
+			m_model.getCircle().setDirection('D');
 		}
-		
-		//Circle 2
-		
+
+		// Circle 2
+
 		if (e.getKeyCode() == 68) {
-			P2_move = true;
-			m_model.getCircle2().step('R');
+			m_model.getCircle2().setDirection('R');
 		} else if (e.getKeyCode() == 90) {
-			P2_move = true;
-			m_model.getCircle2().step('U');
+			m_model.getCircle2().setDirection('U');
 		} else if (e.getKeyCode() == 81) {
-			P2_move = true;
-			m_model.getCircle2().step('L');
+			m_model.getCircle2().setDirection('L');
 		} else if (e.getKeyCode() == 83) {
-			P2_move = true;
-			m_model.getCircle2().step('D');
+			m_model.getCircle2().setDirection('D');
 		}
-		
-		
 
 	}
 
@@ -73,10 +62,10 @@ public class Controller extends GameController {
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		if (keyCode == 37 || keyCode == 38 | keyCode == 39 || keyCode == 40) {
-			P1_move = false;
+			m_model.getCircle().setMovement(false); 
 		}
 		if (keyCode == 68 || keyCode == 81 | keyCode == 83 || keyCode == 90) {
-			P2_move = false;
+			m_model.getCircle2().setMovement(false); 
 		}
 
 	}

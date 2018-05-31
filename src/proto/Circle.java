@@ -14,6 +14,8 @@ public class Circle {
 	private long m_lastMove;
 	private int step = 40;
 	private boolean canMove = false;
+	char direction;
+	boolean inMovement;
 
 	Circle() {
 		x = 42;
@@ -38,35 +40,30 @@ public class Circle {
 
 	public void step(long now) {
 
-		 long elapsed = now - m_lastMove;
-		 if (elapsed > 35L) {
-		 canMove = true;
-		 m_lastMove = now;
-		 }
-	}
-
-	public void step(char direction) {
-		if (canMove) {
-			canMove=false;
+		long elapsed = now - m_lastMove;
+		if (inMovement && elapsed > 100L) {
+			last_x = x;
+			last_y = y;
 			if (direction == 'R') {
-				last_x = x;
-				last_y = y;
 				x += step;
 			} else if (direction == 'L') {
-				last_x = x;
-				last_y = y;
 				x -= step;
 			} else if (direction == 'D') {
-				last_x = x;
-				last_y = y;
 				y += step;
 			} else if (direction == 'U') {
-				last_x = x;
-				last_y = y;
 				y -= step;
 			}
+			m_lastMove = now;
 		}
+	}
 
+	public void setDirection(char direction) {
+		this.direction = direction;
+		setMovement(true);
+	}
+	
+	public void setMovement(boolean b) {
+		inMovement = b;
 	}
 
 	// GETTER SETTER
@@ -89,5 +86,9 @@ public class Circle {
 
 	public int getDiameter() {
 		return diameter;
+	}
+	
+	public int getDirection() {
+		return direction;
 	}
 }

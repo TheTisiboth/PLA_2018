@@ -35,17 +35,17 @@ public class Controller extends GameController {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == 39) {
-			P1_move = true;
-			m_model.getCircle().step('R');
+			//P1_move = true;
+			m_model.getCircle().setDirection('R');
 		} else if (e.getKeyCode() == 38) {
-			P1_move = true;
-			m_model.getCircle().step('U');
+			//P1_move = true;
+			m_model.getCircle().setDirection('U');
 		} else if (e.getKeyCode() == 37) {
-			P1_move = true;
-			m_model.getCircle().step('L');
+			//P1_move = true;
+			m_model.getCircle().setDirection('L');
 		} else if (e.getKeyCode() == 40) {
-			P1_move = true;
-			m_model.getCircle().step('D');
+			//P1_move = true;
+			m_model.getCircle().setDirection('D');
 		}
 
 	}
@@ -54,7 +54,9 @@ public class Controller extends GameController {
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		if (keyCode == 37 || keyCode == 38 | keyCode == 39 || keyCode == 40) {
-			P1_move = false;
+			//P1_move = false;
+//			if(m_model.getCircle().getDirection() == )
+			m_model.getCircle().setMovement(false);
 		}
 
 	}

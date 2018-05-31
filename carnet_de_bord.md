@@ -1,5 +1,12 @@
 # Carnet de bord
 
+## 31/05/18
+
+### Penser à
+* Avoir une configuration commune sur Eclipse
+
+___
+
 ## 30/05/18
 
 ### Objectifs pour la présentation

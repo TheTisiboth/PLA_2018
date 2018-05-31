@@ -56,58 +56,27 @@ public abstract class GameView extends Canvas {
 			else
 				m_buffer2 = m_buffer1;
 
-//			Graphics gc = m_buffer1.getGraphics();
-//			gc.setColor(Color.ORANGE);
-//			gc.fillRect(0, 0, m_width, m_height);
-//			gc.setColor(Color.BLACK);
-//			for (int i = 0; i < 32; i++) {
-//				gc.fillRect(1280 - i * 1280 / 32, 0, 2, 720);
-//			}
-//			for (int i = 0; i < 18; i++) {
-//				gc.fillRect(0, 720 - i * 720 / 18, 1280, 2);
-//			}
-//			gc = m_buffer2.getGraphics();
-//
-//			gc.setColor(Color.ORANGE);
-//
-//			gc.fillRect(0, 0, m_width, m_height);
-//			gc.setColor(Color.BLACK);
-//			for (int i = 0; i < 32; i++) {
-//				gc.fillRect(1280 - i * 1280 / 32, 0, 2, 720);
-//			}
-//			for (int i = 0; i < 18; i++) {
-//				gc.fillRect(0, 720 - i * 720 / 18, 1280, 2);
-//			}
-			
 			Graphics gc = m_buffer1.getGraphics();
 			
 			try {
-				File image2 = new File("/home/vandalj/workshops/oop/workspace/PLA_2018/images/background.png");
+				File image2 = new File("images/background.png");
 				m_buffer1 = ImageIO.read(image2);
 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			gc.drawImage(m_buffer1, 0, 0, this);
-			
-//			Toolkit tkit = Toolkit.getDefaultToolkit();
-//		    Image img = tkit.getImage("/images/background.png");
-//		    gc.drawImage(img, 60, 80, null);
-		    
+	
 		    gc = m_buffer2.getGraphics();
 		    
 			try {
-				File image = new File("/home/vandalj/workshops/oop/workspace/PLA_2018/images/background.png");
+				File image = new File("images/background.png");
 				m_buffer2 = ImageIO.read(image);
 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			gc.drawImage(m_buffer2, 0, 0, this);
-			
-//			Toolkit tkit2 = Toolkit.getDefaultToolkit();
-//		    Image img2 = tkit2.getImage("/images/background.png");
-//		    gc.drawImage(img2, 60, 80, null);
 			
 			m_drawBuffer = m_buffer1;
 			m_renderBuffer = m_buffer2;

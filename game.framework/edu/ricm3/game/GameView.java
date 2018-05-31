@@ -17,123 +17,166 @@
  */
 package edu.ricm3.game;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JComponent;
+import javax.swing.text.html.ImageView;
 
 public abstract class GameView extends Canvas {
 
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  protected GameUI m_game;
-  protected Color m_background = Color.gray;
-  
-  private Image m_buffer1, m_buffer2;
-  private Image m_renderBuffer;
-  private Image m_drawBuffer;
-  private int m_width, m_height;
-  private boolean m_swap;
+	protected GameUI m_game;
+	protected Color m_background = Color.gray;
 
-  private void initDoubleBuffering(int width, int height) {
+	private Image m_buffer1, m_buffer2;
+	private Image m_renderBuffer;
+	private Image m_drawBuffer;
+	private int m_width, m_height;
+	private boolean m_swap;
 
-    if (width != m_width || height != m_height) {
-      m_width = width;
-      m_height = height;
-      m_buffer1 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
-      if (Options.USE_DOUBLE_BUFFERING)
-        m_buffer2 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
-      else
-        m_buffer2 = m_buffer1;
+	private void initDoubleBuffering(int width, int height) {
 
-      Graphics gc = m_buffer1.getGraphics();
-      gc.setColor(Color.ORANGE);
-      gc.fillRect(0, 0, m_width, m_height);
-      gc.setColor(Color.BLACK);
-      for(int i =0; i<32; i++) {
-    	  gc.fillRect(1280-i*1280/32, 0, 2, 720);
-      }
-      for(int i =0; i<18; i++) {
-    	  gc.fillRect(0, 720-i*720/18, 1280, 2);
-      }
-      gc = m_buffer2.getGraphics();
-      
-      gc.setColor(Color.ORANGE);
-      
-      gc.fillRect(0, 0, m_width, m_height);
-      gc.setColor(Color.BLACK);
-      for(int i =0; i<32; i++) {
-    	  gc.fillRect(1280-i*1280/32, 0, 2, 720);
-      }
-      for(int i =0; i<18; i++) {
-    	  gc.fillRect(0, 720-i*720/18, 1280, 2);
-      }
-      m_renderBuffer = m_buffer2;
-      m_drawBuffer = m_buffer1;
-    }
-  }
+		if (width != m_width || height != m_height) {
+			m_width = width;
+			m_height = height;
+			m_buffer1 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
+			if (Options.USE_DOUBLE_BUFFERING)
+				m_buffer2 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
+			else
+				m_buffer2 = m_buffer1;
 
-  private void swap() {
-    if (m_renderBuffer == m_buffer1) {
-      m_renderBuffer = m_buffer2;
-      m_drawBuffer = m_buffer1;
-    } else {
-      m_renderBuffer = m_buffer1;
-      m_drawBuffer = m_buffer2;
-    }
-  }
+//			Graphics gc = m_buffer1.getGraphics();
+//			gc.setColor(Color.ORANGE);
+//			gc.fillRect(0, 0, m_width, m_height);
+//			gc.setColor(Color.BLACK);
+//			for (int i = 0; i < 32; i++) {
+//				gc.fillRect(1280 - i * 1280 / 32, 0, 2, 720);
+//			}
+//			for (int i = 0; i < 18; i++) {
+//				gc.fillRect(0, 720 - i * 720 / 18, 1280, 2);
+//			}
+//			gc = m_buffer2.getGraphics();
+//
+//			gc.setColor(Color.ORANGE);
+//
+//			gc.fillRect(0, 0, m_width, m_height);
+//			gc.setColor(Color.BLACK);
+//			for (int i = 0; i < 32; i++) {
+//				gc.fillRect(1280 - i * 1280 / 32, 0, 2, 720);
+//			}
+//			for (int i = 0; i < 18; i++) {
+//				gc.fillRect(0, 720 - i * 720 / 18, 1280, 2);
+//			}
+			
+			Graphics gc = m_buffer1.getGraphics();
+			
+			try {
+				File image2 = new File("/home/vandalj/workshops/oop/workspace/PLA_2018/images/background.png");
+				m_buffer1 = ImageIO.read(image2);
 
-  protected GameView() {
-  }
-  
-  public GameUI getGameUI() {
-    return m_game;
-  }
-  
-  public int getWidth() {
-    return m_width;
-  }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			gc.drawImage(m_buffer1, 0, 0, this);
+			
+//			Toolkit tkit = Toolkit.getDefaultToolkit();
+//		    Image img = tkit.getImage("/images/background.png");
+//		    gc.drawImage(img, 60, 80, null);
+		    
+		    gc = m_buffer2.getGraphics();
+		    
+			try {
+				File image = new File("/home/vandalj/workshops/oop/workspace/PLA_2018/images/background.png");
+				m_buffer2 = ImageIO.read(image);
 
-  public int getHeight() {
-    return m_height;
-  }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			gc.drawImage(m_buffer2, 0, 0, this);
+			
+//			Toolkit tkit2 = Toolkit.getDefaultToolkit();
+//		    Image img2 = tkit2.getImage("/images/background.png");
+//		    gc.drawImage(img2, 60, 80, null);
+			
+			m_drawBuffer = m_buffer1;
+			m_renderBuffer = m_buffer2;
+			
+			
+			
+		}
+	}
 
-  public void setBounds(int x, int y, int width, int height) {
-    initDoubleBuffering(width, height);
-    super.setBounds(x, y, width, height);
-  }
+	private void swap() {
+		if (m_renderBuffer == m_buffer1) {
+			m_renderBuffer = m_buffer2;
+			m_drawBuffer = m_buffer1;
+		} else {
+			m_renderBuffer = m_buffer1;
+			m_drawBuffer = m_buffer2;
+		}
+	}
 
-  public GameModel getModel() {
-    return m_game.getModel();
-  }
+	protected GameView() {
+	}
 
-  public GameController getController() {
-    return m_game.getController();
-  }
+	public GameUI getGameUI() {
+		return m_game;
+	}
 
-  public final void paint() {
-    Graphics g = m_drawBuffer.getGraphics();
-    _paint(g);
-    m_swap = true;
-    repaint();
-  }
+	public int getWidth() {
+		return m_width;
+	}
 
-  @Override
-  public final void paint(Graphics g) {
-    if (m_swap) {
-      swap();
-      m_swap = false;
-    }
-    g.drawImage(m_renderBuffer, 0, 0, this);
-    Toolkit.getDefaultToolkit().sync();
-  }
+	public int getHeight() {
+		return m_height;
+	}
 
-  @Override
-  public final void update(Graphics g) {
-    paint(g);
-  }
+	public void setBounds(int x, int y, int width, int height) {
+		initDoubleBuffering(width, height);
+		super.setBounds(x, y, width, height);
+	}
 
-  protected abstract void _paint(Graphics g);
+	public GameModel getModel() {
+		return m_game.getModel();
+	}
+
+	public GameController getController() {
+		return m_game.getController();
+	}
+
+	public final void paint() {
+		Graphics g = m_drawBuffer.getGraphics();
+		_paint(g);
+		m_swap = true;
+		repaint();
+	}
+
+	@Override
+	public final void paint(Graphics g) {
+		if (m_swap) {
+			swap();
+			m_swap = false;
+		}
+		g.drawImage(m_renderBuffer, 0, 0, this);
+		Toolkit.getDefaultToolkit().sync();
+	}
+
+	@Override
+	public final void update(Graphics g) {
+		paint(g);
+	}
+
+	protected abstract void _paint(Graphics g);
 }
+

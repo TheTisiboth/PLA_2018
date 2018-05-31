@@ -18,8 +18,10 @@
 package edu.ricm3.game;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -110,6 +112,7 @@ public class GameUI {
 
   private void createWindow(Dimension d) {
     m_frame = new JFrame();
+    
     m_frame.setTitle("Sample Game");
     m_frame.setLayout(new BorderLayout());
 
@@ -131,6 +134,13 @@ public class GameUI {
     m_frame.setLocationRelativeTo(null);
     
     GameController ctr = getController();
+    
+    //ajout timer
+    //à modifier pour que ce soit dessus l'image et pas à droite
+    JLabel txt = new JLabel("30 s");
+	txt.setBounds(200, 200, 100, 50);
+	txt.setBackground(Color.WHITE);
+	m_frame.add(txt, BorderLayout.EAST);
 
     // let's hook the controller, 
     // so it gets mouse events and keyboard events.

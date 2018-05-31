@@ -18,8 +18,8 @@ public class Circle {
 	boolean inMovement;
 
 	Circle() {
-		x = 42;
-		y = 42;
+		x = 602;
+		y = 402;
 		last_x = x;
 		last_y = y;
 		diameter = 36;
@@ -34,7 +34,7 @@ public class Circle {
 		g.setColor(Color.BLUE);
 		g.fillOval(x, y, diameter, diameter);
 		g.setColor(Color.RED);
-		g.fillOval(100, 100, diameter, diameter);
+		g.fillOval(562, 402, diameter, diameter);
 
 	}
 

@@ -12,21 +12,22 @@ public class Circle {
 	private int y;
 	private int diameter;
 	private long m_lastMove;
-	private int step = 8;
+	private int step = 40;
+	private boolean canMove = false;
 
 	Circle() {
-		x = 30;
-		y = 30;
-		last_x = 30;
-		last_y = 30;
-		diameter = 50;
+		x = 42;
+		y = 42;
+		last_x = x;
+		last_y = y;
+		diameter = 36;
 
 	}
 
 	public void paint(Graphics g) {
 		g.setColor(Color.ORANGE);
 		if (y != last_y || x != last_x) {
-			g.fillRect(last_x, last_y, diameter+1, diameter+1);
+			g.fillRect(last_x, last_y, diameter + 1, diameter + 1);
 		}
 		g.setColor(Color.BLUE);
 		g.fillOval(x, y, diameter, diameter);
@@ -37,30 +38,33 @@ public class Circle {
 
 	public void step(long now) {
 
-		// long elapsed = now - m_lastMove;
-		// if (elapsed > 50L) {
-		// x += 1;
-		// m_lastMove = now;
-		// }
+		 long elapsed = now - m_lastMove;
+		 if (elapsed > 35L) {
+		 canMove = true;
+		 m_lastMove = now;
+		 }
 	}
 
 	public void step(char direction) {
-		if (direction == 'R') {
-			last_x = x;
-			last_y = y;
-			x += 3 * step;
-		} else if (direction == 'L') {
-			last_x = x;
-			last_y = y;
-			x -= 3 * step;
-		} else if (direction == 'D') {
-			last_x = x;
-			last_y = y;
-			y += 3 * step;
-		} else if (direction == 'U') {
-			last_x = x;
-			last_y = y;
-			y -= 3 * step;
+		if (canMove) {
+			canMove=false;
+			if (direction == 'R') {
+				last_x = x;
+				last_y = y;
+				x += step;
+			} else if (direction == 'L') {
+				last_x = x;
+				last_y = y;
+				x -= step;
+			} else if (direction == 'D') {
+				last_x = x;
+				last_y = y;
+				y += step;
+			} else if (direction == 'U') {
+				last_x = x;
+				last_y = y;
+				y -= step;
+			}
 		}
 
 	}

@@ -18,9 +18,7 @@ public class View extends GameView {
 
 	@Override
 	protected void _paint(Graphics g) {
-		// erase background
-		
-		
+
 		Circle c = m_model.getCircle();
 		c.paint(g);
 	}

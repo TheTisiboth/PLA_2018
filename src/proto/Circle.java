@@ -4,18 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.sun.org.apache.regexp.internal.recompile;
+import com.sun.xml.internal.ws.api.Cancelable;
 
+import javafx.collections.ListChangeListener.Change;
 import sun.security.krb5.internal.ccache.CCacheOutputStream;
 
 public class Circle extends Entity {
 
 	private int last_x;
 	private int last_y;
+	private Color couleur;
+	private boolean moveable;
+
 	private int diameter;
+
 	private long m_lastMove;
 	private int step = 1;
-	private boolean canMove = false;
-	private Color couleur;
+
 	char direction;
 	boolean inMovement;
 
@@ -26,6 +31,8 @@ public class Circle extends Entity {
 		last_y = y;
 		diameter = 34;
 		this.couleur = couleur;
+		moveable = true;
+
 	}
 
 	public void paint(Graphics g) {
@@ -40,9 +47,26 @@ public class Circle extends Entity {
 
 	}
 
+	public void canMove(Case[][] c) {
+		if (inMovement) {
+			if (y < 17 && c[x][y + 1].isOccuped() && direction == 'D') {
+				moveable = false;
+			} else if (y > 0 && c[x][y - 1].isOccuped() && direction == 'U') {
+				moveable = false;
+			} else if (x < 30 && c[x + 1][y].isOccuped() && direction == 'R') {
+				moveable = false;
+			} else if (x > 0 && c[x - 1][y].isOccuped() && direction == 'L') {
+				moveable = false;
+			} else {
+				moveable = true;
+			}
+		}
+
+	}
+
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
-		if (inMovement && elapsed > 100L) {
+		if (inMovement && elapsed > 100L && moveable) {
 			last_x = x;
 			last_y = y;
 			if (direction == 'R' && x < 31) {
@@ -86,7 +110,7 @@ public class Circle extends Entity {
 
 	public void setDirection(char direction) {
 		this.direction = direction;
-		setMovement(true);
+		inMovement = true;
 	}
 
 	public void setMovement(boolean b) {

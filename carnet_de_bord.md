@@ -2,7 +2,8 @@
 
 ## 31/05/18
 
-###TODO
+### TODO
+* Création d'un prototype d'image de fond
 * Quadrillage de la map : Jade et Marceau
 * Gestion de collision : Guillaume et Leo
 * Structuration du projet : Loïc et Elisa

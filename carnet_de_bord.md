@@ -4,6 +4,7 @@
 
 ### Penser à
 * Avoir une configuration commune sur Eclipse
+* Décider qui est responsable du merge sur master (respect du workflow)
 
 ___
 

@@ -2,6 +2,11 @@
 
 ## 31/05/18
 
+###TODO
+* Quadrillage de la map : Jade et Marceau
+* Gestion de collision : Guillaume et Leo
+* Structuration du projet : Loïc et Elisa
+
 ### Penser à
 * Avoir une configuration commune sur Eclipse
 * Décider qui est responsable du merge sur master (respect du workflow)

@@ -38,32 +38,40 @@ public class Circle {
 
 	public void step(long now) {
 
-		 long elapsed = now - m_lastMove;
-		 if (elapsed > 35L) {
-		 canMove = true;
-		 m_lastMove = now;
-		 }
+		long elapsed = now - m_lastMove;
+		if (elapsed > 35L) {
+			canMove = true;
+			m_lastMove = now;
+		}
 	}
 
 	public void step(char direction) {
 		if (canMove) {
-			canMove=false;
+			canMove = false;
 			if (direction == 'R') {
-				last_x = x;
-				last_y = y;
-				x += step;
+				if (x < 1280-(diameter)-(diameter/2)) {
+					last_x = x;
+					last_y = y;
+					x += step;
+				}
 			} else if (direction == 'L') {
-				last_x = x;
-				last_y = y;
-				x -= step;
+				if (x > 0+(diameter/2)) {
+					last_x = x;
+					last_y = y;
+					x -= step;
+				}
 			} else if (direction == 'D') {
-				last_x = x;
-				last_y = y;
-				y += step;
+				if (y < 720-1-(diameter)-(diameter/2)) {
+					last_x = x;
+					last_y = y;
+					y += step;
+				}
 			} else if (direction == 'U') {
-				last_x = x;
-				last_y = y;
-				y -= step;
+				if (y > 0+(diameter/2)) {
+					last_x = x;
+					last_y = y;
+					y -= step;
+				}
 			}
 		}
 

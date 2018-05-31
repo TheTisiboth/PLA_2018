@@ -9,8 +9,8 @@ public class Model extends GameModel {
 	
 	public Model(){
 		c = new Circle();
-		nbCol = 10;
-		nbLigne = 10;
+		nbCol = 32;
+		nbLigne = 18;
 	}
 
 	@Override

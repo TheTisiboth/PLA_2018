@@ -18,12 +18,6 @@ Chaque joueur peut collecter au maximum 4 sbires différents.
 Sur le terrain, il y a des obstacles qui peuvent être détruis.
 Sur le terrain, il y a des portails, qui permettent de se téléporter sur la map
 
-### Classes :
-* Terroriste : Plus de chance de tirer un sbire kamikaze
-* Da Vinci : Plus de chance de tirer un sbire peintre
-* Portugais : Plus de chance de tirer un sbire constructeur
-* Renégat : Plus de chance de tirer un sbire filou
-
 ### Boosts :
 Les boosts sont appliqués aux joueurs et durent 3 secondes
 * accélération : Le joueur est 2 fois plus rapide
@@ -43,15 +37,15 @@ Il existe 4 types de sbires différents :
 Les obstacles peuvent être détruit par un hit de joueur ou par l'explosion d'un sbire kamikaze.
 
 ### Comportement :
-* **HIT** : 
-  * Un joueur à la capacité HIT pour taper. Lorsqu'il tape un obstacle, il le détruit et si il tape un sbire, il lui enlève 3 cases de déplacement.
+* **HIT** : Un joueur à la capacité HIT pour taper. Lorsqu'il tape un obstacle, il le détruit et si il tape un sbire, il lui enlève 3 cases de déplacement.
 
-* **WIZZ** :
-  * Kamikaze : Le sbire explose et colorie les cases adjacentes
-  * Peintre : Peint la case sur laquelle il se trouve
-  * Filou : Colorie ou efface la case sur laquelle il se trouve
-  * Constructeur : Pose un obstacle
+* **WIZZ** : Peind la case sur laquelle le sbire passe
 
-* **POP** :
-  * Téléporte aléatoirement dans un rayon de trois cases.
+* **POP** : Téléporte aléatoirement dans un rayon de trois cases.
+
+* **Eploser** : Explose, en répandant de la peinture sur les cases alentour
+
+* **Effacer** : Efface la peinture des cases sur lesquelle le sbire passe
+
+* **Obstacle** : Pose un obstacle
 

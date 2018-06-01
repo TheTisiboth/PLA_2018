@@ -10,12 +10,15 @@
 * Gestion de la collision avec le bord de la carte
 * Gestion des collisions avec l'adversaire, avec les obstacles (placé aléatoirement),gestion de la peinture,  affichage du score dans le terminal
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto5/3.png )
+* Affichage de sprite
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/dev/4.png )
 * Creation d'une image de fond 
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto6_image_fond/images/background.png )
 
 ### Diagramme de classe
 
-
+Nous avons le diagramme de classe de classe suivant :
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/dev/5.png )
 
 
 

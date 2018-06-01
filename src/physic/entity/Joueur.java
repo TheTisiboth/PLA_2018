@@ -1,19 +1,21 @@
-package proto;
+package physic.entity;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 
-import com.sun.org.apache.regexp.internal.recompile;
-import com.sun.xml.internal.ws.api.Cancelable;
+import mvc.Case;
+import mvc.Options;
 
-import javafx.collections.ListChangeListener.Change;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
-
-public class Circle extends Entity {
+public class Joueur extends Physic_Entity {
 
 	private int last_x;
 	private int last_y;
 	private Color couleur;
+	private int speed;
+	private int paint_stock;
+	private Zbire z[];
+	
 	private boolean moveable;
 
 	private int diameter;
@@ -24,9 +26,8 @@ public class Circle extends Entity {
 	char direction;
 	boolean inMovement;
 
-	Circle(int x, int y, Color couleur) {
-		super.x = x;
-		super.y = y;
+	public Joueur(int x, int y, Color couleur) {
+		super(x, y);
 		last_x = x;
 		last_y = y;
 		diameter = 34;
@@ -36,12 +37,12 @@ public class Circle extends Entity {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(Color.ORANGE);
+		g.setColor(couleur);
 		if (y != last_y || x != last_x) {
-			g.fillRect(last_x * taille_case + 2, last_y * taille_case + 2, diameter, diameter);
+			g.fillRect(last_x * Options.taille_case + 2, last_y * Options.taille_case + 2, diameter, diameter);
 		}
 		g.setColor(couleur);
-		g.fillOval(x * taille_case + 2, y * taille_case + 2, diameter, diameter);
+		g.fillOval(x * Options.taille_case + 2, y * Options.taille_case + 2, diameter, diameter);
 		// g.setColor(Color.RED);
 		// g.fillOval(100, 100, diameter, diameter);
 

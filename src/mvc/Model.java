@@ -1,12 +1,13 @@
-package proto;
+package mvc;
 
 import java.awt.Color;
 
 import edu.ricm3.game.GameModel;
+import physic.entity.Joueur;
 
 public class Model extends GameModel {
-	private Circle c;
-	private Circle c1;
+	private Joueur c;
+	private Joueur c1;
 	int nbCol;
 	int nbLigne;
 	Case plateau[][];
@@ -16,9 +17,9 @@ public class Model extends GameModel {
 		nbLigne = 18;
 		plateau = new Case[nbCol][nbLigne];
 		initPlat(plateau);
-		c = new Circle(0, 0, Color.BLUE);
+		c = new Joueur(0, 0, Color.BLUE);
 		plateau[0][0] = new Case(c);
-		c1 = new Circle(2, 2, Color.RED);
+		c1 = new Joueur(2, 2, Color.RED);
 		plateau[2][2] = new Case(c1);
 	}
 
@@ -70,11 +71,11 @@ public class Model extends GameModel {
 
 	}
 
-	public Circle getCircle() {
+	public Joueur getCircle() {
 		return c;
 	}
 
-	public Circle getCircle2() {
+	public Joueur getCircle2() {
 		return c1;
 	}
 }

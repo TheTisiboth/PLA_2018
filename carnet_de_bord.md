@@ -2,9 +2,9 @@
 
 ## 1/06/18
 
-### Prototypage (Mettre des images)
-Image 1: 
-![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto6_image_fond/images/background.png "Logo Title Text 1")
+### Prototypage
+* Creation d'une image de fond 
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto6_image_fond/images/background.png )
 
 ### Diagramme de classe
 

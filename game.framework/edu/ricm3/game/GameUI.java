@@ -21,10 +21,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -63,16 +65,13 @@ public class GameUI {
   Timer m_timer;
   GameModel m_model;
   GameController m_controller;
-  JLabel m_text;
-  int m_fps;
-  String m_msg;
   long m_start;
   long m_elapsed;
   long m_lastRepaint;
   long m_lastTick;
   int m_nTicks;
 
-  public GameUI(GameModel m, GameView v, GameController c, Dimension d) {
+  public GameUI(GameModel m, GameView v, GameController c) {
     m_model = m; m_model.m_game = this;
     m_view = v; m_view.m_game = this;
     m_controller = c; m_controller.m_game = this;
@@ -81,7 +80,7 @@ public class GameUI {
 
     // create the main window and the periodic timer
     // to drive the overall clock of the simulation.
-    createWindow(d);
+    createWindow();
     createTimer();
   }
 
@@ -110,7 +109,7 @@ public class GameUI {
     m_frame.add(c,BorderLayout.EAST);
   }
 
-  private void createWindow(Dimension d) {
+  private void createWindow() {
     m_frame = new JFrame();
     
     m_frame.setTitle("Sample Game");
@@ -118,10 +117,9 @@ public class GameUI {
 
     m_frame.add(m_view, BorderLayout.CENTER);
 
-    m_text = new JLabel();
-//    m_text.setText("Starting up...");
-//    m_frame.add(m_text, BorderLayout.NORTH);
-
+    Image img = new ImageIcon("images/background2.png").getImage();
+    Dimension d = new Dimension(img.getWidth(null), img.getHeight(null));
+    
     m_frame.setSize(d);
     m_frame.doLayout();
     m_frame.setVisible(true);
@@ -132,6 +130,8 @@ public class GameUI {
 
     m_frame.pack();
     m_frame.setLocationRelativeTo(null);
+    m_frame.setResizable(false);
+    m_frame.setFocusable(true);
     
     GameController ctr = getController();
     
@@ -183,30 +183,14 @@ public class GameUI {
     
     elapsed = now - m_lastRepaint;
     if (elapsed > Options.REPAINT_DELAY) {
-      double tick = (double) m_elapsed / (double) m_nTicks;
-      long tmp = (long) (tick * 10.0);
-      tick = tmp / 10.0;
       m_elapsed = 0;
       m_nTicks = 0;
-      String txt = "Tick=" + tick + "ms";
-      while (txt.length() < 15)
-        txt += " ";
-      txt = txt + m_fps + " fps   ";
-      while (txt.length() < 25)
-        txt += " ";
-      if (m_msg != null)
-        txt += m_msg;
-//           System.out.println(txt);
-      m_text.setText(txt);
-      m_text.repaint();
 	  m_view.paint();
       m_lastRepaint = now;
     }
   }
 
   public void setFPS(int fps, String msg) {
-    m_fps = fps;
-    m_msg = msg;
   }
 
 }

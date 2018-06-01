@@ -13,7 +13,6 @@ public class GameMain {
 	    Controller controller = new Controller(model);
 	    View view = new View(model,controller);
 
-	    Dimension d = new Dimension(1200, 600);
-	    new GameUI(model,view,controller,d);
+	    new GameUI(model,view,controller);
 }
 }

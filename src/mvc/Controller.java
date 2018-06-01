@@ -33,7 +33,7 @@ public class Controller extends GameController {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// Circle 1
+		// Joueur 1
 		if (e.getKeyCode() == 39) {
 			m_model.getCircle().setDirection('R');
 		} else if (e.getKeyCode() == 38) {
@@ -44,7 +44,7 @@ public class Controller extends GameController {
 			m_model.getCircle().setDirection('D');
 		}
 
-		// Circle 2
+		// Joueur 2
 
 		if (e.getKeyCode() == 68) {
 			m_model.getCircle2().setDirection('R');

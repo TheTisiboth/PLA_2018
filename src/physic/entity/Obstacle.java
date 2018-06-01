@@ -16,7 +16,7 @@ public class Obstacle extends Physic_Entity{
 
 	public void paint(Graphics g) {
 		g.setColor(couleur);
-		g.fillRect(x * Options.taille_case + 2, y * Options.taille_case + 2, Options.taille_case, Options.taille_case);
+		g.fillRect(x * Options.taille_case + 1, y * Options.taille_case + 1, Options.taille_case, Options.taille_case);
 		
 	}
 

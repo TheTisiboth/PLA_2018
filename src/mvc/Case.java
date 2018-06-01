@@ -33,7 +33,7 @@ public class Case {
 
 	public void setE(Entity e) {
 		this.e = e;
-		if(e== null) {
+		if(e == null) {
 			occuped =false;
 		}else {
 			occuped =true;

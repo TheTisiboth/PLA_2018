@@ -27,11 +27,10 @@ public class Model extends GameModel {
 		c = new Joueur(0, 0, Color.BLUE);
 		plateau[0][0] = new Case(c);
 		c1 = new Joueur(31, 17, Color.RED);
-		plateau[2][2] = new Case(c1);
+		plateau[Options.nbCol-1][Options.nbLigne-1] = new Case(c1);
 		
 		o = new Obstacle[Options.nb_obstacle];
 		initObstacle();
-
 	}
 
 	private void initObstacle() {
@@ -49,7 +48,7 @@ public class Model extends GameModel {
 					diff=false;
 				}
 			}
-			if(x == 0 && y==0 || x==Options.nbLigne -1 && y== Options.nbCol -1) {
+			if((x == 0 && y==0 )||( x == Options.nbCol -1 && y == Options.nbLigne -1)) {
 				diff =false ;
 			}
 			if(diff) {

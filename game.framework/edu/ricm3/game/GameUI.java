@@ -119,8 +119,8 @@ public class GameUI {
     m_frame.add(m_view, BorderLayout.CENTER);
 
     m_text = new JLabel();
-    m_text.setText("Starting up...");
-    m_frame.add(m_text, BorderLayout.NORTH);
+//    m_text.setText("Starting up...");
+//    m_frame.add(m_text, BorderLayout.NORTH);
 
     m_frame.setSize(d);
     m_frame.doLayout();
@@ -135,13 +135,7 @@ public class GameUI {
     
     GameController ctr = getController();
     
-    //ajout timer
-    //à modifier pour que ce soit dessus l'image et pas à droite
-    JLabel txt = new JLabel("30 s");
-	txt.setBounds(200, 200, 100, 50);
-	txt.setBackground(Color.WHITE);
-	m_frame.add(txt, BorderLayout.EAST);
-
+    
     // let's hook the controller, 
     // so it gets mouse events and keyboard events.
     m_view.addKeyListener(ctr);
@@ -202,10 +196,10 @@ public class GameUI {
         txt += " ";
       if (m_msg != null)
         txt += m_msg;
-      //      System.out.println(txt);
+//           System.out.println(txt);
       m_text.setText(txt);
       m_text.repaint();
-      m_view.paint();
+	  m_view.paint();
       m_lastRepaint = now;
     }
   }

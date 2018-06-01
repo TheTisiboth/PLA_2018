@@ -59,7 +59,7 @@ public abstract class GameView extends Canvas {
 			Graphics gc = m_buffer1.getGraphics();
 			
 			try {
-				File image2 = new File("images/background.png");
+				File image2 = new File("images/background2.png");
 				m_buffer1 = ImageIO.read(image2);
 
 			} catch (IOException e) {
@@ -70,7 +70,7 @@ public abstract class GameView extends Canvas {
 		    gc = m_buffer2.getGraphics();
 		    
 			try {
-				File image = new File("images/background.png");
+				File image = new File("images/background2.png");
 				m_buffer2 = ImageIO.read(image);
 
 			} catch (IOException e) {

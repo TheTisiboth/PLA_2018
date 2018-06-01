@@ -43,15 +43,15 @@ Il existe 4 types de sbires différents :
 Les obstacles peuvent être détruit par un hit de joueur ou par l'explosion d'un sbire kamikaze.
 
 ### Comportement :
-* HIT : 
+* **HIT** : 
   * Un joueur à la capacité HIT pour taper. Lorsqu'il tape un obstacle, il le détruit et si il tape un sbire, il lui enlève 3 cases de déplacement.
 
-* WIZZ :
+* **WIZZ** :
   * Kamikaze : Le sbire explose et colorie les cases adjacentes
   * Peintre : Peint la case sur laquelle il se trouve
   * Filou : Colorie ou efface la case sur laquelle il se trouve
   * Constructeur : Pose un obstacle
 
-* POP :
+* **POP** :
   * Téléporte aléatoirement dans un rayon de trois cases.
 

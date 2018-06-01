@@ -8,7 +8,6 @@ Colorier la plus grande partie de la map dans un temps imparti.
 
 ### Règle du jeu : 
 Une partie dure 30 secondes.
-Au début du jeu on peut choisir une classe, qui influence sur la probabilité d'obtention d'un certain type de sbire.
 Chaque joueur dispose d'un stock de peinture au départ (30 cases). 
 Lorsqu'un joueur passe sur une case qui n'est pas de sa couleur, elle est coloriée avec la couleur du personnage, et sa jauge de peinture diminue.
 Quand le personnage n'a plus de peinture, il ne peut plus colorier de cases.

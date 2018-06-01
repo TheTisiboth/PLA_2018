@@ -8,7 +8,7 @@
 * Affichage d'une carte quadrillée, on peut controler le déplacement du rond bleu.
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto3/2.png)
 * Gestion de la collision avec le bord de la carte
-* Gestion des collisions avec l'adversaire, avec les obstacles (placé aléatoirement),gestion de la peinture,  affichage du score dans le terminal, création d'une hierarchie des classes
+* Gestion des collisions avec l'adversaire, avec les obstacles (placé aléatoirement),gestion de la peinture,  affichage du score dans le terminal
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto5/3.png )
 * Creation d'une image de fond 
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto6_image_fond/images/background.png )

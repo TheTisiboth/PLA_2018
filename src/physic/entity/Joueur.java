@@ -43,8 +43,6 @@ public class Joueur extends Physic_Entity {
 		}
 		g.setColor(couleur);
 		g.fillOval(x * Options.taille_case + 2, y * Options.taille_case + 2, diameter, diameter);
-		// g.setColor(Color.RED);
-		// g.fillOval(100, 100, diameter, diameter);
 
 	}
 
@@ -117,4 +115,18 @@ public class Joueur extends Physic_Entity {
 	public void setMovement(boolean b) {
 		inMovement = b;
 	}
+
+	public Object getColor() {
+		
+		return couleur;
+	}
+
+	public boolean isInMovement() {
+		return inMovement;
+	}
+
+	
+
+	
+
 }

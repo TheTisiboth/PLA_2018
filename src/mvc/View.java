@@ -22,7 +22,8 @@ public class View extends GameView {
 
 		Joueur c = m_model.getCircle();
 		Joueur c1 = m_model.getCircle2();
-		c1.paint(g);
+	
 		c.paint(g);
+		c1.paint(g);
 	}
 }

@@ -47,6 +47,7 @@ public class Case {
 	public void setOccuped(boolean occuped) {
 		this.occuped = occuped;
 	}
+
 	
 	
 }

@@ -24,7 +24,7 @@ public class Joueur extends Physic_Entity {
 	BufferedImage m_sprite;
 	BufferedImage[] m_sprites;
 	int m_nrows, m_ncols;
-	
+
 	private boolean moveable;
 
 	private int diameter;
@@ -35,18 +35,18 @@ public class Joueur extends Physic_Entity {
 	char direction;
 	boolean inMovement;
 
-//	public Joueur(int x, int y, Color couleur) {
-//		super(x, y);
-//		last_x = x;
-//		last_y = y;
-//		diameter = 34;
-//		this.couleur = couleur;
-//		moveable = true;
-//
-//	}
+	// public Joueur(int x, int y, Color couleur) {
+	// super(x, y);
+	// last_x = x;
+	// last_y = y;
+	// diameter = 34;
+	// this.couleur = couleur;
+	// moveable = true;
+	//
+	// }
 
-	public Joueur( BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
-		super(x,y);
+	public Joueur(BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
+		super(x, y);
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
@@ -58,7 +58,7 @@ public class Joueur extends Physic_Entity {
 		this.couleur = couleur;
 		splitSprite();
 	}
-	
+
 	void splitSprite() {
 		int width = m_sprite.getWidth(null);
 		int height = m_sprite.getHeight(null);
@@ -73,11 +73,12 @@ public class Joueur extends Physic_Entity {
 			}
 		}
 	}
-	
+
 	public void paint(Graphics g) {
 		g.setColor(couleur);
 		if (y != last_y || x != last_x) {
 			g.fillRect(last_x * Options.taille_case + 3, last_y * Options.taille_case + 3, diameter, diameter);
+
 		}
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
@@ -104,23 +105,25 @@ public class Joueur extends Physic_Entity {
 
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
-		if (inMovement && elapsed > 100L && moveable) {
+		if (elapsed > 100L && moveable) {
 			last_x = x;
 			last_y = y;
-			if (direction == 'R' && x < 31) {
-				x += step;
-				m_idx = 19;
-			} else if (direction == 'L' && x > 0) {
-				x -= step;
-				m_idx = 7;
-			} else if (direction == 'D' && y < 17) {
-				y += step;
-				m_idx = 2;
-			} else if (direction == 'U' && y > 0) {
-				y -= step;
-				m_idx = 13;
+			if (inMovement) {
+				if (direction == 'R' && x < 31) {
+					x += step;
+					m_idx = 19;
+				} else if (direction == 'L' && x > 0) {
+					x -= step;
+					m_idx = 7;
+				} else if (direction == 'D' && y < 17) {
+					y += step;
+					m_idx = 2;
+				} else if (direction == 'U' && y > 0) {
+					y -= step;
+					m_idx = 13;
+				}
+				m_lastMove = now;
 			}
-			m_lastMove = now;
 		}
 
 	}
@@ -161,16 +164,12 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public Object getColor() {
-		
+
 		return couleur;
 	}
 
 	public boolean isInMovement() {
 		return inMovement;
 	}
-
-	
-
-	
 
 }

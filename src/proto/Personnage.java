@@ -2,48 +2,69 @@ package proto;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
-import com.sun.org.apache.regexp.internal.recompile;
-import com.sun.xml.internal.ws.api.Cancelable;
-
-import javafx.collections.ListChangeListener.Change;
-import sun.security.krb5.internal.ccache.CCacheOutputStream;
-
-public class Circle extends Entity {
+public class Personnage extends Entity {
 
 	private int last_x;
 	private int last_y;
-	private Color couleur;
+	int m_w, m_h;
+	int m_idx;
+	float m_scale;
 	private boolean moveable;
-
+	BufferedImage m_sprite;
 	private int diameter;
-
+	BufferedImage[] m_sprites;
 	private long m_lastMove;
 	private int step = 1;
-
+	Model m_model;
+	int m_nrows, m_ncols;
+	private Color couleur;
+	
 	char direction;
 	boolean inMovement;
 
-	Circle(int x, int y, Color couleur) {
+	Personnage(Model model, BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
+		m_model = model;
+		m_sprite = sprite;
+		m_ncols = columns;
+		m_nrows = rows;
 		super.x = x;
 		super.y = y;
 		last_x = x;
 		last_y = y;
 		diameter = 34;
-		this.couleur = couleur;
+		m_scale = scale;
 		moveable = true;
+		this.couleur = couleur;
+		splitSprite();
+	}
 
+	void splitSprite() {
+		int width = m_sprite.getWidth(null);
+		int height = m_sprite.getHeight(null);
+		m_sprites = new BufferedImage[m_nrows * m_ncols];
+		m_w = width / m_ncols;
+		m_h = height / m_nrows;
+		for (int i = 0; i < m_nrows; i++) {
+			for (int j = 0; j < m_ncols; j++) {
+				int x = j * m_w;
+				int y = i * m_h;
+				m_sprites[(i * m_ncols) + j] = m_sprite.getSubimage(x, y, m_w, m_h);
+			}
+		}
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(Color.GREEN);
+		g.setColor(this.couleur);
 		if (y != last_y || x != last_x) {
 			g.fillRect(last_x * taille_case + 3, last_y * taille_case + 3, diameter, diameter);
 		}
-		g.setColor(couleur);
-		g.fillOval(x * taille_case + 2, y * taille_case + 2, diameter, diameter);
-		// g.setColor(Color.RED);
-		// g.fillOval(100, 100, diameter, diameter);
+		Image img = m_sprites[m_idx];
+		int w = (int) (m_scale * m_w);
+		int h = (int) (m_scale * m_h);
+		g.drawImage(img, super.x*taille_case, super.y*taille_case, w, h, null);
 
 	}
 
@@ -71,15 +92,20 @@ public class Circle extends Entity {
 			last_y = y;
 			if (direction == 'R' && x < 31) {
 				x += step;
+				m_idx = 19;
 			} else if (direction == 'L' && x > 0) {
 				x -= step;
+				m_idx = 7;
 			} else if (direction == 'D' && y < 17) {
 				y += step;
+				m_idx = 2;
 			} else if (direction == 'U' && y > 0) {
 				y -= step;
+				m_idx = 13;
 			}
 			m_lastMove = now;
 		}
+
 	}
 
 	// GETTER SETTER

@@ -19,9 +19,10 @@ public class View extends GameView {
 	@Override
 	protected void _paint(Graphics g) {
 
-		Circle c = m_model.getCircle();
-		Circle c1 = m_model.getCircle2();
-		c1.paint(g);
-		c.paint(g);
+		
+		Personnage p2 = m_model.getP2();
+		Personnage p1 = m_model.getP1();
+		p1.paint(g);
+		p2.paint(g);
 	}
 }

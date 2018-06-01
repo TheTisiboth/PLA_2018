@@ -1,5 +1,17 @@
 # Carnet de bord
 
+## 1/06/18
+
+### Prototypage (Mettre des images)
+
+### Diagramme de classe
+
+
+
+
+
+___
+
 ## 31/05/18
 
 ### TODO

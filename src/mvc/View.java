@@ -2,9 +2,12 @@ package mvc;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import edu.ricm3.game.GameView;
 import mvc.*;
+import no.physic.entity.Bonus;
 import physic.entity.Joueur;
 import physic.entity.Obstacle;
 
@@ -23,11 +26,23 @@ public class View extends GameView {
 
 		Joueur c = m_model.getCircle();
 		Joueur c1 = m_model.getCircle2();
-		Obstacle[] obstacles = m_model.getObstacle(); 
 		
+		Obstacle[] obstacles = m_model.getObstacle(); 
 		for(int i=0; i<obstacles.length ;i++) {
 			obstacles[i].paint(g);
 		}
+		
+		LinkedList<Bonus> listBonus = m_model.getListBonus();
+		LinkedList<Bonus> used = (LinkedList<Bonus>) listBonus.clone();
+		for(Iterator iterator = used.iterator();iterator.hasNext();) {
+			Bonus b = ((Bonus)iterator.next());
+			b.paint(g);
+			if(b.getDurationPop()<0) {
+				listBonus.remove(b);
+			}
+		}
+		
+		
 		c.paint(g);
 		c1.paint(g);
 	}

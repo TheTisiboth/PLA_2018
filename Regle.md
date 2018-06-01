@@ -1,5 +1,5 @@
 # PLA
-## Nom du jeu :
+## Nom du jeu : COLORicm
 
 ### Nombre de joueurs : 1-2
 

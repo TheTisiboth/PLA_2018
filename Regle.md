@@ -26,18 +26,11 @@ Les boosts sont appliqués aux joueurs et durent 3 secondes
 ### Recharge de peinture :
 Lorsqu'un joueur ramasse une recharge de peinture il remplit sa jauge de peinture (15 cases).
 
-### Sbires :
-Il existe 4 types de sbires différents :
-* Kamikaze : se déplace sur quelques cases (3 cases) puis explose en coloriant les cases adjacentes
-* Peintre : se déplace sur 10 cases en les coloriant
-* Filou : se déplace sur 15 cases mais peut colorier ou effacer les cases
-* Constructeur : se déplace et place des obstacles
-
 ### Obstacle : 
 Les obstacles peuvent être détruit par un hit de joueur ou par l'explosion d'un sbire kamikaze.
 
 ### Comportement :
-* **HIT** : Un joueur à la capacité HIT pour taper. Lorsqu'il tape un obstacle, il le détruit et si il tape un sbire, il lui enlève 3 cases de déplacement.
+* **HIT** : Permet de taper. Lorsqu'il tape un obstacle, il le détruit et si il tape un sbire, il lui enlève 3 cases de déplacement.
 
 * **WIZZ** : Peind la case sur laquelle le sbire passe
 

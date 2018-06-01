@@ -3,13 +3,16 @@ package mvc;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Random;
 
 import edu.ricm3.game.GameModel;
 import physic.entity.Joueur;
+import physic.entity.Obstacle;
 
 public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
+	private Obstacle o[];
 
 	Case plateau[][];
 
@@ -23,9 +26,44 @@ public class Model extends GameModel {
 		initPlat(plateau);
 		c = new Joueur(0, 0, Color.BLUE);
 		plateau[0][0] = new Case(c);
-		c1 = new Joueur(2, 2, Color.RED);
+		c1 = new Joueur(31, 17, Color.RED);
 		plateau[2][2] = new Case(c1);
+		
+		o = new Obstacle[Options.nb_obstacle];
+		initObstacle();
 
+	}
+
+	private void initObstacle() {
+		boolean diff = true;
+		int[] tab_x = new int[Options.nb_obstacle];
+		int[] tab_y = new int[Options.nb_obstacle];
+		int compteur =0;
+		do {
+			diff=true;
+			Random rand = new Random();
+			int y = rand.nextInt(18);
+			int x = rand.nextInt(32);
+			for(int i = 0; i<compteur; i++) {
+				if (tab_y[i] == y && tab_x[i] == x) {
+					diff=false;
+				}
+			}
+			if(x == 0 && y==0 || x==Options.nbLigne -1 && y== Options.nbCol -1) {
+				diff =false ;
+			}
+			if(diff) {
+				tab_y[compteur]=y;
+				tab_x[compteur]=x;
+				compteur++;
+			}
+		}while(compteur != Options.nb_obstacle );
+		for(int i=0; i<Options.nb_obstacle; i++) {
+			o[i]= new Obstacle(tab_x[i],tab_y[i],3);
+			plateau[tab_x[i]][tab_y[i]].setE(o[i]);
+			plateau[tab_x[i]][tab_y[i]].setCouleur(o[i].getCouleur());
+			
+		}
 	}
 
 	private void initPlat(Case[][] p) {
@@ -99,6 +137,7 @@ public class Model extends GameModel {
 			plateau[x1][y1].setE(c1);
 			plateau[x1][y1].setCouleur((Color) c1.getColor());
 		}
+		
 
 	}
 
@@ -114,5 +153,9 @@ public class Model extends GameModel {
 
 	public Joueur getCircle2() {
 		return c1;
+	}
+
+	public Obstacle[] getObstacle() {
+		return o;
 	}
 }

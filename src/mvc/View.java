@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import edu.ricm3.game.GameView;
 import mvc.*;
 import physic.entity.Joueur;
+import physic.entity.Obstacle;
 
 public class View extends GameView {
 	Color background = Color.ORANGE;
@@ -22,7 +23,11 @@ public class View extends GameView {
 
 		Joueur c = m_model.getCircle();
 		Joueur c1 = m_model.getCircle2();
-	
+		Obstacle[] obstacles = m_model.getObstacle(); 
+		
+		for(int i=0; i<obstacles.length ;i++) {
+			obstacles[i].paint(g);
+		}
 		c.paint(g);
 		c1.paint(g);
 	}

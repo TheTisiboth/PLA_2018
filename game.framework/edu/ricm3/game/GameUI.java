@@ -23,6 +23,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -115,9 +116,9 @@ public class GameUI {
 
     m_frame.add(m_view, BorderLayout.CENTER);
 
-    m_text = new JLabel();
+    m_text = new JLabel(new ImageIcon("image/test.jpg"));
     m_text.setText("Starting up...");
-    m_frame.add(m_text, BorderLayout.NORTH);
+    m_frame.add(m_text, BorderLayout.CENTER);
 
     m_frame.setSize(d);
     m_frame.doLayout();

@@ -14,6 +14,9 @@
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/dev/4.png )
 * Creation d'une image de fond 
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/proto6_image_fond/images/background.png )
+* Creation d'une image d'accueil
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/dev/images/accueil.png)
+
 
 ### Diagramme de classe
 

@@ -79,11 +79,11 @@ public abstract class GameView extends Canvas {
 		if (m_renderBuffer == m_buffer1) {
 			m_renderBuffer = m_buffer2;
 			m_drawBuffer = m_buffer1;
-			m_buffer1 = m_buffer2;
+//			m_buffer1 = m_buffer2; /*double buffer*/d
 		} else {
 			m_renderBuffer = m_buffer1;
 			m_drawBuffer = m_buffer2;
-			m_buffer1 = m_buffer2;
+//			m_buffer1 = m_buffer2;
 		}
 	}
 

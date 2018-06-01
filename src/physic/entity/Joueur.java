@@ -1,37 +1,55 @@
-package proto;
+package physic.entity;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-public class Personnage extends Entity {
+import mvc.Case;
+import mvc.Options;
+import mvc.Model;
+
+public class Joueur extends Physic_Entity {
 
 	private int last_x;
 	private int last_y;
+	private Color couleur;
+	private int speed;
+	private int paint_stock;
+	private Zbire z[];
 	int m_w, m_h;
 	int m_idx;
 	float m_scale;
-	private boolean moveable;
 	BufferedImage m_sprite;
-	private int diameter;
 	BufferedImage[] m_sprites;
+	int m_nrows, m_ncols;
+	
+	private boolean moveable;
+
+	private int diameter;
+
 	private long m_lastMove;
 	private int step = 1;
-	Model m_model;
-	int m_nrows, m_ncols;
-	private Color couleur;
-	
+
 	char direction;
 	boolean inMovement;
 
-	Personnage(Model model, BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
-		m_model = model;
+//	public Joueur(int x, int y, Color couleur) {
+//		super(x, y);
+//		last_x = x;
+//		last_y = y;
+//		diameter = 34;
+//		this.couleur = couleur;
+//		moveable = true;
+//
+//	}
+
+	public Joueur( BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
+		super(x,y);
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
-		super.x = x;
-		super.y = y;
 		last_x = x;
 		last_y = y;
 		diameter = 34;
@@ -40,7 +58,7 @@ public class Personnage extends Entity {
 		this.couleur = couleur;
 		splitSprite();
 	}
-
+	
 	void splitSprite() {
 		int width = m_sprite.getWidth(null);
 		int height = m_sprite.getHeight(null);
@@ -55,17 +73,16 @@ public class Personnage extends Entity {
 			}
 		}
 	}
-
+	
 	public void paint(Graphics g) {
-		g.setColor(this.couleur);
+		g.setColor(couleur);
 		if (y != last_y || x != last_x) {
-			g.fillRect(last_x * taille_case + 3, last_y * taille_case + 3, diameter, diameter);
+			g.fillRect(last_x * Options.taille_case + 3, last_y * Options.taille_case + 3, diameter, diameter);
 		}
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
 		int h = (int) (m_scale * m_h);
-		g.drawImage(img, super.x*taille_case, super.y*taille_case, w, h, null);
-
+		g.drawImage(img, x * Options.taille_case, y * Options.taille_case, w, h, null);
 	}
 
 	public void canMove(Case[][] c) {
@@ -142,4 +159,18 @@ public class Personnage extends Entity {
 	public void setMovement(boolean b) {
 		inMovement = b;
 	}
+
+	public Object getColor() {
+		
+		return couleur;
+	}
+
+	public boolean isInMovement() {
+		return inMovement;
+	}
+
+	
+
+	
+
 }

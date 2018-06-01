@@ -1,4 +1,4 @@
-package proto;
+package mvc;
 
 import java.awt.Color;
 
@@ -33,7 +33,7 @@ public class Case {
 
 	public void setE(Entity e) {
 		this.e = e;
-		if(e== null) {
+		if(e == null) {
 			occuped =false;
 		}else {
 			occuped =true;
@@ -47,6 +47,7 @@ public class Case {
 	public void setOccuped(boolean occuped) {
 		this.occuped = occuped;
 	}
+
 	
 	
 }

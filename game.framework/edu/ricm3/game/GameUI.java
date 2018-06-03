@@ -20,12 +20,18 @@ package edu.ricm3.game;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GameUI {
@@ -114,14 +120,123 @@ public class GameUI {
     m_frame.setTitle("Sample Game");
     m_frame.setLayout(new BorderLayout());
 
-    m_frame.add(m_view, BorderLayout.CENTER);
-
-    m_text = new JLabel(new ImageIcon("image/test.jpg"));
+    // Création du Label contenant l'image de fond, la view et tout les composants 
+    JLabel img = new JLabel(new ImageIcon("images/background2.png"));
+    img.setLayout(null);
+    
+    // On met la view au Centre
+    m_view.setBounds(120, 120, 960, 480);
+    img.add(m_view);
+    
+    
+    // Création du Panel au Nord de la fenetre
+    JPanel panNorth = new JPanel();
+    panNorth.setLayout(new GridLayout(1,9));
+    
+    JLabel l1 = new JLabel("Joueur 1", JLabel.CENTER);
+    l1.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l2 = new JLabel("Thunder", JLabel.CENTER);
+    l2.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l3 = new JLabel("Freeze", JLabel.CENTER);
+    l3.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l4 = new JLabel("Pourcentage", JLabel.CENTER);
+    l4.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l5 = new JLabel("Time", JLabel.CENTER);
+    l5.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l6 = new JLabel("Pourcentage", JLabel.CENTER);
+    l6.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l7 = new JLabel("Freeze", JLabel.CENTER);
+    l7.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l8 = new JLabel("Thunder", JLabel.CENTER);
+    l8.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    JLabel l9 = new JLabel("Joueur 2", JLabel.CENTER);
+    l9.setFont(new Font("Serif", Font.PLAIN, 20));
+    
+    panNorth.add(l1);panNorth.add(l2);panNorth.add(l3);
+    panNorth.add(l4);panNorth.add(l5);panNorth.add(l6);
+    panNorth.add(l7);panNorth.add(l8);panNorth.add(l9);
+    
+    panNorth.setOpaque(false);
+    panNorth.setBounds(0, 0, 1200, 120);
+    img.add(panNorth);
+    
+    // Creation de Panel à l'Est
+    JPanel panEast = new JPanel();
+    panEast.setLayout(new GridLayout(4,1));
+    
+    JButton bE1 = new JButton("EAST 1");
+    bE1.setBorderPainted(false);
+    bE1.setContentAreaFilled(false);
+    bE1.setFocusPainted(false);
+    
+    JButton bE2 = new JButton("EAST 2");
+    bE2.setBorderPainted(false);
+    bE2.setContentAreaFilled(false);
+    bE2.setFocusPainted(false);
+    
+    JButton bE3 = new JButton("EAST 3");
+    bE3.setBorderPainted(false);
+    bE3.setContentAreaFilled(false);
+    bE3.setFocusPainted(false);
+    
+    JButton bE4 = new JButton("EAST 4");
+    bE4.setBorderPainted(false);
+    bE4.setContentAreaFilled(false);
+    bE4.setFocusPainted(false);
+    
+    panEast.add(bE1);panEast.add(bE2);panEast.add(bE3);panEast.add(bE4);    
+    panEast.setOpaque(false);
+    panEast.setBounds(0, 120, 120, 480);
+    img.add(panEast);
+    
+    
+    // Creation de Panel à l'Ouest
+    JPanel panWest = new JPanel();
+    panWest.setLayout(new GridLayout(4,1));
+    
+    JButton bW1 = new JButton("WEST 1");
+    bW1.setBorderPainted(false);
+    bW1.setContentAreaFilled(false);
+    bW1.setFocusPainted(false);
+    
+    JButton bW2 = new JButton("WEST 2");
+    bW2.setBorderPainted(false);
+    bW2.setContentAreaFilled(false);
+    bW2.setFocusPainted(false);
+    
+    JButton bW3 = new JButton("WEST 3");
+    bW3.setBorderPainted(false);
+    bW3.setContentAreaFilled(false);
+    bW3.setFocusPainted(false);
+    
+    JButton bW4 = new JButton("WEST 4");
+    bW4.setBorderPainted(false);
+    bW4.setContentAreaFilled(false);
+    bW4.setFocusPainted(false);
+    
+    panWest.add(bW1);panWest.add(bW2);panWest.add(bW3);panWest.add(bW4);    
+    panWest.setOpaque(false);
+    panWest.setBounds(1080, 120, 120, 480);
+    img.add(panWest);
+    
+    // On ajoute le tout dans la fenetre
+    m_frame.add(img);
+    
+    m_text = new JLabel();
     m_text.setText("Starting up...");
-    m_frame.add(m_text, BorderLayout.CENTER);
+    //m_frame.add(m_text, BorderLayout.NORTH);
 
     m_frame.setSize(d);
     m_frame.doLayout();
+    m_frame.setResizable(false);
     m_frame.setVisible(true);
 
     // hook window events so that we exit the Java Platform

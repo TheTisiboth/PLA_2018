@@ -3,9 +3,8 @@ package no.physic.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
-import mvc.Options;
+import mvc.MesOptions;
 
 public class Bonus extends No_Physic_Entity {
 
@@ -15,7 +14,7 @@ public class Bonus extends No_Physic_Entity {
 	public Bonus(int x, int y) {
 		super(x, y);
 		duration = 3;
-		durationPop = Options.depopBonus;
+		durationPop = MesOptions.depopBonus;
 	}
 
 	public void paint(Graphics g) {
@@ -28,6 +27,7 @@ public class Bonus extends No_Physic_Entity {
 			freeze.paint(g);
 		}
 		
+
 	}
 	
 	public void step() {

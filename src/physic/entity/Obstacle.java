@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import mvc.Options;
+import mvc.MesOptions;
 
 public class Obstacle extends Physic_Entity{
 	private Color couleur = Color.GRAY;
@@ -21,12 +21,12 @@ public class Obstacle extends Physic_Entity{
 
 	public void paint(Graphics g) {
 //		g.setColor(couleur);
-//		g.fillRect(x * Options.taille_case + 1, y * Options.taille_case + 1, Options.taille_case, Options.taille_case);
+//		g.fillRect(x * MesOptions.taille_case + 1, y * MesOptions.taille_case + 1, MesOptions.taille_case, MesOptions.taille_case);
 //		
 		Image img = m_obstacle;
-		int w = (int) (Options.taille_case);
-		int h = (int) (Options.taille_case);
-		g.drawImage(img, x * Options.taille_case, y * Options.taille_case, w, h, null);
+		int w = (int) (MesOptions.taille_case);
+		int h = (int) (MesOptions.taille_case);
+		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
 		
 	}
 

@@ -33,14 +33,14 @@ public class Case {
 	public void paint(Graphics g, int x, int y) {
 		if(m_couleur != m_couleur_init) {
 			Image img = m_couleur_init;
-			int w = (int) (Options.taille_case);
-			int h = (int) (Options.taille_case);
-			g.drawImage(img, x * Options.taille_case, y * Options.taille_case, w, h, null);
+			int w = (int) (MesOptions.taille_case);
+			int h = (int) (MesOptions.taille_case);
+			g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
 		}
 		Image img = m_couleur;
-		int w = (int) (Options.taille_case);
-		int h = (int) (Options.taille_case);
-		g.drawImage(img, x * Options.taille_case, y * Options.taille_case, w, h, null);
+		int w = (int) (MesOptions.taille_case);
+		int h = (int) (MesOptions.taille_case);
+		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
 		if (e != null) {
 			e.paint(g);
 		}

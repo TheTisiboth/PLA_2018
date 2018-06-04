@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.security.cert.PKIXRevocationChecker.Option;
 
 import mvc.Case;
-import mvc.Options;
+import mvc.MesOptions;
 
 //import mvc.Model;
 
@@ -84,21 +84,24 @@ public class Joueur extends Physic_Entity {
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
 		int h = (int) (m_scale * m_h);
-		g.drawImage(img, x * Options.taille_case, y * Options.taille_case, w, h, null);
+		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
 	}
 
 	public void canMove(Case[][] c) {
 		if (inMovement) {
 			// On commence par charger la prochaine case
 			int nextX, nextY;
-			if (y < Options.nbLigne - 1 && direction == 'D') {
+
+			if (y < MesOptions.nbLigne-1 && direction == 'D') {
 				nextX = x;
 				nextY = y + 1;
 			} else if (y > 0 && direction == 'U') {
 				nextX = x;
-				nextY = y - 1;
-			} else if (x < Options.nbCol - 1 && direction == 'R') {
-				nextX = x + 1;
+
+				nextY = y-1;
+			} else if (x < MesOptions.nbCol-1 && direction == 'R') {
+				nextX = x+1;
+
 				nextY = y;
 			} else if (x > 0 && direction == 'L') {
 				nextX = x - 1;
@@ -142,6 +145,7 @@ public class Joueur extends Physic_Entity {
 
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
+
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -160,14 +164,15 @@ public class Joueur extends Physic_Entity {
 		if (inMovement && elapsed > time && moveable) {
 			last_x = x;
 			last_y = y;
-			if (direction == 'R' && x < Options.nbCol - 1) {
+			if (direction == 'R' && x < MesOptions.nbCol - 1) {
 				x += step;
 			} else if (direction == 'L' && x > 0) {
 				x -= step;
-			} else if (direction == 'D' && y < Options.nbLigne - 1) {
+			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
 				y += step;
 			} else if (direction == 'U' && y > 0) {
 				y -= step;
+
 			}
 
 				m_lastMove = now;

@@ -52,13 +52,13 @@ public class Model extends GameModel {
 		score1 = 0;
 		score2 = 0;
 
-		plateau = new Case[Options.nbCol][Options.nbLigne];
+		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
 		initPlat(plateau);
 
-		c = new Joueur(m_personnage, 4, 6, Options.nbCol - 1, Options.nbLigne - 1, 0.9F, Color.RED);
-		plateau[Options.nbCol - 1][Options.nbLigne - 1].setE(c);
-		plateau[Options.nbCol - 1][Options.nbLigne - 1].setCouleur((Color) c.getColor());
-		plateau[Options.nbCol - 1][Options.nbLigne - 1].setRefresh(true);
+		c = new Joueur(m_personnage, 4, 6, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.9F, Color.RED);
+		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setE(c);
+		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setCouleur((Color) c.getColor());
+		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setRefresh(true);
 
 		c1 = new Joueur(m_personnage, 4, 6, 0, 0, 0.9F, Color.BLUE);
 		plateau[0][0].setE(c1);
@@ -67,7 +67,7 @@ public class Model extends GameModel {
 
 		listBonus = new LinkedList<Bonus>();
 
-		o = new Obstacle[Options.nb_obstacle];
+		o = new Obstacle[MesOptions.nb_obstacle];
 		initObstacle();
 	}
 
@@ -100,20 +100,20 @@ public class Model extends GameModel {
 
 	private void initObstacle() {
 		boolean diff = true;
-		int[] tab_x = new int[Options.nb_obstacle];
-		int[] tab_y = new int[Options.nb_obstacle];
+		int[] tab_x = new int[MesOptions.nb_obstacle];
+		int[] tab_y = new int[MesOptions.nb_obstacle];
 		int compteur = 0;
 		do {
 			diff = true;
 			Random rand = new Random();
-			int y = rand.nextInt(Options.nbLigne);
-			int x = rand.nextInt(Options.nbCol);
+			int y = rand.nextInt(MesOptions.nbLigne);
+			int x = rand.nextInt(MesOptions.nbCol);
 			for (int i = 0; i < compteur; i++) {
 				if (tab_y[i] == y && tab_x[i] == x) {
 					diff = false;
 				}
 			}
-			if ((x == 0 && y == 0) || (x == Options.nbCol - 1 && y == Options.nbLigne - 1)) {
+			if ((x == 0 && y == 0) || (x == MesOptions.nbCol - 1 && y == MesOptions.nbLigne - 1)) {
 				diff = false;
 			}
 			if (diff) {
@@ -121,8 +121,8 @@ public class Model extends GameModel {
 				tab_x[compteur] = x;
 				compteur++;
 			}
-		} while (compteur != Options.nb_obstacle);
-		for (int i = 0; i < Options.nb_obstacle; i++) {
+		} while (compteur != MesOptions.nb_obstacle);
+		for (int i = 0; i < MesOptions.nb_obstacle; i++) {
 			o[i] = new Obstacle(tab_x[i], tab_y[i], 3, m_obstacle);
 			plateau[tab_x[i]][tab_y[i]].setE(o[i]);
 			plateau[tab_x[i]][tab_y[i]].setRefresh(true);
@@ -132,8 +132,8 @@ public class Model extends GameModel {
 	}
 
 	private void initPlat(Case[][] p) {
-		for (int i = 0; i < Options.nbCol; i++) {
-			for (int j = 0; j < Options.nbLigne; j++) {
+		for (int i = 0; i < MesOptions.nbCol; i++) {
+			for (int j = 0; j < MesOptions.nbLigne; j++) {
 				if ((i + j) % 2 == 0) {
 					p[i][j] = new Case(null, m_BlockBlue);
 				} else {
@@ -189,13 +189,13 @@ public class Model extends GameModel {
 
 	private void popBonus() {
 		Random rand = new Random();
-		int i = rand.nextInt(Options.popBonus);
+		int i = rand.nextInt(MesOptions.popBonus);
 		if (i < 1) {
 			boolean occuped = true;
 			int col, ligne;
 			while (occuped) {
-				col = rand.nextInt(Options.nbCol);
-				ligne = rand.nextInt(Options.nbLigne);
+				col = rand.nextInt(MesOptions.nbCol);
+				ligne = rand.nextInt(MesOptions.nbLigne);
 				if (!plateau[col][ligne].isOccuped()) {
 					int which = rand.nextInt(2);
 					Bonus bonus;
@@ -221,8 +221,8 @@ public class Model extends GameModel {
 	private void afficheScore() {
 		NumberFormat formatter = new DecimalFormat("#00.0");
 		if (refresh_score) {
-			System.out.println("Score n°1 :" + formatter.format((score1 / Options.nombre_case) * 100));
-			System.out.println("Score n°2 :" + formatter.format((score2 / Options.nombre_case) * 100));
+			System.out.println("Score n°1 :" + formatter.format((score1 / MesOptions.nombre_case) * 100));
+			System.out.println("Score n°2 :" + formatter.format((score2 / MesOptions.nombre_case) * 100));
 			refresh_score =false;
 		}
 	}

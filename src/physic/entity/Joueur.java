@@ -19,7 +19,7 @@ public class Joueur extends Physic_Entity {
 	private Color couleur;
 	private int speed;
 	private int timeEffect;
-	private int paint_stock;
+	private int paintStock;
 	private Zbire z[];
 	int m_w, m_h;
 	int m_idx;
@@ -61,6 +61,7 @@ public class Joueur extends Physic_Entity {
 		speed = 1;
 		this.couleur = couleur;
 		splitSprite();
+		paintStock = 15;
 	}
 
 	void splitSprite() {
@@ -142,7 +143,9 @@ public class Joueur extends Physic_Entity {
 
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
-
+		last_x = x;
+		last_y = y;
+		
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -158,8 +161,6 @@ public class Joueur extends Physic_Entity {
 		}
 
 		if (inMovement && elapsed > time && moveable) {
-			last_x = x;
-			last_y = y;
 			if (direction == 'R' && x < MesOptions.nbCol - 1) {
 				x += step;
 			} else if (direction == 'L' && x > 0) {
@@ -238,5 +239,13 @@ public class Joueur extends Physic_Entity {
 
 	public void decreaseTimeEffect() {
 		timeEffect--;
+	}
+
+	public int getPaintStock() {
+		return paintStock;
+	}
+
+	public void decreasePaintStock() {
+		paintStock--;
 	}
 }

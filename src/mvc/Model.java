@@ -168,7 +168,7 @@ public class Model extends GameModel {
 				Bonus b = (Bonus) iterator.next();// .next();
 				b.step();
 				if (b.getDurationPop() <= 0) {
-					// listBonus.remove(b); // NOTE AVVOIRIOIR
+					listBonus.remove(b); 
 					plateau[b.getX()][b.getY()].setE(null);
 					plateau[b.getX()][b.getY()].setRefresh(true);
 

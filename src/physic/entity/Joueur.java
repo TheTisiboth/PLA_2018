@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.security.cert.PKIXRevocationChecker.Option;
 
 import mvc.Case;
 import mvc.Options;
@@ -131,13 +132,13 @@ public class Joueur extends Physic_Entity {
 		last_y = y;
 		if (elapsed > 100L && moveable) {
 			if (inMovement) {
-				if (direction == 'R' && x < 31) {
+				if (direction == 'R' && x < Options.nbCol -1) {
 					x += step;
 					m_idx = 19;
 				} else if (direction == 'L' && x > 0) {
 					x -= step;
 					m_idx = 7;
-				} else if (direction == 'D' && y < 17) {
+				} else if (direction == 'D' && y < Options.nbLigne -1) {
 					y += step;
 					m_idx = 2;
 				} else if (direction == 'U' && y > 0) {

@@ -77,11 +77,6 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void paint(Graphics g) {
-//		g.setColor(couleur);
-//		if (y != last_y || x != last_x) {
-//			g.fillRect(last_x * Options.taille_case + 3, last_y * Options.taille_case + 3, diameter, diameter);
-//>>>>>>> dev
-//		}
 		
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
@@ -132,9 +127,9 @@ public class Joueur extends Physic_Entity {
 
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
+		last_x = x;
+		last_y = y;
 		if (elapsed > 100L && moveable) {
-			last_x = x;
-			last_y = y;
 			if (inMovement) {
 				if (direction == 'R' && x < 31) {
 					x += step;
@@ -155,7 +150,6 @@ public class Joueur extends Physic_Entity {
 
 	}
 
-	
 	
 	// GETTER SETTER
 
@@ -200,5 +194,7 @@ public class Joueur extends Physic_Entity {
 	public boolean isInMovement() {
 		return inMovement;
 	}
+
+	
 
 }

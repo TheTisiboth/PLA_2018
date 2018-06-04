@@ -41,6 +41,8 @@ public class Model extends GameModel {
 	BufferedImage m_Red;
 	BufferedImage m_BlockBlue;
 	BufferedImage m_BlockGray;
+	BufferedImage m_thunder;
+	BufferedImage m_stop;
 
 	public Model() {
 		lastTick = 0L;
@@ -77,6 +79,8 @@ public class Model extends GameModel {
 		File SplashRed = new File("images/splashred.png");
 		File Bblue = new File("images/blocbleu.png");
 		File Bgray = new File("images/blocgris.png");
+		File thunder = new File("images/eclair.png");
+		File stop = new File("images/stop.png");
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
 			m_personnage = ImageIO.read(imageFile);
@@ -84,6 +88,8 @@ public class Model extends GameModel {
 			m_Red = ImageIO.read(SplashRed);
 			m_BlockBlue = ImageIO.read(Bblue);
 			m_BlockGray = ImageIO.read(Bgray);
+			m_thunder = ImageIO.read(thunder);
+			m_stop = ImageIO.read(stop);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -194,10 +200,10 @@ public class Model extends GameModel {
 					int which = rand.nextInt(2);
 					Bonus bonus;
 					if (which == 0) {
-						bonus = new Freeze(col, ligne);
+						bonus = new Freeze(col, ligne,m_stop);
 
 					} else {
-						bonus = new Speed(col, ligne);
+						bonus = new Speed(col, ligne,m_thunder);
 					}
 					plateau[col][ligne].setE(bonus);
 					plateau[col][ligne].setRefresh(true);

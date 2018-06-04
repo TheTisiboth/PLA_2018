@@ -3,6 +3,8 @@ package no.physic.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import mvc.Options;
 
 public class Bonus extends No_Physic_Entity {
@@ -17,13 +19,15 @@ public class Bonus extends No_Physic_Entity {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillOval(x * Options.taille_case + 6, y * Options.taille_case + 6, 25,25);
-//		if(durationPop <= 0) {
-//			
-//			g.setColor(Color.ORANGE);
-//			g.fillRect(x * Options.taille_case + 2, y * Options.taille_case + 2, 34, 34);
-//		}
+		if(this instanceof Speed ) {
+			Speed speed = (Speed) this;
+			speed.paint(g);
+		}
+		else {
+			Freeze freeze = (Freeze)this;
+			freeze.paint(g);
+		}
+		
 	}
 	
 	public void step() {

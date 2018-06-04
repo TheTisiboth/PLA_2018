@@ -129,31 +129,19 @@ public class Joueur extends Physic_Entity {
 	public void appliquerBonus(Case[][] c, Joueur adverse) {
 		if (c[x][y].getE() instanceof no.physic.entity.Speed) {
 			speed = 2;
-			timeEffect = 10;
+			timeEffect = 40;
 		} else if (c[x][y].getE() instanceof no.physic.entity.Freeze) {
 			if (adverse != null) {
 				adverse.speed = 0;
-				adverse.timeEffect = 10;
+				adverse.timeEffect = 20;
 			}
 		}
 	}
 
-	// // Recherche du joueur adverse sur la map
-	// private Joueur checherJoueur(Case[][] c) {
-	// for (int x = 0, y = 0; x < Options.nbCol - 1 && y < Options.nbLigne - 1; x++,
-	// y++) {
-	// if (x != this.x && y != this.y) {
-	// if (c[x][y].getE() instanceof physic.entity.Joueur)
-	// return (Joueur) c[x][y].getE();
-	// }
-	// }
-	// System.out.println("Le joueur adverse n'a pas été trouvé...........");
-	// return null;
-	// }
+	
 
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
-//<<<<<<< HEAD
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -181,27 +169,10 @@ public class Joueur extends Physic_Entity {
 			} else if (direction == 'U' && y > 0) {
 				y -= step;
 			}
-//=======
-//		last_x = x;
-//		last_y = y;
-//		if (elapsed > 100L && moveable) {
-//			if (inMovement) {
-//				if (direction == 'R' && x < 31) {
-//					x += step;
-//					m_idx = 19;
-//				} else if (direction == 'L' && x > 0) {
-//					x -= step;
-//					m_idx = 7;
-//				} else if (direction == 'D' && y < 17) {
-//					y += step;
-//					m_idx = 2;
-//				} else if (direction == 'U' && y > 0) {
-//					y -= step;
-//					m_idx = 13;
-//				}
+
 				m_lastMove = now;
-//>>>>>>> dev
-//			}
+
+
 		}
 
 	}

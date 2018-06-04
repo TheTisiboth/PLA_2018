@@ -12,7 +12,6 @@ import mvc.MesOptions;
 
 //import mvc.Model;
 
-
 public class Joueur extends Physic_Entity {
 
 	private int last_x;
@@ -80,7 +79,7 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void paint(Graphics g) {
-		
+
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
 		int h = (int) (m_scale * m_h);
@@ -92,15 +91,15 @@ public class Joueur extends Physic_Entity {
 			// On commence par charger la prochaine case
 			int nextX, nextY;
 
-			if (y < MesOptions.nbLigne-1 && direction == 'D') {
+			if (y < MesOptions.nbLigne - 1 && direction == 'D') {
 				nextX = x;
 				nextY = y + 1;
 			} else if (y > 0 && direction == 'U') {
 				nextX = x;
 
-				nextY = y-1;
-			} else if (x < MesOptions.nbCol-1 && direction == 'R') {
-				nextX = x+1;
+				nextY = y - 1;
+			} else if (x < MesOptions.nbCol - 1 && direction == 'R') {
+				nextX = x + 1;
 
 				nextY = y;
 			} else if (x > 0 && direction == 'L') {
@@ -132,7 +131,7 @@ public class Joueur extends Physic_Entity {
 	public void appliquerBonus(Case[][] c, Joueur adverse) {
 		if (c[x][y].getE() instanceof no.physic.entity.Speed) {
 			speed = 2;
-			timeEffect = 40;
+			timeEffect = 10;
 		} else if (c[x][y].getE() instanceof no.physic.entity.Freeze) {
 			if (adverse != null) {
 				adverse.speed = 0;
@@ -140,8 +139,6 @@ public class Joueur extends Physic_Entity {
 			}
 		}
 	}
-
-	
 
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
@@ -157,7 +154,6 @@ public class Joueur extends Physic_Entity {
 		} // cas 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
 			time /= speed;
-			timeEffect--;
 			System.out.println("activation du speed dans step");
 		}
 
@@ -175,14 +171,15 @@ public class Joueur extends Physic_Entity {
 
 			}
 
-				m_lastMove = now;
-
+			m_lastMove = now;
+			if (timeEffect > 0) {
+				timeEffect--;
+			}
 
 		}
 
 	}
 
-	
 	// GETTER SETTER
 
 	public int getLastX() {

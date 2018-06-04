@@ -11,7 +11,7 @@ public class Item_Zbire extends No_Physic_Entity {
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	

@@ -155,6 +155,8 @@ public class Joueur extends Physic_Entity {
 
 	}
 
+	
+	
 	// GETTER SETTER
 
 	public int getLastX() {

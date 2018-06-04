@@ -18,12 +18,11 @@
 package edu.ricm3.game;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,6 +31,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class GameUI {
@@ -118,6 +119,7 @@ public class GameUI {
   private void createWindow(Dimension d) {
     m_frame = new JFrame();
     m_frame.setTitle("Sample Game");
+    m_frame.setSize(d);
     m_frame.setLayout(new BorderLayout());
 
     // Création du Label contenant l'image de fond, la view et tout les composants 
@@ -131,7 +133,10 @@ public class GameUI {
     
     // Création du Panel au Nord de la fenetre
     JPanel panNorth = new JPanel();
-    panNorth.setLayout(new GridLayout(1,9));
+    panNorth.setLayout(new BorderLayout());
+    
+    JPanel panNorthLabel = new JPanel();
+    panNorthLabel.setLayout(new GridLayout(1,9));
     
     JLabel l1 = new JLabel("Joueur 1", JLabel.CENTER);
     l1.setFont(new Font("Serif", Font.PLAIN, 20));
@@ -160,12 +165,42 @@ public class GameUI {
     JLabel l9 = new JLabel("Joueur 2", JLabel.CENTER);
     l9.setFont(new Font("Serif", Font.PLAIN, 20));
     
-    panNorth.add(l1);panNorth.add(l2);panNorth.add(l3);
-    panNorth.add(l4);panNorth.add(l5);panNorth.add(l6);
-    panNorth.add(l7);panNorth.add(l8);panNorth.add(l9);
+    panNorthLabel.add(l1);panNorthLabel.add(l2);panNorthLabel.add(l3);
+    panNorthLabel.add(l4);panNorthLabel.add(l5);panNorthLabel.add(l6);
+    panNorthLabel.add(l7);panNorthLabel.add(l8);panNorthLabel.add(l9);
+    
+    panNorthLabel.setOpaque(false);
+    panNorth.add(panNorthLabel, BorderLayout.CENTER);
+    
+    JPanel panNorthBar = new JPanel();
+    panNorthBar.setLayout(new GridLayout(1, 2));
+    
+    Dimension dimBar = new Dimension(m_frame.getWidth()/2, 40);
+    
+    JProgressBar barJ1 = new JProgressBar();
+    barJ1.setMinimumSize(dimBar);
+    barJ1.setMaximumSize(dimBar);
+    barJ1.setPreferredSize(dimBar);
+    barJ1.setValue(50);
+    barJ1.setForeground(Color.BLUE);
+    barJ1.setBorderPainted(false);
+    barJ1.setOpaque(false);
+    
+    JProgressBar barJ2 = new JProgressBar();
+    barJ2.setMinimumSize(dimBar);
+    barJ2.setMaximumSize(dimBar);
+    barJ2.setPreferredSize(dimBar);
+    barJ2.setValue(50);
+    barJ2.setForeground(Color.RED);
+    barJ2.setBorderPainted(false);
+    barJ2.setOpaque(false);
+    
+    panNorthBar.add(barJ1);panNorthBar.add(barJ2);
+    panNorthBar.setOpaque(false);
+    panNorth.add(panNorthBar, BorderLayout.SOUTH);
     
     panNorth.setOpaque(false);
-    panNorth.setBounds(0, 0, 1200, 120);
+    panNorth.setBounds(0, 0, m_frame.getWidth(), 120);
     img.add(panNorth);
     
     // Creation de Panel à l'Est
@@ -234,7 +269,6 @@ public class GameUI {
     m_text.setText("Starting up...");
     //m_frame.add(m_text, BorderLayout.NORTH);
 
-    m_frame.setSize(d);
     m_frame.doLayout();
     m_frame.setResizable(false);
     m_frame.setVisible(true);

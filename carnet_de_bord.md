@@ -1,5 +1,16 @@
 # Carnet de bord
 
+## 4/06/18
+ 
+Nous avons mis à jour le diagramme de classe de classe :
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/uml.png )
+
+Nous avons avancé le prototype. Nous avons incrusté le gameplay sur une image de fond. Nous avons rajouté des jauges de peintures (non fonctionnelles), des items permettants d'accelerer notre personnage, de geler l'adversaire.
+
+Nous avons le diagramme de classe de classe suivant :
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/6.png )
+
+
 ## 1/06/18
 
 ### Prototypage

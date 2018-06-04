@@ -10,6 +10,7 @@ Nous avons avancé le prototype. Nous avons incrusté le gameplay sur une image 
 Nous avons le diagramme de classe de classe suivant :
 ![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/6.png )
 
+___
 
 ## 1/06/18
 

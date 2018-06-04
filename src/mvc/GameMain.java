@@ -1,4 +1,4 @@
-package proto;
+package mvc;
 
 import java.awt.Dimension;
 
@@ -12,7 +12,6 @@ public class GameMain {
 	    Model model = new Model();
 	    Controller controller = new Controller(model);
 	    View view = new View(model,controller);
-
 	    Dimension d = new Dimension(1200, 600);
 	    new GameUI(model,view,controller,d);
 }

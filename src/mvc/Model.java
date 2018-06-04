@@ -1,13 +1,18 @@
 package mvc;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-import com.sun.xml.internal.ws.api.pipe.Tube;
+
+import javax.imageio.ImageIO;
+
 
 import edu.ricm3.game.GameModel;
 import javafx.scene.shape.Line;
@@ -31,30 +36,47 @@ public class Model extends GameModel {
 
 	private float score1;
 	private float score2;
-
+	BufferedImage m_personnage;
+	
 	public Model() {
 		lastTick = 0L;
+
+		loadSprites();
 		score1 = 0;
 		score2 = 0;
 		
 		plateau = new Case[Options.nbCol][Options.nbLigne];
 		initPlat(plateau);
-		
-		c = new Joueur(0, 0, Color.BLUE);
+
+		c = new Joueur(m_personnage, 4, 6, Options.nbCol-1, Options.nbLigne-1, 0.9F, Color.RED);
 		plateau[0][0].setE(c);
 		plateau[0][0].setRefresh(true);
 		plateau[0][0].setCouleur((Color)c.getColor());
 		
-		c1 = new Joueur(31, 17, Color.RED);
+		c1 = new Joueur(m_personnage, 4, 6, 0, 0, 0.9F, Color.BLUE);
 		plateau[Options.nbCol - 1][Options.nbLigne - 1].setE(c1);
 		plateau[Options.nbCol - 1][Options.nbLigne - 1].setRefresh(true);
 		plateau[Options.nbCol - 1][Options.nbLigne - 1].setCouleur((Color)c1.getColor());
-
+		
+	
 		listBonus = new LinkedList<Bonus>();
 
 		o = new Obstacle[Options.nb_obstacle];
 		initObstacle();
 	}
+	
+	private void loadSprites() {
+
+	    File imageFile = new File("images/winchester.png");
+	    try {
+	      m_personnage = ImageIO.read(imageFile);
+	    } catch (IOException ex) {
+	      ex.printStackTrace();
+	      System.exit(-1);
+	    }
+
+	  }
+
 
 	private void initObstacle() {
 		boolean diff = true;
@@ -227,11 +249,11 @@ public class Model extends GameModel {
 
 	}
 
-	public Joueur getCircle() {
+	public Joueur getJ1() {
 		return c;
 	}
 
-	public Joueur getCircle2() {
+	public Joueur getJ2() {
 		return c1;
 	}
 

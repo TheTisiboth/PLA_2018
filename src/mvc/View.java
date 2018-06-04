@@ -24,7 +24,14 @@ public class View extends GameView {
 	@Override
 	protected void _paint(Graphics g) {
 
+
 		Case[][] plateau = m_model.getPlateau();
+		
+		Joueur c = m_model.getJ1();
+		Joueur c1 = m_model.getJ2();
+		
+//		Obstacle[] obstacles = m_model.getObstacle(); 
+//>>>>>>> dev
 		
 		for(int i =0 ; i<Options.nbCol; i++) {
 			for(int k=0; k<Options.nbLigne; k++) {

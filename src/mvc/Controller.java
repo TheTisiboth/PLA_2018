@@ -35,25 +35,25 @@ public class Controller extends GameController {
 	public void keyPressed(KeyEvent e) {
 		// Joueur 1
 		if (e.getKeyCode() == 39) {
-			m_model.getCircle().setDirection('R');
+			m_model.getJ1().setDirection('R');
 		} else if (e.getKeyCode() == 38) {
-			m_model.getCircle().setDirection('U');
+			m_model.getJ1().setDirection('U');
 		} else if (e.getKeyCode() == 37) {
-			m_model.getCircle().setDirection('L');
+			m_model.getJ1().setDirection('L');
 		} else if (e.getKeyCode() == 40) {
-			m_model.getCircle().setDirection('D');
+			m_model.getJ1().setDirection('D');
 		}
 
 		// Joueur 2
 
 		if (e.getKeyCode() == 68) {
-			m_model.getCircle2().setDirection('R');
+			m_model.getJ2().setDirection('R');
 		} else if (e.getKeyCode() == 90) {
-			m_model.getCircle2().setDirection('U');
+			m_model.getJ2().setDirection('U');
 		} else if (e.getKeyCode() == 81) {
-			m_model.getCircle2().setDirection('L');
+			m_model.getJ2().setDirection('L');
 		} else if (e.getKeyCode() == 83) {
-			m_model.getCircle2().setDirection('D');
+			m_model.getJ2().setDirection('D');
 		}
 
 	}
@@ -62,10 +62,10 @@ public class Controller extends GameController {
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		if (keyCode == 37 || keyCode == 38 | keyCode == 39 || keyCode == 40) {
-			m_model.getCircle().setMovement(false); 
+			m_model.getJ1().setMovement(false); 
 		}
 		if (keyCode == 68 || keyCode == 81 | keyCode == 83 || keyCode == 90) {
-			m_model.getCircle2().setMovement(false); 
+			m_model.getJ2().setMovement(false); 
 		}
 
 	}

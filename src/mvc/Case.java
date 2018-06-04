@@ -27,8 +27,8 @@ public class Case {
 	public void paint(Graphics g, int x, int y) {
 		if (e == null) {
 			g.setColor(couleur);
-			g.fillRect(x * Options.taille_case + 1, y * Options.taille_case , Options.taille_case,
-					Options.taille_case);
+			g.fillRect(x * Options.taille_case + 3, y * Options.taille_case +3, Options.taille_case-4,
+					Options.taille_case-4);
 		} else {
 			e.paint(g);
 		}

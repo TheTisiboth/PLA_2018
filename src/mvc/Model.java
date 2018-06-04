@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import com.sun.xml.internal.ws.api.pipe.Tube;
+
 import edu.ricm3.game.GameModel;
 import javafx.scene.shape.Line;
 import no.physic.entity.Bonus;
@@ -34,12 +36,19 @@ public class Model extends GameModel {
 		lastTick = 0L;
 		score1 = 0;
 		score2 = 0;
+		
 		plateau = new Case[Options.nbCol][Options.nbLigne];
 		initPlat(plateau);
+		
 		c = new Joueur(0, 0, Color.BLUE);
-		plateau[0][0] = new Case(c);
+		plateau[0][0].setE(c);
+		plateau[0][0].setRefresh(true);
+		plateau[0][0].setCouleur((Color)c.getColor());
+		
 		c1 = new Joueur(31, 17, Color.RED);
-		plateau[Options.nbCol - 1][Options.nbLigne - 1] = new Case(c1);
+		plateau[Options.nbCol - 1][Options.nbLigne - 1].setE(c1);
+		plateau[Options.nbCol - 1][Options.nbLigne - 1].setRefresh(true);
+		plateau[Options.nbCol - 1][Options.nbLigne - 1].setCouleur((Color)c1.getColor());
 
 		listBonus = new LinkedList<Bonus>();
 
@@ -74,6 +83,7 @@ public class Model extends GameModel {
 		for (int i = 0; i < Options.nb_obstacle; i++) {
 			o[i] = new Obstacle(tab_x[i], tab_y[i], 3);
 			plateau[tab_x[i]][tab_y[i]].setE(o[i]);
+			plateau[tab_x[i]][tab_y[i]].setRefresh(true);
 			plateau[tab_x[i]][tab_y[i]].setCouleur(o[i].getCouleur());
 
 		}
@@ -118,6 +128,8 @@ public class Model extends GameModel {
 				if (b.getDurationPop() <= 0) {
 //					listBonus.remove(b); // NOTE AVVOIRIOIR
 					plateau[b.getX()][b.getY()].setE(null);
+					plateau[b.getX()][b.getY()].setRefresh(true);
+
 				}
 			}
 		}
@@ -142,6 +154,7 @@ public class Model extends GameModel {
 						bonus = new Speed(col, ligne);
 					}
 					plateau[col][ligne].setE(bonus);
+					plateau[col][ligne].setRefresh(true);
 					listBonus.add(bonus);
 					occuped = false;
 				}
@@ -178,6 +191,8 @@ public class Model extends GameModel {
 
 		if (last_xc != xc || last_yc != yc) {
 			plateau[last_xc][last_yc].setE(null);
+			plateau[last_xc][last_yc].setRefresh(true);
+
 			if (plateau[xc][yc].getCouleur() == Color.ORANGE) {
 				score1++;
 			} else if (plateau[xc][yc].getCouleur() == c1.getColor()) {
@@ -185,11 +200,13 @@ public class Model extends GameModel {
 				score2--;
 			}
 			plateau[xc][yc].setE(c);
+			plateau[xc][yc].setRefresh(true);
 			plateau[xc][yc].setCouleur((Color) c.getColor());
 
 		}
 		if (last_xc1 != x1 || last_yc1 != y1) {
 			plateau[last_xc1][last_yc1].setE(null);
+			plateau[last_xc1][last_yc1].setRefresh(true);
 			if (plateau[x1][y1].getCouleur() == Color.ORANGE) {
 				score2++;
 			} else if (plateau[x1][y1].getCouleur() == c.getColor()) {
@@ -198,6 +215,7 @@ public class Model extends GameModel {
 			}
 
 			plateau[x1][y1].setE(c1);
+			plateau[x1][y1].setRefresh(true);
 			plateau[x1][y1].setCouleur((Color) c1.getColor());
 		}
 
@@ -219,5 +237,9 @@ public class Model extends GameModel {
 
 	public Obstacle[] getObstacle() {
 		return o;
+	}
+
+	public Case[][] getPlateau() {
+		return plateau;
 	}
 }

@@ -1,5 +1,7 @@
 package mvc;
 
+import java.awt.Graphics;
+
 public abstract class Entity {
 	public int x;
 	public int y;
@@ -10,4 +12,6 @@ public abstract class Entity {
 		this.y=y;
 		colision = b;
 	}
+
+	public abstract void paint(Graphics g);
 }

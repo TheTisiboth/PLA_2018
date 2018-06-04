@@ -37,10 +37,10 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(couleur);
-		if (y != last_y || x != last_x) {
-			g.fillRect(last_x * Options.taille_case + 2, last_y * Options.taille_case + 2, diameter, diameter);
-		}
+//		g.setColor(couleur);
+//		if (y != last_y || x != last_x) {
+//			g.fillRect(last_x * Options.taille_case + 2, last_y * Options.taille_case + 2, diameter, diameter);
+//		}
 		g.setColor(couleur.darker());
 		g.fillOval(x * Options.taille_case + 2, y * Options.taille_case + 2, diameter, diameter);
 

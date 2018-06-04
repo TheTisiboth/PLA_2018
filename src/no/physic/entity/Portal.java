@@ -1,5 +1,7 @@
 package no.physic.entity;
 
+import java.awt.Graphics;
+
 public class Portal extends No_Physic_Entity{
 	
 	private int x_exit;
@@ -9,6 +11,12 @@ public class Portal extends No_Physic_Entity{
 		super(x, y);
 		y_exit =ye;
 		x_exit =xe;
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -48,28 +48,28 @@ public abstract class GameView extends Canvas {
 			else
 				m_buffer2 = m_buffer1;
 
-			Graphics gc = m_buffer1.getGraphics();
-			gc.setColor(Color.ORANGE);
-			gc.fillRect(0, 0, m_width, m_height);
-			gc.setColor(Color.BLACK);
-			for (int i = 38; i <=38*32;i=i+38) {
-				gc.fillRect(i, 0, 2, 38*18);
-			}
-			for (int i = 38; i <= 38*18; i=i+38) {
-				gc.fillRect(0, i,38*32, 2);
-			}
-			gc = m_buffer2.getGraphics();
-
-			gc.setColor(Color.ORANGE);
-
-			gc.fillRect(0, 0, m_width, m_height);
-			gc.setColor(Color.BLACK);
-			for (int i = 38; i <=38*32;i=i+38) {
-				gc.fillRect(i, 0, 2, 38*18);
-			}
-			for (int i = 38; i <=38*18; i=i+38) {
-				gc.fillRect(0, i, 38*32, 2);
-			}
+//			Graphics gc = m_buffer1.getGraphics();
+//			gc.setColor(Color.ORANGE);
+//			gc.fillRect(0, 0, m_width, m_height);
+//			gc.setColor(Color.BLACK);
+//			for (int i = 38; i <=38*32;i=i+38) {
+//				gc.fillRect(i, 0, 2, 38*18);
+//			}
+//			for (int i = 38; i <= 38*18; i=i+38) {
+//				gc.fillRect(0, i,38*32, 2);
+//			}
+//			gc = m_buffer2.getGraphics();
+//
+//			gc.setColor(Color.ORANGE);
+//
+//			gc.fillRect(0, 0, m_width, m_height);
+//			gc.setColor(Color.BLACK);
+//			for (int i = 38; i <=38*32;i=i+38) {
+//				gc.fillRect(i, 0, 2, 38*18);
+//			}
+//			for (int i = 38; i <=38*18; i=i+38) {
+//				gc.fillRect(0, i, 38*32, 2);
+//			}
 			m_renderBuffer = m_buffer2;
 			m_drawBuffer = m_buffer1;
 		}

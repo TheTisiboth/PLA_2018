@@ -1,6 +1,7 @@
 package physic.entity;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public class Zbire extends Physic_Entity{
 	
@@ -11,6 +12,12 @@ public class Zbire extends Physic_Entity{
 		super(x, y);
 		this.couleur =c;
 		nb_case =n;
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

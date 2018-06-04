@@ -92,9 +92,13 @@ public class Model extends GameModel {
 	public void step(long now) {
 		c1.canMove(plateau);
 		c1.step(now);
+		if (plateau[c1.getX()][c1.getY()].getE() instanceof no.physic.entity.Bonus)
+			c1.appliquerBonus(this.plateau, c);
 
 		c.canMove(plateau);
 		c.step(now);
+		if (plateau[c.getX()][c.getY()].getE() instanceof no.physic.entity.Bonus)
+			c.appliquerBonus(this.plateau, c1);
 
 		update_plat();
 
@@ -105,18 +109,18 @@ public class Model extends GameModel {
 			lastTick = now;
 		}
 
-		afficheScore();
+//		afficheScore();
 	}
 
 	private void depopBonus() {
 		if (!listBonus.isEmpty()) {
 			LinkedList<Bonus> used = (LinkedList<Bonus>) listBonus.clone();
-			for(Iterator iterator = used.iterator();iterator.hasNext();) {
-//			while (iterator.hasNext()) {
-				Bonus b = (Bonus)iterator.next();//.next();
+			for (Iterator iterator = used.iterator(); iterator.hasNext();) {
+				// while (iterator.hasNext()) {
+				Bonus b = (Bonus) iterator.next();// .next();
 				b.step();
 				if (b.getDurationPop() <= 0) {
-//					listBonus.remove(b); // NOTE AVVOIRIOIR
+					// listBonus.remove(b); // NOTE AVVOIRIOIR
 					plateau[b.getX()][b.getY()].setE(null);
 				}
 			}

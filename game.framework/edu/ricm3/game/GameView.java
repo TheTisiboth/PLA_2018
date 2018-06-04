@@ -24,25 +24,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
-/**
- * This is your game view, a canvas where the game is displayed.
- * 
- * It extends the AWT canvas, a widget that is essentially an area of pixels,
- * suited to draw on it. You can draw pixels or shapes such as lines, polygones,
- * or circles. Look for these capabilitis in the class java.awt.Graphics.
- * You can also draw images and therefore you can do animations.
- * 
- * We extended the AWT canvas to have an efficient double buffering.
- * You can read https://en.wikipedia.org/wiki/Multiple_buffering
- * as an introduction.
- * 
- * Note that you can turn double buffering off in Options.USE_DOUBLE_BUFFERING.
- * We suggest that you leave it on.
- *  
- * @author Pr. Olivier Gruber
- *
- */
 public abstract class GameView extends Canvas {
+
 
   private static final long serialVersionUID = 1L;
 
@@ -138,4 +121,5 @@ public abstract class GameView extends Canvas {
   }
 
   protected abstract void _paint(Graphics g);
+
 }

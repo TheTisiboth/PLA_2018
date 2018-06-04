@@ -1,6 +1,39 @@
 # Carnet de bord
 
+## 1/06/18
+
+### Prototypage
+* Affichage d'une fenetre avec un rond rouge fixe, et un rond bleu se déplaçant arbitrairement dans une direction
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/1.png )
+* Affichage d'une carte quadrillée, on peut controler le déplacement du rond bleu.
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/2.png)
+* Gestion de la collision avec le bord de la carte
+* Gestion des collisions avec l'adversaire, avec les obstacles (placé aléatoirement),gestion de la peinture,  affichage du score dans le terminal
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/3.png )
+* Affichage de sprite
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/4.png )
+* Creation d'une image de fond 
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/background.png )
+* Creation d'une image d'accueil
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/accueil.png)
+
+
+### Diagramme de classe
+
+Nous avons le diagramme de classe de classe suivant :
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/5.png )
+
+
+
+___
+
 ## 31/05/18
+
+### TODO
+* Création d'un prototype d'image de fond
+* Quadrillage de la map : Jade et Marceau
+* Gestion de collision : Guillaume et Leo
+* Structuration du projet : Loïc et Elisa
 
 ### Penser à
 * Avoir une configuration commune sur Eclipse

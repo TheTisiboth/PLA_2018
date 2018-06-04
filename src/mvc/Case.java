@@ -32,8 +32,10 @@ public class Case {
 		} else {
 			e.paint(g);
 		}
+		
 		if (refresh_buffer2) {
 			refresh = false;
+			refresh_buffer2 = false;
 		} else {
 			refresh_buffer2 = true;
 		}

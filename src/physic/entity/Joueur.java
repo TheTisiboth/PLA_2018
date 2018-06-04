@@ -51,13 +51,13 @@ public class Joueur extends Physic_Entity {
 		if (inMovement) {
 			//On commence par charger la prochaine case
 			int nextX, nextY;
-			if (y < Options.nbLigne && direction == 'D') {
+			if (y < Options.nbLigne-1 && direction == 'D') {
 				nextX = x;
 				nextY = y+1;
 			} else if (y > 0 && direction == 'U') {
 				nextX = x;
 				nextY = y-1;
-			} else if (x < Options.nbCol && direction == 'R') {
+			} else if (x < Options.nbCol-1 && direction == 'R') {
 				nextX = x+1;
 				nextY = y;
 			} else if (x > 0 && direction == 'L') {

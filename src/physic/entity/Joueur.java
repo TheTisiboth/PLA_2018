@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import mvc.Case;
 import mvc.Options;
+import no.physic.entity.Bonus;
 
 public class Joueur extends Physic_Entity {
 
@@ -48,15 +49,39 @@ public class Joueur extends Physic_Entity {
 
 	public void canMove(Case[][] c) {
 		if (inMovement) {
-			if (y < 17 && c[x][y + 1].isOccuped() && direction == 'D') {
-				moveable = false;
-			} else if (y > 0 && c[x][y - 1].isOccuped() && direction == 'U') {
-				moveable = false;
-			} else if (x < 30 && c[x + 1][y].isOccuped() && direction == 'R') {
-				moveable = false;
-			} else if (x > 0 && c[x - 1][y].isOccuped() && direction == 'L') {
-				moveable = false;
-			} else {
+			//On commence par charger la prochaine case
+			int nextX, nextY;
+			if (y < Options.nbLigne && direction == 'D') {
+				nextX = x;
+				nextY = y+1;
+			} else if (y > 0 && direction == 'U') {
+				nextX = x;
+				nextY = y-1;
+			} else if (x < Options.nbCol && direction == 'R') {
+				nextX = x+1;
+				nextY = y;
+			} else if (x > 0 && direction == 'L') {
+				nextX = x-1;
+				nextY = y;
+			}
+			else {
+				//Le joueur veut sortir du plateau
+				return;
+			}
+			
+			//On regarde si la case est occupée
+			if (c[nextX][nextY].isOccuped()) {
+				//Si occupée, on regarde si ce n'est pas un bonus dessus
+				if(c[nextX][nextY].getE() instanceof no.physic.entity.Bonus) {
+					
+					moveable = true;
+				}
+				//sinon on ne peut pas y aller
+				else {
+					moveable = false;
+				}
+			}else {
+				//si la case n'est pas occupée, on peut y aller
 				moveable = true;
 			}
 		}

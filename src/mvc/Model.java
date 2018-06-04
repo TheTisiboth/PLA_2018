@@ -49,14 +49,18 @@ public class Model extends GameModel {
 		initPlat(plateau);
 
 		c = new Joueur(m_personnage, 4, 6, Options.nbCol-1, Options.nbLigne-1, 0.9F, Color.RED);
-		plateau[0][0].setE(c);
-		plateau[0][0].setRefresh(true);
-		plateau[0][0].setCouleur((Color)c.getColor());
+		plateau[Options.nbCol - 1][Options.nbLigne - 1].setE(c);
+		plateau[Options.nbCol - 1][Options.nbLigne - 1].setCouleur((Color)c.getColor());
+		plateau[Options.nbCol - 1][Options.nbLigne - 1].setRefresh(true);
+		
+		
 		
 		c1 = new Joueur(m_personnage, 4, 6, 0, 0, 0.9F, Color.BLUE);
-		plateau[Options.nbCol - 1][Options.nbLigne - 1].setE(c1);
-		plateau[Options.nbCol - 1][Options.nbLigne - 1].setRefresh(true);
-		plateau[Options.nbCol - 1][Options.nbLigne - 1].setCouleur((Color)c1.getColor());
+		plateau[0][0].setE(c1);
+		plateau[0][0].setCouleur((Color)c1.getColor());
+		plateau[0][0].setRefresh(true);
+
+		
 		
 	
 		listBonus = new LinkedList<Bonus>();
@@ -222,8 +226,8 @@ public class Model extends GameModel {
 				score2--;
 			}
 			plateau[xc][yc].setE(c);
-			plateau[xc][yc].setRefresh(true);
 			plateau[xc][yc].setCouleur((Color) c.getColor());
+			plateau[xc][yc].setRefresh(true);
 
 		}
 		if (last_xc1 != x1 || last_yc1 != y1) {
@@ -237,8 +241,8 @@ public class Model extends GameModel {
 			}
 
 			plateau[x1][y1].setE(c1);
-			plateau[x1][y1].setRefresh(true);
 			plateau[x1][y1].setCouleur((Color) c1.getColor());
+			plateau[x1][y1].setRefresh(true);
 		}
 
 	}

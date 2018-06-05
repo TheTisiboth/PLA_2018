@@ -190,7 +190,8 @@ public class Model extends GameModel {
 					secondes--;
 					System.out.println(minute + "min" + secondes + "s");
 				}
-
+				
+				popItem();
 				popBonus();
 				depopBonus();
 				lastTick = now;

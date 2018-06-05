@@ -203,12 +203,16 @@ public class Joueur extends Physic_Entity {
 
 			if (direction == 'R' && x < MesOptions.nbCol - 1) {
 				x += step;
+				m_idx = 19;
 			} else if (direction == 'L' && x > 0) {
 				x -= step;
+				m_idx = 7;
 			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
 				y += step;
+				m_idx = 2;
 			} else if (direction == 'U' && y > 0) {
 				y -= step;
+				m_idx = 13;
 
 			}
 

@@ -26,9 +26,13 @@ public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
 	private Obstacle o[];
+	int minute;
+	int secondes;
 
 	long elapsed;
 	long lastTick;
+	
+	boolean timer;
 
 	LinkedList<Bonus> listBonus;
 
@@ -44,7 +48,9 @@ public class Model extends GameModel {
 		loadSprites();
 		score1 = 0;
 		score2 = 0;
-		
+		minute = Options.min;
+		secondes = 0;
+		timer =true;
 		plateau = new Case[Options.nbCol][Options.nbLigne];
 		initPlat(plateau);
 
@@ -126,22 +132,39 @@ public class Model extends GameModel {
 
 	@Override
 	public void step(long now) {
-		c1.canMove(plateau);
-		c1.step(now);
+		
+		if (timer) {
+			c1.canMove(plateau);
+			c1.step(now);
 
-		c.canMove(plateau);
-		c.step(now);
+			c.canMove(plateau);
+			c.step(now);
 
-		update_plat();
+			update_plat();
 
-		elapsed = now - lastTick;
-		if (elapsed >= 1000L) {
-			popBonus();
-			depopBonus();
-			lastTick = now;
+			elapsed = now - lastTick;
+			
+			
+			if (elapsed >= 1000L) {
+				if (minute != 0 && secondes == 0) {
+					secondes = 60;
+					minute--;
+				}
+				if (minute == 0 && secondes == 0)
+					timer = false;
+				else { 
+					secondes--;
+					System.out.println(minute+"min"+secondes+"s");
+				}
+				
+				popBonus();
+				depopBonus();
+				lastTick = now;
+			}
 		}
+		
 
-		afficheScore();
+		//afficheScore();
 	}
 
 	private void depopBonus() {
@@ -152,7 +175,7 @@ public class Model extends GameModel {
 				Bonus b = (Bonus)iterator.next();//.next();
 				b.step();
 				if (b.getDurationPop() <= 0) {
-//					listBonus.remove(b); // NOTE AVVOIRIOIR
+					listBonus.remove(b); // NOTE AVVOIRIOIR
 					plateau[b.getX()][b.getY()].setE(null);
 					plateau[b.getX()][b.getY()].setRefresh(true);
 
@@ -192,16 +215,16 @@ public class Model extends GameModel {
 		return listBonus;
 	}
 
-	private void afficheScore() {
-		NumberFormat formatter = new DecimalFormat("#00.0");
-		if (c.isInMovement()) {
-			System.out.println("Score n°1 :" + formatter.format((score1 / Options.nombre_case) * 100));
-		}
-		if (c1.isInMovement()) {
-			System.out.println("Score n°2 :" + formatter.format((score2 / Options.nombre_case) * 100));
-		}
-
-	}
+//	private void afficheScore() {
+//		NumberFormat formatter = new DecimalFormat("#00.0");
+//		if (c.isInMovement()) {
+//			System.out.println("Score n°1 :" + formatter.format((score1 / Options.nombre_case) * 100));
+//		}
+//		if (c1.isInMovement()) {
+//			System.out.println("Score n°2 :" + formatter.format((score2 / Options.nombre_case) * 100));
+//		}
+//
+//	}
 
 	public void update_plat() {
 		// mis a jour de la matrice pour les collisions

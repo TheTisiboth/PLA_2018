@@ -19,11 +19,6 @@ public class Bonus extends No_Physic_Entity {
 	public void paint(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillOval(x * Options.taille_case + 6, y * Options.taille_case + 6, 25,25);
-//		if(durationPop <= 0) {
-//			
-//			g.setColor(Color.ORANGE);
-//			g.fillRect(x * Options.taille_case + 2, y * Options.taille_case + 2, 34, 34);
-//		}
 	}
 	
 	public void step() {

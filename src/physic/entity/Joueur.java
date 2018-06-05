@@ -90,7 +90,7 @@ public class Joueur extends Physic_Entity {
 		if (inMovement) {
 			// On commence par charger la prochaine case
 			int nextX, nextY;
-
+			
 			if (y < MesOptions.nbLigne - 1 && direction == 'D') {
 				nextX = x;
 				nextY = y + 1;

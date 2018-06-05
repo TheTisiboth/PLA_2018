@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -123,7 +124,12 @@ public class GameUI {
     m_frame.setLayout(new BorderLayout());
 
     // Création du Label contenant l'image de fond, la view et tout les composants 
-    JLabel img = new JLabel(new ImageIcon("images/background2.png"));
+    ImageIcon icon = new ImageIcon("images/background2.png");
+    Image scaleImage = icon.getImage().getScaledInstance(d.width, d.height,Image.SCALE_DEFAULT);
+    icon = new ImageIcon(scaleImage);
+
+    JLabel img = new JLabel(icon);
+    
     img.setLayout(null);
     
     // On met la view au Centre

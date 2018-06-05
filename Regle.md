@@ -37,5 +37,7 @@ Les obstacles peuvent être détruit par un hit de joueur ou par l'explosion d'u
 
 * **Pick** : Efface la peinture
 
+* **Kamikaze** : Explose, en colorant les cases adjacentes
+
 
 

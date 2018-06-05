@@ -1,10 +1,26 @@
 package no.physic.entity;
 
-public class Freeze extends Bonus {
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
-	public Freeze(int x, int y) {
+import mvc.MesOptions;
+
+public class Freeze extends Bonus {
+	BufferedImage m_stop;
+	
+	public Freeze(int x, int y, BufferedImage m_stop) {
 		super(x, y);
+		this.m_stop =m_stop;
 		
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		Image img = m_stop;
+		int w = (int) (MesOptions.taille_case);
+		int h = (int) (MesOptions.taille_case);
+		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
 	}
 
 }

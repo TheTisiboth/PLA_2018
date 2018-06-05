@@ -32,8 +32,9 @@ public class View extends GameView {
 		
 
 		
-		for(int i =0 ; i<Options.nbCol; i++) {
-			for(int k=0; k<Options.nbLigne; k++) {
+		for(int i =0 ; i<MesOptions.nbCol; i++) {
+			for(int k=0; k<MesOptions.nbLigne; k++) {
+
 				if(plateau[i][k].getRefresh()) {
 					plateau[i][k].paint(g,i,k);
 				}

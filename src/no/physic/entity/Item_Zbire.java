@@ -3,7 +3,7 @@ package no.physic.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import mvc.Options;
+import mvc.MesOptions;
 
 public class Item_Zbire extends No_Physic_Entity {
 	
@@ -13,13 +13,13 @@ public class Item_Zbire extends No_Physic_Entity {
 	public Item_Zbire(int x,int y) {
 		super(x, y);
 		duration = 3;
-		durationPop = Options.depopBonus;
+		durationPop = MesOptions.depopBonus;
 	}
 
 	@Override
 	public void paint(Graphics g) {
 			g.setColor(Color.GREEN);
-			g.fillOval(x * Options.taille_case + 6, y * Options.taille_case + 6, 25,25);
+			g.fillOval(x * MesOptions.taille_case + 6, y * MesOptions.taille_case + 6, 25,25);
 		
 	}
 	

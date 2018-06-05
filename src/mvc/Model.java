@@ -1,5 +1,6 @@
 package mvc;
 
+import java.awt.CheckboxMenuItem;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,11 +12,16 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.html.StyleSheet.ListPainter;
 
 import edu.ricm3.game.GameModel;
+import edu.ricm3.game.GameUI;
+import edu.ricm3.game.Options;
 import javafx.scene.shape.Line;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
+import no.physic.entity.Item_Zbire;
+import no.physic.entity.Recharge;
 import no.physic.entity.Speed;
 import physic.entity.Joueur;
 import physic.entity.Obstacle;
@@ -24,11 +30,17 @@ public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
 	private Obstacle o[];
+	int minute;
+	int secondes;
 
 	long elapsed;
 	long lastTick;
 
+	boolean timer;
+
 	LinkedList<Bonus> listBonus;
+	LinkedList<Item_Zbire> listItem;
+	LinkedList<Recharge> listRecharge;
 
 	Case plateau[][];
 
@@ -43,6 +55,8 @@ public class Model extends GameModel {
 	BufferedImage m_BlockGray;
 	BufferedImage m_thunder;
 	BufferedImage m_stop;
+	BufferedImage m_item;
+	BufferedImage m_recharge;
 
 	public Model() {
 		lastTick = 0L;
@@ -51,8 +65,12 @@ public class Model extends GameModel {
 
 		score1 = 0;
 		score2 = 0;
+		minute = MesOptions.min;
+		secondes = 0;
+		timer = true;
 
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
+
 		initPlat(plateau);
 
 		c = new Joueur(m_personnage, 4, 6, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.9F, Color.RED);
@@ -66,6 +84,8 @@ public class Model extends GameModel {
 		plateau[0][0].setRefresh(true);
 
 		listBonus = new LinkedList<Bonus>();
+		listItem = new LinkedList<Item_Zbire>();
+		listRecharge = new LinkedList<Recharge>();
 
 		o = new Obstacle[MesOptions.nb_obstacle];
 		initObstacle();
@@ -81,6 +101,9 @@ public class Model extends GameModel {
 		File Bgray = new File("images/blocgris.png");
 		File thunder = new File("images/eclair.png");
 		File stop = new File("images/stop.png");
+		File itemzbire = new File("images/eclair_guillaume.jpg");
+		File recharge = new File("images/recharge.png");
+
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
 			m_personnage = ImageIO.read(imageFile);
@@ -90,6 +113,8 @@ public class Model extends GameModel {
 			m_BlockGray = ImageIO.read(Bgray);
 			m_thunder = ImageIO.read(thunder);
 			m_stop = ImageIO.read(stop);
+			m_item = ImageIO.read(itemzbire);
+			m_recharge = ImageIO.read(recharge);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -148,26 +173,140 @@ public class Model extends GameModel {
 
 	@Override
 	public void step(long now) {
-		c1.canMove(plateau);
-		c1.step(now);
-		if (plateau[c1.getX()][c1.getY()].getE() instanceof no.physic.entity.Bonus)
-			c1.appliquerBonus(this.plateau, c);
 
-		c.canMove(plateau);
-		c.step(now);
-		if (plateau[c.getX()][c.getY()].getE() instanceof no.physic.entity.Bonus)
-			c.appliquerBonus(this.plateau, c1);
+		if (timer) {
+			c1.canMove(plateau);
+			c1.step(now);
 
-		update_plat();
+			c.canMove(plateau);
+			c.step(now);
 
-		elapsed = now - lastTick;
-		if (elapsed >= 1000L) {
-			popBonus();
-			depopBonus();
-			lastTick = now;
+			checkBonus();
+			checkItem();
+			checkPaint();
+			update_plat();
+
+			elapsed = now - lastTick;
+
+			if (elapsed >= 1000L) {
+				if (minute != 0 && secondes == 0) {
+					secondes = 60;
+					minute--;
+				}
+				if (minute == 0 && secondes == 0)
+					timer = false;
+				else {
+					secondes--;
+					System.out.println(minute + "min" + secondes + "s");
+				}
+
+				popItem();
+				PopPaint();
+				popBonus();
+				depopBonus();
+				lastTick = now;
+			}
 		}
 
-		afficheScore();
+	}
+
+	private void checkPaint() {
+		if (plateau[c1.getX()][c1.getY()].getE() instanceof Recharge) {
+			Recharge r = (Recharge) plateau[c1.getX()][c1.getY()].getE();
+			c1.recharger();
+			plateau[c1.getX()][c1.getY()].setE(null);
+			plateau[c1.getX()][c1.getY()].setRefresh(true);
+			listRecharge.remove(r);
+		}
+		if (plateau[c.getX()][c.getY()].getE() instanceof Recharge) {
+			Recharge r = (Recharge) plateau[c.getX()][c.getY()].getE();
+			c.recharger();
+			plateau[c.getX()][c.getY()].setE(null);
+			plateau[c.getX()][c.getY()].setRefresh(true);
+			listRecharge.remove(r);
+		}
+
+	}
+	
+	private void checkItem() {
+		if (plateau[c1.getX()][c1.getY()].getE() instanceof Item_Zbire) {
+			Item_Zbire item = (Item_Zbire) plateau[c1.getX()][c1.getY()].getE();
+			c1.appliquerItem();
+			plateau[c1.getX()][c1.getY()].setE(null);
+			plateau[c1.getX()][c1.getY()].setRefresh(true);
+			listItem.remove(item);
+		}
+		if (plateau[c.getX()][c.getY()].getE() instanceof Item_Zbire) {
+			Item_Zbire item = (Item_Zbire) plateau[c.getX()][c.getY()].getE();
+			c.appliquerItem();
+			plateau[c.getX()][c.getY()].setE(null);
+			plateau[c.getX()][c.getY()].setRefresh(true);
+			listItem.remove(item);
+		}
+
+	}
+
+	private void checkBonus() {
+		if (plateau[c1.getX()][c1.getY()].getE() instanceof no.physic.entity.Bonus) {
+			Bonus bonus = (Bonus) plateau[c1.getX()][c1.getY()].getE();
+			c1.appliquerBonus(bonus, c);
+			plateau[c1.getX()][c1.getY()].setE(null);
+			plateau[c1.getX()][c1.getY()].setRefresh(true);
+			listBonus.remove(bonus);
+		}
+		if (plateau[c.getX()][c.getY()].getE() instanceof no.physic.entity.Bonus) {
+			Bonus bonus = (Bonus) plateau[c.getX()][c.getY()].getE();
+			c.appliquerBonus(bonus, c1);
+			plateau[c.getX()][c.getY()].setE(null);
+			plateau[c.getX()][c.getY()].setRefresh(true);
+			listBonus.remove(bonus);
+		}
+
+	}
+
+	private void popItem() {
+		if (MesOptions.Nb_Max_Item >= listItem.size()) {
+			Random rand = new Random();
+			int i = rand.nextInt(MesOptions.popItem);
+			if (i < 1) {
+				boolean occuped = true;
+				int col, ligne;
+				while (occuped) {
+					col = rand.nextInt(MesOptions.nbCol);
+					ligne = rand.nextInt(MesOptions.nbLigne);
+					if (!plateau[col][ligne].isOccuped()) {
+						Item_Zbire item = new Item_Zbire(col, ligne,m_item);
+						plateau[col][ligne].setE(item);
+						plateau[col][ligne].setRefresh(true);
+						listItem.add(item);
+						occuped = false;
+					}
+				}
+			}
+		}
+	}
+	
+	private void PopPaint() {
+		if (MesOptions.Nb_Max_Paint >= listRecharge.size()) {
+			Random rand = new Random();
+			int i = rand.nextInt(MesOptions.PopPaint);
+			if (i < 1) {
+				boolean occuped = true;
+				int col, ligne;
+				while (occuped) {
+					col = rand.nextInt(MesOptions.nbCol);
+					ligne = rand.nextInt(MesOptions.nbLigne);
+					if (!plateau[col][ligne].isOccuped()) {
+						Recharge r = new Recharge(col, ligne, m_recharge);
+						plateau[col][ligne].setE(r);
+						plateau[col][ligne].setRefresh(true);
+						listRecharge.add(r);
+						occuped = false;
+					}
+				}
+			}
+		}
+		
 	}
 
 	private void depopBonus() {
@@ -179,6 +318,7 @@ public class Model extends GameModel {
 				b.step();
 				if (b.getDurationPop() <= 0) {
 					listBonus.remove(b);
+
 					plateau[b.getX()][b.getY()].setE(null);
 					plateau[b.getX()][b.getY()].setRefresh(true);
 
@@ -197,7 +337,7 @@ public class Model extends GameModel {
 				col = rand.nextInt(MesOptions.nbCol);
 				ligne = rand.nextInt(MesOptions.nbLigne);
 				if (!plateau[col][ligne].isOccuped()) {
-					int which = rand.nextInt(2);
+					int which = rand.nextInt(3);
 					Bonus bonus;
 					if (which == 0) {
 						bonus = new Freeze(col, ligne, m_stop);
@@ -259,6 +399,7 @@ public class Model extends GameModel {
 			if (c.getPaintStock() != 0) {
 				plateau[xc][yc].setCouleur((Color) c.getColor());
 				c.decreasePaintStock();
+//				GameUI.setProgresse1(c.getPaintStock());
 			}
 			plateau[xc][yc].setRefresh(true);
 

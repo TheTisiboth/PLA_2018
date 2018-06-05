@@ -18,6 +18,7 @@ public class Bonus extends No_Physic_Entity {
 	}
 
 	public void paint(Graphics g) {
+
 		if(this instanceof Speed ) {
 			Speed speed = (Speed) this;
 			speed.paint(g);

@@ -27,9 +27,13 @@ public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
 	private Obstacle o[];
+	int minute;
+	int secondes;
 
 	long elapsed;
 	long lastTick;
+
+	boolean timer;
 
 	LinkedList<Bonus> listBonus;
 	LinkedList<Item_Zbire> listItem;
@@ -56,8 +60,12 @@ public class Model extends GameModel {
 
 		score1 = 0;
 		score2 = 0;
+		minute = MesOptions.min;
+		secondes = 0;
+		timer = true;
 
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
+
 		initPlat(plateau);
 
 		c = new Joueur(m_personnage, 4, 6, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.9F, Color.RED);
@@ -87,7 +95,7 @@ public class Model extends GameModel {
 		File Bgray = new File("images/blocgris.png");
 		File thunder = new File("images/eclair.png");
 		File stop = new File("images/stop.png");
-		File itemzbire= new File("images/eclair_guillaume.jpg");
+		File itemzbire = new File("images/eclair_guillaume.jpg");
 
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
@@ -157,24 +165,38 @@ public class Model extends GameModel {
 
 	@Override
 	public void step(long now) {
-		c1.canMove(plateau);
-		c1.step(now);
-		c.canMove(plateau);
-		c.step(now);
-		
-		checkBonus();
-		checkItem();
-		update_plat();
 
-		elapsed = now - lastTick;
-		if (elapsed >= 1000L) {
-			popBonus();
-			depopBonus();
-			popItem();
-			lastTick = now;
+		if (timer) {
+			c1.canMove(plateau);
+			c1.step(now);
+
+			c.canMove(plateau);
+			c.step(now);
+
+			checkBonus();
+			checkItem();
+			update_plat();
+
+			elapsed = now - lastTick;
+
+			if (elapsed >= 1000L) {
+				if (minute != 0 && secondes == 0) {
+					secondes = 60;
+					minute--;
+				}
+				if (minute == 0 && secondes == 0)
+					timer = false;
+				else {
+					secondes--;
+					System.out.println(minute + "min" + secondes + "s");
+				}
+
+				popBonus();
+				depopBonus();
+				lastTick = now;
+			}
 		}
 
-		// afficheScore();
 	}
 
 	private void checkItem() {
@@ -192,7 +214,7 @@ public class Model extends GameModel {
 			plateau[c.getX()][c.getY()].setRefresh(true);
 			listItem.remove(item);
 		}
-		
+
 	}
 
 	private void checkBonus() {
@@ -210,7 +232,7 @@ public class Model extends GameModel {
 			plateau[c.getX()][c.getY()].setRefresh(true);
 			listBonus.remove(bonus);
 		}
-		
+
 	}
 
 	private void popItem() {
@@ -246,6 +268,7 @@ public class Model extends GameModel {
 				b.step();
 				if (b.getDurationPop() <= 0) {
 					listBonus.remove(b);
+
 					plateau[b.getX()][b.getY()].setE(null);
 					plateau[b.getX()][b.getY()].setRefresh(true);
 

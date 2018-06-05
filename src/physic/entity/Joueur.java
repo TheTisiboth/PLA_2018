@@ -25,7 +25,7 @@ public class Joueur extends Physic_Entity {
 	private Color couleur;
 	private int speed;
 	private int timeEffect;
-	private int paint_stock;
+	private int paintStock;
 	private Zbire z[];
 	int m_w, m_h;
 	int m_idx;
@@ -39,6 +39,7 @@ public class Joueur extends Physic_Entity {
 
 	private long m_lastMove;
 	private int step = 1;
+	private int recharge = 10;
 
 	char direction;
 	boolean inMovement;
@@ -67,6 +68,7 @@ public class Joueur extends Physic_Entity {
 		speed = 1;
 		this.couleur = couleur;
 		splitSprite();
+		paintStock = MesOptions.paintMax;
 		z = new Zbire[5];
 	}
 
@@ -146,6 +148,13 @@ public class Joueur extends Physic_Entity {
 			}
 		}
 	}
+	
+	public void recharger() {
+		paintStock += recharge;
+		if(paintStock>MesOptions.paintMax) {
+			paintStock -= MesOptions.paintMax - paintStock;
+		}
+	}
 
 	public void appliquerItem() {
 
@@ -185,6 +194,7 @@ public class Joueur extends Physic_Entity {
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;
+		
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -283,6 +293,14 @@ public class Joueur extends Physic_Entity {
 
 	public void decreaseTimeEffect() {
 		timeEffect--;
+	}
+
+	public int getPaintStock() {
+		return paintStock;
+	}
+
+	public void decreasePaintStock() {
+		paintStock--;
 	}
 
 }

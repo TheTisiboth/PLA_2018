@@ -35,6 +35,8 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import mvc.MesOptions;
+
 public class GameUI {
 
   static String license = "Copyright (C) 2017  Pr. Olivier Gruber " + "This program comes with ABSOLUTELY NO WARRANTY. "
@@ -77,6 +79,8 @@ public class GameUI {
   long m_lastRepaint;
   long m_lastTick;
   int m_nTicks;
+  JProgressBar barJ1;
+  JProgressBar barJ2;
 
   public GameUI(GameModel m, GameView v, GameController c, Dimension d) {
     m_model = m; m_model.m_game = this;
@@ -177,20 +181,20 @@ public class GameUI {
     
     Dimension dimBar = new Dimension(m_frame.getWidth()/2, 40);
     
-    JProgressBar barJ1 = new JProgressBar();
+    barJ1 = new JProgressBar();
     barJ1.setMinimumSize(dimBar);
     barJ1.setMaximumSize(dimBar);
     barJ1.setPreferredSize(dimBar);
-    barJ1.setValue(50);
+    barJ1.setValue(100);
     barJ1.setForeground(Color.BLUE);
     barJ1.setBorderPainted(false);
     barJ1.setOpaque(false);
     
-    JProgressBar barJ2 = new JProgressBar();
+    barJ2 = new JProgressBar();
     barJ2.setMinimumSize(dimBar);
     barJ2.setMaximumSize(dimBar);
     barJ2.setPreferredSize(dimBar);
-    barJ2.setValue(50);
+    barJ2.setValue(100);
     barJ2.setForeground(Color.RED);
     barJ2.setBorderPainted(false);
     barJ2.setOpaque(false);
@@ -353,6 +357,13 @@ public class GameUI {
   public void setFPS(int fps, String msg) {
     m_fps = fps;
     m_msg = msg;
+  }
+  
+  public void setProgresse1(int J1) {
+	  barJ1.setValue(J1/MesOptions.paintMax);
+  }
+  public void setProgresse2(int J2) {
+	  barJ2.setValue(J2/MesOptions.paintMax);
   }
 
 }

@@ -31,13 +31,11 @@ Les obstacles peuvent être détruit par un hit de joueur ou par l'explosion d'u
 ### Comportement :
 * **HIT** : Permet de taper. Lorsqu'il tape un obstacle, il le détruit et si il tape un sbire, il lui enlève 3 cases de déplacement.
 
-* **WIZZ** : Peind la case sur laquelle le sbire passe
+* **WIZZ** : Pose un mur
 
-* **POP** : Téléporte aléatoirement dans un rayon de trois cases.
+* **POP** : Peind la case sur laquelle on passe
 
-* **Eploser** : Explose, en répandant de la peinture sur les cases alentour
+* **Pick** : Efface la peinture
 
-* **Effacer** : Efface la peinture des cases sur lesquelle le sbire passe
 
-* **Obstacle** : Pose un obstacle
 

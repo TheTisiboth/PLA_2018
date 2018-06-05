@@ -6,9 +6,15 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.security.cert.PKIXRevocationChecker.Option;
+import java.util.Random;
+
+import javax.print.attribute.PrintJobAttributeSet;
 
 import mvc.Case;
 import mvc.MesOptions;
+import no.physic.entity.Bonus;
+import no.physic.entity.Freeze;
+import no.physic.entity.Speed;
 
 //import mvc.Model;
 
@@ -61,6 +67,7 @@ public class Joueur extends Physic_Entity {
 		speed = 1;
 		this.couleur = couleur;
 		splitSprite();
+		z = new Zbire[5];
 	}
 
 	void splitSprite() {
@@ -128,11 +135,11 @@ public class Joueur extends Physic_Entity {
 
 	}
 
-	public void appliquerBonus(Case[][] c, Joueur adverse) {
-		if (c[x][y].getE() instanceof no.physic.entity.Speed) {
+	public void appliquerBonus(Bonus b, Joueur adverse) {
+		if (b instanceof Speed) {
 			speed = 2;
 			timeEffect = 10;
-		} else if (c[x][y].getE() instanceof no.physic.entity.Freeze) {
+		} else if (b instanceof Freeze) {
 			if (adverse != null) {
 				adverse.speed = 0;
 				adverse.timeEffect = 20;
@@ -140,9 +147,44 @@ public class Joueur extends Physic_Entity {
 		}
 	}
 
+	public void appliquerItem() {
+
+		Random rand = new Random();
+		int i = rand.nextInt(100);
+		Zbire zbire = null;
+
+		if (i >= 0 && i < 25) {
+			if (z[1] == null) {
+				zbire = new Zbire(-1, -1, this.couleur, 10, 1);
+				z[1] = zbire;
+			}
+
+		} else if (i >= 25 && i < 50) {
+			if (z[2] == null) {
+				zbire = new Zbire(-1, -1, this.couleur, 10, 2);
+				z[2] = zbire;
+			}
+
+		} else if (i >= 50 && i < 75) {
+			if (z[3] == null) {
+				zbire = new Zbire(-1, -1, this.couleur, 10, 3);
+				z[3] = zbire;
+			}
+
+		} else {
+			if (z[4] == null) {
+				zbire = new Zbire(-1, -1, this.couleur, 10, 4);
+				z[4] = zbire;
+			}
+
+		}
+
+	}
+
 	public void step(long now) {
 		long elapsed = now - m_lastMove;
-
+		last_x = x;
+		last_y = y;
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -158,8 +200,7 @@ public class Joueur extends Physic_Entity {
 		}
 
 		if (inMovement && elapsed > time && moveable) {
-			last_x = x;
-			last_y = y;
+
 			if (direction == 'R' && x < MesOptions.nbCol - 1) {
 				x += step;
 			} else if (direction == 'L' && x > 0) {
@@ -239,4 +280,5 @@ public class Joueur extends Physic_Entity {
 	public void decreaseTimeEffect() {
 		timeEffect--;
 	}
+
 }

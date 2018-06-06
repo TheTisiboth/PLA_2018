@@ -1,5 +1,26 @@
 # Carnet de bord
 
+## 6/06/18
+
+### 1ère Presentation
+
+Notre jeu a été accepté sans trop de modification. Nous avons 3 extensions en plus :
+* Faire un jeu jouable sur 2 supports (claviers, controller, ordinateurs)
+* Faire une IA contre qui on pourrait jouer
+* Faire des statistiques sur la partie
+
+# TODO
+
+* Affichage du score, temps, bonus
+* Faire une personalisation des sprites jouable
+* Portail de teleportation : **Marceau**
+* Hit : **Elisa/Loïc**
+* Statistiques : **Guillaume**
+* Correction de l'affichage de base : **Jade**
+* Invocation des sbires : Léo
+
+___
+
 ## 5/06/18
 
 ### Avancement interface graphique

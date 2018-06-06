@@ -96,12 +96,11 @@ public class Model extends GameModel {
 		initPortal();
 	}
 
-
 	private void loadSprites() {
 
 		// credit : https://erikari.itch.io/elements-supremacy-assets
 		File imageFile = new File("images/character.png");
-		
+
 		File BriqueFile = new File("images/brique.png");
 		File SplashBlue = new File("images/splashblue.png");
 		File SplashRed = new File("images/splashred.png");
@@ -146,7 +145,7 @@ public class Model extends GameModel {
 		plateau[x][y].setOccuped(true);
 		plateau[x][y].setRefresh(true);
 	}
-	
+
 	private void initObstacle() {
 		boolean diff = true;
 		int[] tab_x = new int[MesOptions.nb_obstacle];
@@ -204,6 +203,8 @@ public class Model extends GameModel {
 
 			c.canMove(plateau);
 			c.step(now);
+//			System.out.println("couleur de derniere case: "+(plateau[c.getLastX()][c.getLastY()].getCouleur() == c.getColor()));
+//			System.out.println("couleur case 2/2: "+(plateau[2][2].getCouleur() == c.getColor()));
 
 			checkBonus();
 			checkItem();
@@ -234,7 +235,6 @@ public class Model extends GameModel {
 		}
 
 	}
-	
 
 	private void checkTP() {
 		if (plateau[c1.getX()][c1.getY()].getE() instanceof Portal) {
@@ -243,9 +243,8 @@ public class Model extends GameModel {
 		if (plateau[c.getX()][c.getY()].getE() instanceof Portal) {
 			tP(c);
 		}
-		
-	}
 
+	}
 
 	private void tP(Joueur j) {
 		int x, y;
@@ -259,7 +258,6 @@ public class Model extends GameModel {
 		plateau[x][y].setOccuped(true);
 		plateau[x][y].setRefresh(true);
 	}
-
 
 	private void checkPaint() {
 		c1.recharger(false);
@@ -431,54 +429,56 @@ public class Model extends GameModel {
 		int last_yc1 = c1.getLastY();
 		int x1 = c1.getX();
 		int y1 = c1.getY();
-
-		if (last_xc != xc || last_yc != yc) {
+		boolean cond = plateau[xc][yc].getCouleur() != c.getColor()
+				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);// && plateau[xc][yc].getCouleur() == c.getColor());
+//		System.out.println("condition : "+cond);
+		if ((last_xc != xc || last_yc != yc) && c.getPaintStock() != 0 && cond) {
 			plateau[last_xc][last_yc].setE(null);
-			if (c.getPaintStock() != 0)
-				plateau[last_xc][last_yc].setM_couleur(m_Blue);
+			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
 
-			if (c.getPaintStock() != 0) {
-				if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
-					score1++;
-					refresh_score = true;
-				} else if (plateau[xc][yc].getM_couleur() == m_Red) {
-					score1++;
-					score2--;
-					refresh_score = true;
-				}
+			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
+				score1++;
+				refresh_score = true;
+			} else if (plateau[xc][yc].getM_couleur() == m_Red) {
+				score1++;
+				score2--;
+				refresh_score = true;
 			}
 			plateau[xc][yc].setE(c);
-			if (c.getPaintStock() != 0) {
-				plateau[xc][yc].setCouleur((Color) c.getColor());
-				c.decreasePaintStock();
-				// GameUI.setProgresse1(c.getPaintStock());
-			}
+			plateau[xc][yc].setCouleur((Color) c.getColor());
+			c.decreasePaintStock();
 			plateau[xc][yc].setRefresh(true);
-
+		} else {
+			plateau[last_xc][last_yc].setE(null);
+			plateau[last_xc][last_yc].setRefresh(true);
+			plateau[xc][yc].setE(c);
+			plateau[xc][yc].setRefresh(true);
 		}
-		if (last_xc1 != x1 || last_yc1 != y1) {
+
+		if ((last_xc1 != x1 || last_yc1 != y1) && c1.getPaintStock() != 0
+				&& plateau[x1][y1].getCouleur() != c1.getColor()) {
 			plateau[last_xc1][last_yc1].setE(null);
-			if (c1.getPaintStock() != 0)
-				plateau[last_xc1][last_yc1].setM_couleur(m_Red);
+			plateau[last_xc1][last_yc1].setM_couleur(m_Red);
 			plateau[last_xc1][last_yc1].setRefresh(true);
 
-			if (c.getPaintStock() != 0) {
-				if (plateau[x1][y1].getM_couleur() == m_BlockBlue || plateau[x1][y1].getM_couleur() == m_BlockGray) {
-					score2++;
-					refresh_score = true;
-				} else if (plateau[x1][y1].getM_couleur() == m_Blue) {
-					score2++;
-					score1--;
-					refresh_score = true;
-				}
+			if (plateau[x1][y1].getM_couleur() == m_BlockBlue || plateau[x1][y1].getM_couleur() == m_BlockGray) {
+				score2++;
+				refresh_score = true;
+			} else if (plateau[x1][y1].getM_couleur() == m_Blue) {
+				score2++;
+				score1--;
+				refresh_score = true;
 			}
 
 			plateau[x1][y1].setE(c1);
-			if (c1.getPaintStock() != 0) {
-				plateau[x1][y1].setCouleur((Color) c.getColor());
-				c1.decreasePaintStock();
-			}
+			plateau[x1][y1].setCouleur((Color) c1.getColor());
+			c1.decreasePaintStock();
+			plateau[x1][y1].setRefresh(true);
+		} else {
+			plateau[last_xc1][last_yc1].setE(null);
+			plateau[last_xc1][last_yc1].setRefresh(true);
+			plateau[x1][y1].setE(c1);
 			plateau[x1][y1].setRefresh(true);
 		}
 

@@ -34,7 +34,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 		this.setSize(d);
 
 		// Création du Label contenant l'image de fond, la view et tout les composants
-		JLabel img = new JLabel(new ImageIcon("images/rules.png"));
+		JLabel img = new JLabel(new ImageIcon("images/regles.png"));
 		img.setLayout(null);
 
 		rules = new JButton();

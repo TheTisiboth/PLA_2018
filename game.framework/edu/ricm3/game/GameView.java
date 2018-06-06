@@ -103,8 +103,11 @@ public abstract class GameView extends Canvas {
   }
 
   public void setBounds(int x, int y, int width, int height) {
+	super.setBounds(x, y, width, height);
     initDoubleBuffering(width, height);
-    super.setBounds(x, y, width, height);
+    m_buffer1.flush();
+    m_buffer2.flush();
+    
   }
 
   public GameModel getModel() {
@@ -124,6 +127,7 @@ public abstract class GameView extends Canvas {
 
   @Override
   public final void paint(Graphics g) {
+	  super.paint(g);
     if (m_swap) {
       swap();
       m_swap = false;

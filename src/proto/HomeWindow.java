@@ -124,9 +124,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// On ajoute le tout dans la fenetre
 		this.add(img);
 
-		m_text = new JLabel();
-		m_text.setText("Starting up...");
-		// m_frame.add(m_text, BorderLayout.NORTH);
+		
 
 		this.setSize(d);
 		this.doLayout();

@@ -17,114 +17,219 @@ public class GameWindow extends JFrame {
 	JLabel m_text;
 	GameModel m_model;
 	GameController m_controller;
+	String j1, j2;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
 
 		m_model = mod;
 		m_view = view;
 		m_controller = ctrl;
+		this.j1 = j1;
+		this.j2 = j2;
 
-		this.setTitle("Sample Game");
-		this.setLayout(new BorderLayout());
+		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
+		this.setLayout(new BorderLayout());
 
 		// Création du Label contenant l'image de fond, la view et tout les composants
 		JLabel img = new JLabel(new ImageIcon("images/game.png"));
+		img.setSize(d);
 		img.setLayout(null);
-
-		// On met la view au Centre
 		m_view.setBounds(120, 120, 960, 480);
+
+		img.add(createNorthPanel(), BorderLayout.NORTH);
 		img.add(m_view);
+		img.add(createEastPanel(), BorderLayout.EAST);
+		img.add(createWestPanel(), BorderLayout.WEST);
 
-		JPanel Main = new JPanel(); //Panel qui contient tout situé au nord
-		Main.setLayout(new GridLayout(1,3));
+		// On ajoute le tout dans la fenetre
+		this.add(img);
 
-		JPanel Left = new JPanel();
-		Left.setLayout(new BorderLayout());
-		
-		JLabel txt = new JLabel();
-		txt.setText(j1);
-		txt.setForeground(Color.WHITE);
-		txt.setFont(new Font("Helvetica", Font.BOLD, 20));
-		txt.setOpaque(false);
-		Left.add(txt, BorderLayout.WEST);
-		
-		JLabel txt2 = new JLabel("Pourcentage");
-		txt2.setOpaque(false);
-		Left.add(txt2, BorderLayout.EAST);
-		
-		JPanel LeftCenter = new JPanel();
-		LeftCenter.setLayout(null);
-	
-		JLabel txt3 = new JLabel(new ImageIcon("images/eclair_gauche.png"));
+		this.doLayout();
+		this.setResizable(false);
+		this.setVisible(true);
 
-		txt3.setOpaque(false);
-		txt3.setBounds(110,0,100,80);
-		LeftCenter.add(txt3);
-		
-		JLabel txt4 = new JLabel(new ImageIcon("images/stop_gauche.png"));
-		txt4.setOpaque(false);
-		txt4.setBounds(180,100,200,80);
-		LeftCenter.add(txt4);
-		
-		LeftCenter.setOpaque(false);
-		Left.add(LeftCenter, BorderLayout.CENTER);
-		
+		// hook window events so that we exit the Java Platform
+		// when the window is closed by the end user.
+		this.addWindowListener(new WindowListener(m_model));
 
-		Left.setOpaque(false);
-		Main.add(Left);
-		
-		//
-		
-		JLabel Center = new JLabel("TIME");
-		Center.setOpaque(false);
-		Main.add(Center);
-		
-		
-		//
-		
-		JPanel Right = new JPanel();
-		Right.setLayout(new BorderLayout());
-		
-		JLabel txt5 = new JLabel("Pourcentage");
-		txt5.setOpaque(false);
-		Right.add(txt5, BorderLayout.WEST);
-		
-	
-		JLabel txt6 = new JLabel();
-		txt6.setText(j2);
-		txt6.setForeground(Color.WHITE);
-		txt6.setFont(new Font("Helvetica", Font.BOLD, 20));
-		txt6.setOpaque(false);
-		Right.add(txt6, BorderLayout.EAST);
-		
-		JPanel RightCenter = new JPanel();
-		RightCenter.setLayout(null);
-		
-		JLabel txt7 = new JLabel(new ImageIcon("images/stop_droite.png"));
-		txt7.setBounds(-50,0,100,80);
-		txt7.setOpaque(false);
-		RightCenter.add(txt7);
-		
-		JLabel txt8 = new JLabel(new ImageIcon("images/eclair_droite.png"));
-		txt8.setOpaque(false);
-		txt8.setBounds(10,0,100,80);
-		RightCenter.add(txt8);
-		
-		RightCenter.setOpaque(false);
-		Right.add(RightCenter, BorderLayout.CENTER);
-		
-		Right.setOpaque(false);
-		Main.add(Right);
+		this.pack();
+		this.setLocationRelativeTo(null);
 
-		Main.setBounds(0,0,1200,120);	
-		Main.setOpaque(false);
-		img.add(Main);
-		
-		// Creation de Panel à l'Est
-		JPanel panEast = new JPanel();
-		panEast.setLayout(new GridLayout(4, 1));
-		
+	}
+
+	// ----------------------NORTH PANEL------------------------------//
+
+	// CENTER NORTH
+	private JPanel createCenterNorthPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		panel.setPreferredSize(new Dimension(200, 80));
+		panel.setOpaque(false);
+		panel.setLocation(0, 0);
+
+		JLabel time = new JLabel("<html>3:00</html>");
+		time.setForeground(Color.WHITE);
+		time.setFont(new Font("Helvetica", Font.BOLD, 40));
+
+		panel.add(time);
+
+		Dimension size = time.getPreferredSize();
+		time.setBounds(10, 0, size.width, size.height);
+
+		return panel;
+	}
+
+	// EAST NORTH
+	private JPanel createEastNorthPanel() {
+
+		// MAIN PANEL
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(0, 0, 500, 80);
+		panel.setOpaque(false);
+
+		// NOM DU JOUEUR 2 PANEL
+		JPanel txtPanel = new JPanel();
+		txtPanel.setBounds(320, 0, 160, 80);
+		txtPanel.setOpaque(false);
+
+		// NOM DU JOUEUR 1
+		JLabel nom_j1 = new JLabel();
+		nom_j1.setText(j2);
+		nom_j1.setForeground(Color.WHITE);
+		nom_j1.setFont(new Font("Helvetica", Font.BOLD, 20));
+		nom_j1.setOpaque(false);
+		txtPanel.add(nom_j1);
+		panel.add(txtPanel);
+
+		// ECLAIR PANEL
+		JPanel eclairPanel = new JPanel();
+		eclairPanel.setBounds(225, 0, 54, 80);
+		eclairPanel.setOpaque(false);
+
+		// ECLAIR
+		JLabel img_eclair = new JLabel(new ImageIcon("images/eclair_droite.png"));
+		img_eclair.setOpaque(false);
+		eclairPanel.add(img_eclair);
+		panel.add(eclairPanel);
+
+		// STOP PANEL
+		JPanel stopPanel = new JPanel();
+		stopPanel.setBounds(150, 0, 75, 80);
+		stopPanel.setOpaque(false);
+
+		// STOP
+		JLabel img_stop = new JLabel(new ImageIcon("images/stop_droite.png"));
+		img_stop.setOpaque(false);
+		stopPanel.add(img_stop);
+		panel.add(stopPanel);
+
+		// POURCENTAGE PANEL
+		JPanel pourcentagePanel = new JPanel();
+		pourcentagePanel.setOpaque(false);
+		pourcentagePanel.setBounds(20, 0, 100, 80);
+
+		// POURCENTAGE
+		JLabel pourcentage = new JLabel("15");
+		pourcentage.setOpaque(false);
+		pourcentage.setForeground(Color.WHITE);
+		pourcentage.setFont(new Font("Helvetica", Font.BOLD, 40));
+		pourcentagePanel.add(pourcentage);
+		panel.add(pourcentagePanel);
+
+		return panel;
+	}
+
+	// WEST NORTH OK
+	private JPanel createWestNorthPanel() {
+
+		// MAIN PANEL
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(0, 0, 500, 80);
+		panel.setOpaque(false);
+
+		// NOM DU JOUEUR 1 PANEL
+		JPanel txtPanel = new JPanel();
+		txtPanel.setBounds(0, 0, 160, 80);
+		txtPanel.setOpaque(false);
+
+		// NOM DU JOUEUR 1
+		JLabel nom_j1 = new JLabel();
+		nom_j1.setText(j1);
+		nom_j1.setForeground(Color.WHITE);
+		nom_j1.setFont(new Font("Helvetica", Font.BOLD, 20));
+		nom_j1.setOpaque(false);
+		txtPanel.add(nom_j1);
+		panel.add(txtPanel);
+
+		// ECLAIR PANEL
+		JPanel eclairPanel = new JPanel();
+		eclairPanel.setBounds(220, 0, 54, 80);
+		eclairPanel.setOpaque(false);
+
+		// ECLAIR
+		JLabel img_eclair = new JLabel(new ImageIcon("images/eclair_gauche.png"));
+		img_eclair.setOpaque(false);
+		eclairPanel.add(img_eclair);
+		panel.add(eclairPanel);
+
+		// STOP PANEL
+		JPanel stopPanel = new JPanel();
+		stopPanel.setBounds(275, 0, 75, 80);
+		stopPanel.setOpaque(false);
+
+		// STOP
+		JLabel img_stop = new JLabel(new ImageIcon("images/stop_gauche.png"));
+		img_stop.setOpaque(false);
+		stopPanel.add(img_stop);
+		panel.add(stopPanel);
+
+		// POURCENTAGE PANEL
+		JPanel pourcentagePanel = new JPanel();
+		pourcentagePanel.setOpaque(false);
+		pourcentagePanel.setBounds(380, 0, 100, 80);
+
+		// POURCENTAGE
+		JLabel pourcentage = new JLabel("15");
+		pourcentage.setOpaque(false);
+		pourcentage.setForeground(Color.WHITE);
+		pourcentage.setFont(new Font("Helvetica", Font.BOLD, 40));
+		pourcentagePanel.add(pourcentage);
+		panel.add(pourcentagePanel);
+
+		return panel;
+	}
+
+	// NORTH OK
+	private JPanel createNorthPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBounds(0, 0, 1200, 100);
+
+		JPanel WestNorth = createWestNorthPanel();
+		WestNorth.setBounds(0, 0, 500, 80);
+		JPanel CenterNorth = createCenterNorthPanel();
+		CenterNorth.setBounds(500, 0, 200, 80);
+		JPanel EastNorth = createEastNorthPanel();
+		EastNorth.setBounds(700, 0, 500, 80);
+
+		panel.add(WestNorth, BorderLayout.WEST);
+		panel.add(CenterNorth, BorderLayout.CENTER);
+		panel.add(EastNorth, BorderLayout.EAST);
+
+		panel.setOpaque(false);
+
+		return panel;
+	}
+
+	// OK
+	// ----------------------EAST PANEL------------------------------//
+	private JPanel createEastPanel() {
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(4, 1));
 
 		JButton bE1 = new JButton("EAST 1");
 		bE1.setBorderPainted(false);
@@ -146,17 +251,26 @@ public class GameWindow extends JFrame {
 		bE4.setContentAreaFilled(false);
 		bE4.setFocusPainted(false);
 
-		panEast.add(bE1);
-		panEast.add(bE2);
-		panEast.add(bE3);
-		panEast.add(bE4);
-		panEast.setOpaque(false);
-		panEast.setBounds(0, 120, 120, 480);
-		img.add(panEast);
+		panel.add(bE1);
+		panel.add(bE2);
+		panel.add(bE3);
+		panel.add(bE4);
+		panel.setOpaque(false);
+		panel.setBounds(0, 120, 120, 480);
+
+		return panel;
+
+	}
+
+	// OK
+
+	// ----------------------WEST PANEL------------------------------//
+
+	private JPanel createWestPanel() {
 
 		// Creation de Panel à l'Ouest
-		JPanel panWest = new JPanel();
-		panWest.setLayout(new GridLayout(4, 1));
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(4, 1));
 
 		JButton bW1 = new JButton("WEST 1");
 		bW1.setBorderPainted(false);
@@ -178,32 +292,14 @@ public class GameWindow extends JFrame {
 		bW4.setContentAreaFilled(false);
 		bW4.setFocusPainted(false);
 
-		panWest.add(bW1);
-		panWest.add(bW2);
-		panWest.add(bW3);
-		panWest.add(bW4);
-		panWest.setOpaque(false);
-		panWest.setBounds(1080, 120, 120, 480);
-		img.add(panWest);
+		panel.add(bW1);
+		panel.add(bW2);
+		panel.add(bW3);
+		panel.add(bW4);
+		panel.setOpaque(false);
+		panel.setBounds(1080, 120, 120, 480);
 
-		// On ajoute le tout dans la fenetre
-		this.add(img);
-
-		m_text = new JLabel();
-		m_text.setText("Starting up...");
-		// m_frame.add(m_text, BorderLayout.NORTH);
-
-		this.doLayout();
-		this.setResizable(false);
-		this.setVisible(true);
-
-		// hook window events so that we exit the Java Platform
-		// when the window is closed by the end user.
-		this.addWindowListener(new WindowListener(m_model));
-
-		this.pack();
-		this.setLocationRelativeTo(null);
-
+		return panel;
 	}
 
 }

@@ -33,7 +33,7 @@ public class Controller extends GameController {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// Joueur 1
+		// Joueur 2
 		if (e.getKeyCode() == 39) {
 			m_model.getJ1().setDirection('R');
 		} else if (e.getKeyCode() == 38) {
@@ -42,9 +42,11 @@ public class Controller extends GameController {
 			m_model.getJ1().setDirection('L');
 		} else if (e.getKeyCode() == 40) {
 			m_model.getJ1().setDirection('D');
+		}else if (e.getKeyCode() == 16) {
+			m_model.hit(m_model.getJ1());
 		}
 
-		// Joueur 2
+		// Joueur 1
 
 		if (e.getKeyCode() == 68) {
 			m_model.getJ2().setDirection('R');
@@ -54,6 +56,8 @@ public class Controller extends GameController {
 			m_model.getJ2().setDirection('L');
 		} else if (e.getKeyCode() == 83) {
 			m_model.getJ2().setDirection('D');
+		}else if (e.getKeyCode() == 32) {
+			m_model.hit(m_model.getJ2());
 		}
 
 	}

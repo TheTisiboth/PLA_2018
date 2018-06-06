@@ -25,6 +25,8 @@ import no.physic.entity.Recharge;
 import no.physic.entity.Speed;
 import physic.entity.Joueur;
 import physic.entity.Obstacle;
+import physic.entity.Physic_Entity;
+import physic.entity.Zbire;
 
 public class Model extends GameModel {
 	private Joueur c;
@@ -74,14 +76,14 @@ public class Model extends GameModel {
 		initPlat(plateau);
 
 		c = new Joueur(m_personnage, 4, 6, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.9F, Color.RED);
-		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setE(c);
-		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setCouleur((Color) c.getColor());
-		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setRefresh(true);
+		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(c);
+		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) c.getColor());
+		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
 		c1 = new Joueur(m_personnage, 4, 6, 0, 0, 0.9F, Color.BLUE);
-		plateau[0][0].setE(c1);
-		plateau[0][0].setCouleur((Color) c1.getColor());
-		plateau[0][0].setRefresh(true);
+		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(c1);
+		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) c1.getColor());
+		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);
 
 		listBonus = new LinkedList<Bonus>();
 		listItem = new LinkedList<Item_Zbire>();
@@ -227,7 +229,7 @@ public class Model extends GameModel {
 		}
 
 	}
-	
+
 	private void checkItem() {
 		if (plateau[c1.getX()][c1.getY()].getE() instanceof Item_Zbire) {
 			Item_Zbire item = (Item_Zbire) plateau[c1.getX()][c1.getY()].getE();
@@ -275,7 +277,7 @@ public class Model extends GameModel {
 					col = rand.nextInt(MesOptions.nbCol);
 					ligne = rand.nextInt(MesOptions.nbLigne);
 					if (!plateau[col][ligne].isOccuped()) {
-						Item_Zbire item = new Item_Zbire(col, ligne,m_item);
+						Item_Zbire item = new Item_Zbire(col, ligne, m_item);
 						plateau[col][ligne].setE(item);
 						plateau[col][ligne].setRefresh(true);
 						listItem.add(item);
@@ -285,7 +287,7 @@ public class Model extends GameModel {
 			}
 		}
 	}
-	
+
 	private void PopPaint() {
 		if (MesOptions.Nb_Max_Paint >= listRecharge.size()) {
 			Random rand = new Random();
@@ -306,7 +308,7 @@ public class Model extends GameModel {
 				}
 			}
 		}
-		
+
 	}
 
 	private void depopBonus() {
@@ -373,12 +375,23 @@ public class Model extends GameModel {
 		int last_yc = c.getLastY();
 		int xc = c.getX();
 		int yc = c.getY();
+		char dirc = c.getDirection();
+		char last_dirc = c.getLast_direction();
 
 		int last_xc1 = c1.getLastX();
 		int last_yc1 = c1.getLastY();
 		int x1 = c1.getX();
 		int y1 = c1.getY();
+		char dirc1 = c1.getDirection();
+		char last_dirc1 = c1.getLast_direction();
+		
+		if(dirc != last_dirc)
+			plateau[xc][yc].setRefresh(true);
 
+		if(dirc1 != last_dirc1)
+			plateau[x1][y1].setRefresh(true);
+		
+		
 		if (last_xc != xc || last_yc != yc) {
 			plateau[last_xc][last_yc].setE(null);
 			if (c.getPaintStock() != 0)
@@ -399,7 +412,7 @@ public class Model extends GameModel {
 			if (c.getPaintStock() != 0) {
 				plateau[xc][yc].setCouleur((Color) c.getColor());
 				c.decreasePaintStock();
-//				GameUI.setProgresse1(c.getPaintStock());
+				// GameUI.setProgresse1(c.getPaintStock());
 			}
 			plateau[xc][yc].setRefresh(true);
 
@@ -451,5 +464,63 @@ public class Model extends GameModel {
 
 	public Case[][] getPlateau() {
 		return plateau;
+	}
+
+	public void hit(Joueur j) {
+		char dir = j.getDirection();
+		Case c;
+		Entity e;
+		switch (dir) {
+		case 'R':
+			c = getC(j.x + 1, j.y);
+			break;
+		case 'L':
+			c = getC(j.x - 1, j.y);
+			break;
+		case 'U':
+			c = getC(j.x, j.y - 1);
+			break;
+		case 'D':
+			c = getC(j.x, j.y + 1);
+			break;
+		default:
+			c = null;
+		}
+		if (c != null) {
+			c.setRefresh(true);
+			e = c.getE();
+			if (e != null) {
+				if (e instanceof Physic_Entity) {
+					Physic_Entity p_e = (Physic_Entity) e;
+					j.hit(p_e);
+				}
+			}
+			check_case(c);
+		}
+	}
+
+	public Case getC(int x, int y) {
+		if (x >= 0 && x < MesOptions.nbCol && y >= 0 && y < MesOptions.nbLigne) {
+			if ((x != 0 || y != 0) && (x != MesOptions.nbCol-1 || y != MesOptions.nbLigne-1))
+				return plateau[x][y];
+		}
+		return null;
+	}
+
+	public void check_case(Case c) {
+		Entity e = c.getE();
+		if (e instanceof Obstacle) {
+			Obstacle o = (Obstacle) e;
+			if (!(o.life()))
+				c.setE(null);
+		} else if (e instanceof Joueur) {
+			Joueur j = (Joueur) e;
+			c.setE(null);
+
+		} else if (e instanceof Zbire) {
+			Zbire z = (Zbire) e;
+			if (!(z.life()))
+				c.setE(null);
+		}
 	}
 }

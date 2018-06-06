@@ -17,7 +17,7 @@ Notre jeu a été accepté sans trop de modification. Nous avons 3 extensions en
 * Hit : **Elisa/Loïc**
 * Statistiques : **Guillaume**
 * Correction de l'affichage de base : **Jade**
-* Invocation des sbires : Léo
+* Invocation des sbires : **Léo**
 
 ___
 

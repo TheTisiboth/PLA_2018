@@ -27,12 +27,13 @@ public class Joueur extends Physic_Entity {
 	private int timeEffect;
 	private int paintStock;
 	private Zbire z[];
-	int m_w, m_h;
-	int m_idx;
-	float m_scale;
-	BufferedImage m_sprite;
-	BufferedImage[] m_sprites;
-	int m_nrows, m_ncols;
+	private int m_w, m_h;
+	private int m_idx;
+	private float m_scale;
+	private BufferedImage m_sprite;
+	private BufferedImage[] m_sprites;
+	private int m_personali;
+	private int m_nrows, m_ncols;
 	private boolean moveable;
 
 	private int diameter;
@@ -55,22 +56,24 @@ public class Joueur extends Physic_Entity {
 	//
 	// }
 
-	public Joueur(BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
+	public Joueur(BufferedImage sprite, int rows, int columns, int personali, int x, int y, float scale, Color couleur) {
 		super(x, y);
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
-		last_x = x;
-		last_y = y;
+		last_x = x+10;
+		last_y = y+10;
 		diameter = 34;
 		m_scale = scale;
 		moveable = true;
 		timeEffect = 0;
 		speed = 1;
+		m_personali = personali*48;
 		this.couleur = couleur;
 		splitSprite();
 		paintStock = MesOptions.paintMax;
 		z = new Zbire[5];
+		m_idx = 45+m_personali;
 	}
 
 	void splitSprite() {
@@ -81,6 +84,7 @@ public class Joueur extends Physic_Entity {
 		m_h = height / m_nrows;
 		for (int i = 0; i < m_nrows; i++) {
 			for (int j = 0; j < m_ncols; j++) {
+				System.out.println("passaga"+i+" et "+j);
 				int x = j * m_w;
 				int y = i * m_h;
 				m_sprites[(i * m_ncols) + j] = m_sprite.getSubimage(x, y, m_w, m_h);
@@ -222,16 +226,16 @@ public class Joueur extends Physic_Entity {
 
 			if (direction == 'R' && x < MesOptions.nbCol - 1) {
 				x += step;
-				m_idx = 19;
+				m_idx = (m_idx == 1+m_personali) ? 4+m_personali : 1+m_personali;
 			} else if (direction == 'L' && x > 0) {
 				x -= step;
-				m_idx = 7;
+				m_idx = (m_idx == 25+m_personali) ? 28+m_personali : 25+m_personali;
 			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
 				y += step;
-				m_idx = 2;
+				m_idx = (m_idx == 42+m_personali) ? 44+m_personali : 42+m_personali;
 			} else if (direction == 'U' && y > 0) {
 				y -= step;
-				m_idx = 13;
+				m_idx = (m_idx == 12+m_personali) ? 13+m_personali : 12+m_personali;
 
 			}
 
@@ -311,6 +315,6 @@ public class Joueur extends Physic_Entity {
 
 	public void teleport(int x, int y) {
 		this.x = x;
-		this.y = y;		
+		this.y = y;
 	}
 }

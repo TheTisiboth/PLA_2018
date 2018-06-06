@@ -76,12 +76,12 @@ public class Model extends GameModel {
 
 		initPlat(plateau);
 
-		c = new Joueur(m_personnage, 4, 6, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.9F, Color.RED);
+		c = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.RED);
 		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setE(c);
 		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setCouleur((Color) c.getColor());
 		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setRefresh(true);
 
-		c1 = new Joueur(m_personnage, 4, 6, 0, 0, 0.9F, Color.BLUE);
+		c1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.BLUE);
 		plateau[0][0].setE(c1);
 		plateau[0][0].setCouleur((Color) c1.getColor());
 		plateau[0][0].setRefresh(true);
@@ -99,7 +99,9 @@ public class Model extends GameModel {
 
 	private void loadSprites() {
 
-		File imageFile = new File("images/winchester.png");
+		// credit : https://erikari.itch.io/elements-supremacy-assets
+		File imageFile = new File("images/character.png");
+		
 		File BriqueFile = new File("images/brique.png");
 		File SplashBlue = new File("images/splashblue.png");
 		File SplashRed = new File("images/splashred.png");

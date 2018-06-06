@@ -40,6 +40,7 @@ public class Joueur extends Physic_Entity {
 	private long m_lastMove;
 	private int step = 1;
 	private int recharge = 10;
+	private boolean reload; // Sert a recharger la peinture sur le tour d'après
 
 	char direction;
 	boolean inMovement;
@@ -148,11 +149,19 @@ public class Joueur extends Physic_Entity {
 			}
 		}
 	}
-	
-	public void recharger() {
-		paintStock += recharge;
-		if(paintStock>MesOptions.paintMax) {
-			paintStock -= MesOptions.paintMax - paintStock;
+
+	// Un cas pour recharger au prochain tour, l'autre pour recharger la peinture
+	public void recharger(boolean reload) {
+		// la peinture sera rechargée au prochain tour
+		if (reload) {
+			this.reload = true;
+		} // on recharge la peinture
+		else if (this.reload) {
+			paintStock += recharge;
+			if (paintStock > MesOptions.paintMax) {
+				paintStock -= MesOptions.paintMax - paintStock;
+			}
+			this.reload = false;
 		}
 	}
 
@@ -194,7 +203,7 @@ public class Joueur extends Physic_Entity {
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;
-		
+
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -202,11 +211,11 @@ public class Joueur extends Physic_Entity {
 			timeEffect--;
 			m_lastMove = now;
 			elapsed = now - m_lastMove;
-			System.out.println("activation du freeze dans step");
+			// System.out.println("activation du freeze dans step");
 		} // cas 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
 			time /= speed;
-			System.out.println("activation du speed dans step");
+			// System.out.println("activation du speed dans step");
 		}
 
 		if (inMovement && elapsed > time && moveable) {
@@ -230,11 +239,8 @@ public class Joueur extends Physic_Entity {
 			if (timeEffect > 0) {
 				timeEffect--;
 			}
-
 		}
-
 	}
-
 	// GETTER SETTER
 
 	public int getLastX() {
@@ -303,4 +309,8 @@ public class Joueur extends Physic_Entity {
 		paintStock--;
 	}
 
+	public void teleport(int x, int y) {
+		this.x = x;
+		this.y = y;		
+	}
 }

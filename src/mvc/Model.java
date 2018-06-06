@@ -21,6 +21,7 @@ import javafx.scene.shape.Line;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
 import no.physic.entity.Item_Zbire;
+import no.physic.entity.Portal;
 import no.physic.entity.Recharge;
 import no.physic.entity.Speed;
 import physic.entity.Joueur;
@@ -30,6 +31,7 @@ public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
 	private Obstacle o[];
+	private Portal portal;
 	int minute;
 	int secondes;
 
@@ -57,6 +59,7 @@ public class Model extends GameModel {
 	BufferedImage m_stop;
 	BufferedImage m_item;
 	BufferedImage m_recharge;
+	BufferedImage m_portal;
 
 	public Model() {
 		lastTick = 0L;
@@ -89,7 +92,10 @@ public class Model extends GameModel {
 
 		o = new Obstacle[MesOptions.nb_obstacle];
 		initObstacle();
+
+		initPortal();
 	}
+
 
 	private void loadSprites() {
 
@@ -103,6 +109,7 @@ public class Model extends GameModel {
 		File stop = new File("images/stop.png");
 		File itemzbire = new File("images/eclair_guillaume.jpg");
 		File recharge = new File("images/recharge.png");
+		File portal = new File("images/portail.png");
 
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
@@ -115,6 +122,7 @@ public class Model extends GameModel {
 			m_stop = ImageIO.read(stop);
 			m_item = ImageIO.read(itemzbire);
 			m_recharge = ImageIO.read(recharge);
+			m_portal = ImageIO.read(portal);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -123,6 +131,20 @@ public class Model extends GameModel {
 
 	}
 
+	private void initPortal() {
+		int x, y;
+		Random rand = new Random();
+		do {
+			x = rand.nextInt(MesOptions.nbCol - 1);
+			y = rand.nextInt(MesOptions.nbLigne - 1);
+		} while (plateau[x][y].isOccuped());
+		Portal p = new Portal(x, y, m_portal);
+		this.portal = p;
+		plateau[x][y].setE(p);
+		plateau[x][y].setOccuped(true);
+		plateau[x][y].setRefresh(true);
+	}
+	
 	private void initObstacle() {
 		boolean diff = true;
 		int[] tab_x = new int[MesOptions.nb_obstacle];
@@ -183,6 +205,7 @@ public class Model extends GameModel {
 
 			checkBonus();
 			checkItem();
+			checkTP();
 			checkPaint();
 			update_plat();
 
@@ -209,25 +232,53 @@ public class Model extends GameModel {
 		}
 
 	}
+	
+
+	private void checkTP() {
+		if (plateau[c1.getX()][c1.getY()].getE() instanceof Portal) {
+			tP(c1);
+		}
+		if (plateau[c.getX()][c.getY()].getE() instanceof Portal) {
+			tP(c);
+		}
+		
+	}
+
+
+	private void tP(Joueur j) {
+		int x, y;
+		Random rand = new Random();
+		do {
+			x = rand.nextInt(MesOptions.nbCol - 1);
+			y = rand.nextInt(MesOptions.nbLigne - 1);
+		} while (plateau[x][y].isOccuped());
+		j.teleport(x, y);
+		plateau[x][y].setE(j);
+		plateau[x][y].setOccuped(true);
+		plateau[x][y].setRefresh(true);
+	}
+
 
 	private void checkPaint() {
+		c1.recharger(false);
+		c.recharger(false);
 		if (plateau[c1.getX()][c1.getY()].getE() instanceof Recharge) {
 			Recharge r = (Recharge) plateau[c1.getX()][c1.getY()].getE();
-			c1.recharger();
+			c1.recharger(true);
 			plateau[c1.getX()][c1.getY()].setE(null);
 			plateau[c1.getX()][c1.getY()].setRefresh(true);
 			listRecharge.remove(r);
 		}
 		if (plateau[c.getX()][c.getY()].getE() instanceof Recharge) {
 			Recharge r = (Recharge) plateau[c.getX()][c.getY()].getE();
-			c.recharger();
+			c.recharger(true);
 			plateau[c.getX()][c.getY()].setE(null);
 			plateau[c.getX()][c.getY()].setRefresh(true);
 			listRecharge.remove(r);
 		}
 
 	}
-	
+
 	private void checkItem() {
 		if (plateau[c1.getX()][c1.getY()].getE() instanceof Item_Zbire) {
 			Item_Zbire item = (Item_Zbire) plateau[c1.getX()][c1.getY()].getE();
@@ -275,7 +326,7 @@ public class Model extends GameModel {
 					col = rand.nextInt(MesOptions.nbCol);
 					ligne = rand.nextInt(MesOptions.nbLigne);
 					if (!plateau[col][ligne].isOccuped()) {
-						Item_Zbire item = new Item_Zbire(col, ligne,m_item);
+						Item_Zbire item = new Item_Zbire(col, ligne, m_item);
 						plateau[col][ligne].setE(item);
 						plateau[col][ligne].setRefresh(true);
 						listItem.add(item);
@@ -285,7 +336,7 @@ public class Model extends GameModel {
 			}
 		}
 	}
-	
+
 	private void PopPaint() {
 		if (MesOptions.Nb_Max_Paint >= listRecharge.size()) {
 			Random rand = new Random();
@@ -306,7 +357,7 @@ public class Model extends GameModel {
 				}
 			}
 		}
-		
+
 	}
 
 	private void depopBonus() {
@@ -399,7 +450,7 @@ public class Model extends GameModel {
 			if (c.getPaintStock() != 0) {
 				plateau[xc][yc].setCouleur((Color) c.getColor());
 				c.decreasePaintStock();
-//				GameUI.setProgresse1(c.getPaintStock());
+				// GameUI.setProgresse1(c.getPaintStock());
 			}
 			plateau[xc][yc].setRefresh(true);
 

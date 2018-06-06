@@ -14,5 +14,6 @@ public class GameMain {
 	    View view = new View(model,controller);
 	    Dimension d = new Dimension(1200, 600);
 	    new GameUI(model,view,controller,d);
+	    
 }
 }

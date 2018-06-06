@@ -2,6 +2,7 @@ package mvc;
 
 import java.awt.CheckboxMenuItem;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.text.html.StyleSheet.ListPainter;
 
+import com.sun.javafx.font.Disposer;
+
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.Options;
@@ -25,16 +28,19 @@ import no.physic.entity.Recharge;
 import no.physic.entity.Speed;
 import physic.entity.Joueur;
 import physic.entity.Obstacle;
+import sun.font.CreatedFontTracker;
 
 public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
 	private Obstacle o[];
+	public Statistique statistique;
 	int minute;
 	int secondes;
 
 	long elapsed;
 	long lastTick;
+	private int counter_sec;
 
 	boolean timer;
 
@@ -60,6 +66,7 @@ public class Model extends GameModel {
 
 	public Model() {
 		lastTick = 0L;
+		counter_sec =0;
 
 		loadSprites();
 
@@ -89,6 +96,8 @@ public class Model extends GameModel {
 
 		o = new Obstacle[MesOptions.nb_obstacle];
 		initObstacle();
+		
+		statistique =new Statistique();
 	}
 
 	private void loadSprites() {
@@ -189,12 +198,24 @@ public class Model extends GameModel {
 			elapsed = now - lastTick;
 
 			if (elapsed >= 1000L) {
+				counter_sec++;
+				if(counter_sec == 10) {
+					counter_sec =0;
+					statistique.plus_Score_joueur1(score1);
+					statistique.plus_Score_joueur2(score2);
+					statistique.plus_index();
+					
+				}
 				if (minute != 0 && secondes == 0) {
 					secondes = 60;
 					minute--;
 				}
-				if (minute == 0 && secondes == 0)
+				if (minute == 0 && secondes == 0) {
 					timer = false;
+					
+
+				}
+					
 				else {
 					secondes--;
 					System.out.println(minute + "min" + secondes + "s");
@@ -207,6 +228,7 @@ public class Model extends GameModel {
 					lastTick = now;
 				}
 			}
+			
 		}
 
 	}
@@ -380,6 +402,7 @@ public class Model extends GameModel {
 		int y1 = c1.getY();
 
 		if (last_xc != xc || last_yc != yc) {
+			statistique.plus_Nombrecase_parcouru1();
 			plateau[last_xc][last_yc].setE(null);
 			if (c.getPaintStock() != 0)
 				plateau[last_xc][last_yc].setM_couleur(m_Blue);
@@ -399,12 +422,14 @@ public class Model extends GameModel {
 			if (c.getPaintStock() != 0) {
 				plateau[xc][yc].setCouleur((Color) c.getColor());
 				c.decreasePaintStock();
+				
 				// GameUI.setProgresse1(c.getPaintStock());
 			}
 			plateau[xc][yc].setRefresh(true);
 
 		}
 		if (last_xc1 != x1 || last_yc1 != y1) {
+			statistique.plus_Nombrecase_parcouru2();
 			plateau[last_xc1][last_yc1].setE(null);
 			if (c1.getPaintStock() != 0)
 				plateau[last_xc1][last_yc1].setM_couleur(m_Red);
@@ -452,4 +477,13 @@ public class Model extends GameModel {
 	public Case[][] getPlateau() {
 		return plateau;
 	}
+
+	public Statistique getStatistique() {
+		return statistique;
+	}
+
+	public boolean getTimer() {
+		return timer;
+	}
+	
 }

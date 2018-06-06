@@ -2,8 +2,20 @@
 
 ## 5/06/18
 
+### Avancement interface graphique
 
+Jade continue à créer les différents éléments que l'on affichera à l'écran, aidé par Elisa.
+Loïc et Léo essayent de faire une fenetre qui s'adapte a la taille de l'ecran.
 
+### Avancement GamePlay
+
+Marceau et Guillaume ont implémenté la gestion du stock de peinture. C'est fonctionnel, mais pas encore relié à l'interface graphique.
+
+### Création du diapo
+
+On a créé un diapo pour la 1ere soutenance. On y explique le fonctionnement de notre jeux, et ce qu'on voudrait y implémenter.
+
+___
 ## 4/06/18
  
 Nous avons mis à jour le diagramme de classe de classe :

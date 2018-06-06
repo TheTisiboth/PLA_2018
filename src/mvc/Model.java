@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -21,14 +22,18 @@ import javafx.scene.shape.Line;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
 import no.physic.entity.Item_Zbire;
+import no.physic.entity.No_Physic_Entity;
 import no.physic.entity.Recharge;
 import no.physic.entity.Speed;
 import physic.entity.Joueur;
 import physic.entity.Obstacle;
+import physic.entity.Zbire;
 
 public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
+	List<Zbire> j1_zbire;
+	List<Zbire> j2_zbire;
 	private Obstacle o[];
 	int minute;
 	int secondes;
@@ -103,6 +108,7 @@ public class Model extends GameModel {
 		File stop = new File("images/stop.png");
 		File itemzbire = new File("images/eclair_guillaume.jpg");
 		File recharge = new File("images/recharge.png");
+		File zbire1;
 
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
@@ -227,18 +233,18 @@ public class Model extends GameModel {
 		}
 
 	}
-	
+
 	private void checkItem() {
 		if (plateau[c1.getX()][c1.getY()].getE() instanceof Item_Zbire) {
 			Item_Zbire item = (Item_Zbire) plateau[c1.getX()][c1.getY()].getE();
-			c1.appliquerItem();
+			c1.appliquerItem(2);
 			plateau[c1.getX()][c1.getY()].setE(null);
 			plateau[c1.getX()][c1.getY()].setRefresh(true);
 			listItem.remove(item);
 		}
 		if (plateau[c.getX()][c.getY()].getE() instanceof Item_Zbire) {
 			Item_Zbire item = (Item_Zbire) plateau[c.getX()][c.getY()].getE();
-			c.appliquerItem();
+			c.appliquerItem(1);
 			plateau[c.getX()][c.getY()].setE(null);
 			plateau[c.getX()][c.getY()].setRefresh(true);
 			listItem.remove(item);
@@ -275,7 +281,7 @@ public class Model extends GameModel {
 					col = rand.nextInt(MesOptions.nbCol);
 					ligne = rand.nextInt(MesOptions.nbLigne);
 					if (!plateau[col][ligne].isOccuped()) {
-						Item_Zbire item = new Item_Zbire(col, ligne,m_item);
+						Item_Zbire item = new Item_Zbire(col, ligne, m_item);
 						plateau[col][ligne].setE(item);
 						plateau[col][ligne].setRefresh(true);
 						listItem.add(item);
@@ -285,7 +291,7 @@ public class Model extends GameModel {
 			}
 		}
 	}
-	
+
 	private void PopPaint() {
 		if (MesOptions.Nb_Max_Paint >= listRecharge.size()) {
 			Random rand = new Random();
@@ -306,7 +312,7 @@ public class Model extends GameModel {
 				}
 			}
 		}
-		
+
 	}
 
 	private void depopBonus() {
@@ -399,7 +405,7 @@ public class Model extends GameModel {
 			if (c.getPaintStock() != 0) {
 				plateau[xc][yc].setCouleur((Color) c.getColor());
 				c.decreasePaintStock();
-//				GameUI.setProgresse1(c.getPaintStock());
+				// GameUI.setProgresse1(c.getPaintStock());
 			}
 			plateau[xc][yc].setRefresh(true);
 
@@ -429,6 +435,37 @@ public class Model extends GameModel {
 			plateau[x1][y1].setRefresh(true);
 		}
 
+	}
+
+	public void spawnzbire(Joueur j, int n, char direction) {
+		if (j.getZbire()[n] != null) {
+			System.out.println("sbire "+ n);
+			int x = j.getX();
+			int y = j.getY();
+			if (direction == 'D')
+				y++;
+			else if (direction == 'L')
+				x--;
+			else if (direction == 'U')
+				y--;
+			else if (direction == 'R')
+				x++;
+			if ((x < MesOptions.nbCol && x >= 0) && (y < MesOptions.nbLigne && y >= 0)) {
+				System.out.println("if2");
+				if (plateau[x][y].getE() instanceof No_Physic_Entity || plateau[x][y].getE() == null) {
+					System.out.println("invoque zbire");
+					j.getZbire()[n].setX(x);
+					j.getZbire()[n].setY(y);
+					plateau[x][y].setE(j.getZbire()[n]);
+					if(j.getZbire()[n].getJoueur() == 1)
+						j1_zbire.add(j.getZbire()[n]);
+					else
+						j2_zbire.add(j.getZbire()[n]);
+					plateau[x][y].setRefresh(true);
+					j.resetZbire(n);
+				}
+			}
+		}
 	}
 
 	@Override

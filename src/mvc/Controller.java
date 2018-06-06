@@ -43,7 +43,15 @@ public class Controller extends GameController {
 		} else if (e.getKeyCode() == 40) {
 			m_model.getJ1().setDirection('D');
 		}
-
+		else if (e.getKeyCode() == 150) // touche &
+			m_model.spawnzbire(m_model.getJ1(),0,m_model.getJ1().getDirection());
+		else if (e.getKeyCode() == 0) // touche é
+			m_model.spawnzbire(m_model.getJ1(),1,m_model.getJ1().getDirection());
+		else if (e.getKeyCode() == 152) // touche "
+			m_model.spawnzbire(m_model.getJ1(),2,m_model.getJ1().getDirection());
+		else if (e.getKeyCode() == 222) // touche '
+			m_model.spawnzbire(m_model.getJ1(),3,m_model.getJ1().getDirection());
+		
 		// Joueur 2
 
 		if (e.getKeyCode() == 68) {
@@ -55,6 +63,16 @@ public class Controller extends GameController {
 		} else if (e.getKeyCode() == 83) {
 			m_model.getJ2().setDirection('D');
 		}
+		
+		else if (e.getKeyCode() == 150) // touche &
+			m_model.spawnzbire(m_model.getJ2(),0,m_model.getJ2().getDirection());
+		else if (e.getKeyCode() == 0) // touche é
+			m_model.spawnzbire(m_model.getJ2(),1,m_model.getJ2().getDirection());
+		else if (e.getKeyCode() == 152) // touche "
+			m_model.spawnzbire(m_model.getJ2(),2,m_model.getJ2().getDirection());
+		else if (e.getKeyCode() == 222) // touche '
+			m_model.spawnzbire(m_model.getJ2(),3,m_model.getJ2().getDirection());
+
 
 	}
 

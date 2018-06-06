@@ -128,12 +128,11 @@ public class GameUI {
 
     // Création du Label contenant l'image de fond, la view et tout les composants 
     JLabel img = new JLabel(new ImageIcon("images/background2.png"));
-    img.setLayout(null);
+    img.setLayout(new BorderLayout());
     
     // On met la view au Centre
     m_view.setBounds(120, 120, 960, 480);
     img.add(m_view);
-    
     
     // Création du Panel au Nord de la fenetre
     JPanel panNorth = new JPanel();
@@ -233,7 +232,7 @@ public class GameUI {
     
     panEast.add(bE1);panEast.add(bE2);panEast.add(bE3);panEast.add(bE4);    
     panEast.setOpaque(false);
-    panEast.setBounds(0, 120, 120, 480);
+    panEast.setBounds(1080, 120, 120, 480);
     img.add(panEast);
     
     
@@ -263,7 +262,7 @@ public class GameUI {
     
     panWest.add(bW1);panWest.add(bW2);panWest.add(bW3);panWest.add(bW4);    
     panWest.setOpaque(false);
-    panWest.setBounds(1080, 120, 120, 480);
+    panWest.setBounds(0, 120, 120, 480);
     img.add(panWest);
     
     // On ajoute le tout dans la fenetre
@@ -274,7 +273,7 @@ public class GameUI {
     //m_frame.add(m_text, BorderLayout.NORTH);
 
     m_frame.doLayout();
-    m_frame.setResizable(false);
+    //m_frame.setResizable(false);
     m_frame.setVisible(true);
 
     // hook window events so that we exit the Java Platform

@@ -69,7 +69,7 @@ public class Joueur extends Physic_Entity {
 		this.couleur = couleur;
 		splitSprite();
 		paintStock = MesOptions.paintMax;
-		z = new Zbire[5];
+		z = new Zbire[4];
 	}
 
 	void splitSprite() {
@@ -156,34 +156,34 @@ public class Joueur extends Physic_Entity {
 		}
 	}
 
-	public void appliquerItem() {
+	public void appliquerItem(int joueur) {
 
 		Random rand = new Random();
 		int i = rand.nextInt(100);
 		Zbire zbire = null;
 
 		if (i >= 0 && i < 25) {
-			if (z[1] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 1);
-				z[1] = zbire;
+			if (z[0] == null) {
+				zbire = new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 0,m_scale,joueur);
+				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
-			if (z[2] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 2);
-				z[2] = zbire;
+			if (z[1] == null) {
+				zbire = new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 1,m_scale,joueur);
+				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
-			if (z[3] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 3);
-				z[3] = zbire;
+			if (z[2] == null) {
+				zbire =new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 2,m_scale,joueur);
+				z[2] = zbire;
 			}
 
 		} else {
-			if (z[4] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 4);
-				z[4] = zbire;
+			if (z[3] == null) {
+				zbire = new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 3,m_scale,joueur);
+				z[3] = zbire;
 			}
 
 		}
@@ -191,6 +191,10 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void step(long now) {
+		for(int i = 0;i<4;i++){
+			if(z[i]!=null)
+				z[i].step(now);
+		}
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;
@@ -208,7 +212,7 @@ public class Joueur extends Physic_Entity {
 			time /= speed;
 			System.out.println("activation du speed dans step");
 		}
-
+		
 		if (inMovement && elapsed > time && moveable) {
 
 			if (direction == 'R' && x < MesOptions.nbCol - 1) {
@@ -257,7 +261,7 @@ public class Joueur extends Physic_Entity {
 		return diameter;
 	}
 
-	public int getDirection() {
+	public char getDirection() {
 		return direction;
 	}
 
@@ -297,6 +301,14 @@ public class Joueur extends Physic_Entity {
 
 	public int getPaintStock() {
 		return paintStock;
+	}
+	
+	public Zbire[] getZbire(){
+		return z;
+	}
+	
+	public void resetZbire(int n){
+		z[n] = null;
 	}
 
 	public void decreasePaintStock() {

@@ -16,7 +16,7 @@
 ### TODO
 * Commencer à réflechir aux automates
 * Inclure la fenetre de fin a la fin du jeu
-* resoudre les bug mineur (peinture, double buffer)
+* resoudre les bug mineur (peinture, clignotement de l'ecran)
 * Gerer l'affichage graphique :
   * du stock de peinture
   * Des icones des sbires que l'on a ramassé

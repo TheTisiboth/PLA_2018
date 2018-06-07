@@ -1,4 +1,4 @@
-package proto;
+package fenetre;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,7 +7,6 @@ public class Circle {
 	private int x;
 	private int y;
 	private int diameter;
-	private long m_lastMove;
 	private int step = 8;
 
 	Circle() {

@@ -27,6 +27,7 @@ public class EndPage extends JFrame implements ActionListener{
 	Dimension d;
 	int largeur;
 	int hauteur;
+	JButton m_rejouer;
 
 	public EndPage(GameModel mod, GameView m_view) {
 		largeur = 1200;
@@ -137,29 +138,45 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		//Mis en place du panneau central
 		JPanel panel_center = new JPanel();
-		panel_center.setLayout(new FlowLayout());
+		panel_center.setLayout(new BorderLayout());
+		
+		JPanel pan_graph = new JPanel();
+		pan_graph.setLayout(new FlowLayout());
 		
 		JLabel stat= new JLabel("STATISTIQUE",SwingConstants.CENTER);
 		preferredSize = new Dimension(500, 80);
 		stat.setPreferredSize(preferredSize);
 		stat.setFont(fonNumber);
-		panel_center.add(stat);
+		pan_graph.add(stat);
 		
 		Graphs graphs = new Graphs();
 		graphs.set_model(m_model);
-		preferredSize = new Dimension(500, 350);
+		preferredSize = new Dimension(500, 320);
 
+		
 		graphs.setPreferredSize(preferredSize);
-		panel_center.add(graphs);
+		pan_graph.add(graphs);
 		
 		JLabel titre  = new JLabel("Graphique du score en fonction du temps",SwingConstants.CENTER);
 		preferredSize =new Dimension(500, 40);
 		titre.setPreferredSize(preferredSize);
-	
-		panel_center.add(titre, preferredSize);
+		pan_graph.add(titre, preferredSize);
 		
+		panel_center.add(pan_graph, BorderLayout.CENTER);
+		
+		JButton rejouer = new JButton("Retour à l'accueil");
+		preferredSize = new Dimension(200, 40);
+		rejouer.setPreferredSize(preferredSize);
+		rejouer.setBorderPainted(false);
+		rejouer.setContentAreaFilled(false);
+		rejouer.setFocusPainted(false);
+		panel_center.add(rejouer, BorderLayout.SOUTH);
+		rejouer.addActionListener(this);
+		m_rejouer =rejouer;
 		this.add(panel_center, BorderLayout.CENTER);
 		
+		
+
 		
 		this.doLayout();
 		this.setResizable(false);
@@ -176,7 +193,10 @@ public class EndPage extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		Object s = e.getSource();
+		if(s == m_rejouer) {
+			dispose();
+		}
 	}
 	
 

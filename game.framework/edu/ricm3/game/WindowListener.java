@@ -21,7 +21,7 @@ import java.awt.event.WindowEvent;
 
 public class WindowListener implements java.awt.event.WindowListener {
   GameModel m_model;
-  WindowListener(GameModel m) {
+  public WindowListener(GameModel m) {
     m_model = m;
   }
   @Override

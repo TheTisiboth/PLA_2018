@@ -6,6 +6,8 @@
 * Résolution du bug de la taille de la fenetre aléatoire, maintenant les fenetres font toutes la meme taille
 * Enchainement de plusieurs fenetres (fenetre d'accueil, fenetre des credits, fenetre des regles, fenetre de jeu)
 * Création de zbire sans comportement
+* Changement des sprites du joueur
+* Creation d'un portail de téléportation
 * Implémentation du comportement frapper, on peut maintenant : 
   * frapper le joueur adverse, il retourne donc à sa position initiale
   * frapper des murs, ils prennent 3 coups avant de disparaitre

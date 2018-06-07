@@ -1,5 +1,27 @@
 # Carnet de bord
 
+## 07/06/18
+
+### Ce qui a été fait
+* Résolution du bug de la taille de la fenetre aléatoire, maintenant les fenetres font toutes la meme taille
+* Enchainement de plusieurs fenetres (fenetre d'accueil, fenetre des credits, fenetre des regles, fenetre de jeu)
+* Création de zbire sans comportement
+* Implémentation du comportement frapper, on peut maintenant : 
+ * frapper le joueur adverse, il retourne donc à sa position initiale
+ * frapper des murs, ils prennent 3 coups avant de disparaitre
+
+
+### TODO
+* Commencer à réflechir aux automates
+* Inclure la fenetre de fin a la fin du jeu
+* resoudre les bug mineur (peinture, double buffer)
+* Gerer l'affichage graphique :
+ * du stock de peinture
+ * Des icones des sbires que l'on a ramassé
+ * du score, et du temps
+
+
+___
 ## 6/06/18
 
 ### 1ère Presentation

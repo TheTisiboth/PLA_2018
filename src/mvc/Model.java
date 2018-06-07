@@ -1,6 +1,5 @@
 package mvc;
 
-import java.awt.CheckboxMenuItem;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,15 +11,15 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.html.StyleSheet.ListPainter;
 
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.Options;
-import javafx.scene.shape.Line;
+
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
 import no.physic.entity.Item_Zbire;
+import no.physic.entity.Portal;
 import no.physic.entity.Recharge;
 import no.physic.entity.Speed;
 import physic.entity.Joueur;
@@ -30,6 +29,7 @@ public class Model extends GameModel {
 	private Joueur c;
 	private Joueur c1;
 	private Obstacle o[];
+	private Portal portal;
 	int minute;
 	int secondes;
 
@@ -57,6 +57,7 @@ public class Model extends GameModel {
 	BufferedImage m_stop;
 	BufferedImage m_item;
 	BufferedImage m_recharge;
+	BufferedImage m_portal;
 
 	public Model() {
 		lastTick = 0L;
@@ -73,12 +74,12 @@ public class Model extends GameModel {
 
 		initPlat(plateau);
 
-		c = new Joueur(m_personnage, 4, 6, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.9F, Color.RED);
+		c = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.RED);
 		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setE(c);
 		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setCouleur((Color) c.getColor());
 		plateau[MesOptions.nbCol - 1][MesOptions.nbLigne - 1].setRefresh(true);
 
-		c1 = new Joueur(m_personnage, 4, 6, 0, 0, 0.9F, Color.BLUE);
+		c1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.BLUE);
 		plateau[0][0].setE(c1);
 		plateau[0][0].setCouleur((Color) c1.getColor());
 		plateau[0][0].setRefresh(true);
@@ -89,11 +90,15 @@ public class Model extends GameModel {
 
 		o = new Obstacle[MesOptions.nb_obstacle];
 		initObstacle();
+
+		initPortal();
 	}
 
 	private void loadSprites() {
 
-		File imageFile = new File("images/winchester.png");
+		// credit : https://erikari.itch.io/elements-supremacy-assets
+		File imageFile = new File("images/character.png");
+
 		File BriqueFile = new File("images/brique.png");
 		File SplashBlue = new File("images/splashblue.png");
 		File SplashRed = new File("images/splashred.png");
@@ -103,6 +108,7 @@ public class Model extends GameModel {
 		File stop = new File("images/stop.png");
 		File itemzbire = new File("images/eclair_guillaume.jpg");
 		File recharge = new File("images/recharge.png");
+		File portal = new File("images/portail.png");
 
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
@@ -115,12 +121,27 @@ public class Model extends GameModel {
 			m_stop = ImageIO.read(stop);
 			m_item = ImageIO.read(itemzbire);
 			m_recharge = ImageIO.read(recharge);
+			m_portal = ImageIO.read(portal);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			System.exit(-1);
 		}
 
+	}
+
+	private void initPortal() {
+		int x, y;
+		Random rand = new Random();
+		do {
+			x = rand.nextInt(MesOptions.nbCol - 1);
+			y = rand.nextInt(MesOptions.nbLigne - 1);
+		} while (plateau[x][y].isOccuped());
+		Portal p = new Portal(x, y, m_portal);
+		this.portal = p;
+		plateau[x][y].setE(p);
+		plateau[x][y].setOccuped(true);
+		plateau[x][y].setRefresh(true);
 	}
 
 	private void initObstacle() {
@@ -180,9 +201,12 @@ public class Model extends GameModel {
 
 			c.canMove(plateau);
 			c.step(now);
+//			System.out.println("couleur de derniere case: "+(plateau[c.getLastX()][c.getLastY()].getCouleur() == c.getColor()));
+//			System.out.println("couleur case 2/2: "+(plateau[2][2].getCouleur() == c.getColor()));
 
 			checkBonus();
 			checkItem();
+			checkTP();
 			checkPaint();
 			update_plat();
 
@@ -211,17 +235,42 @@ public class Model extends GameModel {
 
 	}
 
+	private void checkTP() {
+		if (plateau[c1.getX()][c1.getY()].getE() instanceof Portal) {
+			tP(c1);
+		}
+		if (plateau[c.getX()][c.getY()].getE() instanceof Portal) {
+			tP(c);
+		}
+
+	}
+
+	private void tP(Joueur j) {
+		int x, y;
+		Random rand = new Random();
+		do {
+			x = rand.nextInt(MesOptions.nbCol - 1);
+			y = rand.nextInt(MesOptions.nbLigne - 1);
+		} while (plateau[x][y].isOccuped());
+		j.teleport(x, y);
+		plateau[x][y].setE(j);
+		plateau[x][y].setOccuped(true);
+		plateau[x][y].setRefresh(true);
+	}
+
 	private void checkPaint() {
+		c1.recharger(false);
+		c.recharger(false);
 		if (plateau[c1.getX()][c1.getY()].getE() instanceof Recharge) {
 			Recharge r = (Recharge) plateau[c1.getX()][c1.getY()].getE();
-			c1.recharger();
+			c1.recharger(true);
 			plateau[c1.getX()][c1.getY()].setE(null);
 			plateau[c1.getX()][c1.getY()].setRefresh(true);
 			listRecharge.remove(r);
 		}
 		if (plateau[c.getX()][c.getY()].getE() instanceof Recharge) {
 			Recharge r = (Recharge) plateau[c.getX()][c.getY()].getE();
-			c.recharger();
+			c.recharger(true);
 			plateau[c.getX()][c.getY()].setE(null);
 			plateau[c.getX()][c.getY()].setRefresh(true);
 			listRecharge.remove(r);
@@ -378,54 +427,57 @@ public class Model extends GameModel {
 		int last_yc1 = c1.getLastY();
 		int x1 = c1.getX();
 		int y1 = c1.getY();
-
-		if (last_xc != xc || last_yc != yc) {
+		boolean cond = plateau[xc][yc].getCouleur() != c.getColor()
+				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);// && plateau[xc][yc].getCouleur() == c.getColor());
+//		System.out.println("condition : "+cond);
+		if ((last_xc != xc || last_yc != yc) && c.getPaintStock() != 0 && cond) {
 			plateau[last_xc][last_yc].setE(null);
-			if (c.getPaintStock() != 0)
-				plateau[last_xc][last_yc].setM_couleur(m_Blue);
+			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
 
-			if (c.getPaintStock() != 0) {
-				if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
-					score1++;
-					refresh_score = true;
-				} else if (plateau[xc][yc].getM_couleur() == m_Red) {
-					score1++;
-					score2--;
-					refresh_score = true;
-				}
+			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
+				score1++;
+				refresh_score = true;
+			} else if (plateau[xc][yc].getM_couleur() == m_Red) {
+				score1++;
+				score2--;
+				refresh_score = true;
 			}
 			plateau[xc][yc].setE(c);
-			if (c.getPaintStock() != 0) {
-				plateau[xc][yc].setCouleur((Color) c.getColor());
-				c.decreasePaintStock();
-				// GameUI.setProgresse1(c.getPaintStock());
-			}
-			plateau[xc][yc].setRefresh(true);
 
+			plateau[xc][yc].setCouleur((Color) c.getColor());
+			c.decreasePaintStock();
+			plateau[xc][yc].setRefresh(true);
+		} else {
+			plateau[last_xc][last_yc].setE(null);
+			plateau[last_xc][last_yc].setRefresh(true);
+			plateau[xc][yc].setE(c);
+			plateau[xc][yc].setRefresh(true);
 		}
-		if (last_xc1 != x1 || last_yc1 != y1) {
+
+		if ((last_xc1 != x1 || last_yc1 != y1) && c1.getPaintStock() != 0
+				&& plateau[x1][y1].getCouleur() != c1.getColor()) {
 			plateau[last_xc1][last_yc1].setE(null);
-			if (c1.getPaintStock() != 0)
-				plateau[last_xc1][last_yc1].setM_couleur(m_Red);
+			plateau[last_xc1][last_yc1].setM_couleur(m_Red);
 			plateau[last_xc1][last_yc1].setRefresh(true);
 
-			if (c.getPaintStock() != 0) {
-				if (plateau[x1][y1].getM_couleur() == m_BlockBlue || plateau[x1][y1].getM_couleur() == m_BlockGray) {
-					score2++;
-					refresh_score = true;
-				} else if (plateau[x1][y1].getM_couleur() == m_Blue) {
-					score2++;
-					score1--;
-					refresh_score = true;
-				}
+			if (plateau[x1][y1].getM_couleur() == m_BlockBlue || plateau[x1][y1].getM_couleur() == m_BlockGray) {
+				score2++;
+				refresh_score = true;
+			} else if (plateau[x1][y1].getM_couleur() == m_Blue) {
+				score2++;
+				score1--;
+				refresh_score = true;
 			}
 
 			plateau[x1][y1].setE(c1);
-			if (c1.getPaintStock() != 0) {
-				plateau[x1][y1].setCouleur((Color) c.getColor());
-				c1.decreasePaintStock();
-			}
+			plateau[x1][y1].setCouleur((Color) c1.getColor());
+			c1.decreasePaintStock();
+			plateau[x1][y1].setRefresh(true);
+		} else {
+			plateau[last_xc1][last_yc1].setE(null);
+			plateau[last_xc1][last_yc1].setRefresh(true);
+			plateau[x1][y1].setE(c1);
 			plateau[x1][y1].setRefresh(true);
 		}
 

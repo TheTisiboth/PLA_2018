@@ -93,7 +93,6 @@ public class Joueur extends Physic_Entity {
 		m_h = height / m_nrows;
 		for (int i = 0; i < m_nrows; i++) {
 			for (int j = 0; j < m_ncols; j++) {
-				System.out.println("passaga"+i+" et "+j);
 				int x = j * m_w;
 				int y = i * m_h;
 				m_sprites[(i * m_ncols) + j] = m_sprite.getSubimage(x, y, m_w, m_h);
@@ -225,7 +224,6 @@ public class Joueur extends Physic_Entity {
 			m_lastMove = now;
 			elapsed = now - m_lastMove;
 
-			//System.out.println("activation du freeze dans step");
 		} // cas 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
 			time /= speed;

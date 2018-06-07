@@ -15,19 +15,16 @@ public class RulesWindow extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JPanel main;
-	GameView m_view;
+
 	JLabel m_text;
-	GameModel m_model;
-	GameController m_controller;
+
 	JButton rules;
 	Dimension d;
 
-	public RulesWindow(Dimension d, GameController ctrl, GameView view, GameModel mod) {
+	public RulesWindow(Dimension d) {
 
 		this.d = d;
-		m_model = mod;
-		m_view = view;
-		m_controller = ctrl;
+
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
@@ -62,7 +59,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
-		this.addWindowListener(new WindowListener(m_model));
+		//this.addWindowListener(new WindowListener(m_model));
 
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -76,7 +73,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 			return;
 		}
 		if ((width != 1200) || (height != 600)) {
-			new RulesWindow(d, m_controller, m_view, m_model);
+			new RulesWindow(d);
 			dispose();
 		}
 	}
@@ -85,7 +82,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
 		if ((width != 1200) || (height != 600)) {
-			new RulesWindow(d, m_controller, m_view, m_model);
+			new RulesWindow(d);
 			dispose();
 		}
 	}
@@ -96,7 +93,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 		Object s = e.getSource();
 
 		if (s == rules) {
-			HomeWindow r = new HomeWindow(m_controller, d, m_model, m_view);
+			HomeWindow r = new HomeWindow(d);
 			dispose();
 		}
 

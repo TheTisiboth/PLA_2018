@@ -42,6 +42,8 @@ public class GameWindow extends JFrame {
 		JPanel west = createWestPanel();
 		west.setOpaque(false);
 		
+		
+		
 		m_view.setBounds(120, 120, 960, 480);
 		north.setBounds(0,0, 1200, 80);
 		east.setBounds(1100, 100, 100, 450);
@@ -66,6 +68,19 @@ public class GameWindow extends JFrame {
 		this.pack();
 		this.setLocationRelativeTo(null);
 
+		// let's hook the controller,
+		// so it gets mouse events and keyboard events.
+		m_view.addKeyListener(m_controller);
+		m_view.addMouseListener(m_controller);
+		m_view.addMouseMotionListener(m_controller);
+
+		// grab the focus on this JPanel, meaning keyboard events
+		// are coming to our controller. Indeed, the focus controls
+		// which part of the overall GUI receives the keyboard events.
+		m_view.setFocusable(true);
+		m_view.requestFocusInWindow();
+
+		m_controller.notifyVisible();
 	}
 	
 	@Override

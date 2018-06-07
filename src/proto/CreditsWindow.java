@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameView;
-import edu.ricm3.game.WindowListener;
 
 public class CreditsWindow extends JFrame implements ActionListener {
 
@@ -26,12 +25,10 @@ public class CreditsWindow extends JFrame implements ActionListener {
 	JButton rules;
 	Dimension d;
 
-	public CreditsWindow(Dimension d, GameController ctrl, GameView view, GameModel mod) {
+	public CreditsWindow(Dimension d) {
 
 		this.d = d;
-		m_model = mod;
-		m_view = view;
-		m_controller = ctrl;
+
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
@@ -65,7 +62,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
-		this.addWindowListener(new WindowListener(m_model));
+		//this.addWindowListener(new WindowListener(m_model));
 
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -79,7 +76,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 			return;
 		}
 		if ((width != 1200) || (height != 600)) {
-			new CreditsWindow(d,m_controller, m_view, m_model);
+			new CreditsWindow(d);
 			dispose();
 		}
 	}
@@ -88,7 +85,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
 		if ((width != 1200) || (height != 600)) {
-			new CreditsWindow(d,m_controller, m_view, m_model);
+			new CreditsWindow(d);
 			dispose();
 		}
 	}
@@ -99,7 +96,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		Object s = e.getSource();
 
 		if (s == rules) {
-			new HomeWindow(m_controller, d, m_model, m_view);
+			new HomeWindow(d);
 			dispose();
 		}
 

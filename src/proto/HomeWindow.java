@@ -1,15 +1,20 @@
 package proto;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
-import edu.ricm3.game.GameUI;
 import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
 
@@ -34,14 +39,12 @@ public class HomeWindow extends JFrame implements ActionListener {
 		this.d = d;
 		m_controller = ctrl;
 
-		this.setTitle("Sample Game");
+		this.setTitle("COLORicm Deluxe Version 2.0");
+		this.setSize(d);
+		this.setPreferredSize(d);
 		this.setLayout(new BorderLayout());
 
-		// Création du Label contenant l'image de fond, la view et tout les composants
-		JLabel img = new JLabel(new ImageIcon("images/accueil.png"));
-		img.setLayout(null);
-
-		this.setSize(d);
+		JPanel img = new Background(d,1);
 
 		// Textfield Joueur 1
 
@@ -138,6 +141,27 @@ public class HomeWindow extends JFrame implements ActionListener {
 		this.pack();
 		this.setLocationRelativeTo(null);
 
+	}
+	
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x, y, width, height);
+		if (d == null) {
+			return;
+		}
+		if ((width != 1200) || (height != 600)) {
+			new HomeWindow(m_controller,d, m_model, m_view);
+			dispose();
+		}
+	}
+
+	@Override
+	public void setSize(int width, int height) {
+		super.setSize(width, height);
+		if ((width != 1200) || (height != 600)) {
+			new HomeWindow(m_controller,d, m_model, m_view);
+			dispose();
+		}
 	}
 
 	@Override

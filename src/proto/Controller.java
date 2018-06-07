@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import edu.ricm3.game.GameController;
-import proto.Model;
 
 public class Controller extends GameController{
 	private Model m_model;

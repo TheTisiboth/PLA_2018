@@ -18,9 +18,10 @@ public class GameWindow extends JFrame {
 	GameModel m_model;
 	GameController m_controller;
 	String j1, j2;
+	Dimension d;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
-
+		this.d = d;
 		m_model = mod;
 		m_view = view;
 		m_controller = ctrl;
@@ -29,35 +30,65 @@ public class GameWindow extends JFrame {
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
+		this.setPreferredSize(d);
 		this.setLayout(new BorderLayout());
 
-		// Création du Label contenant l'image de fond, la view et tout les composants
-		JLabel img = new JLabel(new ImageIcon("images/game.png"));
-		img.setSize(d);
-		img.setLayout(null);
+		JPanel img = new Background(d,2);
+				
+		JPanel north = createNorthPanel();
+		north.setOpaque(false);
+		JPanel east = createEastPanel();
+		east.setOpaque(false);
+		JPanel west = createWestPanel();
+		west.setOpaque(false);
+		
 		m_view.setBounds(120, 120, 960, 480);
-
-		img.add(createNorthPanel(), BorderLayout.NORTH);
+		north.setBounds(0,0, 1200, 80);
+		east.setBounds(1100, 100, 100, 450);
+		west.setBounds(0, 100, 100, 450);
+		
+		img.add(north);
 		img.add(m_view);
-		img.add(createEastPanel(), BorderLayout.EAST);
-		img.add(createWestPanel(), BorderLayout.WEST);
+		img.add(east);
+		img.add(west);
 
 		// On ajoute le tout dans la fenetre
-		this.add(img);
+		this.add(img, BorderLayout.CENTER);
 
+		//this.setResizable(true);
 		this.doLayout();
-		this.setResizable(false);
 		this.setVisible(true);
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
 		this.addWindowListener(new WindowListener(m_model));
-
+		
 		this.pack();
 		this.setLocationRelativeTo(null);
 
 	}
+	
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x, y, width, height);
+		if (d == null) {
+			return;
+		}
+		if ((width != 1200) || (height != 600)) {
+			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
+			dispose();
+		}
+	}
 
+	@Override
+	public void setSize(int width, int height) {
+		super.setSize(width, height);
+		if ((width != 1200) || (height != 600)) {
+			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
+			dispose();
+		}
+	}
+	
 	// ----------------------NORTH PANEL------------------------------//
 
 	// CENTER NORTH
@@ -231,25 +262,13 @@ public class GameWindow extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 1));
 
-		JButton bE1 = new JButton("EAST 1");
-		bE1.setBorderPainted(false);
-		bE1.setContentAreaFilled(false);
-		bE1.setFocusPainted(false);
+		JLabel bE1 = new JLabel("EAST 1", SwingConstants.CENTER);
 
-		JButton bE2 = new JButton("EAST 2");
-		bE2.setBorderPainted(false);
-		bE2.setContentAreaFilled(false);
-		bE2.setFocusPainted(false);
+		JLabel bE2 = new JLabel("EAST 2", SwingConstants.CENTER);
 
-		JButton bE3 = new JButton("EAST 3");
-		bE3.setBorderPainted(false);
-		bE3.setContentAreaFilled(false);
-		bE3.setFocusPainted(false);
+		JLabel bE3 = new JLabel("EAST 3", SwingConstants.CENTER);
 
-		JButton bE4 = new JButton("EAST 4");
-		bE4.setBorderPainted(false);
-		bE4.setContentAreaFilled(false);
-		bE4.setFocusPainted(false);
+		JLabel bE4 = new JLabel("EAST 4", SwingConstants.CENTER);
 
 		panel.add(bE1);
 		panel.add(bE2);
@@ -272,25 +291,13 @@ public class GameWindow extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 1));
 
-		JButton bW1 = new JButton("WEST 1");
-		bW1.setBorderPainted(false);
-		bW1.setContentAreaFilled(false);
-		bW1.setFocusPainted(false);
+		JLabel bW1 = new JLabel("WEST 1", SwingConstants.CENTER);
 
-		JButton bW2 = new JButton("WEST 2");
-		bW2.setBorderPainted(false);
-		bW2.setContentAreaFilled(false);
-		bW2.setFocusPainted(false);
+		JLabel bW2 = new JLabel("WEST 2", SwingConstants.CENTER);
 
-		JButton bW3 = new JButton("WEST 3");
-		bW3.setBorderPainted(false);
-		bW3.setContentAreaFilled(false);
-		bW3.setFocusPainted(false);
+		JLabel bW3 = new JLabel("WEST 3", SwingConstants.CENTER);
 
-		JButton bW4 = new JButton("WEST 4");
-		bW4.setBorderPainted(false);
-		bW4.setContentAreaFilled(false);
-		bW4.setFocusPainted(false);
+		JLabel bW4 = new JLabel("WEST 4", SwingConstants.CENTER);
 
 		panel.add(bW1);
 		panel.add(bW2);

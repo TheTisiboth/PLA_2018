@@ -29,13 +29,13 @@ public class RulesWindow extends JFrame implements ActionListener {
 		m_view = view;
 		m_controller = ctrl;
 
-		this.setTitle("Règles du jeu");
-		this.setLayout(new BorderLayout());
+		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
+		this.setPreferredSize(d);
+		this.setLayout(new BorderLayout());
 
-		// Création du Label contenant l'image de fond, la view et tout les composants
-		JLabel img = new JLabel(new ImageIcon("images/regles.png"));
-		img.setLayout(null);
+		JPanel img = new Background(d,3);
+
 
 		rules = new JButton();
 		rules.setBounds(-120, 10, 400, 80);
@@ -68,6 +68,28 @@ public class RulesWindow extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 
 	}
+	
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x, y, width, height);
+		if (d == null) {
+			return;
+		}
+		if ((width != 1200) || (height != 600)) {
+			new RulesWindow(d, m_controller, m_view, m_model);
+			dispose();
+		}
+	}
+
+	@Override
+	public void setSize(int width, int height) {
+		super.setSize(width, height);
+		if ((width != 1200) || (height != 600)) {
+			new RulesWindow(d, m_controller, m_view, m_model);
+			dispose();
+		}
+	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

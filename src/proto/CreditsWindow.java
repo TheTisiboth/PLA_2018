@@ -1,10 +1,14 @@
 package proto;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
@@ -29,13 +33,12 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		m_view = view;
 		m_controller = ctrl;
 
-		this.setTitle("Crédits");
-		this.setLayout(new BorderLayout());
+		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
+		this.setPreferredSize(d);
+		this.setLayout(new BorderLayout());
 
-		// Création du Label contenant l'image de fond, la view et tout les composants
-		JLabel img = new JLabel(new ImageIcon("images/credits.png"));
-		img.setLayout(null);
+		JPanel img = new Background(d,4);
 
 		rules = new JButton();
 		rules.setBounds(-120, 10, 400, 80);
@@ -68,13 +71,35 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 
 	}
+	
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x, y, width, height);
+		if (d == null) {
+			return;
+		}
+		if ((width != 1200) || (height != 600)) {
+			new CreditsWindow(d,m_controller, m_view, m_model);
+			dispose();
+		}
+	}
+
+	@Override
+	public void setSize(int width, int height) {
+		super.setSize(width, height);
+		if ((width != 1200) || (height != 600)) {
+			new CreditsWindow(d,m_controller, m_view, m_model);
+			dispose();
+		}
+	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 
 		if (s == rules) {
-			HomeWindow r = new HomeWindow(m_controller, d, m_model, m_view);
+			new HomeWindow(m_controller, d, m_model, m_view);
 			dispose();
 		}
 

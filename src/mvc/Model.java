@@ -17,7 +17,6 @@ import javax.swing.text.html.StyleSheet.ListPainter;
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.Options;
-import javafx.scene.shape.Line;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
 import no.physic.entity.Item_Zbire;

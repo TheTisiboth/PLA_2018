@@ -1,4 +1,4 @@
-package proto;
+package mvc;
 
 import java.awt.Dimension;
 

@@ -20,21 +20,13 @@ package edu.ricm3.game;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import proto.GameWindow;
 import proto.HomeWindow;
 
 public class GameUI {
@@ -127,11 +119,9 @@ public class GameUI {
 	}
 
 	private void createWindow(Dimension d) {
-		
+
 		HomeWindow h;
 		h = new HomeWindow(m_controller, d, m_model, m_view);
-	
-		
 
 		// let's hook the controller,
 		// so it gets mouse events and keyboard events.

@@ -5,10 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.Random;
-
-import javax.print.attribute.PrintJobAttributeSet;
 
 import mvc.Case;
 import mvc.MesOptions;
@@ -27,21 +24,28 @@ public class Joueur extends Physic_Entity {
 	private int timeEffect;
 	private int paintStock;
 	private Zbire z[];
-	int m_w, m_h;
-	int m_idx;
-	float m_scale;
-	BufferedImage m_sprite;
-	BufferedImage[] m_sprites;
-	int m_nrows, m_ncols;
+	private int m_w, m_h;
+	private int m_idx;
+	private float m_scale;
+	private BufferedImage m_sprite;
+	private BufferedImage[] m_sprites;
+	private int m_personali;
+	private int m_nrows, m_ncols;
 	private boolean moveable;
 
 	private int diameter;
 
 	private long m_lastMove;
 	private int step = 1;
+
+	private int pos_init_x;
+	private int pos_init_y;
+
 	private int recharge = 10;
+	private boolean reload; // Sert a recharger la peinture sur le tour d'après
 
 	char direction;
+	char last_direction;
 	boolean inMovement;
 
 	// public Joueur(int x, int y, Color couleur) {
@@ -54,22 +58,32 @@ public class Joueur extends Physic_Entity {
 	//
 	// }
 
-	public Joueur(BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
+	public Joueur(BufferedImage sprite, int rows, int columns, int personali, int x, int y, float scale, Color couleur) {
+
 		super(x, y);
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
-		last_x = x;
-		last_y = y;
+		last_x = x+10;
+		last_y = y+10;
 		diameter = 34;
 		m_scale = scale;
 		moveable = true;
 		timeEffect = 0;
 		speed = 1;
+		m_personali = personali*48;
 		this.couleur = couleur;
 		splitSprite();
 		paintStock = MesOptions.paintMax;
 		z = new Zbire[4];
+
+		pos_init_x = x;
+		pos_init_y = y;
+		direction = last_direction = 'D';
+		
+		m_idx = 45+m_personali;
+
+
 	}
 
 	void splitSprite() {
@@ -148,11 +162,19 @@ public class Joueur extends Physic_Entity {
 			}
 		}
 	}
-	
-	public void recharger() {
-		paintStock += recharge;
-		if(paintStock>MesOptions.paintMax) {
-			paintStock -= MesOptions.paintMax - paintStock;
+
+	// Un cas pour recharger au prochain tour, l'autre pour recharger la peinture
+	public void recharger(boolean reload) {
+		// la peinture sera rechargée au prochain tour
+		if (reload) {
+			this.reload = true;
+		} // on recharge la peinture
+		else if (this.reload) {
+			paintStock += recharge;
+			if (paintStock > MesOptions.paintMax) {
+				paintStock -= MesOptions.paintMax - paintStock;
+			}
+			this.reload = false;
 		}
 	}
 
@@ -164,25 +186,25 @@ public class Joueur extends Physic_Entity {
 
 		if (i >= 0 && i < 25) {
 			if (z[0] == null) {
-				zbire = new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 0,m_scale,joueur);
+				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 0,m_scale,joueur);
 				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
 			if (z[1] == null) {
-				zbire = new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 1,m_scale,joueur);
+				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 1,m_scale,joueur);
 				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
 			if (z[2] == null) {
-				zbire =new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 2,m_scale,joueur);
+				zbire =new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 2,m_scale,joueur);
 				z[2] = zbire;
 			}
 
 		} else {
 			if (z[3] == null) {
-				zbire = new Zbire(m_sprite,4,6,-1, -1, this.couleur, 10, 3,m_scale,joueur);
+				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 3,m_scale,joueur);
 				z[3] = zbire;
 			}
 
@@ -198,7 +220,7 @@ public class Joueur extends Physic_Entity {
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;
-		
+
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -206,37 +228,63 @@ public class Joueur extends Physic_Entity {
 			timeEffect--;
 			m_lastMove = now;
 			elapsed = now - m_lastMove;
-			System.out.println("activation du freeze dans step");
+
 		} // cas 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
 			time /= speed;
-			System.out.println("activation du speed dans step");
+			//System.out.println("activation du speed dans step");
 		}
-		
-		if (inMovement && elapsed > time && moveable) {
 
-			if (direction == 'R' && x < MesOptions.nbCol - 1) {
-				x += step;
-				m_idx = 19;
-			} else if (direction == 'L' && x > 0) {
-				x -= step;
-				m_idx = 7;
-			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
-				y += step;
-				m_idx = 2;
-			} else if (direction == 'U' && y > 0) {
-				y -= step;
-				m_idx = 13;
+		if (elapsed > time) {
 
+			if (inMovement && moveable) {
+				
+				if (direction == 'R' && x < MesOptions.nbCol - 1) {
+					x += step;
+				} else if (direction == 'L' && x > 0) {
+					x -= step;
+				} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
+					y += step;
+				} else if (direction == 'U' && y > 0) {
+					y -= step;
+				}
 			}
+			
+			switch (direction) {
+			case 'R':
+				m_idx = (m_idx == 1+m_personali) ? 4+m_personali : 1+m_personali;
+				break;
+			case 'L':
+				m_idx = (m_idx == 25+m_personali) ? 28+m_personali : 25+m_personali;
+				break;
+			case 'D':
+				m_idx = (m_idx == 42+m_personali) ? 44+m_personali : 42+m_personali;
+				break;
+			case 'U':
+				m_idx = (m_idx == 12+m_personali) ? 13+m_personali : 12+m_personali;
+				break;
+			}
+			
 
 			m_lastMove = now;
 			if (timeEffect > 0) {
 				timeEffect--;
 			}
-
 		}
+	}
 
+	public void hit(Physic_Entity e) {
+		if (e instanceof Obstacle) {
+			Obstacle o = (Obstacle) e;
+			o.reduce_life();
+		} else if (e instanceof Joueur) {
+			Joueur j = (Joueur) e;
+			j.x = j.getPosInit_x();
+			j.y = j.getPosInit_y();
+		} else {
+			Zbire z = (Zbire) e;
+			z.reduce_nb_case();
+		}
 	}
 
 	// GETTER SETTER
@@ -266,8 +314,13 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void setDirection(char direction) {
+		last_direction = this.direction;
 		this.direction = direction;
 		inMovement = true;
+	}
+	
+	public char getLast_direction() {
+		return last_direction;
 	}
 
 	public void setMovement(boolean b) {
@@ -315,4 +368,16 @@ public class Joueur extends Physic_Entity {
 		paintStock--;
 	}
 
+	public int getPosInit_x() {
+		return pos_init_x;
+	}
+
+	public int getPosInit_y() {
+		return pos_init_y;
+	}
+
+	public void teleport(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }

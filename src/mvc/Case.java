@@ -11,8 +11,7 @@ public class Case {
 	private BufferedImage m_couleur;
 	private Entity e;
 	private boolean occuped;
-	private boolean refresh;
-	private boolean refresh_buffer2;
+	private int nb_refresh;
 
 	public Case(Entity e, BufferedImage img) {
 
@@ -22,8 +21,7 @@ public class Case {
 		} else {
 			occuped = false;
 		}
-		refresh = true;
-		refresh_buffer2 = false;
+		nb_refresh = 0;
 		m_couleur = img;
 		m_couleur_init = img;
 
@@ -31,6 +29,9 @@ public class Case {
 
 	// METHODE
 	public void paint(Graphics g, int x, int y) {
+		
+		nb_refresh++;
+		
 		if(m_couleur != m_couleur_init) {
 			Image img = m_couleur_init;
 			int w = (int) (MesOptions.taille_case);
@@ -45,11 +46,8 @@ public class Case {
 			e.paint(g);
 		}
 		
-		if (refresh_buffer2) {
-			refresh = false;
-			refresh_buffer2 = false;
-		} else {
-			refresh_buffer2 = true;
+		if (nb_refresh >= 2) {
+			nb_refresh = 0;
 		}
 
 	}
@@ -89,7 +87,7 @@ public class Case {
 	}
 
 	public boolean getRefresh() {
-		return refresh;
+		return nb_refresh < 2;
 	}
 
 	public void setM_couleur(BufferedImage m_couleur) {
@@ -97,8 +95,11 @@ public class Case {
 	}
 
 	public void setRefresh(boolean b) {
-		refresh = b;
-
+		if(b) {
+			nb_refresh = 0;
+		}else {
+			nb_refresh = 2;
+		}
 	}
 
 }

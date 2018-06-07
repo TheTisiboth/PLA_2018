@@ -27,7 +27,7 @@ import java.awt.event.MouseMotionListener;
 
 import com.sun.javafx.tk.Toolkit;
 
-import proto.GameWindow;
+import fenetre.GameWindow;
 
 public class GameController implements MouseListener, KeyListener, MouseMotionListener {
 

@@ -1,4 +1,4 @@
-package proto;
+package fenetre;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import edu.ricm3.game.GameUI;
 import edu.ricm3.game.Options;
 import mvc.Controller;
 import mvc.Model;
@@ -30,24 +31,17 @@ public class HomeWindow extends JFrame implements ActionListener {
 	JButton play, rules, credits;
 
 	String nom_j1, nom_j2;
-	long m_start;
-	long m_elapsed;
-	long m_lastRepaint;
-	long m_lastTick;
-	int m_nTicks;
-	int m_fps;
-	String m_msg;
 
 	Model model;
 	Controller controller;
 	View view;
 	Timer m_timer;
+	GameUI m_game;
 
-	public HomeWindow(Dimension d) {
-
-		
+	public HomeWindow(Dimension d, GameUI game) {
 
 		this.d = d;
+		m_game = game;
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
@@ -158,7 +152,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			return;
 		}
 		if ((width != 1200) || (height != 600)) {
-			new HomeWindow(d);
+			new HomeWindow(d, m_game);
 			dispose();
 		}
 	}
@@ -167,7 +161,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
 		if ((width != 1200) || (height != 600)) {
-			new HomeWindow(d);
+			new HomeWindow(d, m_game);
 			dispose();
 		}
 	}
@@ -181,7 +175,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			j1.setText(j1.getText());
 		}
 		if (s == j2) {
-			nom_j2 = j2.getText();
+			j2.setText(j2.getText());
 		}
 
 		// Quand on clique sur le bouton "Play"
@@ -194,81 +188,29 @@ public class HomeWindow extends JFrame implements ActionListener {
 			model = new Model();
 			controller = new Controller(model);
 			view = new View(model, controller);
-			createTimer();
+			m_game.setM_controller(controller);
+			m_game.setM_model(model);
+			m_game.setM_view(view);
+			
 			new GameWindow(d, controller, view, model, nom_j1, nom_j2);
-
+			m_game.createTimer();
+			
 			dispose();
 		}
 
 		// Quand on clique sur le bouton "Régles"
 		if (s == rules) {
-			new RulesWindow(d);
+			new RulesWindow(d, m_game);
 			dispose();
 		}
 
 		// Quand on clique sur le bouton "Crédits"
 		if (s == credits) {
-			new CreditsWindow(d);
+			new CreditsWindow(d, m_game);
 			dispose();
 		}
 
 	}
 
-	/*
-	 * Let's create a timer, it is the heart of the simulation, ticking periodically
-	 * so that we can simulate the passing of time.
-	 */
-	private void createTimer() {
-		int tick = 1; // one millisecond
-		m_start = System.currentTimeMillis();
-		m_lastTick = m_start;
-		m_timer = new Timer(tick, new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				tick();
-			}
-		});
-		m_timer.start();
-	}
-
-	/*
-	 * This is the period tick callback. We compute the elapsed time since the last
-	 * tick. We inform the model of the current time.
-	 */
-	private void tick() {
-		long now = System.currentTimeMillis() - m_start;
-		long elapsed = (now - m_lastTick);
-		m_elapsed += elapsed;
-		m_lastTick = now;
-		m_nTicks++;
-		model.step(now);
-		controller.step(now);
-
-		elapsed = now - m_lastRepaint;
-		if (elapsed > Options.REPAINT_DELAY) {
-			double tick = (double) m_elapsed / (double) m_nTicks;
-			long tmp = (long) (tick * 10.0);
-			tick = tmp / 10.0;
-			m_elapsed = 0;
-			m_nTicks = 0;
-			String txt = "Tick=" + tick + "ms";
-			while (txt.length() < 15)
-				txt += " ";
-			txt = txt + m_fps + " fps   ";
-			while (txt.length() < 25)
-				txt += " ";
-			if (m_msg != null)
-				txt += m_msg;
-			// System.out.println(txt);
-			// m_text.setText(txt);
-			// m_text.repaint();
-			// m_view.paint();
-			m_lastRepaint = now;
-		}
-	}
-
-	public void setFPS(int fps, String msg) {
-		m_fps = fps;
-		m_msg = msg;
-	}
-
+	
 }

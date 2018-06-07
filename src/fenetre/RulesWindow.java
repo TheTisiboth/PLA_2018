@@ -1,41 +1,40 @@
-package proto;
+package fenetre;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
+import edu.ricm3.game.GameUI;
 import edu.ricm3.game.GameView;
+import edu.ricm3.game.WindowListener;
 
-public class CreditsWindow extends JFrame implements ActionListener {
+public class RulesWindow extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JPanel main;
-	GameView m_view;
+
 	JLabel m_text;
-	GameModel m_model;
-	GameController m_controller;
+
 	JButton rules;
 	Dimension d;
+	GameUI m_game;
 
-	public CreditsWindow(Dimension d) {
+	public RulesWindow(Dimension d, GameUI game) {
 
 		this.d = d;
-
+		m_game = game;
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		this.setSize(d);
 		this.setPreferredSize(d);
 		this.setLayout(new BorderLayout());
 
-		JPanel img = new Background(d,4);
+		JPanel img = new Background(d,3);
+
 
 		rules = new JButton();
 		rules.setBounds(-120, 10, 400, 80);
@@ -76,7 +75,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 			return;
 		}
 		if ((width != 1200) || (height != 600)) {
-			new CreditsWindow(d);
+			new RulesWindow(d, m_game);
 			dispose();
 		}
 	}
@@ -85,7 +84,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
 		if ((width != 1200) || (height != 600)) {
-			new CreditsWindow(d);
+			new RulesWindow(d, m_game);
 			dispose();
 		}
 	}
@@ -96,7 +95,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		Object s = e.getSource();
 
 		if (s == rules) {
-			new HomeWindow(d);
+			HomeWindow r = new HomeWindow(d, m_game);
 			dispose();
 		}
 

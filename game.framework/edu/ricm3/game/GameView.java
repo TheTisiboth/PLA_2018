@@ -26,104 +26,103 @@ import java.awt.image.BufferedImage;
 
 public abstract class GameView extends Canvas {
 
+	private static final long serialVersionUID = 1L;
 
-  private static final long serialVersionUID = 1L;
+	protected GameUI m_game;
+	protected Color m_background = Color.ORANGE;
 
-  protected GameUI m_game;
-  protected Color m_background = Color.gray;
-  
-  private Image m_buffer1, m_buffer2;
-  private Image m_renderBuffer;
-  private Image m_drawBuffer;
-  private int m_width, m_height;
-  private boolean m_swap;
+	private Image m_buffer1, m_buffer2;
+	private Image m_renderBuffer;
+	private Image m_drawBuffer;
+	private int m_width, m_height;
+	private boolean m_swap;
 
-  private void initDoubleBuffering(int width, int height) {
+	private void initDoubleBuffering(int width, int height) {
 
-    if (width != m_width || height != m_height) {
-      m_width = width;
-      m_height = height;
-      m_buffer1 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
-      if (Options.USE_DOUBLE_BUFFERING)
-        m_buffer2 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
-      else
-        m_buffer2 = m_buffer1;
+		if (width != m_width || height != m_height) {
+			m_width = width;
+			m_height = height;
+			m_buffer1 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
+			if (Options.USE_DOUBLE_BUFFERING)
+				m_buffer2 = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_RGB);
+			else
+				m_buffer2 = m_buffer1;
 
-      Graphics gc = m_buffer1.getGraphics();
-      gc.setColor(new Color(255, 255, 255, 255));
-      gc.fillRect(0, 0, m_width, m_height);
-      gc = m_buffer2.getGraphics();
-      gc.setColor(new Color(255, 255, 255, 255));
-      gc.fillRect(0, 0, m_width, m_height);
-      m_renderBuffer = m_buffer2;
-      m_drawBuffer = m_buffer1;
-    }
-  }
+//			Graphics gc = m_buffer1.getGraphics();
+//			gc.setColor(m_background);
+//			gc.fillRect(0, 0, m_width, m_height);
+//			gc = m_buffer2.getGraphics();
+//			gc.setColor(m_background);
+//			gc.fillRect(0, 0, m_width, m_height);
+			m_renderBuffer = m_buffer2;
+			m_drawBuffer = m_buffer1;
+		}
+	}
 
-  private void swap() {
-    if (m_renderBuffer == m_buffer1) {
-      m_renderBuffer = m_buffer2;
-      m_drawBuffer = m_buffer1;
-    } else {
-      m_renderBuffer = m_buffer1;
-      m_drawBuffer = m_buffer2;
-    }
-  }
+	private void swap() {
+		if (m_renderBuffer == m_buffer1) {
+			m_renderBuffer = m_buffer2;
+			m_drawBuffer = m_buffer1;
+		} else {
+			m_renderBuffer = m_buffer1;
+			m_drawBuffer = m_buffer2;
+		}
+	}
 
-  protected GameView() {
-  }
-  
-  public GameUI getGameUI() {
-    return m_game;
-  }
-  
-  public int getWidth() {
-    return m_width;
-  }
+	protected GameView() {
+	}
 
-  public int getHeight() {
-    return m_height;
-  }
+	public GameUI getGameUI() {
+		return m_game;
+	}
 
-  public void setBounds(int x, int y, int width, int height) {
-	super.setBounds(x, y, width, height);
-    initDoubleBuffering(width, height);
-    m_buffer1.flush();
-    m_buffer2.flush();
-    
-  }
+	public int getWidth() {
+		return m_width;
+	}
 
-  public GameModel getModel() {
-    return m_game.getModel();
-  }
+	public int getHeight() {
+		return m_height;
+	}
 
-  public GameController getController() {
-    return m_game.getController();
-  }
+	public void setBounds(int x, int y, int width, int height) {
+		super.setBounds(x, y, width, height);
+		initDoubleBuffering(width, height);
+		m_buffer1.flush();
+		m_buffer2.flush();
 
-  public final void paint() {
-    Graphics g = m_drawBuffer.getGraphics();
-    _paint(g);
-    m_swap = true;
-    repaint();
-  }
+	}
 
-  @Override
-  public final void paint(Graphics g) {
-	  super.paint(g);
-    if (m_swap) {
-      swap();
-      m_swap = false;
-    }
-    g.drawImage(m_renderBuffer, 0, 0, this);
-    Toolkit.getDefaultToolkit().sync();
-  }
+	public GameModel getModel() {
+		return m_game.getModel();
+	}
 
-  @Override
-  public final void update(Graphics g) {
-    paint(g);
-  }
+	public GameController getController() {
+		return m_game.getController();
+	}
 
-  protected abstract void _paint(Graphics g);
+	public final void paint() {
+		Graphics g = m_drawBuffer.getGraphics();
+		_paint(g);
+		m_swap = true;
+		repaint();
+	}
+
+	@Override
+	public final void paint(Graphics g) {
+		super.paint(g);
+		if (m_swap) {
+			swap();
+			m_swap = false;
+		}
+		g.drawImage(m_renderBuffer, 0, 0, this);
+		Toolkit.getDefaultToolkit().sync();
+	}
+
+	@Override
+	public final void update(Graphics g) {
+		paint(g);
+	}
+
+	protected abstract void _paint(Graphics g);
 
 }

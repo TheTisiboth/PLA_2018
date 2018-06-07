@@ -7,8 +7,8 @@
 * Enchainement de plusieurs fenetres (fenetre d'accueil, fenetre des credits, fenetre des regles, fenetre de jeu)
 * Création de zbire sans comportement
 * Implémentation du comportement frapper, on peut maintenant : 
- * frapper le joueur adverse, il retourne donc à sa position initiale
- * frapper des murs, ils prennent 3 coups avant de disparaitre
+  * frapper le joueur adverse, il retourne donc à sa position initiale
+  * frapper des murs, ils prennent 3 coups avant de disparaitre
 
 
 ### TODO
@@ -16,9 +16,9 @@
 * Inclure la fenetre de fin a la fin du jeu
 * resoudre les bug mineur (peinture, double buffer)
 * Gerer l'affichage graphique :
- * du stock de peinture
- * Des icones des sbires que l'on a ramassé
- * du score, et du temps
+  * du stock de peinture
+  * Des icones des sbires que l'on a ramassé
+  * du score, et du temps
 
 
 ___

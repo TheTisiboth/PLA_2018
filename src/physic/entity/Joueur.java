@@ -24,12 +24,13 @@ public class Joueur extends Physic_Entity {
 	private int timeEffect;
 	private int paintStock;
 	private Zbire z[];
-	int m_w, m_h;
-	int m_idx;
-	float m_scale;
-	BufferedImage m_sprite;
-	BufferedImage[] m_sprites;
-	int m_nrows, m_ncols;
+	private int m_w, m_h;
+	private int m_idx;
+	private float m_scale;
+	private BufferedImage m_sprite;
+	private BufferedImage[] m_sprites;
+	private int m_personali;
+	private int m_nrows, m_ncols;
 	private boolean moveable;
 
 	private int diameter;
@@ -40,30 +41,48 @@ public class Joueur extends Physic_Entity {
 	private int pos_init_x;
 	private int pos_init_y;
 
+	private int recharge = 10;
+	private boolean reload; // Sert a recharger la peinture sur le tour d'après
+
 	char direction;
 	char last_direction;
 	boolean inMovement;
 
-	public Joueur(BufferedImage sprite, int rows, int columns, int x, int y, float scale, Color couleur) {
+	// public Joueur(int x, int y, Color couleur) {
+	// super(x, y);
+	// last_x = x;
+	// last_y = y;
+	// diameter = 34;
+	// this.couleur = couleur;
+	// moveable = true;
+	//
+	// }
+
+	public Joueur(BufferedImage sprite, int rows, int columns, int personali, int x, int y, float scale, Color couleur) {
+
 		super(x, y);
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
-		last_x = x;
-		last_y = y;
+		last_x = x+10;
+		last_y = y+10;
 		diameter = 34;
 		m_scale = scale;
 		moveable = true;
 		timeEffect = 0;
 		speed = 1;
+		m_personali = personali*48;
 		this.couleur = couleur;
 		splitSprite();
 		paintStock = MesOptions.paintMax;
 		z = new Zbire[5];
+
 		pos_init_x = x;
 		pos_init_y = y;
 		direction = last_direction = 'D';
 		
+		m_idx = 45+m_personali;
+
 	}
 
 	void splitSprite() {
@@ -74,6 +93,7 @@ public class Joueur extends Physic_Entity {
 		m_h = height / m_nrows;
 		for (int i = 0; i < m_nrows; i++) {
 			for (int j = 0; j < m_ncols; j++) {
+				System.out.println("passaga"+i+" et "+j);
 				int x = j * m_w;
 				int y = i * m_h;
 				m_sprites[(i * m_ncols) + j] = m_sprite.getSubimage(x, y, m_w, m_h);
@@ -143,10 +163,18 @@ public class Joueur extends Physic_Entity {
 		}
 	}
 
-	public void recharger() {
-		paintStock += MesOptions.recharge;
-		if (paintStock > MesOptions.paintMax) {
-			paintStock -= MesOptions.paintMax - paintStock;
+	// Un cas pour recharger au prochain tour, l'autre pour recharger la peinture
+	public void recharger(boolean reload) {
+		// la peinture sera rechargée au prochain tour
+		if (reload) {
+			this.reload = true;
+		} // on recharge la peinture
+		else if (this.reload) {
+			paintStock += recharge;
+			if (paintStock > MesOptions.paintMax) {
+				paintStock -= MesOptions.paintMax - paintStock;
+			}
+			this.reload = false;
 		}
 	}
 
@@ -188,7 +216,7 @@ public class Joueur extends Physic_Entity {
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;
-		
+
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// Cas 1 : Freeze
@@ -196,6 +224,7 @@ public class Joueur extends Physic_Entity {
 			timeEffect--;
 			m_lastMove = now;
 			elapsed = now - m_lastMove;
+
 			//System.out.println("activation du freeze dans step");
 		} // cas 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
@@ -220,16 +249,16 @@ public class Joueur extends Physic_Entity {
 			
 			switch (direction) {
 			case 'R':
-				m_idx = 19;
+				m_idx = (m_idx == 1+m_personali) ? 4+m_personali : 1+m_personali;
 				break;
 			case 'L':
-				m_idx = 7;
+				m_idx = (m_idx == 25+m_personali) ? 28+m_personali : 25+m_personali;
 				break;
 			case 'D':
-				m_idx = 2;
+				m_idx = (m_idx == 42+m_personali) ? 44+m_personali : 42+m_personali;
 				break;
 			case 'U':
-				m_idx = 13;
+				m_idx = (m_idx == 12+m_personali) ? 13+m_personali : 12+m_personali;
 				break;
 			}
 			
@@ -239,7 +268,6 @@ public class Joueur extends Physic_Entity {
 				timeEffect--;
 			}
 		}
-
 	}
 
 	public void hit(Physic_Entity e) {
@@ -337,4 +365,8 @@ public class Joueur extends Physic_Entity {
 		return pos_init_y;
 	}
 
+	public void teleport(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }

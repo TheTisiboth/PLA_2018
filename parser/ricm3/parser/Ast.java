@@ -3,6 +3,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import interpreter.*;
+
 /* Michael PÉRIN, Verimag / Univ. Grenoble Alpes, june 2018
  *
  * Constructors of the Abstract Syntax Tree of Game Automata
@@ -52,7 +54,7 @@ public class Ast {
 		}
 		
 		public Object make() {
-			return new Terminal_I(value);
+			return value;
 		}
 	}
 

@@ -1,13 +1,24 @@
 package fenetre;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
+import mvc.Model;
 
 public class GameWindow extends JFrame {
 
@@ -15,20 +26,21 @@ public class GameWindow extends JFrame {
 	JPanel main;
 	GameView m_view;
 	JLabel m_text;
-	GameModel m_model;
+	Model m_model;
 	GameController m_controller;
 	String j1, j2;
 	Dimension d;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
 		this.d = d;
-		m_model = mod;
+		m_model = (Model) mod;
 		m_view = view;
 		m_controller = ctrl;
 		this.j1 = j1;
 		this.j2 = j2;
+		m_model.setName_j1(j1);
+		m_model.setName_j2(j2);
 
-//		System.out.println("Asked: w=" + d.width + " h=" + d.height);
 		Container cont = this.getContentPane();
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
@@ -36,9 +48,6 @@ public class GameWindow extends JFrame {
 		cont.setPreferredSize(d);
 		cont.setMaximumSize(d);
 		cont.setMinimumSize(d);
-//		this.setSize(d);
-//		this.setPreferredSize(d);
-//		this.setLayout(new BorderLayout());
 
 		JPanel img = new Background(d, 2);
 
@@ -60,11 +69,9 @@ public class GameWindow extends JFrame {
 		img.add(west);
 
 		// On ajoute le tout dans la fenetre
-//		this.add(img, BorderLayout.CENTER);
-		  cont.add(img, BorderLayout.CENTER);
+		cont.add(img, BorderLayout.CENTER);
 
-
-		// this.setResizable(true);
+		this.setResizable(false);
 		this.doLayout();
 		this.setVisible(true);
 
@@ -96,19 +103,11 @@ public class GameWindow extends JFrame {
 		if (d == null) {
 			return;
 		}
-//		if ((width != 1200) || (height != 600)) {
-//			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
-//			dispose();
-//		}
 	}
 
 	@Override
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
-//		if ((width != 1200) || (height != 600)) {
-//			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
-//			dispose();
-//		}
 	}
 
 	// ----------------------NORTH PANEL------------------------------//
@@ -121,7 +120,7 @@ public class GameWindow extends JFrame {
 		panel.setOpaque(false);
 		panel.setLocation(0, 0);
 
-		JLabel time = new JLabel("<html>3:00</html>");
+		JLabel time = new JLabel("3:00");
 		time.setForeground(Color.WHITE);
 		time.setFont(new Font("Helvetica", Font.BOLD, 40));
 
@@ -194,7 +193,7 @@ public class GameWindow extends JFrame {
 		return panel;
 	}
 
-	// WEST NORTH OK
+	// WEST NORTH
 	private JPanel createWestNorthPanel() {
 
 		// MAIN PANEL
@@ -255,7 +254,7 @@ public class GameWindow extends JFrame {
 		return panel;
 	}
 
-	// NORTH OK
+	// NORTH
 	private JPanel createNorthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -277,7 +276,7 @@ public class GameWindow extends JFrame {
 		return panel;
 	}
 
-	// OK
+
 	// ----------------------EAST PANEL------------------------------//
 	private JPanel createEastPanel() {
 
@@ -302,8 +301,6 @@ public class GameWindow extends JFrame {
 		return panel;
 
 	}
-
-	// OK
 
 	// ----------------------WEST PANEL------------------------------//
 

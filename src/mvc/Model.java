@@ -1,13 +1,11 @@
 package mvc;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,45 +14,31 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import com.sun.javafx.font.Disposer;
-
 import edu.ricm3.game.GameModel;
-import edu.ricm3.game.GameUI;
-import edu.ricm3.game.Options;
 import fenetre.GameWindow;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
 import no.physic.entity.Item_Zbire;
-
 import no.physic.entity.No_Physic_Entity;
 import no.physic.entity.Portal;
 import no.physic.entity.Recharge;
 import no.physic.entity.Speed;
 import physic.entity.Joueur;
 import physic.entity.Obstacle;
-
-import sun.font.CreatedFontTracker;
-
 import physic.entity.Physic_Entity;
 import physic.entity.Zbire;
 
-
 public class Model extends GameModel {
-	private Joueur c;
-	private Joueur c1;
-	List<Zbire> j1_zbire;
-	List<Zbire> j2_zbire;
+	private Joueur player2, player1;
+	List<Zbire> j1_zbire, j2_zbire;
 	private Obstacle o[];
 
 	public Statistique statistique;
-
 	private Portal portal;
 
-	int minute;
-	int secondes;
+	int minutes, secondes;
 
-	long elapsed;
-	long lastTick;
+	long elapsed, lastTick;
 	private int counter_sec;
 
 	boolean timer;
@@ -65,46 +49,54 @@ public class Model extends GameModel {
 
 	Case plateau[][];
 
-	private float score1;
-	private float score2;
+	private float score1, score2;
 	private boolean refresh_score = true;
-	BufferedImage m_personnage;
-	BufferedImage m_obstacle;
-	BufferedImage m_Blue;
-	BufferedImage m_Red;
-	BufferedImage m_BlockBlue;
-	BufferedImage m_BlockGray;
-	BufferedImage m_thunder;
-	BufferedImage m_stop;
-	BufferedImage m_item;
-	BufferedImage m_recharge;
-	BufferedImage m_portal;
+	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
+			m_recharge, m_portal;
 	JFrame m_frame;
+
+	private String name_j1, name_j2;
+
+	public String getName_j1() {
+		return name_j1;
+	}
+
+	public void setName_j1(String name_j1) {
+		this.name_j1 = name_j1;
+	}
+
+	public String getName_j2() {
+		return name_j2;
+	}
+
+	public void setName_j2(String name_j2) {
+		this.name_j2 = name_j2;
+	}
 
 	public Model() {
 		lastTick = 0L;
-		counter_sec =0;
+		counter_sec = 0;
 
 		loadSprites();
 
 		score1 = 0;
 		score2 = 0;
-		minute = 0;
-		secondes = 1;
+		minutes = MesOptions.min;
+		secondes = 0;
 		timer = true;
 
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
 
 		initPlat(plateau);
 
-		c = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.RED);
-		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(c);
-		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) c.getColor());
+		player2 = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
+		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
+		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
-		c1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.BLUE);
-		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(c1);
-		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) c1.getColor());
+		player1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.RED);
+		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
+		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);
 
 		listBonus = new LinkedList<Bonus>();
@@ -114,9 +106,7 @@ public class Model extends GameModel {
 		o = new Obstacle[MesOptions.nb_obstacle];
 		initObstacle();
 
-		
-		statistique =new Statistique();
-
+		statistique = new Statistique();
 
 		initPortal();
 
@@ -134,25 +124,21 @@ public class Model extends GameModel {
 		return m_frame;
 	}
 
-	
-
 	private void loadSprites() {
 
 		// credit : https://erikari.itch.io/elements-supremacy-assets
 		File imageFile = new File("images/character.png");
 
 		File BriqueFile = new File("images/brique.png");
-		File SplashBlue = new File("images/splashblue.png");
-		File SplashRed = new File("images/splashred.png");
+		File SplashBlue = new File("images/splashbleu.png");
+		File SplashRed = new File("images/splashrose.png");
 		File Bblue = new File("images/blocbleu.png");
 		File Bgray = new File("images/blocgris.png");
 		File thunder = new File("images/eclair.png");
 		File stop = new File("images/stop.png");
 		File itemzbire = new File("images/eclair_guillaume.jpg");
 		File recharge = new File("images/recharge.png");
-		File zbire1;
 		File portal = new File("images/portail.png");
-
 
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
@@ -182,7 +168,7 @@ public class Model extends GameModel {
 			y = rand.nextInt(MesOptions.nbLigne - 1);
 		} while (plateau[x][y].isOccuped());
 		Portal p = new Portal(x, y, m_portal);
-		this.portal = p;
+		this.setPortal(p);
 		plateau[x][y].setE(p);
 		plateau[x][y].setOccuped(true);
 		plateau[x][y].setRefresh(true);
@@ -240,15 +226,11 @@ public class Model extends GameModel {
 	public void step(long now) {
 
 		if (timer) {
-			c1.canMove(plateau);
-			c1.step(now);
+			player1.canMove(plateau);
+			player1.step(now);
 
-			c.canMove(plateau);
-			c.step(now);
-			// System.out.println("couleur de derniere case:
-			// "+(plateau[c.getLastX()][c.getLastY()].getCouleur() == c.getColor()));
-			// System.out.println("couleur case 2/2: "+(plateau[2][2].getCouleur() ==
-			// c.getColor()));
+			player2.canMove(plateau);
+			player2.step(now);
 
 			checkBonus();
 			checkItem();
@@ -260,26 +242,23 @@ public class Model extends GameModel {
 
 			if (elapsed >= 1000L) {
 				counter_sec++;
-				if(counter_sec == 10) {
-					counter_sec =0;
+				if (counter_sec == 10) {
+					counter_sec = 0;
 					statistique.plus_Score_joueur1(score1);
 					statistique.plus_Score_joueur2(score2);
 					statistique.plus_index();
-					
 				}
-				if (minute != 0 && secondes == 0) {
+				if (minutes != 0 && secondes == 0) {
 					secondes = 60;
-					minute--;
+					minutes--;
 				}
-				if (minute == 0 && secondes == 0) {
+				if (minutes == 0 && secondes == 0) {
 					timer = false;
-					
-
 				}
-					
+
 				else {
 					secondes--;
-					System.out.println(minute + "min" + secondes + "s");
+					System.out.println(minutes + "min" + secondes + "s");
 
 					popItem();
 					PopPaint();
@@ -289,17 +268,15 @@ public class Model extends GameModel {
 					lastTick = now;
 				}
 			}
-			
 		}
-
 	}
 
 	private void checkTP() {
-		if (plateau[c1.getX()][c1.getY()].getE() instanceof Portal) {
-			tP(c1);
+		if (plateau[player1.getX()][player1.getY()].getE() instanceof Portal) {
+			tP(player1);
 		}
-		if (plateau[c.getX()][c.getY()].getE() instanceof Portal) {
-			tP(c);
+		if (plateau[player2.getX()][player2.getY()].getE() instanceof Portal) {
+			tP(player2);
 		}
 
 	}
@@ -318,57 +295,57 @@ public class Model extends GameModel {
 	}
 
 	private void checkPaint() {
-		c1.recharger(false);
-		c.recharger(false);
-		if (plateau[c1.getX()][c1.getY()].getE() instanceof Recharge) {
-			Recharge r = (Recharge) plateau[c1.getX()][c1.getY()].getE();
-			c1.recharger(true);
-			plateau[c1.getX()][c1.getY()].setE(null);
-			plateau[c1.getX()][c1.getY()].setRefresh(true);
+		player1.recharger(false);
+		player2.recharger(false);
+		if (plateau[player1.getX()][player1.getY()].getE() instanceof Recharge) {
+			Recharge r = (Recharge) plateau[player1.getX()][player1.getY()].getE();
+			player1.recharger(true);
+			plateau[player1.getX()][player1.getY()].setE(null);
+			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listRecharge.remove(r);
 		}
-		if (plateau[c.getX()][c.getY()].getE() instanceof Recharge) {
-			Recharge r = (Recharge) plateau[c.getX()][c.getY()].getE();
-			c.recharger(true);
-			plateau[c.getX()][c.getY()].setE(null);
-			plateau[c.getX()][c.getY()].setRefresh(true);
+		if (plateau[player2.getX()][player2.getY()].getE() instanceof Recharge) {
+			Recharge r = (Recharge) plateau[player2.getX()][player2.getY()].getE();
+			player2.recharger(true);
+			plateau[player2.getX()][player2.getY()].setE(null);
+			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listRecharge.remove(r);
 		}
 	}
 
 	private void checkItem() {
-		if (plateau[c1.getX()][c1.getY()].getE() instanceof Item_Zbire) {
-			Item_Zbire item = (Item_Zbire) plateau[c1.getX()][c1.getY()].getE();
-			c1.appliquerItem(2);
-			plateau[c1.getX()][c1.getY()].setE(null);
-			plateau[c1.getX()][c1.getY()].setRefresh(true);
+		if (plateau[player1.getX()][player1.getY()].getE() instanceof Item_Zbire) {
+			Item_Zbire item = (Item_Zbire) plateau[player1.getX()][player1.getY()].getE();
+			player1.appliquerItem(2);
+			plateau[player1.getX()][player1.getY()].setE(null);
+			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listItem.remove(item);
 		}
-		if (plateau[c.getX()][c.getY()].getE() instanceof Item_Zbire) {
-			Item_Zbire item = (Item_Zbire) plateau[c.getX()][c.getY()].getE();
-			c.appliquerItem(1);
-			plateau[c.getX()][c.getY()].setE(null);
-			plateau[c.getX()][c.getY()].setRefresh(true);
+		if (plateau[player2.getX()][player2.getY()].getE() instanceof Item_Zbire) {
+			Item_Zbire item = (Item_Zbire) plateau[player2.getX()][player2.getY()].getE();
+			player2.appliquerItem(1);
+			plateau[player2.getX()][player2.getY()].setE(null);
+			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listItem.remove(item);
 		}
 
 	}
 
 	private void checkBonus() {
-		if (plateau[c1.getX()][c1.getY()].getE() instanceof no.physic.entity.Bonus) {
-			Bonus bonus = (Bonus) plateau[c1.getX()][c1.getY()].getE();
-			c1.appliquerBonus(bonus, c);
+		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
+			Bonus bonus = (Bonus) plateau[player1.getX()][player1.getY()].getE();
+			player1.appliquerBonus(bonus, player2);
 			statistique.plus_Joueur2_Bonus();
-			plateau[c1.getX()][c1.getY()].setE(null);
-			plateau[c1.getX()][c1.getY()].setRefresh(true);
+			plateau[player1.getX()][player1.getY()].setE(null);
+			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listBonus.remove(bonus);
 		}
-		if (plateau[c.getX()][c.getY()].getE() instanceof no.physic.entity.Bonus) {
-			Bonus bonus = (Bonus) plateau[c.getX()][c.getY()].getE();
+		if (plateau[player2.getX()][player2.getY()].getE() instanceof no.physic.entity.Bonus) {
+			Bonus bonus = (Bonus) plateau[player2.getX()][player2.getY()].getE();
 			statistique.plus_Joueur1_Bonus();
-			c.appliquerBonus(bonus, c1);
-			plateau[c.getX()][c.getY()].setE(null);
-			plateau[c.getX()][c.getY()].setRefresh(true);
+			player2.appliquerBonus(bonus, player1);
+			plateau[player2.getX()][player2.getY()].setE(null);
+			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listBonus.remove(bonus);
 		}
 
@@ -479,22 +456,20 @@ public class Model extends GameModel {
 
 	public void update_plat() {
 
-		int last_xc = c.getLastX();
-		int last_yc = c.getLastY();
-		int xc = c.getX();
-		int yc = c.getY();
-		char dirc = c.getDirection();
-		char last_dirc = c.getLast_direction();
+		int last_xc = player2.getLastX();
+		int last_yc = player2.getLastY();
+		int xc = player2.getX();
+		int yc = player2.getY();
+		char dirc = player2.getDirection();
+		char last_dirc = player2.getLast_direction();
 
-		int last_xc1 = c1.getLastX();
-		int last_yc1 = c1.getLastY();
-		int x1 = c1.getX();
-		int y1 = c1.getY();
+		int last_xc1 = player1.getLastX();
+		int last_yc1 = player1.getLastY();
+		int x1 = player1.getX();
+		int y1 = player1.getY();
 
-			
-
-		char dirc1 = c1.getDirection();
-		char last_dirc1 = c1.getLast_direction();
+		char dirc1 = player1.getDirection();
+		char last_dirc1 = player1.getLast_direction();
 
 		if (dirc != last_dirc)
 			plateau[xc][yc].setRefresh(true);
@@ -502,63 +477,64 @@ public class Model extends GameModel {
 		if (dirc1 != last_dirc1)
 			plateau[x1][y1].setRefresh(true);
 
-		boolean condJ1 = plateau[xc][yc].getCouleur() != c.getColor()
+		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
-		
-		boolean condJ2 = plateau[x1][y1].getCouleur() != c1.getColor()
+
+		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Red);
-		
-		if ((last_xc != xc || last_yc != yc) && c.getPaintStock() != 0 && condJ1) {
-			statistique.plus_Nombrecase_parcouru1();
+
+		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
+			statistique.plus_Nombrecase_parcouru2();
+
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
 
 			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
-				score1++;
+				score2++;
 				refresh_score = true;
 			} else if (plateau[xc][yc].getM_couleur() == m_Red) {
-				score1++;
-				score2--;
+				score2++;
+				score1--;
 				refresh_score = true;
 			}
-			plateau[xc][yc].setE(c);
+			plateau[xc][yc].setE(player2);
 
-			plateau[xc][yc].setCouleur((Color) c.getColor());
-			c.decreasePaintStock();
+			plateau[xc][yc].setCouleur((Color) player2.getColor());
+			player2.decreasePaintStock();
 			plateau[xc][yc].setRefresh(true);
 		} else {
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setRefresh(true);
-			plateau[xc][yc].setE(c);
+			plateau[xc][yc].setE(player2);
 
 			plateau[xc][yc].setRefresh(true);
 		}
 
+		if ((last_xc1 != x1 || last_yc1 != y1) && player1.getPaintStock() != 0 && condJ2) {
+			statistique.plus_Nombrecase_parcouru1();
 
-		if ((last_xc1 != x1 || last_yc1 != y1) && c1.getPaintStock() != 0 && condJ2) {
-			statistique.plus_Nombrecase_parcouru2();
 			plateau[last_xc1][last_yc1].setE(null);
 			plateau[last_xc1][last_yc1].setM_couleur(m_Red);
 			plateau[last_xc1][last_yc1].setRefresh(true);
 
 			if (plateau[x1][y1].getM_couleur() == m_BlockBlue || plateau[x1][y1].getM_couleur() == m_BlockGray) {
-				score2++;
+				score1++;
 				refresh_score = true;
 			} else if (plateau[x1][y1].getM_couleur() == m_Blue) {
-				score2++;
-				score1--;
+				score1++;
+				score2--;
 				refresh_score = true;
 			}
 
-			plateau[x1][y1].setE(c1);
-			plateau[x1][y1].setCouleur((Color) c1.getColor());
-			c1.decreasePaintStock();
+			plateau[x1][y1].setE(player1);
+			plateau[x1][y1].setCouleur((Color) player1.getColor());
+			player1.decreasePaintStock();
 			plateau[x1][y1].setRefresh(true);
 		} else {
 			plateau[last_xc1][last_yc1].setE(null);
 			plateau[last_xc1][last_yc1].setRefresh(true);
-			plateau[x1][y1].setE(c1);
+			plateau[x1][y1].setE(player1);
 			plateau[x1][y1].setRefresh(true);
 		}
 
@@ -566,7 +542,7 @@ public class Model extends GameModel {
 
 	public void spawnzbire(Joueur j, int n, char direction) {
 		if (j.getZbire()[n] != null) {
-			System.out.println("sbire "+ n);
+			System.out.println("sbire " + n);
 			int x = j.getX();
 			int y = j.getY();
 			if (direction == 'D')
@@ -584,17 +560,17 @@ public class Model extends GameModel {
 					j.getZbire()[n].setX(x);
 					j.getZbire()[n].setY(y);
 					plateau[x][y].setE(j.getZbire()[n]);
-					if(j == c) {
-						statistique.plus_Nombre_zbire1();
 
-					}else {
+					if (j == player2) {
 						statistique.plus_Nombre_zbire2();
 
+					} else {
+						statistique.plus_Nombre_zbire1();
 					}
-//					if(j.getZbire()[n].getJoueur() == 1)
-//						j1_zbire.add(j.getZbire()[n]);
-//					else
-//						j2_zbire.add(j.getZbire()[n]);
+					// if(j.getZbire()[n].getJoueur() == 1)
+					// j1_zbire.add(j.getZbire()[n]);
+					// else
+					// j2_zbire.add(j.getZbire()[n]);
 					plateau[x][y].setRefresh(true);
 					j.resetZbire(n);
 				}
@@ -608,12 +584,12 @@ public class Model extends GameModel {
 
 	}
 
-	public Joueur getJ1() {
-		return c;
+	public Joueur getJ2() {
+		return player2;
 	}
 
-	public Joueur getJ2() {
-		return c1;
+	public Joueur getJ1() {
+		return player1;
 	}
 
 	public Obstacle[] getObstacle() {
@@ -623,7 +599,6 @@ public class Model extends GameModel {
 	public Case[][] getPlateau() {
 		return plateau;
 	}
-
 
 	public Statistique getStatistique() {
 		return statistique;
@@ -635,39 +610,39 @@ public class Model extends GameModel {
 
 	public void setM_frame(GameWindow m_frame2) {
 		m_frame = m_frame2;
-		
+
 	}
-	
+
 	public void hit(Joueur j) {
 		char dir = j.getDirection();
-		Case c;
+		Case player2;
 		Entity e;
 		switch (dir) {
 		case 'R':
-			c = getC(j.x + 1, j.y);
+			player2 = getC(j.x + 1, j.y);
 			break;
 		case 'L':
-			c = getC(j.x - 1, j.y);
+			player2 = getC(j.x - 1, j.y);
 			break;
 		case 'U':
-			c = getC(j.x, j.y - 1);
+			player2 = getC(j.x, j.y - 1);
 			break;
 		case 'D':
-			c = getC(j.x, j.y + 1);
+			player2 = getC(j.x, j.y + 1);
 			break;
 		default:
-			c = null;
+			player2 = null;
 		}
-		if (c != null) {
-			c.setRefresh(true);
-			e = c.getE();
+		if (player2 != null) {
+			player2.setRefresh(true);
+			e = player2.getE();
 			if (e != null) {
 				if (e instanceof Physic_Entity) {
 					Physic_Entity p_e = (Physic_Entity) e;
 					j.hit(p_e);
 				}
 			}
-			check_case(c);
+			check_case(player2);
 		}
 	}
 
@@ -679,20 +654,27 @@ public class Model extends GameModel {
 		return null;
 	}
 
-	public void check_case(Case c) {
-		Entity e = c.getE();
+	public void check_case(Case player2) {
+		Entity e = player2.getE();
 		if (e instanceof Obstacle) {
 			Obstacle o = (Obstacle) e;
 			if (!(o.life()))
-				c.setE(null);
+				player2.setE(null);
 		} else if (e instanceof Joueur) {
-			Joueur j = (Joueur) e;
-			c.setE(null);
+			player2.setE(null);
 
 		} else if (e instanceof Zbire) {
 			Zbire z = (Zbire) e;
 			if (!(z.life()))
-				c.setE(null);
+				player2.setE(null);
 		}
+	}
+
+	public Portal getPortal() {
+		return portal;
+	}
+
+	public void setPortal(Portal portal) {
+		this.portal = portal;
 	}
 }

@@ -31,6 +31,6 @@ public class MesOptions {
 	public static final int pos_init_x_j2 = nbCol - 1;
 	public static final int pos_init_y_j2 = nbLigne - 1;
 
-	public static final int min = 3; // minutes
+	public static final int min = 1; // minutes
 
 }

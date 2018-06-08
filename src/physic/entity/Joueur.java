@@ -27,8 +27,10 @@ public class Joueur extends Physic_Entity {
 
 	private BufferedImage m_sprite;
 	private BufferedImage[] m_sprites;
+
 	private boolean moveable, reload;
 	boolean inMovement;
+
 
 	private float m_scale;
 	private long m_lastMove;

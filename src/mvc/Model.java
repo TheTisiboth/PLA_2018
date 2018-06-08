@@ -54,6 +54,25 @@ public class Model extends GameModel {
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
 			m_recharge, m_portal;
 	JFrame m_frame;
+	
+	private String name_j1;
+	private String name_j2;
+
+	public String getName_j1() {
+		return name_j1;
+	}
+
+	public void setName_j1(String name_j1) {
+		this.name_j1 = name_j1;
+	}
+
+	public String getName_j2() {
+		return name_j2;
+	}
+
+	public void setName_j2(String name_j2) {
+		this.name_j2 = name_j2;
+	}
 
 	public Model() {
 		lastTick = 0L;
@@ -71,12 +90,13 @@ public class Model extends GameModel {
 
 		initPlat(plateau);
 
-		player2 = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.RED);
+
+		player2 = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
-		player1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.BLUE);
+		player1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.RED);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);
@@ -465,18 +485,20 @@ public class Model extends GameModel {
 		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Red);
 
+
 		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
-			statistique.plus_Nombrecase_parcouru1();
+			statistique.plus_Nombrecase_parcouru2();
+
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
 
 			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
-				score1++;
+				score2++;
 				refresh_score = true;
 			} else if (plateau[xc][yc].getM_couleur() == m_Red) {
-				score1++;
-				score2--;
+				score2++;
+				score1--;
 				refresh_score = true;
 			}
 			plateau[xc][yc].setE(player2);
@@ -492,18 +514,20 @@ public class Model extends GameModel {
 			plateau[xc][yc].setRefresh(true);
 		}
 
+
 		if ((last_xc1 != x1 || last_yc1 != y1) && player1.getPaintStock() != 0 && condJ2) {
-			statistique.plus_Nombrecase_parcouru2();
+			statistique.plus_Nombrecase_parcouru1();
+
 			plateau[last_xc1][last_yc1].setE(null);
 			plateau[last_xc1][last_yc1].setM_couleur(m_Red);
 			plateau[last_xc1][last_yc1].setRefresh(true);
 
 			if (plateau[x1][y1].getM_couleur() == m_BlockBlue || plateau[x1][y1].getM_couleur() == m_BlockGray) {
-				score2++;
+				score1++;
 				refresh_score = true;
 			} else if (plateau[x1][y1].getM_couleur() == m_Blue) {
-				score2++;
-				score1--;
+				score1++;
+				score2--;
 				refresh_score = true;
 			}
 
@@ -540,12 +564,12 @@ public class Model extends GameModel {
 					j.getZbire()[n].setX(x);
 					j.getZbire()[n].setY(y);
 					plateau[x][y].setE(j.getZbire()[n]);
-					if (j == player2) {
-						statistique.plus_Nombre_zbire1();
 
-					} else {
+					if (j == player2) {
 						statistique.plus_Nombre_zbire2();
 
+					} else {
+						statistique.plus_Nombre_zbire1();
 					}
 					// if(j.getZbire()[n].getJoueur() == 1)
 					// j1_zbire.add(j.getZbire()[n]);

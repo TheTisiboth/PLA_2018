@@ -31,18 +31,24 @@ public class EndPage extends JFrame implements ActionListener{
 	int hauteur;
 	JButton m_rejouer;
 	GameUI gameUI;
+	String j1;
+	String j2;
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
 		
 		this.gameUI=game;
 		largeur = 1200;
 		hauteur =600;
+		
 		d = new Dimension(largeur, hauteur);
 		JPanel panel1= new JPanel();
 		panel1.setLayout(new FlowLayout());
 		JPanel panel2= new JPanel();
 		panel2.setLayout(new FlowLayout());
 		m_model = (Model)mod;
+		j1= m_model.getName_j1();
+		j2= m_model.getName_j2();
+		
 		this.m_view =m_view;
 		if(m_model.statistique.getScore_joueur1()[m_model.statistique.getScore_joueur1().length-1]>m_model.statistique.getScore_joueur2()[m_model.statistique.getScore_joueur2().length-1]) {
 			main = new Background(d, 5);
@@ -62,7 +68,7 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		//Mis en place de l'écran Ouest
 		int entrelayout =65;
-		JLabel txt= new JLabel("Joueur 1 : ", SwingConstants.CENTER);
+		JLabel txt= new JLabel(j1, SwingConstants.CENTER);
 		txt.setFont(font);
 		Dimension preferredSize = new Dimension(350, 140);
 		txt.setPreferredSize(preferredSize);
@@ -113,7 +119,7 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		
 		//Mis en place de l'écran Est
-		JLabel txt1 = new JLabel("Joueur 2 : ", SwingConstants.CENTER);
+		JLabel txt1 = new JLabel(j2, SwingConstants.CENTER);
 		txt1.setFont(font);
 		preferredSize = new Dimension(350, 140);
 		txt1.setPreferredSize(preferredSize);
@@ -223,7 +229,7 @@ public class EndPage extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if(s == m_rejouer) {
-			new HomeWindow(d, new GameUI(d));
+			new GameUI(d);
 			dispose();
 		}
 	}

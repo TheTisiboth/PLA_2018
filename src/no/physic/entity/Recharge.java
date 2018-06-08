@@ -9,7 +9,7 @@ import mvc.MesOptions;
 public class Recharge extends No_Physic_Entity {
 
 	BufferedImage m_paint;
-	
+
 	public Recharge(int x, int y, BufferedImage b) {
 		super(x, y);
 		m_paint = b;

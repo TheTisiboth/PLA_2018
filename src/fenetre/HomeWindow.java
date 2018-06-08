@@ -29,7 +29,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 	JTextField j1, j2;
 	JButton play, rules, credits;
-
 	String nom_j1, nom_j2;
 
 	Model model;
@@ -49,9 +48,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 		cont.setPreferredSize(d);
 		cont.setMaximumSize(d);
 		cont.setMinimumSize(d);
-		// this.setSize(d);
-		// this.setPreferredSize(d);
-		// this.setLayout(new BorderLayout());
 
 		JPanel img = new Background(d, 1);
 
@@ -134,17 +130,12 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Fin Bouton "Crédits"
 
 		// On ajoute le tout dans la fenetre
-		// this.add(img);
 		cont.add(img, BorderLayout.CENTER);
 
 		this.setSize(d);
 		this.doLayout();
 		this.setResizable(false);
 		this.setVisible(true);
-
-		// hook window events so that we exit the Java Platform
-		// when the window is closed by the end user.
-		// this.addWindowListener(new WindowListener(m_model));
 
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -157,19 +148,11 @@ public class HomeWindow extends JFrame implements ActionListener {
 		if (d == null) {
 			return;
 		}
-//		if ((width != 1200) || (height != 600)) {
-//			new HomeWindow(d, m_game);
-//			dispose();
-//		}
 	}
 
 	@Override
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
-//		if ((width != 1200) || (height != 600)) {
-//			new HomeWindow(d, m_game);
-//			dispose();
-//		}
 	}
 
 	@Override

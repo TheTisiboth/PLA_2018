@@ -54,9 +54,8 @@ public class Model extends GameModel {
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
 			m_recharge, m_portal;
 	JFrame m_frame;
-	
-	private String name_j1;
-	private String name_j2;
+
+	private String name_j1, name_j2;
 
 	public String getName_j1() {
 		return name_j1;
@@ -89,7 +88,6 @@ public class Model extends GameModel {
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
 
 		initPlat(plateau);
-
 
 		player2 = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
@@ -485,7 +483,6 @@ public class Model extends GameModel {
 		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Red);
 
-
 		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
 			statistique.plus_Nombrecase_parcouru2();
 
@@ -513,7 +510,6 @@ public class Model extends GameModel {
 
 			plateau[xc][yc].setRefresh(true);
 		}
-
 
 		if ((last_xc1 != x1 || last_yc1 != y1) && player1.getPaintStock() != 0 && condJ2) {
 			statistique.plus_Nombrecase_parcouru1();

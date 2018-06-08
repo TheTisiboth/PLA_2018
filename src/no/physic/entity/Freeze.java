@@ -8,13 +8,13 @@ import mvc.MesOptions;
 
 public class Freeze extends Bonus {
 	BufferedImage m_stop;
-	
+
 	public Freeze(int x, int y, BufferedImage m_stop) {
 		super(x, y);
-		this.m_stop =m_stop;
-		
+		this.m_stop = m_stop;
+
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		Image img = m_stop;

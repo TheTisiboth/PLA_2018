@@ -10,12 +10,9 @@ import java.awt.geom.Line2D;
 public class Statistique {
 	private float[] score_joueur1;
 	private float[] score_joueur2;
-	private int nombre_zbire1;
-	private int nombre_zbire2;
-	private int nombrecase_parcouru1;
-	private int nombrecase_parcouru2;
-	private int joueur1_kill;
-	private int joueur2_kill;
+	private int nombre_zbire1, nombre_zbire2;
+	private int nombrecase_parcouru1, nombrecase_parcouru2;
+	private int joueur1_kill, joueur2_kill;
 	private int index;
 
 	public Statistique() {
@@ -99,16 +96,16 @@ public class Statistique {
 	}
 
 	public void paint(Graphics g) {
-		//
+
 		Graphics2D g2 = (Graphics2D) g;
 
 		Stroke stroke = g2.getStroke();
 		g2.setColor(Color.BLACK);
-		// Création de des axes
+		// Création des axes
 		g2.setStroke(new BasicStroke(4));
 		g2.draw(new Line2D.Double(50, 100, 50, 300));
 		g2.draw(new Line2D.Double(50, 300, 450, 300));
-		// Fleche pour axe
+		// Flèches pour axe
 		g2.draw(new Line2D.Double(50, 100, 45, 105));
 		g2.draw(new Line2D.Double(50, 100, 55, 105));
 		g2.draw(new Line2D.Double(450, 300, 445, 295));

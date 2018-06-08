@@ -73,7 +73,7 @@ public class Model extends GameModel {
 		this.name_j2 = name_j2;
 	}
 
-	public Model() {
+	public Model(int perso1, int perso2) {
 		lastTick = 0L;
 		counter_sec = 0;
 
@@ -91,12 +91,12 @@ public class Model extends GameModel {
 
 		initPlat(plateau);
 
-		player2 = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
+		player2 = new Joueur(m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
-		player1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.RED);
+		player1 = new Joueur(m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);

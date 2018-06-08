@@ -32,12 +32,13 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		cont.setMinimumSize(d);
 		
 		
-        
 
-		JPanel img = new Background(d, 4);
+		JPanel img = new Background(d, 7);
 		img.setLayout(null);
 
 		JPanel eastPanel = new JPanel();
+		eastPanel.setBounds(80,180,475,370);
+		eastPanel.setOpaque(false);
 		
 		// Textfield Joueur 1
 
@@ -91,7 +92,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		img.add(eastPanel);
 		cont.add(img, BorderLayout.CENTER);
 
-		this.setSize(d);
+//		this.setSize(d);
 		this.doLayout();
 		this.setResizable(false);
 		this.setVisible(true);

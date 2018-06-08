@@ -83,8 +83,7 @@ public class Model extends GameModel {
 		score2 = 0;
 
 		minutes = MesOptions.min;
-
-		secondes = 11;
+		secondes = 0;
 
 		timer = true;
 

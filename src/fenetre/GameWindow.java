@@ -27,46 +27,54 @@ public class GameWindow extends JFrame {
 		m_controller = ctrl;
 		this.j1 = j1;
 		this.j2 = j2;
-		
+
+//		System.out.println("Asked: w=" + d.width + " h=" + d.height);
+		Container cont = this.getContentPane();
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
-		this.setSize(d);
-		this.setPreferredSize(d);
-		this.setLayout(new BorderLayout());
+		cont.setSize(d);
+		cont.setPreferredSize(d);
+		cont.setMaximumSize(d);
+		cont.setMinimumSize(d);
+//		this.setSize(d);
+//		this.setPreferredSize(d);
+//		this.setLayout(new BorderLayout());
 
-		JPanel img = new Background(d,2);
-				
+		JPanel img = new Background(d, 2);
+
 		JPanel north = createNorthPanel();
 		north.setOpaque(false);
 		JPanel east = createEastPanel();
 		east.setOpaque(false);
 		JPanel west = createWestPanel();
 		west.setOpaque(false);
-		
+
 		m_view.setBounds(120, 120, 960, 480);
-		north.setBounds(0,0, 1200, 80);
+		north.setBounds(0, 0, 1200, 80);
 		east.setBounds(1100, 100, 100, 450);
 		west.setBounds(0, 100, 100, 450);
-		
+
 		img.add(north);
 		img.add(m_view);
 		img.add(east);
 		img.add(west);
 
 		// On ajoute le tout dans la fenetre
-		this.add(img, BorderLayout.CENTER);
+//		this.add(img, BorderLayout.CENTER);
+		  cont.add(img, BorderLayout.CENTER);
 
-		//this.setResizable(true);
+
+		// this.setResizable(true);
 		this.doLayout();
 		this.setVisible(true);
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
 		this.addWindowListener(new WindowListener(m_model));
-		
+
 		this.pack();
 		this.setLocationRelativeTo(null);
-		
+
 		// let's hook the controller,
 		// so it gets mouse events and keyboard events.
 		m_view.addKeyListener(m_controller);
@@ -81,28 +89,28 @@ public class GameWindow extends JFrame {
 
 		m_controller.notifyVisible();
 	}
-	
+
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 		super.setBounds(x, y, width, height);
 		if (d == null) {
 			return;
 		}
-		if ((width != 1200) || (height != 600)) {
-			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
-			dispose();
-		}
+//		if ((width != 1200) || (height != 600)) {
+//			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
+//			dispose();
+//		}
 	}
 
 	@Override
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
-		if ((width != 1200) || (height != 600)) {
-			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
-			dispose();
-		}
+//		if ((width != 1200) || (height != 600)) {
+//			new GameWindow(d, m_controller, m_view, m_model, j1, j2);
+//			dispose();
+//		}
 	}
-	
+
 	// ----------------------NORTH PANEL------------------------------//
 
 	// CENTER NORTH

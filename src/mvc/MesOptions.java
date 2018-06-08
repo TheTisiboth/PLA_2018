@@ -16,7 +16,13 @@ public class MesOptions {
 	
 	public static final int PopPaint = 4; // 1/popBonus chances de faire pop un item par seconde 
 	public static final int Nb_Max_Paint = 4;
-	public static int paintMax = 20;
+	public static final int paintMax = 30;
+	public static final int recharge = 15; 
+	
+	public static final int pos_init_x_j1 = 0;
+	public static final int pos_init_y_j1 = 0  ;
+	public static final int pos_init_x_j2 = nbCol-1 ;
+	public static final int pos_init_y_j2 =  nbLigne -1;
 
 	public static final int min =3;
 

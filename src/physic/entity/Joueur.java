@@ -5,10 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.Random;
-
-import javax.print.attribute.PrintJobAttributeSet;
 
 import mvc.Case;
 import mvc.MesOptions;
@@ -40,10 +37,15 @@ public class Joueur extends Physic_Entity {
 
 	private long m_lastMove;
 	private int step = 1;
+
+	private int pos_init_x;
+	private int pos_init_y;
+
 	private int recharge = 10;
 	private boolean reload; // Sert a recharger la peinture sur le tour d'après
 
 	char direction;
+	char last_direction;
 	boolean inMovement;
 
 	// public Joueur(int x, int y, Color couleur) {
@@ -57,6 +59,7 @@ public class Joueur extends Physic_Entity {
 	// }
 
 	public Joueur(BufferedImage sprite, int rows, int columns, int personali, int x, int y, float scale, Color couleur) {
+
 		super(x, y);
 		m_sprite = sprite;
 		m_ncols = columns;
@@ -72,8 +75,15 @@ public class Joueur extends Physic_Entity {
 		this.couleur = couleur;
 		splitSprite();
 		paintStock = MesOptions.paintMax;
-		z = new Zbire[5];
+		z = new Zbire[4];
+
+		pos_init_x = x;
+		pos_init_y = y;
+		direction = last_direction = 'D';
+		
 		m_idx = 45+m_personali;
+
+
 	}
 
 	void splitSprite() {
@@ -168,34 +178,38 @@ public class Joueur extends Physic_Entity {
 		}
 	}
 
-	public void appliquerItem() {
+	public void appliquerItem(int joueur) {
 
 		Random rand = new Random();
 		int i = rand.nextInt(100);
 		Zbire zbire = null;
 
 		if (i >= 0 && i < 25) {
-			if (z[1] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 1);
-				z[1] = zbire;
+			if (z[0] == null) {
+				System.out.println("zbire : "+ 1);
+				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 0,m_scale,joueur);
+				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
-			if (z[2] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 2);
-				z[2] = zbire;
+			if (z[1] == null) {
+				System.out.println("zbire : "+ 2);
+				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 1,m_scale,joueur);
+				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
-			if (z[3] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 3);
-				z[3] = zbire;
+			if (z[2] == null) {
+				System.out.println("zbire : "+ 3);
+				zbire =new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 2,m_scale,joueur);
+				z[2] = zbire;
 			}
 
 		} else {
-			if (z[4] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 4);
-				z[4] = zbire;
+			if (z[3] == null) {
+				System.out.println("zbire : "+ 4);
+				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 3,m_scale,joueur);
+				z[3] = zbire;
 			}
 
 		}
@@ -203,6 +217,10 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void step(long now) {
+		for(int i = 0;i<4;i++){
+			if(z[i]!=null)
+				z[i].step(now);
+		}
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;
@@ -214,27 +232,43 @@ public class Joueur extends Physic_Entity {
 			timeEffect--;
 			m_lastMove = now;
 			elapsed = now - m_lastMove;
+
 		} // cas 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
 			time /= speed;
+			//System.out.println("activation du speed dans step");
 		}
 
-		if (inMovement && elapsed > time && moveable) {
+		if (elapsed > time) {
 
-			if (direction == 'R' && x < MesOptions.nbCol - 1) {
-				x += step;
-				m_idx = (m_idx == 1+m_personali) ? 4+m_personali : 1+m_personali;
-			} else if (direction == 'L' && x > 0) {
-				x -= step;
-				m_idx = (m_idx == 25+m_personali) ? 28+m_personali : 25+m_personali;
-			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
-				y += step;
-				m_idx = (m_idx == 42+m_personali) ? 44+m_personali : 42+m_personali;
-			} else if (direction == 'U' && y > 0) {
-				y -= step;
-				m_idx = (m_idx == 12+m_personali) ? 13+m_personali : 12+m_personali;
-
+			if (inMovement && moveable) {
+				
+				if (direction == 'R' && x < MesOptions.nbCol - 1) {
+					x += step;
+				} else if (direction == 'L' && x > 0) {
+					x -= step;
+				} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
+					y += step;
+				} else if (direction == 'U' && y > 0) {
+					y -= step;
+				}
 			}
+			
+			switch (direction) {
+			case 'R':
+				m_idx = (m_idx == 1+m_personali) ? 4+m_personali : 1+m_personali;
+				break;
+			case 'L':
+				m_idx = (m_idx == 25+m_personali) ? 28+m_personali : 25+m_personali;
+				break;
+			case 'D':
+				m_idx = (m_idx == 42+m_personali) ? 44+m_personali : 42+m_personali;
+				break;
+			case 'U':
+				m_idx = (m_idx == 12+m_personali) ? 13+m_personali : 12+m_personali;
+				break;
+			}
+			
 
 			m_lastMove = now;
 			if (timeEffect > 0) {
@@ -242,6 +276,21 @@ public class Joueur extends Physic_Entity {
 			}
 		}
 	}
+
+	public void hit(Physic_Entity e) {
+		if (e instanceof Obstacle) {
+			Obstacle o = (Obstacle) e;
+			o.reduce_life();
+		} else if (e instanceof Joueur) {
+			Joueur j = (Joueur) e;
+			j.x = j.getPosInit_x();
+			j.y = j.getPosInit_y();
+		} else {
+			Zbire z = (Zbire) e;
+			z.reduce_nb_case();
+		}
+	}
+
 	// GETTER SETTER
 
 	public int getLastX() {
@@ -264,13 +313,18 @@ public class Joueur extends Physic_Entity {
 		return diameter;
 	}
 
-	public int getDirection() {
+	public char getDirection() {
 		return direction;
 	}
 
 	public void setDirection(char direction) {
+		last_direction = this.direction;
 		this.direction = direction;
 		inMovement = true;
+	}
+	
+	public char getLast_direction() {
+		return last_direction;
 	}
 
 	public void setMovement(boolean b) {
@@ -305,9 +359,25 @@ public class Joueur extends Physic_Entity {
 	public int getPaintStock() {
 		return paintStock;
 	}
+	
+	public Zbire[] getZbire(){
+		return z;
+	}
+	
+	public void resetZbire(int n){
+		z[n] = null;
+	}
 
 	public void decreasePaintStock() {
 		paintStock--;
+	}
+
+	public int getPosInit_x() {
+		return pos_init_x;
+	}
+
+	public int getPosInit_y() {
+		return pos_init_y;
 	}
 
 	public void teleport(int x, int y) {

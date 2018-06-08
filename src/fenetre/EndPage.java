@@ -30,10 +30,11 @@ public class EndPage extends JFrame implements ActionListener{
 	int largeur;
 	int hauteur;
 	JButton m_rejouer;
+	GameUI gameUI;
 
-	public EndPage(GameModel mod, GameView m_view) {
+	public EndPage(GameModel mod, GameView m_view, GameUI game) {
 		
-		
+		this.gameUI=game;
 		largeur = 1200;
 		hauteur =600;
 		d = new Dimension(largeur, hauteur);
@@ -60,7 +61,7 @@ public class EndPage extends JFrame implements ActionListener{
 		Font fonNumber = new Font("Sherif", Font.BOLD, 50);
 		
 		//Mis en place de l'écran Ouest
-		int entrelayout =70;
+		int entrelayout =65;
 		JLabel txt= new JLabel("Joueur 1 : ", SwingConstants.CENTER);
 		txt.setFont(font);
 		Dimension preferredSize = new Dimension(350, 140);
@@ -69,7 +70,7 @@ public class EndPage extends JFrame implements ActionListener{
 		panel1.add(txt);
 		
 		txt= new JLabel("", SwingConstants.CENTER);
-		preferredSize =new Dimension(350, 50);
+		preferredSize =new Dimension(350, 60);
 
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
@@ -85,7 +86,7 @@ public class EndPage extends JFrame implements ActionListener{
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 		
-		txt= new JLabel(""+ m_model.statistique.getJoueur1_kill(), SwingConstants.CENTER);
+		txt= new JLabel(""+ m_model.statistique.getJoueur1_Bonus(), SwingConstants.CENTER);
 		preferredSize =new Dimension(350, entrelayout);
 		txt.setFont(fonNumber);
 		txt.setPreferredSize(preferredSize);
@@ -111,11 +112,12 @@ public class EndPage extends JFrame implements ActionListener{
 		//Mis en place de l'écran Est
 		JLabel txt1 = new JLabel("Joueur 2 : ", SwingConstants.CENTER);
 		txt1.setFont(font);
-		preferredSize = new Dimension(350, 50);
+		preferredSize = new Dimension(350, 140);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
-		txt1 = new JLabel("Nombre de case parcourues par le joueur", SwingConstants.CENTER);
+		txt1 = new JLabel("", SwingConstants.CENTER);
+		preferredSize =new Dimension(350, 60);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
@@ -125,17 +127,17 @@ public class EndPage extends JFrame implements ActionListener{
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
-		txt1 = new JLabel("Nombre de fois que le joueur a été tué ", SwingConstants.CENTER);
+		txt1 = new JLabel(" ", SwingConstants.CENTER);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
-		txt1= new JLabel(m_model.statistique.getJoueur2_kill()+"", SwingConstants.CENTER);
+		txt1= new JLabel(m_model.statistique.getJoueur2_Bonus()+"", SwingConstants.CENTER);
 		preferredSize =new Dimension(350, entrelayout);
 		txt1.setFont(fonNumber);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
-		txt1 = new JLabel("Nombre de Zbire invoqués ", SwingConstants.CENTER);
+		txt1 = new JLabel(" ", SwingConstants.CENTER);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
@@ -167,7 +169,7 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		Graphs graphs = new Graphs();
 		graphs.set_model(m_model);
-		preferredSize = new Dimension(500, 400);
+		preferredSize = new Dimension(500, 320);
 		graphs.setPreferredSize(preferredSize);
 //		graphs.setOpaque(false);
 		pan_graph.add(graphs);
@@ -181,7 +183,7 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		panel_center.add(pan_graph, BorderLayout.CENTER);
 		
-		JButton rejouer = new JButton("Retour à l'accueil");
+		JButton rejouer = new JButton("");
 		preferredSize = new Dimension(200, 40);
 		rejouer.setPreferredSize(preferredSize);
 		rejouer.setBorderPainted(false);
@@ -213,6 +215,7 @@ public class EndPage extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if(s == m_rejouer) {
+			new HomeWindow(d, new GameUI(d));
 			dispose();
 		}
 	}

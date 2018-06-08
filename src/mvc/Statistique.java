@@ -97,22 +97,22 @@ public class Statistique {
 	}
 
 
-	public int getJoueur1_kill() {
+	public int getJoueur1_Bonus() {
 		return joueur1_kill;
 	}
 
 
-	public void plus_Joueur1_kill() {
+	public void plus_Joueur1_Bonus() {
 		this.joueur1_kill = joueur1_kill +1;
 	}
 
 
-	public int getJoueur2_kill() {
+	public int getJoueur2_Bonus() {
 		return joueur2_kill;
 	}
 
 
-	public void plus_Joueur2_kill() {
+	public void plus_Joueur2_Bonus() {
 		this.joueur2_kill = joueur2_kill +1;
 	}
 	

@@ -2,6 +2,7 @@ package fenetre;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import edu.ricm3.game.GameUI;
-import edu.ricm3.game.Options;
 import mvc.Controller;
 import mvc.Model;
 import mvc.View;
@@ -44,9 +44,14 @@ public class HomeWindow extends JFrame implements ActionListener {
 		m_game = game;
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
-		this.setSize(d);
-		this.setPreferredSize(d);
-		this.setLayout(new BorderLayout());
+		Container cont = this.getContentPane();
+		cont.setSize(d);
+		cont.setPreferredSize(d);
+		cont.setMaximumSize(d);
+		cont.setMinimumSize(d);
+		// this.setSize(d);
+		// this.setPreferredSize(d);
+		// this.setLayout(new BorderLayout());
 
 		JPanel img = new Background(d, 1);
 
@@ -129,7 +134,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Fin Bouton "Crédits"
 
 		// On ajoute le tout dans la fenetre
-		this.add(img);
+		// this.add(img);
+		cont.add(img, BorderLayout.CENTER);
 
 		this.setSize(d);
 		this.doLayout();
@@ -151,19 +157,19 @@ public class HomeWindow extends JFrame implements ActionListener {
 		if (d == null) {
 			return;
 		}
-		if ((width != 1200) || (height != 600)) {
-			new HomeWindow(d, m_game);
-			dispose();
-		}
+//		if ((width != 1200) || (height != 600)) {
+//			new HomeWindow(d, m_game);
+//			dispose();
+//		}
 	}
 
 	@Override
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
-		if ((width != 1200) || (height != 600)) {
-			new HomeWindow(d, m_game);
-			dispose();
-		}
+//		if ((width != 1200) || (height != 600)) {
+//			new HomeWindow(d, m_game);
+//			dispose();
+//		}
 	}
 
 	@Override
@@ -194,6 +200,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			
 			model.setM_frame(new GameWindow(d, controller, view, model, nom_j1, nom_j2));
 			m_game.createTimer();
+
 			dispose();
 		}
 
@@ -211,5 +218,4 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 	}
 
-	
 }

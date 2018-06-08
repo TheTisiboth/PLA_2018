@@ -238,6 +238,7 @@ public class Model extends GameModel {
 			checkItem();
 			checkTP();
 			checkPaint();
+			checkImgBonus();
 			update_plat();
 
 			elapsed = now - lastTick;
@@ -260,11 +261,10 @@ public class Model extends GameModel {
 
 				else {
 					secondes--;
-					if (secondes < 10 ){
-						m_frame.time.setText(minutes + ":0" + secondes);	
-					}
-					else {
-						m_frame.time.setText(minutes + ":" + secondes);	
+					if (secondes < 10) {
+						m_frame.time.setText(minutes + ":0" + secondes);
+					} else {
+						m_frame.time.setText(minutes + ":" + secondes);
 					}
 					m_frame.doLayout();
 					popItem();
@@ -275,9 +275,33 @@ public class Model extends GameModel {
 					lastTick = now;
 				}
 			}
-			
+
 			afficheScore();
 		}
+	}
+
+	private void checkImgBonus() {
+		int speedj1 = player1.getTimeEffect();
+		int speedj2 = player2.getTimeEffect();
+		int freezj1 = player1.getTimeEffectFreeze();
+		int freezj2 = player2.getTimeEffectFreeze();
+		
+		if (speedj1 == 0) {
+			m_frame.img_eclair1.setIcon(new ImageIcon());
+		}
+		if (speedj2 == 0) {
+			m_frame.img_eclair2.setIcon(new ImageIcon());
+
+		}
+		if(freezj1 == 0){
+			m_frame.img_stop2.setIcon(new ImageIcon());
+
+		}
+		if(freezj2 == 0){
+			m_frame.img_stop1.setIcon(new ImageIcon());
+
+		}
+
 	}
 
 	private void checkTP() {
@@ -346,8 +370,7 @@ public class Model extends GameModel {
 			player1.appliquerBonus(bonus, player2);
 			if (bonus instanceof Speed) {
 				m_frame.img_eclair1.setIcon(new ImageIcon("images/eclair_gauche.png"));
-			}
-			else {
+			} else {
 				m_frame.img_stop1.setIcon(new ImageIcon("images/stop_gauche.png"));
 			}
 			m_frame.doLayout();
@@ -362,8 +385,7 @@ public class Model extends GameModel {
 			player2.appliquerBonus(bonus, player1);
 			if (bonus instanceof Speed) {
 				m_frame.img_eclair2.setIcon(new ImageIcon("images/eclair_droite.png"));
-			}
-			else {
+			} else {
 				m_frame.img_stop2.setIcon(new ImageIcon("images/stop_droite.png"));
 			}
 			m_frame.doLayout();
@@ -371,8 +393,6 @@ public class Model extends GameModel {
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listBonus.remove(bonus);
 		}
-		
-		
 
 	}
 
@@ -480,8 +500,7 @@ public class Model extends GameModel {
 			refresh_score = false;
 			m_frame.doLayout();
 		}
-		
-		
+
 	}
 
 	public void update_plat() {
@@ -723,7 +742,5 @@ public class Model extends GameModel {
 	public void setSecondes(int secondes) {
 		this.secondes = secondes;
 	}
-	
-	
 
 }

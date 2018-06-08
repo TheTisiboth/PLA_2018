@@ -58,7 +58,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Textfield Joueur 1
 
 		j1 = new JTextField("Joueur 1");
-		j1.setBounds(140, 117, 300, 100);
+		j1.setBounds(140, 100, 300, 100);
 		j1.setForeground(Color.WHITE);
 		j1.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j1.setOpaque(false);
@@ -76,7 +76,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Textfield Joueur 2
 
 		j2 = new JTextField("Joueur 2");
-		j2.setBounds(765, 117, 300, 100);
+		j2.setBounds(765, 100, 300, 100);
 		j2.setForeground(Color.WHITE);
 		j2.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j2.setOpaque(false);
@@ -91,23 +91,23 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Fin Textfield Jour 2
 
-//		// Engrenage
-//		engrenage = new JButton();
-//		engrenage.setBounds(400, 490, 400, 100);
-//		engrenage.setOpaque(false);
-//		engrenage.setContentAreaFilled(false);
-//		engrenage.setBorderPainted(false);
-//
-//		engrenage.addActionListener(this);
-//
-//		this.add(play);
-//		
-//		// fin engrenage
+		// Engrenage
+		engrenage = new JButton();
+		engrenage.setBounds(380, 380, 430, 75);
+		engrenage.setOpaque(false);
+		engrenage.setContentAreaFilled(false);
+		engrenage.setBorderPainted(false);
+
+		engrenage.addActionListener(this);
+
+		this.add(engrenage);
+		
+		// fin engrenage
 		
 		// Bouton "Click to play"
 
 		play = new JButton();
-		play.setBounds(400, 490, 400, 100);
+		play.setBounds(360, 483, 498, 70);
 		play.setOpaque(false);
 		play.setContentAreaFilled(false);
 		play.setBorderPainted(false);
@@ -124,7 +124,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		rules.setBounds(-120, 520, 300, 50);
 		rules.setOpaque(false);
 		rules.setContentAreaFilled(false);
-//		rules.setBorderPainted(false);
+		rules.setBorderPainted(false);
 
 		rules.addActionListener(this);
 
@@ -138,7 +138,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		credits.setBounds(980, 520, 300, 50);
 		credits.setOpaque(false);
 		credits.setContentAreaFilled(false);
-//		credits.setBorderPainted(false);
+		credits.setBorderPainted(false);
 
 		credits.addActionListener(this);
 
@@ -218,10 +218,10 @@ public class HomeWindow extends JFrame implements ActionListener {
 		}
 		
 		// Quand on clique sur le bouton "Chois Automates
-//		if(s = engrenage){
-//			new ChoixZbire();
-//			dispose();
-//		}
+		if(s == engrenage){
+			new ChoixZbire(d,m_game);
+			dispose();
+		}
 
 		// Quand on clique sur le bouton "Régles"
 		if (s == rules) {

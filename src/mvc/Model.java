@@ -14,7 +14,6 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import edu.ricm3.game.GameModel;
 import fenetre.GameWindow;
@@ -83,8 +82,10 @@ public class Model extends GameModel {
 
 		score1 = 0;
 		score2 = 0;
+
 		minutes = MesOptions.min;
 		secondes = 0;
+
 		timer = true;
 
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
@@ -285,7 +286,7 @@ public class Model extends GameModel {
 		int speedj2 = player2.getTimeEffect();
 		int freezj1 = player1.getTimeEffectFreeze();
 		int freezj2 = player2.getTimeEffectFreeze();
-		
+
 		if (speedj1 == 0) {
 			m_frame.img_eclair1.setIcon(new ImageIcon());
 		}
@@ -293,11 +294,11 @@ public class Model extends GameModel {
 			m_frame.img_eclair2.setIcon(new ImageIcon());
 
 		}
-		if(freezj1 == 0){
+		if (freezj1 == 0) {
 			m_frame.img_stop2.setIcon(new ImageIcon());
 
 		}
-		if(freezj2 == 0){
+		if (freezj2 == 0) {
 			m_frame.img_stop1.setIcon(new ImageIcon());
 
 		}
@@ -374,14 +375,14 @@ public class Model extends GameModel {
 				m_frame.img_stop1.setIcon(new ImageIcon("images/stop_gauche.png"));
 			}
 			m_frame.doLayout();
-			statistique.plus_Joueur2_Bonus();
+			statistique.plus_Joueur1_Bonus();
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listBonus.remove(bonus);
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Bonus bonus = (Bonus) plateau[player2.getX()][player2.getY()].getE();
-			statistique.plus_Joueur1_Bonus();
+			statistique.plus_Joueur2_Bonus();
 			player2.appliquerBonus(bonus, player1);
 			if (bonus instanceof Speed) {
 				m_frame.img_eclair2.setIcon(new ImageIcon("images/eclair_droite.png"));

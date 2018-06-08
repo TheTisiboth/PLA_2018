@@ -29,10 +29,10 @@ public class View extends GameView {
 				}
 			}
 		}
-		if (m_model.timer == false) {
-			Statistique s = m_model.getStatistique();
-			s.paint(g);
-		}
+//		if (m_model.timer == false) {
+//			Statistique s = m_model.getStatistique();
+//			s.paint(g);
+//		}
 
 	}
 }

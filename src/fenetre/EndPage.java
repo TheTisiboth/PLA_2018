@@ -173,22 +173,25 @@ public class EndPage extends JFrame implements ActionListener {
 
 		JPanel pan_graph = new JPanel();
 		pan_graph.setLayout(new FlowLayout());
+		
+		JLabel stat= new JLabel("",SwingConstants.CENTER);
+		preferredSize = new Dimension(510, 80);
 
-		JLabel stat = new JLabel("", SwingConstants.CENTER);
-		preferredSize = new Dimension(500, 80);
 		stat.setPreferredSize(preferredSize);
 		stat.setFont(fonNumber);
 		pan_graph.add(stat);
 
 		Graphs graphs = new Graphs();
 		graphs.set_model(m_model);
-		preferredSize = new Dimension(500, 320);
+		preferredSize = new Dimension(510, 340);
 		graphs.setPreferredSize(preferredSize);
 		// graphs.setOpaque(false);
 		pan_graph.add(graphs);
 
-		JLabel titre = new JLabel("Graphique du score en fonction du temps", SwingConstants.CENTER);
-		preferredSize = new Dimension(500, 40);
+		
+		JLabel titre  = new JLabel("Graphique du score en fonction du temps",SwingConstants.CENTER);
+		preferredSize =new Dimension(510, 40);
+
 		titre.setPreferredSize(preferredSize);
 		titre.setForeground(Color.WHITE);
 		pan_graph.add(titre, preferredSize);
@@ -197,7 +200,7 @@ public class EndPage extends JFrame implements ActionListener {
 		panel_center.add(pan_graph, BorderLayout.CENTER);
 
 		JButton rejouer = new JButton("");
-		preferredSize = new Dimension(200, 40);
+		preferredSize = new Dimension(200, 70);
 		rejouer.setPreferredSize(preferredSize);
 		rejouer.setBorderPainted(false);
 		rejouer.setContentAreaFilled(false);

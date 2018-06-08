@@ -47,7 +47,6 @@ public class GameUI {
 	Timer m_timer;
 	JLabel m_text;
 
-
 	boolean timer;
 
 	String m_msg;
@@ -56,7 +55,7 @@ public class GameUI {
 
 	public GameUI(Dimension d) {
 
-		timer =true;
+		timer = true;
 		System.out.println(license);
 
 		createWindow(d);
@@ -127,7 +126,6 @@ public class GameUI {
 		this.m_controller = m_controller;
 	}
 
-
 	/*
 	 * This is the period tick callback. We compute the elapsed time since the
 	 * last tick. We inform the model of the current time.
@@ -144,7 +142,7 @@ public class GameUI {
 
 		elapsed = now - m_lastRepaint;
 		if (elapsed > Options.REPAINT_DELAY) {
-			if(timer) {
+			if (timer) {
 				double tick = (double) m_elapsed / (double) m_nTicks;
 				long tmp = (long) (tick * 10.0);
 				tick = tmp / 10.0;
@@ -158,18 +156,17 @@ public class GameUI {
 					txt += " ";
 				if (m_msg != null)
 					txt += m_msg;
-
 				m_view.paint();
-				
+
 				m_lastRepaint = now;
 				if (((Model) m_model).getTimer() == false) {
 					timer = false;
-					new EndPage(((Model) m_model),m_view,this);
-					((Model)m_model).getM_frame().dispose();
-					
+					new EndPage(((Model) m_model), m_view, this);
+					((Model) m_model).getM_frame().dispose();
+
 				}
 			}
-		
+
 		}
 	}
 

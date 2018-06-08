@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,8 +25,13 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	private String nom_j1;
 	private JTextField j2;
 	private String nom_j2;
+	private JButton home;
+	Dimension d;
+	GameUI m_game;
 
 	public ChoixZbire(Dimension d, GameUI game) {
+		this.d = d;
+		m_game = game;
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		Container cont = this.getContentPane();
 		cont.setSize(d);
@@ -32,18 +40,31 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		cont.setMinimumSize(d);
 		
 		
-
 		JPanel img = new Background(d, 7);
 		img.setLayout(null);
+		
+		home = new JButton();
+		home.setBounds(-120, 10, 400, 80);
+		home.setOpaque(false);
+		home.setContentAreaFilled(false);
+		home.setBorderPainted(false);
+
+		home.addActionListener(this);
+
+		this.add(home);
 
 		JPanel eastPanel = new JPanel();
-		eastPanel.setBounds(80,180,475,370);
+		eastPanel.setBounds(160,200,300,350);
 		eastPanel.setOpaque(false);
+		
+		JPanel westPanel = new JPanel();
+		westPanel.setBounds(730,200,300,350);
+		westPanel.setOpaque(false);
 		
 		// Textfield Joueur 1
 
 		j1 = new JTextField("Joueur 1");
-		j1.setBounds(140, 100, 300, 100);
+		j1.setBounds(160, 80, 300, 100);
 		j1.setForeground(Color.WHITE);
 		j1.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j1.setOpaque(false);
@@ -61,7 +82,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		// Textfield Joueur 2
 
 		j2 = new JTextField("Joueur 2");
-		j2.setBounds(765, 100, 300, 100);
+		j2.setBounds(735, 80, 300, 100);
 		j2.setForeground(Color.WHITE);
 		j2.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j2.setOpaque(false);
@@ -75,21 +96,39 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		this.add(j2);
 
 		// Fin Textfield Jour 2
-
+		
+//		eastPanel.setLayout(new GridLayout(4, 1, 0, 30));
+		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
+		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		JComboBox comboBox[] = new JComboBox[8];
 		for (int i = 0; i < 8; i++) {
 			comboBox[i] = new JComboBox();
 
 		}
+		Dimension dimcombo = new Dimension(200,35);
 		int y = 200;
 		for (int i = 0; i < 4; i++) {
-			comboBox[i].setBounds(100, y, 100, 60);
+			comboBox[i].setPreferredSize(dimcombo);
+			comboBox[i].setSize(dimcombo);
+			comboBox[i].setMaximumSize(dimcombo);
+			comboBox[i].setMinimumSize(dimcombo);
 			y += 60;
 			eastPanel.add(comboBox[i]);
 		}
-		// this.add(comboBox);
+		
+		y = 200;
+		for (int i = 4; i < 8; i++) {
+			comboBox[i].setPreferredSize(dimcombo);
+			comboBox[i].setSize(dimcombo);
+			comboBox[i].setMaximumSize(dimcombo);
+			comboBox[i].setMinimumSize(dimcombo);
+			y += 60;
+			westPanel.add(comboBox[i]);
+		}
+		
 
 		img.add(eastPanel);
+		img.add(westPanel);
 		cont.add(img, BorderLayout.CENTER);
 
 //		this.setSize(d);
@@ -107,7 +146,10 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		Object s = e.getSource();
+		if (s == home) {
+			new HomeWindow(d, m_game);
+			dispose();
+		}
 	}
 }

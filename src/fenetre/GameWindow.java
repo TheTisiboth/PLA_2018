@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 import edu.ricm3.game.GameController;
@@ -34,8 +35,6 @@ public class GameWindow extends JFrame {
 	long last_tick;
 	int secondes, minutes;
 	JPanel image_background;
-	Container cont;
-	JPanel nord;
 	public JLabel time, pourcentage1, pourcentage2, img_eclair1, img_eclair2, img_stop1, img_stop2;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
@@ -53,7 +52,6 @@ public class GameWindow extends JFrame {
 		pourcentage2 = new JLabel();
 
 		Container cont = this.getContentPane();
-		this.cont = cont;
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		cont.setSize(d);
@@ -65,21 +63,23 @@ public class GameWindow extends JFrame {
 
 		JPanel north = createNorthPanel();
 		north.setOpaque(false);
-		nord = north;
 		JPanel east = createEastPanel();
 		east.setOpaque(false);
 		JPanel west = createWestPanel();
 		west.setOpaque(false);
+		JPanel progresseBar = createBarrePanel();
 
 		m_view.setBounds(120, 120, 960, 480);
 		north.setBounds(0, 0, 1200, 80);
 		east.setBounds(1100, 100, 100, 450);
 		west.setBounds(0, 100, 100, 450);
+		progresseBar.setBounds(0,80,1200,40);
 
 		img.add(north);
 		img.add(m_view);
 		img.add(east);
 		img.add(west);
+		img.add(progresseBar);
 		image_background = img;
 
 		// On ajoute le tout dans la fenetre
@@ -124,15 +124,53 @@ public class GameWindow extends JFrame {
 		super.setSize(width, height);
 	}
 
+	private JPanel createBarrePanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,2));
+		panel.setOpaque(false);
+
+		JProgressBar barreJ1 = new JProgressBar();
+		barreJ1.setPreferredSize(new Dimension(600,40));
+		barreJ1.setMaximumSize(new Dimension(600,40));
+		barreJ1.setMinimumSize(new Dimension(600,40));
+		barreJ1.setValue(100);
+		barreJ1.setForeground(Color.RED);
+		
+		JProgressBar barreJ2 = new JProgressBar();
+		barreJ2.setPreferredSize(new Dimension(600,40));
+		barreJ2.setMaximumSize(new Dimension(600,40));
+		barreJ2.setMinimumSize(new Dimension(600,40));
+		barreJ2.setValue(100);
+		barreJ2.setForeground(Color.BLUE);
+
+		panel.add(barreJ1);
+		panel.add(barreJ2);
+		return panel;		
+	}
+
+	private JPanel createBarreDroitePanel() {
+	
+		JPanel panel = new JPanel();
+		panel.setOpaque(false);
+		JProgressBar barreJ2 = new JProgressBar();
+		barreJ2.setValue(100);
+		barreJ2.setForeground(Color.BLUE);
+		barreJ2.setPreferredSize(new Dimension(600,40));
+		barreJ2.setMaximumSize(new Dimension(600,40));
+		barreJ2.setMinimumSize(new Dimension(600,40));
+		panel.add(barreJ2);
+		return panel;	
+		
+	}
+	
+	
 	// ----------------------NORTH PANEL------------------------------//
 
 	// CENTER NORTH
 	private JPanel createCenterNorthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		// panel.setPreferredSize(new Dimension(200, 80));
 		panel.setOpaque(false);
-		// panel.setLocation(0, 0);
 		panel.setBounds(0, 20, 200, 80);
 
 		minutes = m_model.getMinutes();

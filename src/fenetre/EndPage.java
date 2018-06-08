@@ -198,7 +198,7 @@ public class EndPage extends JFrame implements ActionListener {
 		panel_center.add(pan_graph, BorderLayout.CENTER);
 
 		JButton rejouer = new JButton("");
-		preferredSize = new Dimension(200, 40);
+		preferredSize = new Dimension(200, 70);
 		rejouer.setPreferredSize(preferredSize);
 		rejouer.setBorderPainted(false);
 		rejouer.setContentAreaFilled(false);

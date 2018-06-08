@@ -27,8 +27,10 @@ public class GameWindow extends JFrame {
 		m_controller = ctrl;
 		this.j1 = j1;
 		this.j2 = j2;
+
 //		System.out.println("Asked: w=" + d.width + " h=" + d.height);
 		Container cont = this.getContentPane();
+
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		cont.setSize(d);
 		cont.setPreferredSize(d);

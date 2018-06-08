@@ -7,20 +7,16 @@ import java.awt.image.BufferedImage;
 
 public class Case {
 	private Color couleur;
-	private BufferedImage m_couleur_init;
-	private BufferedImage m_couleur;
+	private BufferedImage m_couleur_init, m_couleur;
 	private Entity e;
-	private boolean occuped;
-	private boolean refresh;
-	private boolean refresh_buffer2;
+	private boolean occupied, refresh, refresh_buffer2;
 
 	public Case(Entity e, BufferedImage img) {
-
 		this.e = e;
 		if (e != null) {
-			occuped = true;
+			occupied = true;
 		} else {
-			occuped = false;
+			occupied = false;
 		}
 		refresh = true;
 		refresh_buffer2 = false;
@@ -30,8 +26,9 @@ public class Case {
 	}
 
 	// METHODE
+	
 	public void paint(Graphics g, int x, int y) {
-		if(m_couleur != m_couleur_init) {
+		if (m_couleur != m_couleur_init) {
 			Image img = m_couleur_init;
 			int w = (int) (MesOptions.taille_case);
 			int h = (int) (MesOptions.taille_case);
@@ -44,7 +41,7 @@ public class Case {
 		if (e != null) {
 			e.paint(g);
 		}
-		
+
 		if (refresh_buffer2) {
 			refresh = false;
 			refresh_buffer2 = false;
@@ -59,6 +56,7 @@ public class Case {
 	}
 
 	// GETTER SETTER
+	
 	public Color getCouleur() {
 		return couleur;
 	}
@@ -74,18 +72,18 @@ public class Case {
 	public void setE(Entity e) {
 		this.e = e;
 		if (e == null) {
-			occuped = false;
+			occupied = false;
 		} else {
-			occuped = true;
+			occupied = true;
 		}
 	}
 
 	public boolean isOccuped() {
-		return occuped;
+		return occupied;
 	}
 
-	public void setOccuped(boolean occuped) {
-		this.occuped = occuped;
+	public void setOccuped(boolean occupied) {
+		this.occupied = occupied;
 	}
 
 	public boolean getRefresh() {

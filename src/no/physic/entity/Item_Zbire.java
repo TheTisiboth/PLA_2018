@@ -1,21 +1,16 @@
 package no.physic.entity;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import mvc.MesOptions;
 
-import mvc.MesOptions;
-
 public class Item_Zbire extends No_Physic_Entity {
-	
+
 	BufferedImage m_item;
 
-
-	
-	public Item_Zbire(int x,int y, BufferedImage m_item) {
+	public Item_Zbire(int x, int y, BufferedImage m_item) {
 		super(x, y);
 		this.m_item = m_item;
 
@@ -27,9 +22,8 @@ public class Item_Zbire extends No_Physic_Entity {
 		int w = (int) (MesOptions.taille_case);
 		int h = (int) (MesOptions.taille_case);
 		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
-		
+
 	}
-	
 
 	public int getY() {
 		return y;
@@ -39,5 +33,4 @@ public class Item_Zbire extends No_Physic_Entity {
 		return x;
 	}
 
-	
-}	
+}

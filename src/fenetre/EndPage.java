@@ -71,6 +71,7 @@ public class EndPage extends JFrame implements ActionListener {
 		// Mis en place de l'écran Ouest
 		int entrelayout = 65;
 		JLabel txt = new JLabel(j1, SwingConstants.CENTER);
+		txt.setForeground(Color.WHITE);
 		txt.setFont(font);
 		Dimension preferredSize = new Dimension(350, 140);
 		txt.setPreferredSize(preferredSize);
@@ -120,6 +121,7 @@ public class EndPage extends JFrame implements ActionListener {
 		// Mis en place de l'écran Est
 		JLabel txt1 = new JLabel(j2, SwingConstants.CENTER);
 		txt1.setFont(font);
+		txt1.setForeground(Color.WHITE);
 		preferredSize = new Dimension(350, 140);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);

@@ -137,5 +137,5 @@ SuperHero(Explore){\
 test%:
 	@ clear
 	@ echo ``Parsing = \"$(test$*)\"``
-	@ cd $(project_directory)/bin ; $(java_interpreter) $(parser_class) $(test$*) > $(dot_output_file)
+	@ cd $(project_directory)/bin ; $(java_interpreter) $(parser_class) ../Automates.txt > $(dot_output_file)
 	@ dot -Tps -o ast.ps bin/ast.dot

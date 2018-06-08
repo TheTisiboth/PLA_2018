@@ -23,16 +23,24 @@ import mvc.Model;
 public class GameWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	JPanel main;
+	JPanel main_panel;
 	GameView m_view;
+	GameView time_view;
 	JLabel m_text;
 	Model m_model;
 	GameController m_controller;
 	String j1, j2;
-	Dimension d;
+	Dimension dimension;
+	long last_tick;
+	int secondes, minutes;
+	JPanel image_background;
+	JPanel barre_peinture_j1;
+	JPanel barre_peinture_j2;
+	public JLabel time, pourcentage1, pourcentage2, img_eclair1, img_eclair2, img_stop1, img_stop2;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
-		this.d = d;
+		last_tick = 0L;
+		this.dimension = d;
 		m_model = (Model) mod;
 		m_view = view;
 		m_controller = ctrl;
@@ -40,6 +48,9 @@ public class GameWindow extends JFrame {
 		this.j2 = j2;
 		m_model.setName_j1(j1);
 		m_model.setName_j2(j2);
+		time = new JLabel();
+		pourcentage1 = new JLabel();
+		pourcentage2 = new JLabel();
 
 		Container cont = this.getContentPane();
 
@@ -67,6 +78,7 @@ public class GameWindow extends JFrame {
 		img.add(m_view);
 		img.add(east);
 		img.add(west);
+		image_background = img;
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
@@ -100,7 +112,7 @@ public class GameWindow extends JFrame {
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 		super.setBounds(x, y, width, height);
-		if (d == null) {
+		if (dimension == null) {
 			return;
 		}
 	}
@@ -116,18 +128,25 @@ public class GameWindow extends JFrame {
 	private JPanel createCenterNorthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		panel.setPreferredSize(new Dimension(200, 80));
+		// panel.setPreferredSize(new Dimension(200, 80));
 		panel.setOpaque(false);
-		panel.setLocation(0, 0);
+		// panel.setLocation(0, 0);
+		panel.setBounds(0, 20, 200, 80);
 
-		JLabel time = new JLabel("3:00");
+		minutes = m_model.getMinutes();
+		secondes = m_model.getSecondes();
+		time = new JLabel();
+		time.setText(minutes + ":0" + secondes);
 		time.setForeground(Color.WHITE);
 		time.setFont(new Font("Helvetica", Font.BOLD, 40));
 
-		panel.add(time);
+		panel.repaint();
+		time.repaint();
 
 		Dimension size = time.getPreferredSize();
 		time.setBounds(10, 0, size.width, size.height);
+
+		panel.add(time);
 
 		return panel;
 	}
@@ -143,16 +162,16 @@ public class GameWindow extends JFrame {
 
 		// NOM DU JOUEUR 2 PANEL
 		JPanel txtPanel = new JPanel();
-		txtPanel.setBounds(320, 0, 160, 80);
+		txtPanel.setBounds(320, 25, 160, 80);
 		txtPanel.setOpaque(false);
 
-		// NOM DU JOUEUR 1
-		JLabel nom_j1 = new JLabel();
-		nom_j1.setText(j2);
-		nom_j1.setForeground(Color.WHITE);
-		nom_j1.setFont(new Font("Helvetica", Font.BOLD, 20));
-		nom_j1.setOpaque(false);
-		txtPanel.add(nom_j1);
+		// NOM DU JOUEUR 2
+		JLabel nom_j2 = new JLabel();
+		nom_j2.setText(j2);
+		nom_j2.setForeground(Color.WHITE);
+		nom_j2.setFont(new Font("Helvetica", Font.BOLD, 20));
+		nom_j2.setOpaque(false);
+		txtPanel.add(nom_j2);
 		panel.add(txtPanel);
 
 		// ECLAIR PANEL
@@ -161,9 +180,9 @@ public class GameWindow extends JFrame {
 		eclairPanel.setOpaque(false);
 
 		// ECLAIR
-		JLabel img_eclair = new JLabel(new ImageIcon("images/eclair_droite.png"));
-		img_eclair.setOpaque(false);
-		eclairPanel.add(img_eclair);
+		img_eclair2 = new JLabel(new ImageIcon());
+		img_eclair2.setOpaque(false);
+		eclairPanel.add(img_eclair2);
 		panel.add(eclairPanel);
 
 		// STOP PANEL
@@ -172,22 +191,22 @@ public class GameWindow extends JFrame {
 		stopPanel.setOpaque(false);
 
 		// STOP
-		JLabel img_stop = new JLabel(new ImageIcon("images/stop_droite.png"));
-		img_stop.setOpaque(false);
-		stopPanel.add(img_stop);
+		img_stop2 = new JLabel(new ImageIcon());
+		img_stop2.setOpaque(false);
+		stopPanel.add(img_stop2);
 		panel.add(stopPanel);
 
 		// POURCENTAGE PANEL
 		JPanel pourcentagePanel = new JPanel();
 		pourcentagePanel.setOpaque(false);
-		pourcentagePanel.setBounds(20, 0, 100, 80);
+		pourcentagePanel.setBounds(20, 15, 100, 80);
 
 		// POURCENTAGE
-		JLabel pourcentage = new JLabel("15");
-		pourcentage.setOpaque(false);
-		pourcentage.setForeground(Color.WHITE);
-		pourcentage.setFont(new Font("Helvetica", Font.BOLD, 40));
-		pourcentagePanel.add(pourcentage);
+		pourcentage1.setText("0");
+		pourcentage1.setOpaque(false);
+		pourcentage1.setForeground(Color.WHITE);
+		pourcentage1.setFont(new Font("Helvetica", Font.BOLD, 40));
+		pourcentagePanel.add(pourcentage1);
 		panel.add(pourcentagePanel);
 
 		return panel;
@@ -204,7 +223,7 @@ public class GameWindow extends JFrame {
 
 		// NOM DU JOUEUR 1 PANEL
 		JPanel txtPanel = new JPanel();
-		txtPanel.setBounds(0, 0, 160, 80);
+		txtPanel.setBounds(0, 25, 160, 80);
 		txtPanel.setOpaque(false);
 
 		// NOM DU JOUEUR 1
@@ -222,9 +241,9 @@ public class GameWindow extends JFrame {
 		eclairPanel.setOpaque(false);
 
 		// ECLAIR
-		JLabel img_eclair = new JLabel(new ImageIcon("images/eclair_gauche.png"));
-		img_eclair.setOpaque(false);
-		eclairPanel.add(img_eclair);
+		img_eclair1 = new JLabel(new ImageIcon());
+		img_eclair1.setOpaque(false);
+		eclairPanel.add(img_eclair1);
 		panel.add(eclairPanel);
 
 		// STOP PANEL
@@ -233,22 +252,22 @@ public class GameWindow extends JFrame {
 		stopPanel.setOpaque(false);
 
 		// STOP
-		JLabel img_stop = new JLabel(new ImageIcon("images/stop_gauche.png"));
-		img_stop.setOpaque(false);
-		stopPanel.add(img_stop);
+		img_stop1 = new JLabel(new ImageIcon());
+		img_stop1.setOpaque(false);
+		stopPanel.add(img_stop1);
 		panel.add(stopPanel);
 
 		// POURCENTAGE PANEL
 		JPanel pourcentagePanel = new JPanel();
 		pourcentagePanel.setOpaque(false);
-		pourcentagePanel.setBounds(380, 0, 100, 80);
+		pourcentagePanel.setBounds(380, 15, 100, 80);
 
 		// POURCENTAGE
-		JLabel pourcentage = new JLabel("15");
-		pourcentage.setOpaque(false);
-		pourcentage.setForeground(Color.WHITE);
-		pourcentage.setFont(new Font("Helvetica", Font.BOLD, 40));
-		pourcentagePanel.add(pourcentage);
+		pourcentage2.setText("0");
+		pourcentage2.setOpaque(false);
+		pourcentage2.setForeground(Color.WHITE);
+		pourcentage2.setFont(new Font("Helvetica", Font.BOLD, 40));
+		pourcentagePanel.add(pourcentage2);
 		panel.add(pourcentagePanel);
 
 		return panel;
@@ -263,9 +282,10 @@ public class GameWindow extends JFrame {
 		JPanel WestNorth = createWestNorthPanel();
 		WestNorth.setBounds(0, 0, 500, 80);
 		JPanel CenterNorth = createCenterNorthPanel();
-		CenterNorth.setBounds(500, 0, 200, 80);
+		CenterNorth.setBounds(500, 16, 200, 80);
 		JPanel EastNorth = createEastNorthPanel();
 		EastNorth.setBounds(700, 0, 500, 80);
+		
 
 		panel.add(WestNorth, BorderLayout.WEST);
 		panel.add(CenterNorth, BorderLayout.CENTER);
@@ -275,7 +295,6 @@ public class GameWindow extends JFrame {
 
 		return panel;
 	}
-
 
 	// ----------------------EAST PANEL------------------------------//
 	private JPanel createEastPanel() {

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import edu.ricm3.game.GameModel;
@@ -36,7 +37,7 @@ public class Model extends GameModel {
 	public Statistique statistique;
 	private Portal portal;
 
-	int minutes, secondes;
+	private int minutes, secondes;
 
 	long elapsed, lastTick;
 	private int counter_sec;
@@ -53,7 +54,7 @@ public class Model extends GameModel {
 	private boolean refresh_score = true;
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
 			m_recharge, m_portal;
-	JFrame m_frame;
+	GameWindow m_frame;
 
 	private String name_j1, name_j2;
 
@@ -105,7 +106,7 @@ public class Model extends GameModel {
 		listItem = new LinkedList<Item_Zbire>();
 		listRecharge = new LinkedList<Recharge>();
 
-		o = new Obstacle[MesOptions.nb_obstacle];
+		o = new Obstacle[MesOptions.nb_obstacles];
 		initObstacle();
 
 		statistique = new Statistique();
@@ -178,8 +179,8 @@ public class Model extends GameModel {
 
 	private void initObstacle() {
 		boolean diff = true;
-		int[] tab_x = new int[MesOptions.nb_obstacle];
-		int[] tab_y = new int[MesOptions.nb_obstacle];
+		int[] tab_x = new int[MesOptions.nb_obstacles];
+		int[] tab_y = new int[MesOptions.nb_obstacles];
 		int compteur = 0;
 		do {
 			diff = true;
@@ -199,8 +200,8 @@ public class Model extends GameModel {
 				tab_x[compteur] = x;
 				compteur++;
 			}
-		} while (compteur != MesOptions.nb_obstacle);
-		for (int i = 0; i < MesOptions.nb_obstacle; i++) {
+		} while (compteur != MesOptions.nb_obstacles);
+		for (int i = 0; i < MesOptions.nb_obstacles; i++) {
 			o[i] = new Obstacle(tab_x[i], tab_y[i], 3, m_obstacle);
 			plateau[tab_x[i]][tab_y[i]].setE(o[i]);
 			plateau[tab_x[i]][tab_y[i]].setRefresh(true);
@@ -238,6 +239,7 @@ public class Model extends GameModel {
 			checkItem();
 			checkTP();
 			checkPaint();
+			checkImgBonus();
 			update_plat();
 
 			elapsed = now - lastTick;
@@ -260,8 +262,12 @@ public class Model extends GameModel {
 
 				else {
 					secondes--;
-					System.out.println(minutes + "min" + secondes + "s");
-
+					if (secondes < 10) {
+						m_frame.time.setText(minutes + ":0" + secondes);
+					} else {
+						m_frame.time.setText(minutes + ":" + secondes);
+					}
+					m_frame.doLayout();
 					popItem();
 					PopPaint();
 
@@ -270,7 +276,33 @@ public class Model extends GameModel {
 					lastTick = now;
 				}
 			}
+
+			afficheScore();
 		}
+	}
+
+	private void checkImgBonus() {
+		int speedj1 = player1.getTimeEffect();
+		int speedj2 = player2.getTimeEffect();
+		int freezj1 = player1.getTimeEffectFreeze();
+		int freezj2 = player2.getTimeEffectFreeze();
+
+		if (speedj1 == 0) {
+			m_frame.img_eclair1.setIcon(new ImageIcon());
+		}
+		if (speedj2 == 0) {
+			m_frame.img_eclair2.setIcon(new ImageIcon());
+
+		}
+		if (freezj1 == 0) {
+			m_frame.img_stop2.setIcon(new ImageIcon());
+
+		}
+		if (freezj2 == 0) {
+			m_frame.img_stop1.setIcon(new ImageIcon());
+
+		}
+
 	}
 
 	private void checkTP() {
@@ -337,6 +369,12 @@ public class Model extends GameModel {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Bonus bonus = (Bonus) plateau[player1.getX()][player1.getY()].getE();
 			player1.appliquerBonus(bonus, player2);
+			if (bonus instanceof Speed) {
+				m_frame.img_eclair1.setIcon(new ImageIcon("images/eclair_gauche.png"));
+			} else {
+				m_frame.img_stop1.setIcon(new ImageIcon("images/stop_gauche.png"));
+			}
+			m_frame.doLayout();
 			statistique.plus_Joueur1_Bonus();
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
@@ -346,6 +384,12 @@ public class Model extends GameModel {
 			Bonus bonus = (Bonus) plateau[player2.getX()][player2.getY()].getE();
 			statistique.plus_Joueur2_Bonus();
 			player2.appliquerBonus(bonus, player1);
+			if (bonus instanceof Speed) {
+				m_frame.img_eclair2.setIcon(new ImageIcon("images/eclair_droite.png"));
+			} else {
+				m_frame.img_stop2.setIcon(new ImageIcon("images/stop_droite.png"));
+			}
+			m_frame.doLayout();
 			plateau[player2.getX()][player2.getY()].setE(null);
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listBonus.remove(bonus);
@@ -354,7 +398,7 @@ public class Model extends GameModel {
 	}
 
 	private void popItem() {
-		if (MesOptions.Nb_Max_Item >= listItem.size()) {
+		if (MesOptions.nb_max_items >= listItem.size()) {
 			Random rand = new Random();
 			int i = rand.nextInt(MesOptions.popItem);
 			if (i < 1) {
@@ -376,9 +420,9 @@ public class Model extends GameModel {
 	}
 
 	private void PopPaint() {
-		if (MesOptions.Nb_Max_Paint >= listRecharge.size()) {
+		if (MesOptions.nb_max_paint >= listRecharge.size()) {
 			Random rand = new Random();
-			int i = rand.nextInt(MesOptions.PopPaint);
+			int i = rand.nextInt(MesOptions.popPaint);
 			if (i < 1) {
 				boolean occuped = true;
 				int col, ligne;
@@ -450,10 +494,14 @@ public class Model extends GameModel {
 	private void afficheScore() {
 		NumberFormat formatter = new DecimalFormat("#00.0");
 		if (refresh_score) {
-			System.out.println("Score n°1 :" + formatter.format((score1 / MesOptions.nombre_case) * 100));
-			System.out.println("Score n°2 :" + formatter.format((score2 / MesOptions.nombre_case) * 100));
+			// pourcentage1 --> score2
+			// pourcentage2 --> score1
+			m_frame.pourcentage1.setText(formatter.format((score2 / MesOptions.nb_cases) * 100));
+			m_frame.pourcentage2.setText(formatter.format((score1 / MesOptions.nb_cases) * 100));
 			refresh_score = false;
+			m_frame.doLayout();
 		}
+
 	}
 
 	public void update_plat() {
@@ -679,4 +727,21 @@ public class Model extends GameModel {
 	public void setPortal(Portal portal) {
 		this.portal = portal;
 	}
+
+	public int getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
+	}
+
+	public int getSecondes() {
+		return secondes;
+	}
+
+	public void setSecondes(int secondes) {
+		this.secondes = secondes;
+	}
+
 }

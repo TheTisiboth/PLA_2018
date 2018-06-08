@@ -17,106 +17,96 @@
  */
 package edu.ricm3.game;
 
-import java.awt.Button;
-import java.awt.TextField;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import com.sun.javafx.tk.Toolkit;
-
-import fenetre.GameWindow;
-
 public class GameController implements MouseListener, KeyListener, MouseMotionListener {
 
-  protected GameUI m_game;
-  Button b2, b1;
-  TextField t1;
+	protected GameUI m_game;
 
-  public GameController() {
-  }
-  
-  public GameUI getGameUI() {
-    return m_game;
-  }
+	public GameController() {
+	}
 
-//  public void notifyVisible();
+	public GameUI getGameUI() {
+		return m_game;
+	}
 
-  /**
-   * Simulation step. Warning: the model has already executed its step.
-   * 
-   * @param now
-   *          is the current time in milliseconds.
-   */
-  public void step(long now) {
-	  //TODO
-  }
+	// public void notifyVisible();
 
+	/**
+	 * Simulation step. Warning: the model has already executed its step.
+	 * 
+	 * @param now
+	 *            is the current time in milliseconds.
+	 */
+	public void step(long now) {
+		// TODO
+	}
 
-  @Override
-  public void mouseClicked(MouseEvent e) {
-	  
-  }
+	@Override
+	public void mouseClicked(MouseEvent e) {
 
+	}
 
-@Override
-public void mousePressed(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
 
-@Override
-public void mouseReleased(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	}
 
-@Override
-public void mouseEntered(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 
-@Override
-public void mouseExited(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	}
 
-public void notifyVisible() {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
 
-@Override
-public void mouseDragged(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	}
 
-@Override
-public void mouseMoved(MouseEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 
-@Override
-public void keyTyped(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	}
 
-@Override
-public void keyPressed(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	public void notifyVisible() {
+		// TODO Auto-generated method stub
 
-@Override
-public void keyReleased(KeyEvent e) {
-	// TODO Auto-generated method stub
-	
-}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
 }

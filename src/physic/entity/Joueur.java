@@ -227,21 +227,28 @@ public class Joueur extends Physic_Entity {
 			time /= speed;
 		}
 
-		if (elapsed > time) {
+		if (inMovement && elapsed > time && moveable) {
 
-			if (inMovement && moveable) {
+			if (direction == 'R' && x < MesOptions.nbCol - 1) {
+				x += step;
+				m_idx = (m_idx == 1 + m_personnalisation) ? 4 + m_personnalisation : 1 + m_personnalisation;
+			} else if (direction == 'L' && x > 0) {
+				x -= step;
+				m_idx = (m_idx == 25 + m_personnalisation) ? 28 + m_personnalisation : 25 + m_personnalisation;
+			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
+				y += step;
+				m_idx = (m_idx == 42 + m_personnalisation) ? 44 + m_personnalisation : 42 + m_personnalisation;
+			} else if (direction == 'U' && y > 0) {
+				y -= step;
+				m_idx = (m_idx == 12 + m_personnalisation) ? 13 + m_personnalisation : 12 + m_personnalisation;
 
-				if (direction == 'R' && x < MesOptions.nbCol - 1) {
-					x += step;
-				} else if (direction == 'L' && x > 0) {
-					x -= step;
-				} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
-					y += step;
-				} else if (direction == 'U' && y > 0) {
-					y -= step;
-				}
 			}
 
+			m_lastMove = now;
+			if (timeEffect > 0) {
+				timeEffect--;
+			}
+		} else {
 			switch (direction) {
 			case 'R':
 				m_idx = (m_idx == 1 + m_personnalisation) ? 4 + m_personnalisation : 1 + m_personnalisation;
@@ -255,11 +262,6 @@ public class Joueur extends Physic_Entity {
 			case 'U':
 				m_idx = (m_idx == 12 + m_personnalisation) ? 13 + m_personnalisation : 12 + m_personnalisation;
 				break;
-			}
-
-			m_lastMove = now;
-			if (timeEffect > 0) {
-				timeEffect--;
 			}
 		}
 	}

@@ -4,8 +4,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class Statistique {
 	private float[] score_joueur1;
@@ -98,27 +103,44 @@ public class Statistique {
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
+		int time = MesOptions.min*60/10;
+		//création du quadrillage
+		g2.setColor(Color.GRAY);
+		for(int i=1; i<10; i++) {
+			g2.draw(new Line2D.Double(50+(40*i),100,50+(40*i),300));
+			g2.drawString(""+(time*i)+"s" ,40+(40*i), 315);
+			g2.draw(new Line2D.Double(50,300-(20*i),450,300-(20*i)));
+			g2.drawString(""+10*i+"%" ,20, 300-(20*i));
 
-		Stroke stroke = g2.getStroke();
+			
+		}
+		
+		Stroke stroke =g2.getStroke();
+
 		g2.setColor(Color.BLACK);
 		// Création des axes
 		g2.setStroke(new BasicStroke(4));
-		g2.draw(new Line2D.Double(50, 100, 50, 300));
-		g2.draw(new Line2D.Double(50, 300, 450, 300));
-		// Flèches pour axe
-		g2.draw(new Line2D.Double(50, 100, 45, 105));
-		g2.draw(new Line2D.Double(50, 100, 55, 105));
-		g2.draw(new Line2D.Double(450, 300, 445, 295));
-		g2.draw(new Line2D.Double(450, 300, 445, 305));
 
-		g2.setStroke(stroke);
-		for (int i = 0; i < score_joueur1.length - 1; i++) {
-			g2.setColor(Color.RED);
-			g2.draw(new Line2D.Double(50 + i * 400 / score_joueur1.length, 300 - score_joueur1[i] * 2,
-					50 + (i + 1) * 400 / score_joueur1.length, 300 - score_joueur1[i + 1] * 2));
-			g2.setColor(Color.BLUE);
-			g2.draw(new Line2D.Double(50 + i * 400 / score_joueur1.length, 300 - score_joueur2[i] * 2,
-					50 + (i + 1) * 400 / score_joueur1.length, 300 - score_joueur2[i + 1] * 2));
+		g2.drawString("pourcentage (%)", 20, 80);
+		g2.draw(new Line2D.Double(50,100,50,300));
+		g2.drawString("temps (s)", 400, 330);
+		g2.draw(new Line2D.Double(50,300,450,300));
+		
+		
+		//Fleche pour axe		
+
+		g2.draw(new Line2D.Double(50,100,45,105));
+		g2.draw(new Line2D.Double(50,100,55,105));
+		g2.draw(new Line2D.Double(450,300,445,295));
+		g2.draw(new Line2D.Double(450,300,445,305));
+		
+		g2.setStroke(new BasicStroke(3));
+	
+			for (int i = 0; i < score_joueur1.length-1; i++) {
+				g2.setColor(Color.RED);
+				g2.draw(new Line2D.Double(50 +i*400/score_joueur1.length, 300-score_joueur1[i]*2, 50 +(i+1)*400/score_joueur1.length , 300-score_joueur1[i+1]*2));
+				g2.setColor(Color.BLUE);
+				g2.draw(new Line2D.Double(50 +i*400/score_joueur1.length, 300-score_joueur2[i]*2, 50 +(i+1)*400/score_joueur1.length , 300-score_joueur2[i+1]*2));
 
 		}
 

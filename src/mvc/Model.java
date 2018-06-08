@@ -81,8 +81,10 @@ public class Model extends GameModel {
 
 		score1 = 0;
 		score2 = 0;
+
 		minutes = MesOptions.min;
 		secondes = 0;
+
 		timer = true;
 
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];

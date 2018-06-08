@@ -231,47 +231,85 @@ public class Joueur extends Physic_Entity {
 			// System.out.println("activation du speed dans step");
 		}
 
-		if (elapsed > time) {
+		if (inMovement && elapsed > time && moveable) {
 
-			if (inMovement && moveable) {
+			if (direction == 'R' && x < MesOptions.nbCol - 1) {
+				x += step;
+				m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
+			} else if (direction == 'L' && x > 0) {
+				x -= step;
+				m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
+			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
+				y += step;
+				m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
+			} else if (direction == 'U' && y > 0) {
+				y -= step;
+				m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
 
-				if (direction == 'R' && x < MesOptions.nbCol - 1) {
-					x += step;
-					m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
-				} else if (direction == 'L' && x > 0) {
-					x -= step;
-					m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
-				} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
-					y += step;
-					m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
-				} else if (direction == 'U' && y > 0) {
-					y -= step;
-					m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
-				}
-			}
-
-			if (!inMovement) {
-				switch (direction) {
-				case 'R':
-					m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
-					break;
-				case 'L':
-					m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
-					break;
-				case 'D':
-					m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
-					break;
-				case 'U':
-					m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
-					break;
-				}
 			}
 
 			m_lastMove = now;
 			if (timeEffect > 0) {
 				timeEffect--;
 			}
+		} else {
+			switch (direction) {
+			case 'R':
+				m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
+				break;
+			case 'L':
+				m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
+				break;
+			case 'D':
+				m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
+				break;
+			case 'U':
+				m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
+				break;
+			}
 		}
+
+		// if (elapsed > time) {
+		//
+		// if (inMovement && moveable) {
+		//
+		// if (direction == 'R' && x < MesOptions.nbCol - 1) {
+		// x += step;
+		// m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
+		// } else if (direction == 'L' && x > 0) {
+		// x -= step;
+		// m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
+		// } else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
+		// y += step;
+		// m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
+		// } else if (direction == 'U' && y > 0) {
+		// y -= step;
+		// m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
+		// }
+		// }
+		//
+		// if (!inMovement) {
+		// switch (direction) {
+		// case 'R':
+		// m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
+		// break;
+		// case 'L':
+		// m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
+		// break;
+		// case 'D':
+		// m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
+		// break;
+		// case 'U':
+		// m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
+		// break;
+		// }
+		// }
+		//
+		// m_lastMove = now;
+		// if (timeEffect > 0) {
+		// timeEffect--;
+		// }
+		// }
 	}
 
 	public void hit(Physic_Entity e) {

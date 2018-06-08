@@ -1,0 +1,151 @@
+
+FAIRE UNE PRÉSENTATION 
+
+
+* Première question : pour quel public ?
+  - grand public vs. scientifique du domaine 
+  - utilisateur
+  - développeur
+  - décideur
+  
+** Ne pas supposer que l'auditoire connaît le domaine
+** Mais ne pas dire ce que tout le monde sait
+
+
+* Deuxième question : quel contenu ?
+
+Voir le site web du projet
+
+
+* Respectez la durée impartie
+
+** Si vous dépassez  vous serez interrompu
+
+** Prévoyez une présentation modulable  
+   - Dîtes l'essentiel 
+   - Gardez quelques transparents à la fin s'il vous reste du temps
+
+
+* À quoi servent les transparents
+
+** Un support pour illustrer votre discours
+   - pour l'orateur : une aide mémoire
+   - pour l'auditoire : raccrocher s'il a perdu le fil
+
+
+** Un dessin vaut mieux qu'un long discours
+   - un diagramme de classe ou une interface graphique s'explique mal sans support
+
+
+** Les mots s'envolent, les transparents restent
+   - c'est ce qui nous restent quand la présentation est finie,
+   - en revoyant les transparents le discours nous revient en mémoire
+
+
+** Idéalement, faire des transparents compréhensibles sans discours
+   
+*** BANIR LES TRANSPARENTS UNIVERSELS qui contiennent 0 % d'information
+
+PRÉSENTAITON
+- Présentation de l'équipe
+- Présentation du problème
+- Présentation de la solution proposée
+
+
+CONCLUSION
+- Travail réalisé
+- Bilan 
+- Extensions en cours
+- Perspectives
+
+
+* Le fil conducteur doit être clair  
+  Par exemples
+  1. motivation, problème, exemple, solution, auto-critique
+  2. proposition, difficultés identifiées, solutions, planning
+
+
+* Faire des répétitions 
+
+** 2 minimum / 3 maximum : après on devient trop automatique
+
+** Les répétitions servent à
+  - améliorer *le discours et le fil conducteur*
+    - synchroniser le discours avec les transparents
+    - travailler les transitions
+  - se concentrer sur l'essentiel, bânir le superflu
+  - à se rendre compte qu'il faudrait ajouter un transparent pour éclaircir vos explications.
+
+
+* Comptez 3 min par transparent
+- 2 min si vous avez bien répété et que vous dîtes l'essentiel
+- 4 min si vous n'avez pas répété
+
+
+* Quelques erreurs communes 
+
+** Pas de rapport entre le transparent et le discours
+
+** Désynchronistation entre les transparents et le discours
+
+ Vous racontez ce qu'on verra sur le transparent suivant
+ Correctif: répétition
+
+
+** Pas de fil conducteur, pas de transitions
+
+ Et maintenant X va vous parler de A 
+
+
+** Ne parler pas deux fois plus vite pour dire deux fois plus de choses
+
+  Le public a une bande passante limitée
+
+
+** Ne pas utilisez d'acronymes non définis
+
+  Ex: Le sujet du PLA est un SG inspiré de HoC.
+
+
+** Ne pas abusez des couleurs, des effets, de symboles
+
+** Banir les transparents qui ne contiennent pas d'information
+
+*** Introduction:
+
+  Thème
+  Proposition
+  Planning
+
+
+*** Conclusion:
+
+  Résultats
+  Bilan
+  Perspectives
+
+
+
+
+* Les questions
+
+** Les questions téléphonées :
+
+  Faîtes exprès de laisser un point en suspens afin de susciter une question.
+
+  Vous pouvez également prévoir des transparents pour certaines questions auxquelles vous vous attendez.
+
+
+** Les questions incontournables :
+
+  - finalité     : à quoi sert votre truc ?
+
+  - difficulté   : quelle était la difficulté ?
+
+  - contribution : qu'avez-vous apporté au domaine ?
+
+  - limitation   : quels sont les limitations de votre proposition ?
+
+  - amélioration : quelles sont les pistes d'amélioration ?
+
+

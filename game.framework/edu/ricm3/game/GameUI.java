@@ -31,6 +31,7 @@ import fenetre.HomeWindow;
 
 public class GameUI {
 
+
 	static String license = "Copyright (C) 2017  Pr. Olivier Gruber "
 			+ "This program comes with ABSOLUTELY NO WARRANTY. "
 			+ "This is free software, and you are welcome to redistribute it "
@@ -182,4 +183,5 @@ public class GameUI {
 		m_fps = fps;
 		m_msg = msg;
 	}
+
 }

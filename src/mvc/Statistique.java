@@ -21,10 +21,10 @@ public class Statistique {
 	private int index;
 
 	public Statistique() {
-		score_joueur1 = new float[((MesOptions.min * 60) / 10)+1];
-		score_joueur2 = new float[((MesOptions.min * 60) / 10)+1];
-		score_joueur1[0]= 0;
-		score_joueur1[0]= 0;
+		score_joueur1 = new float[((MesOptions.min * 60) / 10) + 1];
+		score_joueur2 = new float[((MesOptions.min * 60) / 10) + 1];
+		score_joueur1[0] = 0;
+		score_joueur1[0] = 0;
 
 		nombre_zbire1 = 0;
 		nombre_zbire2 = 0;
@@ -106,46 +106,45 @@ public class Statistique {
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
-		int time = MesOptions.min*60/10;
-		//création du quadrillage
+		int time = MesOptions.min * 60 / 10;
+		// création du quadrillage
 		g2.setColor(Color.GRAY);
-		for(int i=1; i<10; i++) {
-			g2.draw(new Line2D.Double(50+(40*i),100,50+(40*i),300));
-			g2.drawString(""+(time*i)+"s" ,40+(40*i), 315);
-			g2.draw(new Line2D.Double(50,300-(20*i),450,300-(20*i)));
-			g2.drawString(""+10*i+"%" ,20, 300-(20*i));
+		for (int i = 1; i < 10; i++) {
+			g2.draw(new Line2D.Double(50 + (40 * i), 100, 50 + (40 * i), 300));
+			g2.drawString("" + (time * i) + "s", 40 + (40 * i), 315);
+			g2.draw(new Line2D.Double(50, 300 - (20 * i), 450, 300 - (20 * i)));
+			g2.drawString("" + 10 * i + "%", 20, 300 - (20 * i));
 
-			
 		}
-		
-		Stroke stroke =g2.getStroke();
+
+		Stroke stroke = g2.getStroke();
 
 		g2.setColor(Color.BLACK);
 		// Création des axes
 		g2.setStroke(new BasicStroke(4));
 
 		g2.drawString("pourcentage (%)", 20, 80);
-		g2.draw(new Line2D.Double(50,100,50,300));
+		g2.draw(new Line2D.Double(50, 100, 50, 300));
 		g2.drawString("temps (s)", 400, 330);
-		g2.draw(new Line2D.Double(50,300,450,300));
-		
-		
-		//Fleche pour axe		
+		g2.draw(new Line2D.Double(50, 300, 450, 300));
 
-		g2.draw(new Line2D.Double(50,100,45,105));
-		g2.draw(new Line2D.Double(50,100,55,105));
-		g2.draw(new Line2D.Double(450,300,445,295));
-		g2.draw(new Line2D.Double(450,300,445,305));
-		
+		// Fleche pour axe
+
+		g2.draw(new Line2D.Double(50, 100, 45, 105));
+		g2.draw(new Line2D.Double(50, 100, 55, 105));
+		g2.draw(new Line2D.Double(450, 300, 445, 295));
+		g2.draw(new Line2D.Double(450, 300, 445, 305));
+
 		g2.setStroke(new BasicStroke(3));
-	
-		System.out.println(score_joueur1.length);
-			for (int i = 0; i < score_joueur1.length-1; i++) {
-			
-				g2.setColor(Color.RED);
-				g2.draw(new Line2D.Double(50 +i*400/(score_joueur1.length-1), 300-score_joueur1[i]*2, 50 +(i+1)*400/(score_joueur1.length-1) , 300-score_joueur1[i+1]*2));
-				g2.setColor(Color.BLUE);
-				g2.draw(new Line2D.Double(50 +i*400/(score_joueur1.length-1), 300-score_joueur2[i]*2, 50 +(i+1)*400/(score_joueur1.length-1), 300-score_joueur2[i+1]*2));
+
+		for (int i = 0; i < score_joueur1.length - 1; i++) {
+
+			g2.setColor(Color.RED);
+			g2.draw(new Line2D.Double(50 + i * 400 / (score_joueur1.length - 1), 300 - score_joueur1[i] * 2,
+					50 + (i + 1) * 400 / (score_joueur1.length - 1), 300 - score_joueur1[i + 1] * 2));
+			g2.setColor(Color.BLUE);
+			g2.draw(new Line2D.Double(50 + i * 400 / (score_joueur1.length - 1), 300 - score_joueur2[i] * 2,
+					50 + (i + 1) * 400 / (score_joueur1.length - 1), 300 - score_joueur2[i + 1] * 2));
 
 		}
 

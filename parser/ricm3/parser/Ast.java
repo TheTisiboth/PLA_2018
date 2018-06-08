@@ -50,6 +50,10 @@ public class Ast {
 		public String as_tree_son_of(Ast father) {
 			return Dot.terminal_edge(father.id, value);
 		}
+		
+		public Object make() {
+			return new Terminal_I(value);
+		}
 	}
 
 	public static class Constant extends Expression {
@@ -63,6 +67,10 @@ public class Ast {
 
 		public String tree_edges() {
 			return value.as_tree_son_of(this);
+		}
+		
+		public Object make() {
+			return new Constant_I(value);
 		}
 	}
 
@@ -78,6 +86,10 @@ public class Ast {
 		public String tree_edges() {
 			return name.as_tree_son_of(this);
 		}
+		
+		public Object make() {
+			return new Variable_I(name);
+		}
 	}
 
 	public static class Direction extends Expression {
@@ -92,6 +104,10 @@ public class Ast {
 		public String tree_edges() {
 			return value.as_tree_son_of(this);
 		}
+		
+		public Object make() {
+			return new Direction_I(value);
+		}
 	}
 
 	public static class Entity extends Expression {
@@ -105,6 +121,10 @@ public class Ast {
 
 		public String tree_edges() {
 			return value.as_tree_son_of(this);
+		}
+		
+		public Object make() {
+			return new Entity_I(value);
 		}
 	}
 
@@ -121,6 +141,10 @@ public class Ast {
 
 		public String tree_edges() {
 			return operator.as_tree_son_of(this) + operand.as_tree_son_of(this);
+		}
+		
+		public Object make() {
+			return new UnaryOp_I(operator, operand);
 		}
 	}
 
@@ -140,6 +164,10 @@ public class Ast {
 		public String tree_edges() {
 			return left_operand.as_tree_son_of(this) + operator.as_tree_son_of(this)
 					+ right_operand.as_tree_son_of(this);
+		}
+		
+		public Object make() {
+			return new BinaryOp_I(operator, left_operand, right_operand);
 		}
 	}
 
@@ -164,6 +192,11 @@ public class Ast {
 			}
 			return output;
 		}
+		
+		public Object make() {
+			return new FunCall_I(name, parameters);
+		}
+		
 	}
 
 	public static class Condition extends Ast {
@@ -177,6 +210,10 @@ public class Ast {
 
 		public String tree_edges() {
 			return expression.as_tree_son_of(this);
+		}
+		
+		public Object make() {
+			return new Condition_I(expression);
 		}
 	}
 
@@ -192,6 +229,10 @@ public class Ast {
 		public String tree_edges() {
 			return expression.as_tree_son_of(this);
 		}
+		
+		public Object make() {
+			return new Action_I(expression);
+		}
 	}
 
 	public static class State extends Ast {
@@ -205,6 +246,10 @@ public class Ast {
 
 		public String tree_edges() {
 			return name.as_tree_son_of(this);
+		}
+		
+		public Object make() {
+			return new State_I(name);
 		}
 	}
 
@@ -234,6 +279,10 @@ public class Ast {
 		public String as_dot_automata() {
 			return Dot.graph("Automata", this.as_tree_node());
 		}
+		
+		public Object make() {
+			return new AI_Definition_I(automata);
+		}
 	}
 
 	public static class Automaton extends Ast {
@@ -260,6 +309,10 @@ public class Ast {
 			}
 			return output;
 		}
+		
+		public Object make() {
+			return new Automaton_I(name, entry, behaviours);
+		}
 	}
 
 	public static class Behaviour extends Ast {
@@ -283,6 +336,10 @@ public class Ast {
 			}
 			return output;
 		}
+		
+		public Object make() {
+			return new Behaviour_I(source, transitions);
+		}
 	}
 
 	public static class Transition extends Ast {
@@ -300,6 +357,10 @@ public class Ast {
 
 		public String tree_edges() {
 			return condition.as_tree_son_of(this) + action.as_tree_son_of(this) + target.as_tree_son_of(this);
+		}
+		
+		public Object make() {
+			return new Transition_I(condition,action,target);
 		}
 	}
 }

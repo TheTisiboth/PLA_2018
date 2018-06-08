@@ -1,5 +1,21 @@
 # Carnet de bord
 
+## 08/06/18
+
+### Ce qui a été fait
+* Affichage + maj timer
+* Affichage+ maj pourcentage (score)
+* Affichage + maj bonus
+* Page de fin (statistique) finalisée
+* Customisation personnage
+
+### Todo
+* Faire des images de sbires, de portail
+* Page de crédit
+* Affichage barre de peinture
+
+
+___
 ## 07/06/18
 
 ### Ce qui a été fait

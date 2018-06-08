@@ -58,20 +58,21 @@ public class Joueur extends Physic_Entity {
 	//
 	// }
 
-	public Joueur(BufferedImage sprite, int rows, int columns, int personali, int x, int y, float scale, Color couleur) {
+	public Joueur(BufferedImage sprite, int rows, int columns, int personali, int x, int y, float scale,
+			Color couleur) {
 
 		super(x, y);
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
-		last_x = x+10;
-		last_y = y+10;
+		last_x = x + 10;
+		last_y = y + 10;
 		diameter = 34;
 		m_scale = scale;
 		moveable = true;
 		timeEffect = 0;
 		speed = 1;
-		m_personali = personali*48;
+		m_personali = personali * 48;
 		this.couleur = couleur;
 		splitSprite();
 		paintStock = MesOptions.paintMax;
@@ -80,8 +81,8 @@ public class Joueur extends Physic_Entity {
 		pos_init_x = x;
 		pos_init_y = y;
 		direction = last_direction = 'D';
-		
-		m_idx = 45+m_personali;
+
+		m_idx = 45 + m_personali;
 
 	}
 
@@ -227,39 +228,44 @@ public class Joueur extends Physic_Entity {
 		} // cas 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
 			time /= speed;
-			//System.out.println("activation du speed dans step");
+			// System.out.println("activation du speed dans step");
 		}
 
 		if (elapsed > time) {
 
 			if (inMovement && moveable) {
-				
+
 				if (direction == 'R' && x < MesOptions.nbCol - 1) {
 					x += step;
+					m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
 				} else if (direction == 'L' && x > 0) {
 					x -= step;
+					m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
 				} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
 					y += step;
+					m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
 				} else if (direction == 'U' && y > 0) {
 					y -= step;
+					m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
 				}
 			}
-			
-			switch (direction) {
-			case 'R':
-				m_idx = (m_idx == 1+m_personali) ? 4+m_personali : 1+m_personali;
-				break;
-			case 'L':
-				m_idx = (m_idx == 25+m_personali) ? 28+m_personali : 25+m_personali;
-				break;
-			case 'D':
-				m_idx = (m_idx == 42+m_personali) ? 44+m_personali : 42+m_personali;
-				break;
-			case 'U':
-				m_idx = (m_idx == 12+m_personali) ? 13+m_personali : 12+m_personali;
-				break;
+
+			if (!inMovement) {
+				switch (direction) {
+				case 'R':
+					m_idx = (m_idx == 1 + m_personali) ? 4 + m_personali : 1 + m_personali;
+					break;
+				case 'L':
+					m_idx = (m_idx == 25 + m_personali) ? 28 + m_personali : 25 + m_personali;
+					break;
+				case 'D':
+					m_idx = (m_idx == 42 + m_personali) ? 44 + m_personali : 42 + m_personali;
+					break;
+				case 'U':
+					m_idx = (m_idx == 12 + m_personali) ? 13 + m_personali : 12 + m_personali;
+					break;
+				}
 			}
-			
 
 			m_lastMove = now;
 			if (timeEffect > 0) {
@@ -313,7 +319,7 @@ public class Joueur extends Physic_Entity {
 		this.direction = direction;
 		inMovement = true;
 	}
-	
+
 	public char getLast_direction() {
 		return last_direction;
 	}

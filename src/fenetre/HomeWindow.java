@@ -210,8 +210,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 			m_game.setM_controller(controller);
 			m_game.setM_model(model);
 			m_game.setM_view(view);
-
-			new GameWindow(d, controller, view, model, nom_j1, nom_j2);
+			
+			model.setM_frame(new GameWindow(d, controller, view, model, nom_j1, nom_j2));
 			m_game.createTimer();
 
 			dispose();

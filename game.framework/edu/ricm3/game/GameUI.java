@@ -18,6 +18,7 @@
 package edu.ricm3.game;
 
 import java.awt.BorderLayout;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+import mvc.Model;
+import fenetre.EndPage;
 import fenetre.HomeWindow;
+
 
 public class GameUI {
 
@@ -44,12 +48,17 @@ public class GameUI {
 	GameController m_controller;
 	Timer m_timer;
 	JLabel m_text;
+
+
+	boolean timer;
+
 	String m_msg;
 	long m_start, m_elapsed, m_lastRepaint, m_lastTick;
 	int m_nTicks, m_fps;
 
 	public GameUI(Dimension d) {
 
+		timer =true;
 		System.out.println(license);
 
 		createWindow(d);
@@ -85,14 +94,18 @@ public class GameUI {
 
 	// creates a new window for home page to welcome the user
 	private void createWindow(Dimension d) {
+
 		new HomeWindow(d, this);
+
 	}
 
 	/*
 	 * Let's create a timer, it is the heart of the simulation, ticking
 	 * periodically so that we can simulate the passing of time.
 	 */
+
 	public void createTimer() {
+
 		int tick = 1; // one millisecond
 		m_start = System.currentTimeMillis();
 		m_lastTick = m_start;
@@ -116,11 +129,13 @@ public class GameUI {
 		this.m_controller = m_controller;
 	}
 
+
 	/*
 	 * This is the period tick callback. We compute the elapsed time since the
 	 * last tick. We inform the model of the current time.
 	 */
 	private void tick() {
+
 		long now = System.currentTimeMillis() - m_start;
 		long elapsed = (now - m_lastTick);
 		m_elapsed += elapsed;
@@ -131,24 +146,33 @@ public class GameUI {
 
 		elapsed = now - m_lastRepaint;
 		if (elapsed > Options.REPAINT_DELAY) {
-			double tick = (double) m_elapsed / (double) m_nTicks;
-			long tmp = (long) (tick * 10.0);
-			tick = tmp / 10.0;
-			m_elapsed = 0;
-			m_nTicks = 0;
-			String txt = "Tick=" + tick + "ms";
-			while (txt.length() < 15)
-				txt += " ";
-			txt = txt + m_fps + " fps   ";
-			while (txt.length() < 25)
-				txt += " ";
-			if (m_msg != null)
-				txt += m_msg;
-			// System.out.println(txt);
-			// m_text.setText(txt);
-			// m_text.repaint();
-			m_view.paint();
-			m_lastRepaint = now;
+			if(timer) {
+				double tick = (double) m_elapsed / (double) m_nTicks;
+				long tmp = (long) (tick * 10.0);
+				tick = tmp / 10.0;
+				m_elapsed = 0;
+				m_nTicks = 0;
+				String txt = "Tick=" + tick + "ms";
+				while (txt.length() < 15)
+					txt += " ";
+				txt = txt + m_fps + " fps   ";
+				while (txt.length() < 25)
+					txt += " ";
+				if (m_msg != null)
+					txt += m_msg;
+				// System.out.println(txt);
+				// m_text.setText(txt);
+				// m_text.repaint();
+				m_view.paint();
+				m_lastRepaint = now;
+				if (((Model) m_model).getTimer() == false) {
+					timer = false;
+					JFrame end = new EndPage(((Model) m_model),m_view,this);
+					((Model)m_model).getM_frame().dispose();
+					
+				}
+			}
+		
 		}
 	}
 

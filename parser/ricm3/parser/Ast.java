@@ -69,7 +69,7 @@ public class Ast {
 			return value.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Constant_I(value);
 		}
 	}
@@ -87,7 +87,7 @@ public class Ast {
 			return name.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Variable_I(name);
 		}
 	}
@@ -105,7 +105,7 @@ public class Ast {
 			return value.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Direction_I(value);
 		}
 	}
@@ -123,7 +123,7 @@ public class Ast {
 			return value.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Entity_I(value);
 		}
 	}
@@ -143,7 +143,7 @@ public class Ast {
 			return operator.as_tree_son_of(this) + operand.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new UnaryOp_I(operator, operand);
 		}
 	}
@@ -166,7 +166,7 @@ public class Ast {
 					+ right_operand.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new BinaryOp_I(operator, left_operand, right_operand);
 		}
 	}
@@ -193,7 +193,7 @@ public class Ast {
 			return output;
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new FunCall_I(name, parameters);
 		}
 	}
@@ -211,7 +211,7 @@ public class Ast {
 			return expression.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Condition_I(expression);
 		}
 	}
@@ -229,7 +229,7 @@ public class Ast {
 			return expression.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Action_I(expression);
 		}
 	}
@@ -247,7 +247,7 @@ public class Ast {
 			return name.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new State_I(name);
 		}
 	}
@@ -279,7 +279,7 @@ public class Ast {
 			return Dot.graph("Automata", this.as_tree_node());
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new AI_Definitions_I(automata);
 		}
 	}
@@ -309,7 +309,7 @@ public class Ast {
 			return output;
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Automaton_I(name, entry, behaviours);
 		}
 	}
@@ -336,7 +336,7 @@ public class Ast {
 			return output;
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Behaviour_I(source, transitions);
 		}
 	}
@@ -358,7 +358,7 @@ public class Ast {
 			return condition.as_tree_son_of(this) + action.as_tree_son_of(this) + target.as_tree_son_of(this);
 		}
 		
-		public Object exec() {
+		public Object make() {
 			return new Transition_I(condition, action, target);
 		}
 	}

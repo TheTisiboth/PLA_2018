@@ -1,9 +1,7 @@
 package mvc;
+
 import java.awt.Dimension;
-
-
 import edu.ricm3.game.GameUI;
-import fenetre.HomeWindow;
 
 public class GameMain {
 	public static void main(String[] args) {

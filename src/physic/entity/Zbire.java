@@ -7,35 +7,30 @@ import java.awt.image.BufferedImage;
 
 import mvc.MesOptions;
 
-public class Zbire extends Physic_Entity{
-	
+public class Zbire extends Physic_Entity {
+
 	private Color couleur;
-	private int nb_case;
-	private int type;
-	int m_w, m_h;
-	int m_idx = 1;
+	private int nb_case, type, joueur;
+	int m_w, m_h, m_idx = 1, m_nrows, m_ncols;
 	float m_scale;
 	BufferedImage m_sprite;
 	BufferedImage[] m_sprites;
-	int m_nrows, m_ncols;
 	char direction;
-	private int joueur;
-	
-	
-	
-	public Zbire(BufferedImage sprite, Integer rows, Integer columns, int x, int y, Color c, int n, int type, float scale,int joueur) {
+
+	public Zbire(BufferedImage sprite, Integer rows, Integer columns, int x, int y, Color c, int n, int type,
+			float scale, int joueur) {
 		super(x, y);
 		m_sprite = sprite;
 		m_nrows = rows;
 		m_ncols = columns;
-		this.couleur =c;
-		nb_case =n;
-		this.type = type;
+		this.setCouleur(c);
+		nb_case = n;
+		this.setType(type);
 		m_scale = scale;
 		this.joueur = joueur;
 		splitSprite();
 	}
-	
+
 	public int getJoueur() {
 		return joueur;
 	}
@@ -58,58 +53,39 @@ public class Zbire extends Physic_Entity{
 			}
 		}
 	}
-	
-	public void paint(Graphics g) {
 
+	public void paint(Graphics g) {
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
 		int h = (int) (m_scale * m_h);
 		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
 	}
-	
+
 	public void step(long now) {
-//		long elapsed = now - m_lastMove;
-//		last_x = x;
-//		last_y = y;
-//		
-//		// On change la durée avant la prochaine action selon le bonus
-//		long time = 150L;
-//		
-//		
-//		if (inMovement && elapsed > time && moveable) {
-//
-//			if (direction == 'R' && x < MesOptions.nbCol - 1) {
-//				x += step;
-//				m_idx = 19;
-//			} else if (direction == 'L' && x > 0) {
-//				x -= step;
-//				m_idx = 7;
-//			} else if (direction == 'D' && y < MesOptions.nbLigne - 1) {
-//				y += step;
-//				m_idx = 2;
-//			} else if (direction == 'U' && y > 0) {
-//				y -= step;
-//				m_idx = 13;
-//
-//			}
-//
-//			
-//
-//		}
-//
 	}
-	
-
-		
-
-	
 
 	public void reduce_nb_case() {
-		nb_case = nb_case -3;
+		nb_case = nb_case - 3;
 	}
-	
+
 	public boolean life() {
-		return nb_case>0;
+		return nb_case > 0;
 	}
-	
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public Color getCouleur() {
+		return couleur;
+	}
+
+	public void setCouleur(Color couleur) {
+		this.couleur = couleur;
+	}
+
 }

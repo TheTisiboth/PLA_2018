@@ -31,9 +31,11 @@ public class Background extends JPanel {
 			imageFile = new File("images/regles.png");
 		if (ctrl == 4)
 			imageFile = new File("images/credits.png");
+		// if the player 1 has won
 		if (ctrl == 5) {
 			imageFile = new File("images/statsj1.png");
 		}
+		// if the player 2 has won
 		if (ctrl == 6) {
 			imageFile = new File("images/statsj2.png");
 		}

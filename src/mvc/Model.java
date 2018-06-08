@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import edu.ricm3.game.GameModel;
 import fenetre.GameWindow;
@@ -36,7 +38,7 @@ public class Model extends GameModel {
 	public Statistique statistique;
 	private Portal portal;
 
-	int minutes, secondes;
+	private int minutes, secondes;
 
 	long elapsed, lastTick;
 	private int counter_sec;
@@ -53,7 +55,7 @@ public class Model extends GameModel {
 	private boolean refresh_score = true;
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
 			m_recharge, m_portal;
-	JFrame m_frame;
+	GameWindow m_frame;
 
 	private String name_j1, name_j2;
 
@@ -258,8 +260,13 @@ public class Model extends GameModel {
 
 				else {
 					secondes--;
-					System.out.println(minutes + "min" + secondes + "s");
-
+					if (secondes < 10 ){
+						m_frame.time.setText(minutes + ":0" + secondes);	
+					}
+					else {
+						m_frame.time.setText(minutes + ":" + secondes);	
+					}
+					m_frame.doLayout();
 					popItem();
 					PopPaint();
 
@@ -268,6 +275,8 @@ public class Model extends GameModel {
 					lastTick = now;
 				}
 			}
+			
+			afficheScore();
 		}
 	}
 
@@ -335,6 +344,13 @@ public class Model extends GameModel {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Bonus bonus = (Bonus) plateau[player1.getX()][player1.getY()].getE();
 			player1.appliquerBonus(bonus, player2);
+			if (bonus instanceof Speed) {
+				m_frame.img_eclair1.setIcon(new ImageIcon("images/eclair_gauche.png"));
+			}
+			else {
+				m_frame.img_stop1.setIcon(new ImageIcon("images/stop_gauche.png"));
+			}
+			m_frame.doLayout();
 			statistique.plus_Joueur2_Bonus();
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
@@ -344,10 +360,19 @@ public class Model extends GameModel {
 			Bonus bonus = (Bonus) plateau[player2.getX()][player2.getY()].getE();
 			statistique.plus_Joueur1_Bonus();
 			player2.appliquerBonus(bonus, player1);
+			if (bonus instanceof Speed) {
+				m_frame.img_eclair2.setIcon(new ImageIcon("images/eclair_droite.png"));
+			}
+			else {
+				m_frame.img_stop2.setIcon(new ImageIcon("images/stop_droite.png"));
+			}
+			m_frame.doLayout();
 			plateau[player2.getX()][player2.getY()].setE(null);
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listBonus.remove(bonus);
 		}
+		
+		
 
 	}
 
@@ -448,10 +473,15 @@ public class Model extends GameModel {
 	private void afficheScore() {
 		NumberFormat formatter = new DecimalFormat("#00.0");
 		if (refresh_score) {
-			System.out.println("Score n°1 :" + formatter.format((score1 / MesOptions.nombre_case) * 100));
-			System.out.println("Score n°2 :" + formatter.format((score2 / MesOptions.nombre_case) * 100));
+			// pourcentage1 --> score2
+			// pourcentage2 --> score1
+			m_frame.pourcentage1.setText(formatter.format((score2 / MesOptions.nombre_case) * 100));
+			m_frame.pourcentage2.setText(formatter.format((score1 / MesOptions.nombre_case) * 100));
 			refresh_score = false;
+			m_frame.doLayout();
 		}
+		
+		
 	}
 
 	public void update_plat() {
@@ -677,4 +707,23 @@ public class Model extends GameModel {
 	public void setPortal(Portal portal) {
 		this.portal = portal;
 	}
+
+	public int getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
+	}
+
+	public int getSecondes() {
+		return secondes;
+	}
+
+	public void setSecondes(int secondes) {
+		this.secondes = secondes;
+	}
+	
+	
+
 }

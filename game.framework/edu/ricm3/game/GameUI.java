@@ -18,7 +18,6 @@
 package edu.ricm3.game;
 
 import java.awt.BorderLayout;
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -28,10 +27,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import mvc.Model;
 import fenetre.EndPage;
 import fenetre.HomeWindow;
-
+import mvc.Model;
 
 public class GameUI {
 
@@ -160,14 +158,13 @@ public class GameUI {
 					txt += " ";
 				if (m_msg != null)
 					txt += m_msg;
-				// System.out.println(txt);
-				// m_text.setText(txt);
-				// m_text.repaint();
+
 				m_view.paint();
+				
 				m_lastRepaint = now;
 				if (((Model) m_model).getTimer() == false) {
 					timer = false;
-					JFrame end = new EndPage(((Model) m_model),m_view,this);
+					new EndPage(((Model) m_model),m_view,this);
 					((Model)m_model).getM_frame().dispose();
 					
 				}

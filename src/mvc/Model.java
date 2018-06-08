@@ -82,8 +82,9 @@ public class Model extends GameModel {
 		score1 = 0;
 		score2 = 0;
 
-		minutes = MesOptions.min;
-		secondes = 0;
+//		minutes = MesOptions.min;
+		minutes = 0;
+		secondes = 11;
 
 		timer = true;
 
@@ -337,14 +338,14 @@ public class Model extends GameModel {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Bonus bonus = (Bonus) plateau[player1.getX()][player1.getY()].getE();
 			player1.appliquerBonus(bonus, player2);
-			statistique.plus_Joueur2_Bonus();
+			statistique.plus_Joueur1_Bonus();
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listBonus.remove(bonus);
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Bonus bonus = (Bonus) plateau[player2.getX()][player2.getY()].getE();
-			statistique.plus_Joueur1_Bonus();
+			statistique.plus_Joueur2_Bonus();
 			player2.appliquerBonus(bonus, player1);
 			plateau[player2.getX()][player2.getY()].setE(null);
 			plateau[player2.getX()][player2.getY()].setRefresh(true);

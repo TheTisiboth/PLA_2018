@@ -160,9 +160,9 @@ public class GameUI {
 					txt += " ";
 				if (m_msg != null)
 					txt += m_msg;
-				// System.out.println(txt);
-				// m_text.setText(txt);
-				// m_text.repaint();
+//				 System.out.println(txt);
+//				 m_text.setText(txt);
+//				 m_text.repaint();
 				m_view.paint();
 				m_lastRepaint = now;
 				if (((Model) m_model).getTimer() == false) {

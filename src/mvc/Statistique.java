@@ -21,15 +21,18 @@ public class Statistique {
 	private int index;
 
 	public Statistique() {
-		score_joueur1 = new float[(MesOptions.min * 60) / 10];
-		score_joueur2 = new float[(MesOptions.min * 60) / 10];
+		score_joueur1 = new float[((MesOptions.min * 60) / 10)+1];
+		score_joueur2 = new float[((MesOptions.min * 60) / 10)+1];
+		score_joueur1[0]= 0;
+		score_joueur1[0]= 0;
+
 		nombre_zbire1 = 0;
 		nombre_zbire2 = 0;
 		nombrecase_parcouru1 = 0;
 		nombrecase_parcouru2 = 0;
 		joueur1_kill = 0;
 		joueur2_kill = 0;
-		index = 0;
+		index = 1;
 	}
 
 	public float[] getScore_joueur1() {
@@ -136,11 +139,13 @@ public class Statistique {
 		
 		g2.setStroke(new BasicStroke(3));
 	
+		System.out.println(score_joueur1.length);
 			for (int i = 0; i < score_joueur1.length-1; i++) {
+			
 				g2.setColor(Color.RED);
-				g2.draw(new Line2D.Double(50 +i*400/score_joueur1.length, 300-score_joueur1[i]*2, 50 +(i+1)*400/score_joueur1.length , 300-score_joueur1[i+1]*2));
+				g2.draw(new Line2D.Double(50 +i*400/(score_joueur1.length-1), 300-score_joueur1[i]*2, 50 +(i+1)*400/(score_joueur1.length-1) , 300-score_joueur1[i+1]*2));
 				g2.setColor(Color.BLUE);
-				g2.draw(new Line2D.Double(50 +i*400/score_joueur1.length, 300-score_joueur2[i]*2, 50 +(i+1)*400/score_joueur1.length , 300-score_joueur2[i+1]*2));
+				g2.draw(new Line2D.Double(50 +i*400/(score_joueur1.length-1), 300-score_joueur2[i]*2, 50 +(i+1)*400/(score_joueur1.length-1), 300-score_joueur2[i+1]*2));
 
 		}
 

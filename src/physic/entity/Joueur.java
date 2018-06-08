@@ -32,6 +32,7 @@ public class Joueur extends Physic_Entity {
 	private int m_personali;
 	private int m_nrows, m_ncols;
 	private boolean moveable;
+	
 
 	private int diameter;
 

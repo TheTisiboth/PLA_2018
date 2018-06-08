@@ -8,6 +8,7 @@ import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
+import mvc.Model;
 
 public class GameWindow extends JFrame {
 
@@ -15,18 +16,20 @@ public class GameWindow extends JFrame {
 	JPanel main;
 	GameView m_view;
 	JLabel m_text;
-	GameModel m_model;
+	Model m_model;
 	GameController m_controller;
 	String j1, j2;
 	Dimension d;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
 		this.d = d;
-		m_model = mod;
+		m_model = (Model)mod;
 		m_view = view;
 		m_controller = ctrl;
 		this.j1 = j1;
 		this.j2 = j2;
+		m_model.setName_j1(j1);
+		m_model.setName_j2(j2);
 
 //		System.out.println("Asked: w=" + d.width + " h=" + d.height);
 		Container cont = this.getContentPane();

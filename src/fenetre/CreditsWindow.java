@@ -1,6 +1,7 @@
 package fenetre;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,11 +34,16 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		m_game = game;
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
-		this.setSize(d);
-		this.setPreferredSize(d);
-		this.setLayout(new BorderLayout());
+		Container cont = this.getContentPane();
+		cont.setSize(d);
+		cont.setPreferredSize(d);
+		cont.setMaximumSize(d);
+		cont.setMinimumSize(d);
+		// this.setSize(d);
+		// this.setPreferredSize(d);
+		// this.setLayout(new BorderLayout());
 
-		JPanel img = new Background(d,4);
+		JPanel img = new Background(d, 4);
 
 		rules = new JButton();
 		rules.setBounds(-120, 10, 400, 80);
@@ -52,7 +58,8 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		// Fin Bouton "Rules"
 
 		// On ajoute le tout dans la fenetre
-		this.add(img);
+		// this.add(img);
+		cont.add(img, BorderLayout.CENTER);
 
 		m_text = new JLabel();
 		m_text.setText("Starting up...");
@@ -64,34 +71,33 @@ public class CreditsWindow extends JFrame implements ActionListener {
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
-		//this.addWindowListener(new WindowListener(m_model));
+		// this.addWindowListener(new WindowListener(m_model));
 
 		this.pack();
 		this.setLocationRelativeTo(null);
 
 	}
-	
+
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 		super.setBounds(x, y, width, height);
 		if (d == null) {
 			return;
 		}
-		if ((width != 1200) || (height != 600)) {
-			new CreditsWindow(d, m_game);
-			dispose();
-		}
+//		if ((width != 1200) || (height != 600)) {
+//			new CreditsWindow(d, m_game);
+//			dispose();
+//		}
 	}
 
 	@Override
 	public void setSize(int width, int height) {
 		super.setSize(width, height);
-		if ((width != 1200) || (height != 600)) {
-			new CreditsWindow(d, m_game);
-			dispose();
-		}
+//		if ((width != 1200) || (height != 600)) {
+//			new CreditsWindow(d, m_game);
+//			dispose();
+//		}
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

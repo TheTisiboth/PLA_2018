@@ -74,7 +74,7 @@ public class Model extends GameModel {
 		this.name_j2 = name_j2;
 	}
 
-	public Model() {
+	public Model(int perso1, int perso2) {
 		lastTick = 0L;
 		counter_sec = 0;
 
@@ -92,12 +92,12 @@ public class Model extends GameModel {
 
 		initPlat(plateau);
 
-		player2 = new Joueur(m_personnage, 12, 24, 1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
+		player2 = new Joueur(m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
-		player1 = new Joueur(m_personnage, 12, 24, 2, 0, 0, 0.25F, Color.RED);
+		player1 = new Joueur(m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);
@@ -106,7 +106,7 @@ public class Model extends GameModel {
 		listItem = new LinkedList<Item_Zbire>();
 		listRecharge = new LinkedList<Recharge>();
 
-		o = new Obstacle[MesOptions.nb_obstacle];
+		o = new Obstacle[MesOptions.nb_obstacles];
 		initObstacle();
 
 		statistique = new Statistique();
@@ -179,8 +179,8 @@ public class Model extends GameModel {
 
 	private void initObstacle() {
 		boolean diff = true;
-		int[] tab_x = new int[MesOptions.nb_obstacle];
-		int[] tab_y = new int[MesOptions.nb_obstacle];
+		int[] tab_x = new int[MesOptions.nb_obstacles];
+		int[] tab_y = new int[MesOptions.nb_obstacles];
 		int compteur = 0;
 		do {
 			diff = true;
@@ -200,8 +200,8 @@ public class Model extends GameModel {
 				tab_x[compteur] = x;
 				compteur++;
 			}
-		} while (compteur != MesOptions.nb_obstacle);
-		for (int i = 0; i < MesOptions.nb_obstacle; i++) {
+		} while (compteur != MesOptions.nb_obstacles);
+		for (int i = 0; i < MesOptions.nb_obstacles; i++) {
 			o[i] = new Obstacle(tab_x[i], tab_y[i], 3, m_obstacle);
 			plateau[tab_x[i]][tab_y[i]].setE(o[i]);
 			plateau[tab_x[i]][tab_y[i]].setRefresh(true);
@@ -398,7 +398,7 @@ public class Model extends GameModel {
 	}
 
 	private void popItem() {
-		if (MesOptions.Nb_Max_Item >= listItem.size()) {
+		if (MesOptions.nb_max_items >= listItem.size()) {
 			Random rand = new Random();
 			int i = rand.nextInt(MesOptions.popItem);
 			if (i < 1) {
@@ -420,9 +420,9 @@ public class Model extends GameModel {
 	}
 
 	private void PopPaint() {
-		if (MesOptions.Nb_Max_Paint >= listRecharge.size()) {
+		if (MesOptions.nb_max_paint >= listRecharge.size()) {
 			Random rand = new Random();
-			int i = rand.nextInt(MesOptions.PopPaint);
+			int i = rand.nextInt(MesOptions.popPaint);
 			if (i < 1) {
 				boolean occuped = true;
 				int col, ligne;
@@ -496,8 +496,8 @@ public class Model extends GameModel {
 		if (refresh_score) {
 			// pourcentage1 --> score2
 			// pourcentage2 --> score1
-			m_frame.pourcentage1.setText(formatter.format((score2 / MesOptions.nombre_case) * 100));
-			m_frame.pourcentage2.setText(formatter.format((score1 / MesOptions.nombre_case) * 100));
+			m_frame.pourcentage1.setText(formatter.format((score2 / MesOptions.nb_cases) * 100));
+			m_frame.pourcentage2.setText(formatter.format((score1 / MesOptions.nb_cases) * 100));
 			refresh_score = false;
 			m_frame.doLayout();
 		}

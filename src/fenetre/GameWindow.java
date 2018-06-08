@@ -34,6 +34,10 @@ public class GameWindow extends JFrame {
 	long last_tick;
 	int secondes, minutes;
 	JPanel image_background;
+
+	JPanel barre_peinture_j1;
+	JPanel barre_peinture_j2;
+
 	public JLabel time, pourcentage1, pourcentage2, img_eclair1, img_eclair2, img_stop1, img_stop2;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
@@ -51,7 +55,7 @@ public class GameWindow extends JFrame {
 		pourcentage2 = new JLabel();
 
 		Container cont = this.getContentPane();
-		
+
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		cont.setSize(d);
@@ -287,6 +291,7 @@ public class GameWindow extends JFrame {
 		CenterNorth.setBounds(500, 16, 200, 80);
 		JPanel EastNorth = createEastNorthPanel();
 		EastNorth.setBounds(700, 0, 500, 80);
+		
 
 		panel.add(WestNorth, BorderLayout.WEST);
 		panel.add(CenterNorth, BorderLayout.CENTER);

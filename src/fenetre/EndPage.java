@@ -1,4 +1,4 @@
-package mvc;
+package fenetre;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +14,8 @@ import javax.swing.SwingConstants;
 
 
 import edu.ricm3.game.*;
+import mvc.Graphs;
+import mvc.Model;
 
 public class EndPage extends JFrame implements ActionListener{
 	
@@ -30,6 +32,8 @@ public class EndPage extends JFrame implements ActionListener{
 	JButton m_rejouer;
 
 	public EndPage(GameModel mod, GameView m_view) {
+		
+		
 		largeur = 1200;
 		hauteur =600;
 		d = new Dimension(largeur, hauteur);
@@ -39,24 +43,34 @@ public class EndPage extends JFrame implements ActionListener{
 		panel2.setLayout(new FlowLayout());
 		m_model = (Model)mod;
 		this.m_view =m_view;
+		if(m_model.statistique.getScore_joueur1()[m_model.statistique.getScore_joueur1().length-1]>m_model.statistique.getScore_joueur2()[m_model.statistique.getScore_joueur2().length-1]) {
+			main = new Background(d, 5);
+		}else {
+			main = new Background(d, 6);
+		}
+		
 
 		this.setTitle("EndPage");
-		this.setLayout(new BorderLayout());
 		this.setSize(d);
+		main.setLayout(new BorderLayout());
+		
 		
 		//Création des police d'écriture
 		Font font = new Font("Sherif", Font.BOLD, 24);
 		Font fonNumber = new Font("Sherif", Font.BOLD, 50);
 		
 		//Mis en place de l'écran Ouest
-		int entrelayout =75;
+		int entrelayout =70;
 		JLabel txt= new JLabel("Joueur 1 : ", SwingConstants.CENTER);
 		txt.setFont(font);
-		Dimension preferredSize = new Dimension(350, 50);
+		Dimension preferredSize = new Dimension(350, 140);
 		txt.setPreferredSize(preferredSize);
+		txt.setOpaque(false);
 		panel1.add(txt);
 		
-		txt= new JLabel("Nombre de case parcourues par le joueur", SwingConstants.CENTER);
+		txt= new JLabel("", SwingConstants.CENTER);
+		preferredSize =new Dimension(350, 50);
+
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 		
@@ -67,7 +81,7 @@ public class EndPage extends JFrame implements ActionListener{
 		panel1.add(txt);
 		
 		
-		txt =new JLabel("Nombre de fois que le joueur a été tué ", SwingConstants.CENTER);
+		txt =new JLabel(" ", SwingConstants.CENTER);
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 		
@@ -77,7 +91,7 @@ public class EndPage extends JFrame implements ActionListener{
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 		
-		txt =new JLabel("Nombre de Zbire invoqués ", SwingConstants.CENTER);
+		txt =new JLabel(" ", SwingConstants.CENTER);
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 		
@@ -90,7 +104,8 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		preferredSize = new Dimension(350, 600);
 		panel1.setPreferredSize(preferredSize);
-		this.add(panel1, BorderLayout.WEST);
+		panel1.setOpaque(false);
+		main.add(panel1, BorderLayout.WEST);
 		
 		
 		//Mis en place de l'écran Est
@@ -133,7 +148,8 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		preferredSize = new Dimension(350, 600);
 		panel2.setPreferredSize(preferredSize);
-		this.add(panel2,BorderLayout.EAST);
+		panel2.setOpaque(false);
+		main.add(panel2,BorderLayout.EAST);
 		
 		
 		//Mis en place du panneau central
@@ -143,7 +159,7 @@ public class EndPage extends JFrame implements ActionListener{
 		JPanel pan_graph = new JPanel();
 		pan_graph.setLayout(new FlowLayout());
 		
-		JLabel stat= new JLabel("STATISTIQUE",SwingConstants.CENTER);
+		JLabel stat= new JLabel("",SwingConstants.CENTER);
 		preferredSize = new Dimension(500, 80);
 		stat.setPreferredSize(preferredSize);
 		stat.setFont(fonNumber);
@@ -151,16 +167,17 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		Graphs graphs = new Graphs();
 		graphs.set_model(m_model);
-		preferredSize = new Dimension(500, 320);
-
-		
+		preferredSize = new Dimension(500, 400);
 		graphs.setPreferredSize(preferredSize);
+//		graphs.setOpaque(false);
 		pan_graph.add(graphs);
 		
 		JLabel titre  = new JLabel("Graphique du score en fonction du temps",SwingConstants.CENTER);
 		preferredSize =new Dimension(500, 40);
 		titre.setPreferredSize(preferredSize);
+//		titre.setOpaque(false);
 		pan_graph.add(titre, preferredSize);
+		pan_graph.setOpaque(false);
 		
 		panel_center.add(pan_graph, BorderLayout.CENTER);
 		
@@ -173,10 +190,11 @@ public class EndPage extends JFrame implements ActionListener{
 		panel_center.add(rejouer, BorderLayout.SOUTH);
 		rejouer.addActionListener(this);
 		m_rejouer =rejouer;
-		this.add(panel_center, BorderLayout.CENTER);
+		panel_center.setOpaque(false);
+		main.add(panel_center, BorderLayout.CENTER);
 		
 		
-
+		this.add(main);
 		
 		this.doLayout();
 		this.setResizable(false);

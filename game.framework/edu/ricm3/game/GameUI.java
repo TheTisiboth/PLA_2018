@@ -31,7 +31,6 @@ import fenetre.HomeWindow;
 
 public class GameUI {
 
-
 	static String license = "Copyright (C) 2017  Pr. Olivier Gruber "
 			+ "This program comes with ABSOLUTELY NO WARRANTY. "
 			+ "This is free software, and you are welcome to redistribute it "
@@ -39,48 +38,21 @@ public class GameUI {
 
 	static GameUI game;
 
-	// public static void main(String[] args) {
-	//
-	// game = new Game();
-	//
-	// // notice that the main thread will exit here,
-	// // but not your program... hence the hooking
-	// // of the window events to System.exit(0) when
-	// // the window is closed. See class WindowListener.
-	//
-	// /*
-	// * *** WARNING *** WARNING *** WARNING *** WARNING ***
-	// * If you do something here, on this "main" thread,
-	// * you will have parallelism and thus race conditions.
-	// *
-	// * ONLY FOR ADVANCED DEVELOPERS
-	// *
-	// * *** WARNING *** WARNING *** WARNING *** WARNING ***
-	// */
-	// }
-
 	JFrame m_frame;
 	GameView m_view;
-	Timer m_timer;
 	GameModel m_model;
 	GameController m_controller;
+	Timer m_timer;
 	JLabel m_text;
-	int m_fps;
 	String m_msg;
-	long m_start;
-	long m_elapsed;
-	long m_lastRepaint;
-	long m_lastTick;
-	int m_nTicks;
+	long m_start, m_elapsed, m_lastRepaint, m_lastTick;
+	int m_nTicks, m_fps;
 
 	public GameUI(Dimension d) {
 
 		System.out.println(license);
 
-		// create the main window and the periodic timer
-		// to drive the overall clock of the simulation.
 		createWindow(d);
-
 	}
 
 	public GameModel getModel() {
@@ -111,13 +83,14 @@ public class GameUI {
 		m_frame.add(c, BorderLayout.EAST);
 	}
 
+	// creates a new window for home page to welcome the user
 	private void createWindow(Dimension d) {
 		new HomeWindow(d, this);
 	}
 
 	/*
-	 * Let's create a timer, it is the heart of the simulation, ticking periodically
-	 * so that we can simulate the passing of time.
+	 * Let's create a timer, it is the heart of the simulation, ticking
+	 * periodically so that we can simulate the passing of time.
 	 */
 	public void createTimer() {
 		int tick = 1; // one millisecond
@@ -144,8 +117,8 @@ public class GameUI {
 	}
 
 	/*
-	 * This is the period tick callback. We compute the elapsed time since the last
-	 * tick. We inform the model of the current time.
+	 * This is the period tick callback. We compute the elapsed time since the
+	 * last tick. We inform the model of the current time.
 	 */
 	private void tick() {
 		long now = System.currentTimeMillis() - m_start;

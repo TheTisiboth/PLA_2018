@@ -48,12 +48,12 @@ public abstract class GameView extends Canvas {
 			else
 				m_buffer2 = m_buffer1;
 
-//			Graphics gc = m_buffer1.getGraphics();
-//			gc.setColor(m_background);
-//			gc.fillRect(0, 0, m_width, m_height);
-//			gc = m_buffer2.getGraphics();
-//			gc.setColor(m_background);
-//			gc.fillRect(0, 0, m_width, m_height);
+			Graphics gc = m_buffer1.getGraphics();
+			gc.setColor(m_background);
+			gc.fillRect(0, 0, m_width, m_height);
+			gc = m_buffer2.getGraphics();
+			gc.setColor(m_background);
+			gc.fillRect(0, 0, m_width, m_height);
 			m_renderBuffer = m_buffer2;
 			m_drawBuffer = m_buffer1;
 		}

@@ -20,18 +20,26 @@ public class Obstacle extends Physic_Entity{
 
 
 	public void paint(Graphics g) {
-//		g.setColor(couleur);
-//		g.fillRect(x * MesOptions.taille_case + 1, y * MesOptions.taille_case + 1, MesOptions.taille_case, MesOptions.taille_case);
-//		
-		Image img = m_obstacle;
-		int w = (int) (MesOptions.taille_case);
-		int h = (int) (MesOptions.taille_case);
-		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
+		if (health_point > 0) {
+			Image img = m_obstacle;
+			int w = (int) (MesOptions.taille_case);
+			int h = (int) (MesOptions.taille_case);
+			g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
+		}
+		
 		
 	}
 
 	public Color getCouleur() {
 		return couleur;
+	}
+	
+	public void reduce_life() {
+		health_point --;
+	}
+	
+	public boolean life() {
+		return health_point>0;
 	}
 	
 

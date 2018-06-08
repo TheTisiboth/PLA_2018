@@ -22,4 +22,12 @@ public class Zbire extends Physic_Entity{
 		
 	}
 	
+	public void reduce_nb_case() {
+		nb_case = nb_case -3;
+	}
+	
+	public boolean life() {
+		return nb_case>0;
+	}
+	
 }

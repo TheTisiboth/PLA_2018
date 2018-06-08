@@ -79,6 +79,7 @@ public class EndPage extends JFrame implements ActionListener{
 		preferredSize =new Dimension(350, entrelayout);
 		txt.setFont(fonNumber);
 		txt.setPreferredSize(preferredSize);
+		txt.setForeground(Color.WHITE);
 		panel1.add(txt);
 		
 		
@@ -89,6 +90,7 @@ public class EndPage extends JFrame implements ActionListener{
 		txt= new JLabel(""+ m_model.statistique.getJoueur1_Bonus(), SwingConstants.CENTER);
 		preferredSize =new Dimension(350, entrelayout);
 		txt.setFont(fonNumber);
+		txt.setForeground(Color.WHITE);
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 		
@@ -99,6 +101,7 @@ public class EndPage extends JFrame implements ActionListener{
 		txt= new JLabel(""+ m_model.statistique.getNombre_zbire1(), SwingConstants.CENTER);
 		preferredSize =new Dimension(350, entrelayout);
 		txt.setFont(fonNumber);
+		txt.setForeground(Color.WHITE);
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 		
@@ -124,6 +127,7 @@ public class EndPage extends JFrame implements ActionListener{
 		txt1= new JLabel(""+ m_model.statistique.getNombrecase_parcouru2(), SwingConstants.CENTER);
 		preferredSize =new Dimension(350, entrelayout);
 		txt1.setFont(fonNumber);
+		txt1.setForeground(Color.WHITE);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
@@ -134,6 +138,8 @@ public class EndPage extends JFrame implements ActionListener{
 		txt1= new JLabel(m_model.statistique.getJoueur2_Bonus()+"", SwingConstants.CENTER);
 		preferredSize =new Dimension(350, entrelayout);
 		txt1.setFont(fonNumber);
+		txt1.setForeground(Color.WHITE);
+
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 		
@@ -143,6 +149,8 @@ public class EndPage extends JFrame implements ActionListener{
 		
 		txt1= new JLabel(m_model.statistique.getNombre_zbire2()+"", SwingConstants.CENTER);
 		preferredSize =new Dimension(350, entrelayout);
+		txt1.setForeground(Color.WHITE);
+
 		txt1.setFont(fonNumber);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
@@ -177,7 +185,7 @@ public class EndPage extends JFrame implements ActionListener{
 		JLabel titre  = new JLabel("Graphique du score en fonction du temps",SwingConstants.CENTER);
 		preferredSize =new Dimension(500, 40);
 		titre.setPreferredSize(preferredSize);
-//		titre.setOpaque(false);
+		titre.setForeground(Color.WHITE);
 		pan_graph.add(titre, preferredSize);
 		pan_graph.setOpaque(false);
 		

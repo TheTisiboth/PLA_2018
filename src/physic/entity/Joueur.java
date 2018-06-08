@@ -186,24 +186,28 @@ public class Joueur extends Physic_Entity {
 
 		if (i >= 0 && i < 25) {
 			if (z[0] == null) {
+				System.out.println("zbire : "+ 1);
 				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 0,m_scale,joueur);
 				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
 			if (z[1] == null) {
+				System.out.println("zbire : "+ 2);
 				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 1,m_scale,joueur);
 				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
 			if (z[2] == null) {
+				System.out.println("zbire : "+ 3);
 				zbire =new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 2,m_scale,joueur);
 				z[2] = zbire;
 			}
 
 		} else {
 			if (z[3] == null) {
+				System.out.println("zbire : "+ 4);
 				zbire = new Zbire(m_sprite,12,24,-1, -1, this.couleur, 10, 3,m_scale,joueur);
 				z[3] = zbire;
 			}

@@ -9,5 +9,7 @@ public class Direction_I {
 		this.value = value;
 	}
 	
-	public 
+	public String eval() {
+		return (String) value.make();
+	}
 }

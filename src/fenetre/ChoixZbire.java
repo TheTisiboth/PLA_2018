@@ -9,6 +9,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import edu.ricm3.game.GameUI;
+import ricm3.parser.*;
+import ricm3.parser.Ast.Automaton;
+import ricm3.parser.Ast.Terminal;
 
 public class ChoixZbire extends JFrame implements ActionListener {
 
@@ -28,8 +34,26 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	private JButton home;
 	Dimension d;
 	GameUI m_game;
+	LinkedList<String> automate;
 
 	public ChoixZbire(Dimension d, GameUI game) {
+		automate = new LinkedList<String>();
+		try {
+			// def contient l'AI definition, premier élément de l'ast renvoyé par la fonction from_file
+			Ast.AI_Definitions def = (Ast.AI_Definitions) AutomataParser.from_file("automata.txt");
+			
+			// list contient la liste de tout les automates parsé
+			LinkedList<Automaton> list= (LinkedList<Automaton>)def.getAutomata();
+			Iterator<Automaton> iter = list.iterator();
+			while(iter.hasNext()) {
+				// on ajoute a la liste d'automate leur noms
+				automate.add(iter.next().getName().getValue());
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.d = d;
 		m_game = game;
 		this.setTitle("COLORicm Deluxe Version 2.0");
@@ -38,11 +62,10 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		cont.setPreferredSize(d);
 		cont.setMaximumSize(d);
 		cont.setMinimumSize(d);
-		
-		
+
 		JPanel img = new Background(d, 7);
 		img.setLayout(null);
-		
+
 		home = new JButton();
 		home.setBounds(-120, 10, 400, 80);
 		home.setOpaque(false);
@@ -54,13 +77,13 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		this.add(home);
 
 		JPanel eastPanel = new JPanel();
-		eastPanel.setBounds(160,200,300,350);
+		eastPanel.setBounds(160, 200, 300, 350);
 		eastPanel.setOpaque(false);
-		
+
 		JPanel westPanel = new JPanel();
-		westPanel.setBounds(730,200,300,350);
+		westPanel.setBounds(730, 200, 300, 350);
 		westPanel.setOpaque(false);
-		
+
 		// Textfield Joueur 1
 
 		j1 = new JTextField("Joueur 1");
@@ -96,16 +119,20 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		this.add(j2);
 
 		// Fin Textfield Jour 2
-		
-//		eastPanel.setLayout(new GridLayout(4, 1, 0, 30));
+
+		// eastPanel.setLayout(new GridLayout(4, 1, 0, 30));
 		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		JComboBox comboBox[] = new JComboBox[8];
 		for (int i = 0; i < 8; i++) {
 			comboBox[i] = new JComboBox();
+			for (int j = 0; j < automate.size(); j++) {
+				comboBox[i].addItem(automate.get(j));
+			}
+			comboBox[i].setSelectedIndex(i%4);
 
 		}
-		Dimension dimcombo = new Dimension(200,35);
+		Dimension dimcombo = new Dimension(200, 35);
 		int y = 200;
 		for (int i = 0; i < 4; i++) {
 			comboBox[i].setPreferredSize(dimcombo);
@@ -115,7 +142,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			y += 60;
 			eastPanel.add(comboBox[i]);
 		}
-		
+
 		y = 200;
 		for (int i = 4; i < 8; i++) {
 			comboBox[i].setPreferredSize(dimcombo);
@@ -125,13 +152,12 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			y += 60;
 			westPanel.add(comboBox[i]);
 		}
-		
 
 		img.add(eastPanel);
 		img.add(westPanel);
 		cont.add(img, BorderLayout.CENTER);
 
-//		this.setSize(d);
+		// this.setSize(d);
 		this.doLayout();
 		this.setResizable(false);
 		this.setVisible(true);

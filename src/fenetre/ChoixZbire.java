@@ -6,7 +6,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -17,20 +16,16 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import edu.ricm3.game.GameUI;
 import mvc.MesOptions;
-import ricm3.parser.*;
 import ricm3.parser.Ast.AI_Definitions;
 import ricm3.parser.Ast.Automaton;
-import ricm3.parser.Ast.Terminal;
+import ricm3.parser.AutomataParser;
 
 public class ChoixZbire extends JFrame implements ActionListener {
 
@@ -54,6 +49,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		img = new Background(d, 7);
 		fichier = "automata.txt";
 
+		// on rafraichit les 8 menu deroulant, en fonction du fichier choisi (par defaut
+		// : automata.txt
 		refreshAutomate(fichier, eastPanel, westPanel);
 		this.d = d;
 		m_game = game;
@@ -161,33 +158,17 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object s = e.getSource();
-		if (s == home) {
-			new HomeWindow(d, m_game);
-			dispose();
-		}
-	}
 
 	void refreshAutomate(String file, JPanel eastPanel, JPanel westPanel) {
 		try {
+			// Liste des noms des automates
 			automate = new LinkedList<String>();
-			// def contient l'AI definition, premier élément de l'ast renvoyé par la
-			// fonction from_file
-			// java.io.InputStream is = null;
-			// AutomataParser.ReInit();
-			// Ast.AI_Definitions def = (Ast.AI_Definitions)
-			// AutomataParser.from_file("automata.txt");
-
-			if (MesOptions.deja_parse)
+			if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
 				AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
-			else
+			else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
 				new AutomataParser(new BufferedReader(new FileReader(fichier)));
+			// On lance le parser
 			AI_Definitions def = (AI_Definitions) AutomataParser.Run();
-			// def = (AI_Definitions) new AutomataParser(new BufferedReader(new
-			// FileReader(fichier))).Run();
-
 			// list contient la liste de tout les automates parsé
 			LinkedList<Automaton> list = (LinkedList<Automaton>) def.getAutomata();
 			Iterator<Automaton> iter = list.iterator();
@@ -197,53 +178,69 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			}
 			if (automate.size() < 4) {
 				System.out.println("Veuillez mettre au moins 4 automates");
-				System.exit(1);
+				throw new ricm3.parser.ParseException();
 			}
 
+			// Affichage des 8 menus deroulant
+			if (MesOptions.deja_parse) {
+				// on supprime tout les menu deroulants
+				eastPanel.removeAll();
+				westPanel.removeAll();
+			}
+			Dimension dimcombo = new Dimension(200, 35);
+			JComboBox comboBox[] = new JComboBox[8];
+			// on recrée a chaque fois les menu deroulants (on aurait pu supprimer manuellement leur contenu)
+			for (int i = 0; i < 8; i++) {
+				comboBox[i] = new JComboBox();
+				for (int j = 0; j < automate.size(); j++) {
+					comboBox[i].addItem(automate.get(j));
+				}
+				int x = i % 4;
+				comboBox[i].setSelectedIndex(i % 4);
+
+			}
+
+			int y = 200;
+			for (int i = 0; i < 4; i++) {
+				comboBox[i].setPreferredSize(dimcombo);
+				comboBox[i].setSize(dimcombo);
+				comboBox[i].setMaximumSize(dimcombo);
+				comboBox[i].setMinimumSize(dimcombo);
+				y += 60;
+				eastPanel.add(comboBox[i]);
+			}
+
+			y = 200;
+			for (int i = 4; i < 8; i++) {
+				comboBox[i].setPreferredSize(dimcombo);
+				comboBox[i].setSize(dimcombo);
+				comboBox[i].setMaximumSize(dimcombo);
+				comboBox[i].setMinimumSize(dimcombo);
+				y += 60;
+				westPanel.add(comboBox[i]);
+			}
+
+			img.add(eastPanel);
+			img.add(westPanel);
+			MesOptions.deja_parse = true;
+			this.validate();
+
+		} catch (ricm3.parser.ParseException p) {
+			System.out.println("L'automate ne respecte pas la grammaire, ou le fichier est invalide.\n"
+					+ "Veuillez corriger vos automates, ou choisir un fichier valide");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
-		// Affichage des 8 menus deroulant
-		if(MesOptions.deja_parse) {
-			eastPanel.removeAll();
-			westPanel.removeAll();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object s = e.getSource();
+		if (s == home) {
+			new HomeWindow(d, m_game);
+			dispose();
 		}
-		Dimension dimcombo = new Dimension(200, 35);
-		JComboBox comboBox[] = new JComboBox[8];
-		for (int i = 0; i < 8; i++) {
-			comboBox[i] = new JComboBox();
-			for (int j = 0; j < automate.size(); j++) {
-				comboBox[i].addItem(automate.get(j));
-			}
-			comboBox[i].setSelectedIndex(i % 4);
-
-		}
-
-		int y = 200;
-		for (int i = 0; i < 4; i++) {
-			comboBox[i].setPreferredSize(dimcombo);
-			comboBox[i].setSize(dimcombo);
-			comboBox[i].setMaximumSize(dimcombo);
-			comboBox[i].setMinimumSize(dimcombo);
-			y += 60;
-			eastPanel.add(comboBox[i]);
-		}
-
-		y = 200;
-		for (int i = 4; i < 8; i++) {
-			comboBox[i].setPreferredSize(dimcombo);
-			comboBox[i].setSize(dimcombo);
-			comboBox[i].setMaximumSize(dimcombo);
-			comboBox[i].setMinimumSize(dimcombo);
-			y += 60;
-			westPanel.add(comboBox[i]);
-		}
-
-		img.add(eastPanel);
-		img.add(westPanel);
-		MesOptions.deja_parse = true;
-		this.validate();
 	}
 }

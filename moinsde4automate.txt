@@ -1,0 +1,7 @@
+Popper(Init){
+  * (Init): True ? Pop :(Init)
+}
+
+Wizzer(Init){
+  * (Init): True ? Wizz :(Init)
+}

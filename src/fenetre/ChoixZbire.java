@@ -112,7 +112,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		// Textfield Joueur 1
 
-		j1 = new JTextField("Joueur 1");
+		j1 = new JTextField(MesOptions.nom_j1);
 		j1.setBounds(160, 80, 300, 100);
 		j1.setForeground(Color.WHITE);
 		j1.setFont(new Font("Helvetica", Font.BOLD, 20));
@@ -130,7 +130,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		// Textfield Joueur 2
 
-		j2 = new JTextField("Joueur 2");
+		j2 = new JTextField(MesOptions.nom_j2);
 		j2.setBounds(735, 80, 300, 100);
 		j2.setForeground(Color.WHITE);
 		j2.setFont(new Font("Helvetica", Font.BOLD, 20));

@@ -17,6 +17,7 @@ import javax.swing.Timer;
 
 import edu.ricm3.game.GameUI;
 import mvc.Controller;
+import mvc.MesOptions;
 import mvc.Model;
 import mvc.View;
 
@@ -54,7 +55,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Textfield Joueur 1
 
-		j1 = new JTextField("Joueur 1");
+		j1 = new JTextField(MesOptions.nom_j1);
 		j1.setBounds(140, 100, 300, 100);
 		j1.setForeground(Color.WHITE);
 		j1.setFont(new Font("Helvetica", Font.BOLD, 20));
@@ -72,7 +73,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Textfield Joueur 2
 
-		j2 = new JTextField("Joueur 2");
+		j2 = new JTextField(MesOptions.nom_j2);
 		j2.setBounds(765, 100, 300, 100);
 		j2.setForeground(Color.WHITE);
 		j2.setFont(new Font("Helvetica", Font.BOLD, 20));
@@ -176,9 +177,11 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Récupération des noms des joueurs
 		if (s == j1) {
 			j1.setText(j1.getText());
+			MesOptions.nom_j1 = j1.getText();
 		}
 		if (s == j2) {
 			j2.setText(j2.getText());
+			MesOptions.nom_j2 = j2.getText();
 		}
 
 		// Quand on clique sur le bouton "Play"

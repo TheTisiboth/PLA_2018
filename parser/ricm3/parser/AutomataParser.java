@@ -24,8 +24,8 @@ public class AutomataParser implements AutomataParserConstants {
 
    public static void main(String[] args) throws Exception {
         Ast ast ;
-        ast = from_string(args[0]) ;
-        // ast = from_file(args[0]) ;
+        // ast = from_string(args[0]) ;
+        ast = from_file(args[0]) ;
         System.out.println("// THE AST of the PARSED AUTOMATA in DOT FORMAT \u005cn" + ast.as_dot_tree()) ;
     }
 

@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import edu.ricm3.game.GameUI;
+import mvc.MesOptions;
 import ricm3.parser.*;
 import ricm3.parser.Ast.AI_Definitions;
 import ricm3.parser.Ast.Automaton;
@@ -48,10 +49,12 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	public ChoixZbire(Dimension d, GameUI game) {
 		JPanel eastPanel = new JPanel();
 		JPanel westPanel = new JPanel();
+		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
+		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		img = new Background(d, 7);
 		fichier = "automata.txt";
 
-		refreshAutomate(fichier, eastPanel, westPanel, true);
+		refreshAutomate(fichier, eastPanel, westPanel);
 		this.d = d;
 		m_game = game;
 		this.setTitle("COLORicm Deluxe Version 2.0");
@@ -78,6 +81,34 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		westPanel.setBounds(730, 200, 300, 350);
 		westPanel.setOpaque(false);
+
+		// choix fichier
+
+		File repertoire = new File(".");
+		FilenameFilter filter = new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".txt");
+			}
+		};
+		File[] files = repertoire.listFiles(filter);
+		JComboBox menu_fichier = new JComboBox<>(files);
+
+		menu_fichier.setBounds(500, 120, 200, 35);
+		img.add(menu_fichier);
+		menu_fichier.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// fichier =(String)menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
+				Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
+				fichier = o.toString();
+				System.out.println(fichier);
+				refreshAutomate(fichier, eastPanel, westPanel);
+
+			}
+		});
 
 		// Textfield Joueur 1
 
@@ -139,7 +170,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		}
 	}
 
-	void refreshAutomate(String file, JPanel eastPanel, JPanel westPanel, boolean premiere_iteration) {
+	void refreshAutomate(String file, JPanel eastPanel, JPanel westPanel) {
 		try {
 			automate = new LinkedList<String>();
 			// def contient l'AI definition, premier élément de l'ast renvoyé par la
@@ -149,8 +180,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			// Ast.AI_Definitions def = (Ast.AI_Definitions)
 			// AutomataParser.from_file("automata.txt");
 
-			
-			if (!premiere_iteration)
+			if (MesOptions.deja_parse)
 				AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
 			else
 				new AutomataParser(new BufferedReader(new FileReader(fichier)));
@@ -175,37 +205,12 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 
-		// choix fichier
-
-		File repertoire = new File(".");
-		FilenameFilter filter = new FilenameFilter() {
-
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.endsWith(".txt");
-			}
-		};
-		File[] files = repertoire.listFiles(filter);
-		JComboBox menu_fichier = new JComboBox<>(files);
-		Dimension dimcombo = new Dimension(200, 35);
-		menu_fichier.setBounds(500, 120, 200, 35);
-		img.add(menu_fichier);
-		menu_fichier.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// fichier =(String)menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
-				Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
-				fichier = o.toString();
-				System.out.println(fichier);
-				refreshAutomate(fichier, eastPanel, westPanel, false);
-
-			}
-		});
-
 		// Affichage des 8 menus deroulant
-		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
-		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
+		if(MesOptions.deja_parse) {
+			eastPanel.removeAll();
+			westPanel.removeAll();
+		}
+		Dimension dimcombo = new Dimension(200, 35);
 		JComboBox comboBox[] = new JComboBox[8];
 		for (int i = 0; i < 8; i++) {
 			comboBox[i] = new JComboBox();
@@ -238,5 +243,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		img.add(eastPanel);
 		img.add(westPanel);
+		MesOptions.deja_parse = true;
+		this.validate();
 	}
 }

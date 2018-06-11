@@ -21,3 +21,4 @@ Popper(Init){
 Wizzer(Init){
   * (Init): True ? Wizz :(Init)
 }
+

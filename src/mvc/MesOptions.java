@@ -1,5 +1,7 @@
 package mvc;
 
+import java.util.LinkedList;
+
 public class MesOptions {
 	public static final int taille_case = 40; // 40x40 pixels
 	public static final int nbCol = 24;
@@ -37,5 +39,8 @@ public class MesOptions {
 	public static String nom_j2 = "Joueur 2";
 	
 	public static boolean deja_parse = false;
+	
+	public static LinkedList<String> automates_j1;
+	public static LinkedList<String> automates_j2;
 
 }

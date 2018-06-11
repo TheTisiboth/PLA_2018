@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -265,7 +266,15 @@ public class HomeWindow extends JFrame implements ActionListener {
 			nom_j2 = j2.getText();
 
 			// construct the game elements: model, controller, and view.
-
+			MesOptions.automates_j1 = new LinkedList<String>();
+			MesOptions.automates_j2 = new LinkedList<String>();
+			LinkedList<String> tab = fenetre.lecture("save.txt");
+			for (int i = 0; i < 4; i++) {
+				MesOptions.automates_j1.add(tab.get(i));
+			}
+			for (int i = 4; i < 8; i++) {
+				MesOptions.automates_j2.add(tab.get(i));
+			}
 			model = new Model(perso2, perso1);
 			controller = new Controller(model);
 			view = new View(model, controller);

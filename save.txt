@@ -1,8 +1,8 @@
-SuperHero
-Turner
-Wizzer
+Exploseur
+Philosopher
+Master
 Mover
-SuperHero
-Turner
-Wizzer
+Exploseur
+Philosopher
+Master
 Mover

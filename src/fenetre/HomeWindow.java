@@ -134,7 +134,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton flecheDroiteJ1
 
 		fd1 = new JButton();
-		fd1.setBounds(530, 247, 50, 80);
+		fd1.setBounds(465, 247, 50, 80);
 		fd1.setOpaque(false);
 		fd1.setContentAreaFilled(false);
 		fd1.setBorderPainted(false);
@@ -144,7 +144,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton fleche gauche 1
 
 		fg1 = new JButton();
-		fg1.setBounds(20, 247, 50, 80);
+		fg1.setBounds(68, 247, 50, 80);
 		fg1.setOpaque(false);
 		fg1.setContentAreaFilled(false);
 		fg1.setBorderPainted(false);
@@ -160,7 +160,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton flecheDroiteJ2
 
 		fd2 = new JButton();
-		fd2.setBounds(1140, 247, 50, 80);
+		fd2.setBounds(1080, 247, 50, 80);
 		fd2.setOpaque(false);
 		fd2.setContentAreaFilled(false);
 		fd2.setBorderPainted(false);
@@ -170,7 +170,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton fleche gauche 2
 
 		fg2 = new JButton();
-		fg2.setBounds(630, 247, 50, 80);
+		fg2.setBounds(690, 247, 50, 80);
 		fg2.setOpaque(false);
 		fg2.setContentAreaFilled(false);
 		fg2.setBorderPainted(false);

@@ -87,13 +87,13 @@ public class Controller extends GameController {
 		// key shift (hit)
 		else if (e.getKeyCode() == 16) {
 			m_model.hit(m_model.getJ2());
-		} else if (e.getKeyCode() == 79) // touche &
+		} else if (e.getKeyCode() == 44) // touche ,
 			m_model.spawnzbire(m_model.getJ2(), 0, m_model.getJ2().getDirection());
-		else if (e.getKeyCode() == 80) // touche é
+		else if (e.getKeyCode() == 59) // touche p
 			m_model.spawnzbire(m_model.getJ2(), 1, m_model.getJ2().getDirection());
-		else if (e.getKeyCode() == 130) // touche "
+		else if (e.getKeyCode() == 513) // touche ^
 			m_model.spawnzbire(m_model.getJ2(), 2, m_model.getJ2().getDirection());
-		else if (e.getKeyCode() == 515) // touche '
+		else if (e.getKeyCode() == 517) // touche $
 			m_model.spawnzbire(m_model.getJ2(), 3, m_model.getJ2().getDirection());
 
 	}

@@ -54,6 +54,7 @@ public class Model extends GameModel {
 	private boolean refresh_score = true;
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
 			m_recharge, m_portal;
+	public BufferedImage m_transparent;
 	GameWindow m_frame;
 
 	private String name_j1, name_j2;
@@ -145,6 +146,7 @@ public class Model extends GameModel {
 		File itemzbire = new File("images/sbire_item.png");
 		File recharge = new File("images/recharge.png");
 		File portal = new File("images/portail.png");
+		File transparent = new File("images/transparent.png");
 
 		try {
 			m_obstacle = ImageIO.read(BriqueFile);
@@ -158,6 +160,7 @@ public class Model extends GameModel {
 			m_item = ImageIO.read(itemzbire);
 			m_recharge = ImageIO.read(recharge);
 			m_portal = ImageIO.read(portal);
+			m_transparent = ImageIO.read(transparent);
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -382,7 +385,7 @@ public class Model extends GameModel {
 	private void checkItem() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Item_Zbire) {
 			Item_Zbire item = (Item_Zbire) plateau[player1.getX()][player1.getY()].getE();
-			player1.appliquerItem(2);
+			player1.appliquerItem(1);
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listItem.remove(item);
@@ -390,7 +393,7 @@ public class Model extends GameModel {
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Item_Zbire) {
 			Item_Zbire item = (Item_Zbire) plateau[player2.getX()][player2.getY()].getE();
-			player2.appliquerItem(1);
+			player2.appliquerItem(2);
 			plateau[player2.getX()][player2.getY()].setE(null);
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listItem.remove(item);
@@ -406,17 +409,17 @@ public class Model extends GameModel {
 
 			for (int i = 0; i < zbires.length; i++) {
 				if (zbires[i] != null) {
-					m_frame.west[i] = zbires[i].m_sprites[4];
+					m_frame.bW[i].setIcon(new ImageIcon(zbires[i].m_sprites[4]));
 				} else {
-					m_frame.west[i] = null;
+					m_frame.bW[i].setIcon(new ImageIcon(m_transparent));
 				}
 			}
-		}else {
+		} else {
 			for (int i = 0; i < zbires.length; i++) {
 				if (zbires[i] != null) {
-					m_frame.east[i] = zbires[i].m_sprites[4];
+					m_frame.bE[i].setIcon(new ImageIcon(zbires[i].m_sprites[4]));
 				} else {
-					m_frame.east[i] = null;
+					m_frame.bE[i].setIcon(new ImageIcon(m_transparent));
 				}
 			}
 		}
@@ -684,6 +687,7 @@ public class Model extends GameModel {
 
 					plateau[x][y].setRefresh(true);
 					j.resetZbire(n);
+					afficher_liste_sprite_zbire(j);
 				}
 			}
 		}

@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.UIManager;
 
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
@@ -154,7 +155,7 @@ public class GameWindow extends JFrame {
 	}
 
 	private JProgressBar createBarreDroite() {
-
+	
 		JProgressBar barreJ2 = new JProgressBar();
 		barreJ2.setPreferredSize(new Dimension(600, 40));
 		barreJ2.setMaximumSize(new Dimension(600, 40));
@@ -342,22 +343,22 @@ public class GameWindow extends JFrame {
 	private JPanel createEastPanel() {
 
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 1));
+		panel.setLayout(new FlowLayout());
+		Dimension dimension = new Dimension(120, 120);
 		bE[0] = new JLabel(new ImageIcon(m_model.m_transparent));
-
+		bE[0].setPreferredSize(dimension);
 		bE[1] = new JLabel(new ImageIcon(m_model.m_transparent));
-
+		bE[1].setPreferredSize(dimension);
 		bE[2] = new JLabel(new ImageIcon(m_model.m_transparent));
-
+		bE[2].setPreferredSize(dimension);
 		bE[3] = new JLabel(new ImageIcon(m_model.m_transparent));
-
+		bE[3].setPreferredSize(dimension);
 		panel.add(bE[0]);
 		panel.add(bE[1]);
 		panel.add(bE[2]);
 		panel.add(bE[3]);
 		panel.setOpaque(false);
-		panel.setBounds(0, 120, 120, 480);
-		panel.setBounds(1080, 120, 120, 520);
+		panel.setBounds(1080, 120, 120, 480);
 		return panel;
 
 	}

@@ -31,11 +31,11 @@ public class Joueur extends Physic_Entity {
 	private boolean moveable, reload;
 	boolean inMovement;
 
-
 	private float m_scale;
 	private long m_lastMove;
 
 	char direction, last_direction;
+	private int timeEffectFreeze;
 
 	public Joueur(BufferedImage sprite, int rows, int columns, int personnalisation, int x, int y, float scale,
 			Color couleur) {
@@ -85,7 +85,7 @@ public class Joueur extends Physic_Entity {
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
 		int h = (int) (m_scale * m_h);
-		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
+		g.drawImage(img, x * MesOptions.taille_case+(MesOptions.taille_case/4), y * MesOptions.taille_case, MesOptions.taille_case/2, MesOptions.taille_case, null);
 	}
 
 	public void canMove(Case[][] c) {
@@ -148,7 +148,7 @@ public class Joueur extends Physic_Entity {
 		else if (b instanceof Freeze) {
 			if (adverse != null) {
 				adverse.speed = 0; // block the opponent
-				adverse.timeEffect = 20;
+				adverse.timeEffectFreeze = 20;
 			}
 		}
 	}
@@ -162,7 +162,7 @@ public class Joueur extends Physic_Entity {
 		else if (this.reload) {
 			paintStock += recharge;
 			if (paintStock > MesOptions.paintMax) {
-				paintStock -= MesOptions.paintMax - paintStock;
+				paintStock = MesOptions.paintMax - paintStock;
 			}
 			this.reload = false;
 		}
@@ -217,8 +217,8 @@ public class Joueur extends Physic_Entity {
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
 		// case 1 : Freeze
-		if (elapsed > time && speed < 1 && timeEffect > 0) {
-			timeEffect--;
+		if (elapsed > time && speed < 1 && timeEffectFreeze > 0) {
+			timeEffectFreeze--;
 			m_lastMove = now;
 			elapsed = now - m_lastMove;
 
@@ -379,5 +379,9 @@ public class Joueur extends Physic_Entity {
 	public void teleport(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public int getTimeEffectFreeze() {
+		return timeEffectFreeze;
 	}
 }

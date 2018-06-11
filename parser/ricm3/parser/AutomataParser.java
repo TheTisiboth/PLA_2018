@@ -22,11 +22,41 @@ public class AutomataParser implements AutomataParserConstants {
                 return ast ;
    }
 
+   public static boolean option(String option, String[] args) {
+                int i=0 ;
+        while(i<args.length) {
+                if (args[i].equals(option)){ return true ; }
+                i++;
+                 }
+          return false ;
+  }
+
+  public static int index_of_input(String[] args) {
+        int i = 0 ;
+        while (i<args.length) {
+          if ( false == (
+                       args[i].equals("-ast")
+                        || args[i].equals("-string")
+                        || args[i].equals("-aut")
+                        || args[i].equals("-file") ))
+        { return i ; }
+     else
+        { i++ ; }
+        }
+        return 0 ;
+  }
+
    public static void main(String[] args) throws Exception {
         Ast ast ;
-        // ast = from_string(args[0]) ;
-        ast = from_file(args[0]) ;
-        System.out.println("// THE AST of the PARSED AUTOMATA in DOT FORMAT \u005cn" + ast.as_dot_tree()) ;
+        int i = index_of_input(args) ;
+        if ( option("-string",args) )
+            ast = from_string(args[i]) ;
+        else
+                        ast = from_file(args[i]) ;
+        if ( option("-ast",args) )
+                        System.out.println("// THE AST of the PARSED AUTOMATA in DOT FORMAT \u005cn" + ast.as_dot_tree()) ;
+                else
+                        System.out.println("// THE PARSED AUTOMATA in DOT FORMAT \u005cn" + ast.as_dot_aut()) ;
     }
 
 /* == The grammar for writing automata
@@ -131,13 +161,15 @@ Direction
   | "d" = variable of type direction
 
 Entity
-  | "V" = Void
-  | "T" = Team
-  | "E" = Ennemi
-  | "P" = Pickable
+  | "A" = Adversary
+  | "D" = Danger 
+  | "G" = Gate
   | "J" = Jumpable
-  | "D" = Danger
+  | "M" = Missile
   | "O" = Other 
+  | "P" = Pickable
+  | "T" = Team
+  | "V" = Void
   | "e" = variable of type entity
 
 */
@@ -180,7 +212,7 @@ Entity
   }
 
 /* Entity
- * | "V" | "T" | "E" | "P" | "J" | "D" | "O" 
+ * | "V" | "T" | "A" | "P" | "J" | "D" | "O" 
  * | "e"
  */
   static final public Entity P_Entity() throws ParseException {
@@ -241,12 +273,12 @@ Entity
   String entry_state ;
   List<Behaviour> behaviours ;
     name = P_Identifier();
-    jj_consume_token(15);
+    jj_consume_token(20);
     entry_state = P_Identifier();
-    jj_consume_token(16);
-    jj_consume_token(17);
+    jj_consume_token(21);
+    jj_consume_token(22);
     behaviours = P_At_least_one_Behaviour(new LinkedList<Behaviour>());
-    jj_consume_token(18);
+    jj_consume_token(23);
     {if (true) return new Automaton(name, new State(entry_state), behaviours) ;}
     throw new Error("Missing return statement in function");
   }
@@ -270,7 +302,7 @@ Entity
   static final public List<Behaviour> P_Some_Behaviour(List<Behaviour> input_list) throws ParseException {
   List<Behaviour> list ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 19:
+    case 24:
       list = P_At_least_one_Behaviour(input_list);
           {if (true) return list ;}
       break;
@@ -287,7 +319,7 @@ Entity
   static final public Behaviour P_Behaviour() throws ParseException {
   State state ;
   List<Transition> list = new LinkedList<Transition>() ;
-    jj_consume_token(19);
+    jj_consume_token(24);
     state = P_State();
     P_Opt_Points();
     list = P_Some_Transitions(list);
@@ -301,8 +333,8 @@ Entity
  */
   static final public Void P_Opt_Points() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 20:
-      jj_consume_token(20);
+    case 25:
+      jj_consume_token(25);
                 {if (true) return null;}
       break;
     default:
@@ -317,9 +349,9 @@ Entity
  */
   static final public State P_State() throws ParseException {
   State state ;
-    jj_consume_token(15);
+    jj_consume_token(20);
     state = P_State_Identifier();
-    jj_consume_token(16);
+    jj_consume_token(21);
           {if (true) return state;}
     throw new Error("Missing return statement in function");
   }
@@ -336,8 +368,8 @@ Entity
       name = P_Identifier();
           {if (true) return new State(name);}
       break;
-    case 21:
-      jj_consume_token(21);
+    case 26:
+      jj_consume_token(26);
           {if (true) return new State("_");}
       break;
     default:
@@ -355,10 +387,12 @@ Entity
   Transition transition ;
   List<Transition> list ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case CONDITION:
+    case ACTION:
     case UNARY:
-    case ID:
-    case 15:
-    case 23:
+    case 20:
+    case 28:
+    case 29:
       transition = P_Transition();
       list = P_Some_Transitions(input_list);
        list.add(0,transition) ; {if (true) return list ;}
@@ -379,9 +413,9 @@ Entity
         State state ;
     P_Opt_Bar();
     condition = P_Condition();
-    jj_consume_token(22);
+    jj_consume_token(27);
     action = P_Action();
-    jj_consume_token(20);
+    jj_consume_token(25);
     state = P_State();
           {if (true) return new Transition(condition,action,state) ;}
     throw new Error("Missing return statement in function");
@@ -393,8 +427,8 @@ Entity
  */
   static final public Void P_Opt_Bar() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 23:
-      jj_consume_token(23);
+    case 28:
+      jj_consume_token(28);
                 {if (true) return null;}
       break;
     default:
@@ -434,10 +468,10 @@ Entity
   Token token ;
   FunCall funcall ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 15:
-      jj_consume_token(15);
+    case 20:
+      jj_consume_token(20);
       expression = P_Expression();
-      jj_consume_token(16);
+      jj_consume_token(21);
           {if (true) return expression ;}
       break;
     case UNARY:
@@ -445,7 +479,9 @@ Entity
       expression = P_Expression();
           {if (true) return new UnaryOp(token.image,expression) ;}
       break;
-    case ID:
+    case CONDITION:
+    case ACTION:
+    case 29:
       funcall = P_FunCall();
       expression = P_Op_Expression(funcall);
           {if (true) return expression ;}
@@ -479,14 +515,36 @@ Entity
   }
 
 /* FunCall
- * | Identifier Opt_Parameters
+ * | "Key(" KeyName ")"
+ * | CONDITION Opt_Parameters
+ * | ACTION    Opt_Parameters
  */
   static final public FunCall P_FunCall() throws ParseException {
-  String fun_name ;
-  List<Expression> parameters ;
-    fun_name = P_Identifier();
-    parameters = P_Opt_Parameters(new LinkedList<Expression>());
-          {if (true) return new FunCall(fun_name, parameters) ;}
+  Token token ;
+  List<Parameter> parameters = new LinkedList<Parameter>() ;
+  Key key ;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case 29:
+      jj_consume_token(29);
+      key = P_Key_Name();
+      jj_consume_token(21);
+          parameters.add(key) ; {if (true) return new FunCall("Key", parameters) ;}
+      break;
+    case CONDITION:
+      token = jj_consume_token(CONDITION);
+      parameters = P_Opt_Parameters(parameters);
+          {if (true) return new FunCall(token.image, parameters) ;}
+      break;
+    case ACTION:
+      token = jj_consume_token(ACTION);
+      parameters = P_Opt_Parameters(parameters);
+          {if (true) return new FunCall(token.image, parameters) ;}
+      break;
+    default:
+      jj_la1[10] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     throw new Error("Missing return statement in function");
   }
 
@@ -494,17 +552,17 @@ Entity
  * | "(" Some_Parameters ")"
  * | epsilon
  */
-  static final public List<Expression> P_Opt_Parameters(List<Expression> input_list) throws ParseException {
-  List<Expression> list ;
+  static final public List<Parameter> P_Opt_Parameters(List<Parameter> input_list) throws ParseException {
+  List<Parameter> list ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 15:
-      jj_consume_token(15);
+    case 20:
+      jj_consume_token(20);
       list = P_Some_Parameters(input_list);
-      jj_consume_token(16);
+      jj_consume_token(21);
           {if (true) return list ;}
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[11] = jj_gen;
           {if (true) return input_list ;}
     }
     throw new Error("Missing return statement in function");
@@ -514,37 +572,15 @@ Entity
  * | Parameter  More_Parameters
  * | epsilon
  */
-  static final public List<Expression> P_Some_Parameters(List<Expression> input_list) throws ParseException {
-  Expression parameter ;
-  List<Expression> list ;
+  static final public List<Parameter> P_Some_Parameters(List<Parameter> input_list) throws ParseException {
+  Parameter parameter ;
+  List<Parameter> list ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case UNARY:
     case DIRVAR:
-    case DIRECTION:
     case ENTVAR:
+    case DIRECTION:
     case ENTITY:
-    case 21:
-      parameter = P_Parameter();
-      list = P_More_Parameters(input_list);
-          list.add(0,parameter) ; {if (true) return list ;}
-      break;
-    default:
-      jj_la1[11] = jj_gen;
-          {if (true) return input_list ;}
-    }
-    throw new Error("Missing return statement in function");
-  }
-
-/* More_Parameters
- * | ","  Parameter  More_Parameters 
- * | epsilon
- */
-  static final public List<Expression> P_More_Parameters(List<Expression> input_list) throws ParseException {
-  Expression parameter ;
-  List<Expression> list ;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case 24:
-      jj_consume_token(24);
+    case 26:
       parameter = P_Parameter();
       list = P_More_Parameters(input_list);
           list.add(0,parameter) ; {if (true) return list ;}
@@ -556,39 +592,80 @@ Entity
     throw new Error("Missing return statement in function");
   }
 
-/* Parameters
- * | Direction
- * | "Opp" "(" Direction ")"
- * | Entity
- * |  "_"
+/* More_Parameters
+ * | ","  Parameter  More_Parameters 
+ * | epsilon
  */
-  static final public Expression P_Parameter() throws ParseException {
-  Token token ;
-  Expression expression ;
+  static final public List<Parameter> P_More_Parameters(List<Parameter> input_list) throws ParseException {
+  Parameter parameter ;
+  List<Parameter> list ;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case DIRVAR:
-    case DIRECTION:
-      expression = P_Direction();
-          {if (true) return expression ;}
-      break;
-    case UNARY:
-      token = jj_consume_token(UNARY);
-      jj_consume_token(15);
-      expression = P_Direction();
-      jj_consume_token(16);
-          {if (true) return new UnaryOp(token.image, expression) ;}
-      break;
-    case ENTVAR:
-    case ENTITY:
-      expression = P_Entity();
-          {if (true) return expression ;}
-      break;
-    case 21:
-      jj_consume_token(21);
-          {if (true) return new Variable("_") ;}
+    case 30:
+      jj_consume_token(30);
+      parameter = P_Parameter();
+      list = P_More_Parameters(input_list);
+          list.add(0,parameter) ; {if (true) return list ;}
       break;
     default:
       jj_la1[13] = jj_gen;
+          {if (true) return input_list ;}
+    }
+    throw new Error("Missing return statement in function");
+  }
+
+/* Key
+ * | DIGIT
+ * | LETTER
+ * | SPECIAL_KEY
+ */
+  static final public Key P_Key_Name() throws ParseException {
+  Token token ;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case DIGIT:
+      token = jj_consume_token(DIGIT);
+          {if (true) return new Key(token.image) ;}
+      break;
+    case LOWERCASE:
+      token = jj_consume_token(LOWERCASE);
+          {if (true) return new Key(token.image) ;}
+      break;
+    case SPECIAL_KEY:
+      token = jj_consume_token(SPECIAL_KEY);
+          {if (true) return new Key(token.image) ;}
+      break;
+    default:
+      jj_la1[14] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    throw new Error("Missing return statement in function");
+  }
+
+/* Parameters
+ * | Direction
+ * | Entity
+ * |  "_"
+ */
+  static final public Parameter P_Parameter() throws ParseException {
+  Token token ;
+  Parameter parameter ;
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case DIRVAR:
+    case DIRECTION:
+      parameter = P_Direction();
+          {if (true) return parameter ;}
+      break;
+    case ENTVAR:
+    case ENTITY:
+      parameter = P_Entity();
+          {if (true) return parameter ;}
+      break;
+    case 26:
+      jj_consume_token(26);
+          {if (true) return new Underscore() ;}
+      break;
+    default:
+      jj_la1[15] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -605,13 +682,13 @@ Entity
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[14];
+  static final private int[] jj_la1 = new int[16];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x600,0x1800,0x2000,0x80000,0x100000,0x202000,0x80a080,0x800000,0xa080,0x100,0x8000,0x201e80,0x1000000,0x201e80,};
+      jj_la1_0 = new int[] {0x500,0xa00,0x40000,0x1000000,0x2000000,0x4040000,0x30110060,0x10000000,0x20110060,0x20000,0x20000060,0x100000,0x4000f00,0x40000000,0xa080,0x4000f00,};
    }
 
   /** Constructor with InputStream. */
@@ -632,7 +709,7 @@ Entity
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -646,7 +723,7 @@ Entity
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -663,7 +740,7 @@ Entity
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -673,7 +750,7 @@ Entity
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -689,7 +766,7 @@ Entity
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -698,7 +775,7 @@ Entity
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -749,12 +826,12 @@ Entity
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[25];
+    boolean[] la1tokens = new boolean[31];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 16; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -763,7 +840,7 @@ Entity
         }
       }
     }
-    for (int i = 0; i < 25; i++) {
+    for (int i = 0; i < 31; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

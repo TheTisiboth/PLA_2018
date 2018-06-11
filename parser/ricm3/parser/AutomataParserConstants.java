@@ -11,25 +11,35 @@ public interface AutomataParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int LETTER = 5;
+  int CONDITION = 5;
   /** RegularExpression Id. */
-  int DIGIT = 6;
+  int ACTION = 6;
   /** RegularExpression Id. */
-  int UNARY = 7;
+  int SPECIAL_KEY = 7;
   /** RegularExpression Id. */
-  int BINOP = 8;
+  int DIRVAR = 8;
   /** RegularExpression Id. */
-  int DIRVAR = 9;
+  int ENTVAR = 9;
   /** RegularExpression Id. */
   int DIRECTION = 10;
   /** RegularExpression Id. */
-  int ENTVAR = 11;
+  int ENTITY = 11;
   /** RegularExpression Id. */
-  int ENTITY = 12;
+  int CAPITAL = 12;
   /** RegularExpression Id. */
-  int ID = 13;
+  int LOWERCASE = 13;
   /** RegularExpression Id. */
-  int INT = 14;
+  int LETTER = 14;
+  /** RegularExpression Id. */
+  int DIGIT = 15;
+  /** RegularExpression Id. */
+  int UNARY = 16;
+  /** RegularExpression Id. */
+  int BINOP = 17;
+  /** RegularExpression Id. */
+  int ID = 18;
+  /** RegularExpression Id. */
+  int INT = 19;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -41,14 +51,19 @@ public interface AutomataParserConstants {
     "\"\\t\"",
     "\"\\n\"",
     "\"\\r\"",
+    "<CONDITION>",
+    "<ACTION>",
+    "<SPECIAL_KEY>",
+    "\"d\"",
+    "\"e\"",
+    "<DIRECTION>",
+    "<ENTITY>",
+    "<CAPITAL>",
+    "<LOWERCASE>",
     "<LETTER>",
     "<DIGIT>",
-    "<UNARY>",
+    "\"!\"",
     "<BINOP>",
-    "\"d\"",
-    "<DIRECTION>",
-    "\"e\"",
-    "<ENTITY>",
     "<ID>",
     "<INT>",
     "\"(\"",
@@ -60,6 +75,7 @@ public interface AutomataParserConstants {
     "\"_\"",
     "\"?\"",
     "\"|\"",
+    "\"Key(\"",
     "\",\"",
   };
 

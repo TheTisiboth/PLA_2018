@@ -42,6 +42,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	String fichier;
 	JPanel img;
 	JComboBox comboBox[];
+	JComboBox menu_fichier;
 	int showMsgError;
 
 	public ChoixZbire(Dimension d, GameUI game) {
@@ -51,12 +52,13 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		img = new Background(d, 7);
+		comboBox = new JComboBox[8];
 		fichier = "save.txt";
 
 		// on rafraichit les 8 menu deroulant, en fonction du fichier choisi
 		// (par defaut
 		// : automata.txt
-		refreshAutomate(eastPanel, westPanel);
+
 		this.d = d;
 		m_game = game;
 		this.setTitle("COLORicm Deluxe Version 2.0");
@@ -95,7 +97,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			}
 		};
 		File[] files = repertoire.listFiles(filter);
-		JComboBox menu_fichier = new JComboBox<>(files);
+		menu_fichier = new JComboBox<>(files);
 
 		menu_fichier.setBounds(500, 120, 200, 35);
 		img.add(menu_fichier);
@@ -112,6 +114,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 			}
 		});
+
+		refreshAutomate(eastPanel, westPanel);
 
 		// Textfield Joueur 1
 
@@ -164,12 +168,26 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 	}
 
+	@SuppressWarnings("deprecation")
 	void refreshAutomate(JPanel eastPanel, JPanel westPanel) {
 		try {
-			File monFichier = new File(fichier); 
-			if(!(monFichier.exists())) {
+			File monFichier = new File(fichier);
+			if (!(monFichier.exists())) {
 				fichier = "automata.txt";
 			}
+//			System.out.println(menu_fichier.getItemCount());
+			int k = 0;
+			boolean pastrouve = true;
+//			while (pastrouve && k < menu_fichier.getItemCount()) {
+//				if (menu_fichier.getItemAt(k).toString().contains(fichier)) {
+//					pastrouve = false;
+//					System.out.println(pastrouve);
+//					menu_fichier.setSelectedIndex(k);
+//					
+//				}
+//				k++;
+//			}
+//			System.out.println(fichier);
 			// Liste des noms des automates
 			automate = new LinkedList<String>();
 			if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut
@@ -182,6 +200,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			AI_Definitions def = (AI_Definitions) AutomataParser.Run();
 			// list contient la liste de tout les automates pars�
 			LinkedList<Automaton> list = (LinkedList<Automaton>) def.getAutomata();
+			String auto = list.get(0).as_tree_node();
+			System.out.println(auto);
 			Iterator<Automaton> iter = list.iterator();
 			while (iter.hasNext()) {
 				// on ajoute a la liste d'automate leur noms
@@ -205,7 +225,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				westPanel.removeAll();
 			}
 			Dimension dimcombo = new Dimension(200, 35);
-			comboBox = new JComboBox[8];
+
 			// on recr�e a chaque fois les menu deroulants (on aurait pu
 			// supprimer manuellement leur contenu)
 			for (int i = 0; i < 8; i++) {
@@ -252,16 +272,18 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 				System.out.println(s);
 				for (int i = 0; i < comboBox.length; i++) {
-					comboBox[i].setEnabled(false);
+					if (comboBox != null && comboBox[i] != null)
+						comboBox[i].setEnabled(false);
 				}
 				javax.swing.JOptionPane.showMessageDialog(null, s);
-				
+
 			}
-			showMsgError = (showMsgError+1) % 2;
-				
+			showMsgError = (showMsgError + 1) % 2;
+			// p.printStackTrace();
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 
 	}
@@ -270,6 +292,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == home) {
+			Object o = comboBox[0].getSelectedItem();
+			
 
 			new HomeWindow(d, m_game);
 			dispose();

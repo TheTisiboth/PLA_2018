@@ -5,9 +5,15 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,17 +35,25 @@ public class HomeWindow extends JFrame implements ActionListener {
 	Dimension d;
 
 	JTextField j1, j2;
-	JButton play, rules, credits,engrenage;
+
+	JButton play, rules, fg1, fg2, fd1, fd2,credits,engrenage;;
 
 	String nom_j1, nom_j2;
+	private JLabel spritePanel1, spritePanel2;
+	BufferedImage[] sprites;
 
 	Model model;
 	Controller controller;
 	View view;
 	Timer m_timer;
 	GameUI m_game;
+	int perso1, perso2;
 
 	public HomeWindow(Dimension d, GameUI game) {
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
 
 		this.d = d;
 		m_game = game;
@@ -89,6 +103,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Fin Textfield Jour 2
 
+
 		// Engrenage
 		engrenage = new JButton();
 		engrenage.setBounds(380, 380, 430, 75);
@@ -101,7 +116,67 @@ public class HomeWindow extends JFrame implements ActionListener {
 		this.add(engrenage);
 		
 		// fin engrenage
+
 		
+		// fin engrenage
+		
+
+		// Affichage Sprites Joueur 1
+		perso1 = 0;
+		perso2 = 1;
+		sprites = splitSprite();
+		spritePanel1 = new JLabel(new ImageIcon(sprites[247 + perso1 * 8]));
+		spritePanel1.setBounds(240, 195, 100, 170);
+		spritePanel1.setOpaque(false);
+		this.add(spritePanel1);
+
+		// Bouton flecheDroiteJ1
+
+		fd1 = new JButton();
+		fd1.setBounds(530, 247, 50, 80);
+		fd1.setOpaque(false);
+		fd1.setContentAreaFilled(false);
+		fd1.setBorderPainted(false);
+		fd1.addActionListener(this);
+		this.add(fd1);
+
+		// Bouton fleche gauche 1
+
+		fg1 = new JButton();
+		fg1.setBounds(20, 247, 50, 80);
+		fg1.setOpaque(false);
+		fg1.setContentAreaFilled(false);
+		fg1.setBorderPainted(false);
+		fg1.addActionListener(this);
+		this.add(fg1);
+
+		// Affichage Sprites Joueur 2
+		spritePanel2 = new JLabel(new ImageIcon(sprites[247 + perso2 * 8]));
+		spritePanel2.setBounds(850, 195, 100, 170);
+		spritePanel2.setOpaque(false);
+		this.add(spritePanel2);
+
+		// Bouton flecheDroiteJ2
+
+		fd2 = new JButton();
+		fd2.setBounds(1140, 247, 50, 80);
+		fd2.setOpaque(false);
+		fd2.setContentAreaFilled(false);
+		fd2.setBorderPainted(false);
+		fd2.addActionListener(this);
+		this.add(fd2);
+
+		// Bouton fleche gauche 2
+
+		fg2 = new JButton();
+		fg2.setBounds(630, 247, 50, 80);
+		fg2.setOpaque(false);
+		fg2.setContentAreaFilled(false);
+		fg2.setBorderPainted(false);
+		fg2.addActionListener(this);
+		this.add(fg2);
+
+
 		// Bouton "Click to play"
 
 		play = new JButton();
@@ -191,13 +266,13 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 			// construct the game elements: model, controller, and view.
 
-			model = new Model();
+			model = new Model(perso2, perso1);
 			controller = new Controller(model);
 			view = new View(model, controller);
 			m_game.setM_controller(controller);
 			m_game.setM_model(model);
 			m_game.setM_view(view);
-			
+
 			model.setM_frame(new GameWindow(d, controller, view, model, nom_j1, nom_j2));
 			m_game.createTimer();
 
@@ -222,6 +297,70 @@ public class HomeWindow extends JFrame implements ActionListener {
 			dispose();
 		}
 
+		// Boutons du joueur 1
+		if (s == fd1) {
+			do {
+				perso1 = (perso1 == 4) ? 0 : perso1 + 1;
+			} while (perso1 == perso2);
+			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
+			this.validate();
+		}
+		if (s == fg1) {
+			do {
+				perso1 = (perso1 == 0) ? 4 : perso1 - 1;
+			} while (perso1 == perso2);
+			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
+			this.validate();
+		}
+		// Boutons du joueur 2
+		if (s == fd2) {
+			do {
+				perso2 = (perso2 == 4) ? 0 : perso2 + 1;
+			} while (perso1 == perso2);
+			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
+			this.validate();
+		}
+		if (s == fg2) {
+			do {
+				perso2 = (perso2 == 0) ? 4 : perso2 - 1;
+			} while (perso1 == perso2);
+			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
+			this.validate();
+		}
+
+	}
+
+	// divide the sprite image
+	private BufferedImage[] splitSprite() {
+		// LOAD SPRITE
+		BufferedImage m_sprite;
+		// credit : https://erikari.itch.io/elements-supremacy-assets
+		File imageFile = new File("images/character.png");
+		try {
+			m_sprite = ImageIO.read(imageFile);
+
+			BufferedImage[] m_sprites;
+			int width = m_sprite.getWidth(null);
+			int height = m_sprite.getHeight(null);
+			int m_nrows = 12;
+			int m_ncols = 24;
+
+			m_sprites = new BufferedImage[m_nrows * m_ncols];
+			int m_w = width / m_ncols;
+			int m_h = height / m_nrows;
+			for (int i = 0; i < m_nrows; i++) {
+				for (int j = 0; j < m_ncols; j++) {
+					int x = j * m_w;
+					int y = i * m_h;
+					m_sprites[(i * m_ncols) + j] = m_sprite.getSubimage(x, y, m_w, m_h);
+				}
+			}
+			return m_sprites;
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			System.exit(-1);
+			return null;
+		}
 	}
 
 }

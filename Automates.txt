@@ -1,0 +1,38 @@
+Exploseur(DEPL){
+* (DEPL):
+  | Cell(L, V) & GotPower() ? Move(L) : (DEPL)
+  | Cell(R, V) & GotPower() ? Move(R) : (DEPL)
+  | Cell(F, V) & GotPower() ? Move(F) : (DEPL)
+  | Cell(B, V) & GotPower() ? Move(B) : (DEPL)
+  | True ? Kamikaze : ()
+}
+
+Peintre(DEPL){
+* (DEPL):
+  | Cell(L, V) & GotPower() ? Move(L) : (PEINT)
+  | Cell(R, V) & GotPower() ? Move(R) : (PEINT)
+  | Cell(F, V) & GotPower() ? Move(F) : (PEINT)
+  | Cell(B, V) & GotPower() ? Move(B) : (PEINT)
+  | True ? Pop : ()
+* (PEINT): true ? Pop : (DEPL)
+}
+
+Constructeur(DEPL){
+* (DEPL):
+  | Cell(L, V) & GotPower() ? Move(L) : (MUR)
+  | Cell(R, V) & GotPower() ? Move(R) : (MUR)
+  | Cell(F, V) & GotPower() ? Move(F) : (MUR)
+  | Cell(B, V) & GotPower() ? Move(B) : (MUR)
+  | True ? Wizz : ()
+* (MUR): true ? Wizz : (DEPL)
+}
+
+Filou(DEPL){
+* (DEPL):
+  | Cell(L, V) & GotPower() ? Move(L) : (FILOUTERIE)
+  | Cell(R, V) & GotPower() ? Move(R) : (FILOUTERIE)
+  | Cell(F, V) & GotPower() ? Move(F) : (FILOUTERIE)
+  | Cell(B, V) & GotPower() ? Move(B) : (FILOUTERIE)
+  | True ? Pop / Pick : ()
+* (FILOUTERIE): true ? Pop / Pick : (DEPL)
+}

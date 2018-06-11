@@ -1,7 +1,5 @@
 Wizzer(Init){
   * (Init): True ? Wizz :(Init)
-}Kamikaze(Init){
-  * (Init): True ? Kamikaze :(Init)
 }
 
 Philosopher(Think){

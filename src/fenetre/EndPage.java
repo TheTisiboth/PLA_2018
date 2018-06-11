@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,6 +40,11 @@ public class EndPage extends JFrame implements ActionListener {
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
 
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+		
 		this.gameUI = game;
 		largeur = 1200;
 		hauteur = 600;
@@ -71,6 +77,7 @@ public class EndPage extends JFrame implements ActionListener {
 		// Mis en place de l'écran Ouest
 		int entrelayout = 65;
 		JLabel txt = new JLabel(j1, SwingConstants.CENTER);
+		txt.setForeground(Color.WHITE);
 		txt.setFont(font);
 		Dimension preferredSize = new Dimension(350, 140);
 		txt.setPreferredSize(preferredSize);
@@ -120,6 +127,7 @@ public class EndPage extends JFrame implements ActionListener {
 		// Mis en place de l'écran Est
 		JLabel txt1 = new JLabel(j2, SwingConstants.CENTER);
 		txt1.setFont(font);
+		txt1.setForeground(Color.WHITE);
 		preferredSize = new Dimension(350, 140);
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
@@ -171,22 +179,25 @@ public class EndPage extends JFrame implements ActionListener {
 
 		JPanel pan_graph = new JPanel();
 		pan_graph.setLayout(new FlowLayout());
+		
+		JLabel stat= new JLabel("",SwingConstants.CENTER);
+		preferredSize = new Dimension(510, 80);
 
-		JLabel stat = new JLabel("", SwingConstants.CENTER);
-		preferredSize = new Dimension(500, 80);
 		stat.setPreferredSize(preferredSize);
 		stat.setFont(fonNumber);
 		pan_graph.add(stat);
 
 		Graphs graphs = new Graphs();
 		graphs.set_model(m_model);
-		preferredSize = new Dimension(500, 320);
+		preferredSize = new Dimension(510, 340);
 		graphs.setPreferredSize(preferredSize);
 		// graphs.setOpaque(false);
 		pan_graph.add(graphs);
 
-		JLabel titre = new JLabel("Graphique du score en fonction du temps", SwingConstants.CENTER);
-		preferredSize = new Dimension(500, 40);
+		
+		JLabel titre  = new JLabel("Graphique du score en fonction du temps",SwingConstants.CENTER);
+		preferredSize =new Dimension(510, 40);
+
 		titre.setPreferredSize(preferredSize);
 		titre.setForeground(Color.WHITE);
 		pan_graph.add(titre, preferredSize);
@@ -195,7 +206,7 @@ public class EndPage extends JFrame implements ActionListener {
 		panel_center.add(pan_graph, BorderLayout.CENTER);
 
 		JButton rejouer = new JButton("");
-		preferredSize = new Dimension(200, 40);
+		preferredSize = new Dimension(200, 70);
 		rejouer.setPreferredSize(preferredSize);
 		rejouer.setBorderPainted(false);
 		rejouer.setContentAreaFilled(false);

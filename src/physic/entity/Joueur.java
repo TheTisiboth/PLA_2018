@@ -31,7 +31,6 @@ public class Joueur extends Physic_Entity {
 	private boolean moveable, reload;
 	boolean inMovement;
 
-
 	private float m_scale;
 	private long m_lastMove;
 

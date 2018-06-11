@@ -44,8 +44,8 @@ public class Joueur extends Physic_Entity {
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
-		last_x = x + 10;
-		last_y = y + 10;
+		last_x = x;
+		last_y = y;
 		diameter = 34;
 		m_scale = scale;
 		moveable = true;
@@ -177,39 +177,46 @@ public class Joueur extends Physic_Entity {
 
 		if (i >= 0 && i < 25) {
 			if (z[0] == null) {
-				System.out.println("zbire : " + 1);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 0, m_scale, joueur);
+				// System.out.println("zbire : " + 1);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur);
 				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
 			if (z[1] == null) {
-				System.out.println("zbire : " + 2);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 1, m_scale, joueur);
+				// System.out.println("zbire : " + 2);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur);
 				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
 			if (z[2] == null) {
-				System.out.println("zbire : " + 3);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 2, m_scale, joueur);
+				// System.out.println("zbire : " + 3);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur);
 				z[2] = zbire;
 			}
 
 		} else {
 			if (z[3] == null) {
-				System.out.println("zbire : " + 4);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 3, m_scale, joueur);
+				// System.out.println("zbire : " + 4);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur);
 				z[3] = zbire;
 			}
 		}
 	}
 
 	public void step(long now) {
-		for (int i = 0; i < 4; i++) {
-			if (z[i] != null)
-				z[i].step(now);
-		}
+//		for (int i = 0; i < 4; i++) {
+//			if (z[i] != null) {
+//				z[i].step(now);
+//				if (!z[i].life()) {
+//					System.out.println("le sbire doit disparaitre");
+//					z[i] = null;
+//					
+//				}
+//			}
+//
+//		}
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;

@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.sound.sampled.FloatControl;
-
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 

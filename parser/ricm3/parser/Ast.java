@@ -214,7 +214,7 @@ public class Ast {
 
 	public static class AI_Definitions extends Ast {
 
-		List<Automaton> automata;
+		public List<Automaton> automata;
 
 		public List<Automaton> getAutomata() {
 			return automata;

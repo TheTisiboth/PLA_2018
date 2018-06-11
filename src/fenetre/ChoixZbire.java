@@ -38,20 +38,25 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	Dimension d;
 	GameUI m_game;
 	LinkedList<String> automate;
+	boolean selected[];
 	String fichier;
 	JPanel img;
+	JComboBox comboBox[];
+	int showMsgError;
 
 	public ChoixZbire(Dimension d, GameUI game) {
+		showMsgError = 0; // Ã©vite d'avoir un double affichage
 		JPanel eastPanel = new JPanel();
 		JPanel westPanel = new JPanel();
 		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		img = new Background(d, 7);
-		fichier = "automata.txt";
+		fichier = "save.txt";
 
-		// on rafraichit les 8 menu deroulant, en fonction du fichier choisi (par defaut
+		// on rafraichit les 8 menu deroulant, en fonction du fichier choisi
+		// (par defaut
 		// : automata.txt
-		refreshAutomate(fichier, eastPanel, westPanel);
+		refreshAutomate(eastPanel, westPanel);
 		this.d = d;
 		m_game = game;
 		this.setTitle("COLORicm Deluxe Version 2.0");
@@ -98,11 +103,12 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				// fichier =(String)menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
+				// fichier
+				// =(String)menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
 				Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
 				fichier = o.toString();
 				System.out.println(fichier);
-				refreshAutomate(fichier, eastPanel, westPanel);
+				refreshAutomate(eastPanel, westPanel);
 
 			}
 		});
@@ -158,18 +164,23 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 	}
 
-
-	void refreshAutomate(String file, JPanel eastPanel, JPanel westPanel) {
+	void refreshAutomate(JPanel eastPanel, JPanel westPanel) {
 		try {
+			File monFichier = new File(fichier); 
+			if(!(monFichier.exists())) {
+				fichier = "automata.txt";
+			}
 			// Liste des noms des automates
 			automate = new LinkedList<String>();
-			if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
+			if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut
+										// reinitialiser le parser
 				AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
-			else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
+			else // on crï¿½e une nouvelle instance du parser, si l'on ne l'a
+					// jamais fait
 				new AutomataParser(new BufferedReader(new FileReader(fichier)));
 			// On lance le parser
 			AI_Definitions def = (AI_Definitions) AutomataParser.Run();
-			// list contient la liste de tout les automates parsé
+			// list contient la liste de tout les automates parsï¿½
 			LinkedList<Automaton> list = (LinkedList<Automaton>) def.getAutomata();
 			Iterator<Automaton> iter = list.iterator();
 			while (iter.hasNext()) {
@@ -177,8 +188,14 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				automate.add(iter.next().getName().getValue());
 			}
 			if (automate.size() < 4) {
-				System.out.println("Veuillez mettre au moins 4 automates");
-				throw new ricm3.parser.ParseException();
+				String s = "Veuillez mettre au moins 4 automates";
+				System.out.println(s);
+				throw new ricm3.parser.ParseException(s);
+			}
+
+			selected = new boolean[automate.size()];
+			for (boolean b : selected) {
+				b = false;
 			}
 
 			// Affichage des 8 menus deroulant
@@ -188,8 +205,9 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				westPanel.removeAll();
 			}
 			Dimension dimcombo = new Dimension(200, 35);
-			JComboBox comboBox[] = new JComboBox[8];
-			// on recrée a chaque fois les menu deroulants (on aurait pu supprimer manuellement leur contenu)
+			comboBox = new JComboBox[8];
+			// on recrï¿½e a chaque fois les menu deroulants (on aurait pu
+			// supprimer manuellement leur contenu)
 			for (int i = 0; i < 8; i++) {
 				comboBox[i] = new JComboBox();
 				for (int j = 0; j < automate.size(); j++) {
@@ -226,21 +244,45 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			this.validate();
 
 		} catch (ricm3.parser.ParseException p) {
-			System.out.println("L'automate ne respecte pas la grammaire, ou le fichier est invalide.\n"
-					+ "Veuillez corriger vos automates, ou choisir un fichier valide");
+			if (showMsgError == 0) {
+				String s = "L'automate ne respecte pas la grammaire, ou le fichier est invalide.\n"
+						+ "Veuillez corriger vos automates, ou choisir un fichier valide.\n";
+				if (p.getMessage() == "Veuillez mettre au moins 4 automates")
+					s += p.getMessage();
+
+				System.out.println(s);
+				for (int i = 0; i < comboBox.length; i++) {
+					comboBox[i].setEnabled(false);
+				}
+				javax.swing.JOptionPane.showMessageDialog(null, s);
+				
+			}
+			showMsgError = (showMsgError+1) % 2;
+				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 		}
 
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == home) {
+
 			new HomeWindow(d, m_game);
 			dispose();
+		}
+
+		// RÃ©cupÃ©ration des noms des joueurs
+		if (s == j1) {
+			j1.setText(j1.getText());
+			MesOptions.nom_j1 = j1.getText();
+		}
+		if (s == j2) {
+			j2.setText(j2.getText());
+			MesOptions.nom_j2 = j2.getText();
 		}
 	}
 }

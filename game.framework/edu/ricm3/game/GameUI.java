@@ -27,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
+
 import fenetre.EndPage;
 import fenetre.HomeWindow;
 import mvc.Model;
@@ -176,5 +177,6 @@ public class GameUI {
 		m_fps = fps;
 		m_msg = msg;
 	}
+
 
 }

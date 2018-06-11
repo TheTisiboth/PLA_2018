@@ -19,6 +19,7 @@ package edu.ricm3.game;
 
 public abstract class GameModel {
 
+
 	protected GameUI m_game;
 
 	protected GameModel() {
@@ -37,4 +38,5 @@ public abstract class GameModel {
 	public abstract void step(long now);
 
 	public abstract void shutdown();
+
 }

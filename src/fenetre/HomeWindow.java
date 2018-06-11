@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -22,10 +23,10 @@ import javax.swing.Timer;
 
 import edu.ricm3.game.GameUI;
 import mvc.Controller;
+import mvc.MesOptions;
 import mvc.Model;
 import mvc.Sounds;
 import mvc.View;
-
 
 public class HomeWindow extends JFrame implements ActionListener {
 
@@ -36,7 +37,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 	JTextField j1, j2;
 
-	JButton play, rules, fg1, fg2, fd1, fd2,credits,engrenage;;
+	JButton play, rules, fg1, fg2, fd1, fd2, credits, engrenage;;
 
 	String nom_j1, nom_j2;
 	private JLabel spritePanel1, spritePanel2;
@@ -50,10 +51,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 	int perso1, perso2;
 
 	public HomeWindow(Dimension d, GameUI game) {
-		  
-	    
-		
-		// change icon of the frame 
+
+		// change icon of the frame
 		ImageIcon icon = new ImageIcon("images/item_sbire.png");
 		this.setIconImage(icon.getImage());
 
@@ -71,8 +70,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Textfield Joueur 1
 
-		j1 = new JTextField("Joueur 1");
-		j1.setBounds(140, 117, 300, 100);
+		j1 = new JTextField(MesOptions.nom_j1);
+		j1.setBounds(140, 100, 300, 100);
 		j1.setForeground(Color.WHITE);
 		j1.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j1.setOpaque(false);
@@ -89,8 +88,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Textfield Joueur 2
 
-		j2 = new JTextField("Joueur 2");
-		j2.setBounds(765, 117, 300, 100);
+		j2 = new JTextField(MesOptions.nom_j2);
+		j2.setBounds(765, 100, 300, 100);
 		j2.setForeground(Color.WHITE);
 		j2.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j2.setOpaque(false);
@@ -105,20 +104,20 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Fin Textfield Jour 2
 
-
 		// Engrenage
 		engrenage = new JButton();
-		engrenage.setBounds(400, 490, 400, 100);
+		engrenage.setBounds(380, 380, 430, 75);
 		engrenage.setOpaque(false);
 		engrenage.setContentAreaFilled(false);
 		engrenage.setBorderPainted(false);
 
 		engrenage.addActionListener(this);
 
-//		this.add(engrenage);
-		
+		this.add(engrenage);
+
 		// fin engrenage
-		
+
+		// fin engrenage
 
 		// Affichage Sprites Joueur 1
 		perso1 = 0;
@@ -132,7 +131,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton flecheDroiteJ1
 
 		fd1 = new JButton();
-		fd1.setBounds(530, 247, 50, 80);
+		fd1.setBounds(465, 247, 50, 80);
 		fd1.setOpaque(false);
 		fd1.setContentAreaFilled(false);
 		fd1.setBorderPainted(false);
@@ -142,7 +141,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton fleche gauche 1
 
 		fg1 = new JButton();
-		fg1.setBounds(20, 247, 50, 80);
+		fg1.setBounds(68, 247, 50, 80);
 		fg1.setOpaque(false);
 		fg1.setContentAreaFilled(false);
 		fg1.setBorderPainted(false);
@@ -158,7 +157,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton flecheDroiteJ2
 
 		fd2 = new JButton();
-		fd2.setBounds(1140, 247, 50, 80);
+		fd2.setBounds(1080, 247, 50, 80);
 		fd2.setOpaque(false);
 		fd2.setContentAreaFilled(false);
 		fd2.setBorderPainted(false);
@@ -168,18 +167,17 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Bouton fleche gauche 2
 
 		fg2 = new JButton();
-		fg2.setBounds(630, 247, 50, 80);
+		fg2.setBounds(690, 247, 50, 80);
 		fg2.setOpaque(false);
 		fg2.setContentAreaFilled(false);
 		fg2.setBorderPainted(false);
 		fg2.addActionListener(this);
 		this.add(fg2);
 
-
 		// Bouton "Click to play"
 
 		play = new JButton();
-		play.setBounds(400, 490, 400, 100);
+		play.setBounds(360, 483, 498, 70);
 		play.setOpaque(false);
 		play.setContentAreaFilled(false);
 		play.setBorderPainted(false);
@@ -250,21 +248,31 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Récupération des noms des joueurs
 		if (s == j1) {
 			j1.setText(j1.getText());
+			MesOptions.nom_j1 = j1.getText();
 		}
 		if (s == j2) {
 			j2.setText(j2.getText());
+			MesOptions.nom_j2 = j2.getText();
 		}
 
 		// Quand on clique sur le bouton "Play"
 		if (s == play) {
-			
+
 			Sounds.clic_sound();
-			
+
 			nom_j1 = j1.getText();
 			nom_j2 = j2.getText();
 
 			// construct the game elements: model, controller, and view.
-
+			MesOptions.automates_j1 = new LinkedList<String>();
+			MesOptions.automates_j2 = new LinkedList<String>();
+			LinkedList<String> tab = fenetre.lecture("save.txt");
+			for (int i = 0; i < 4; i++) {
+				MesOptions.automates_j1.add(tab.get(i));
+			}
+			for (int i = 4; i < 8; i++) {
+				MesOptions.automates_j2.add(tab.get(i));
+			}
 			model = new Model(perso2, perso1);
 			controller = new Controller(model);
 			view = new View(model, controller);
@@ -277,12 +285,12 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 			dispose();
 		}
-		
-		// Quand on clique sur le bouton "Choix Automates
-//		if(s = engrenage){
-//			new ChoixZbire();
-//			dispose();
-//		}
+
+		// Quand on clique sur le bouton "Chois Automates
+		if (s == engrenage) {
+			new ChoixZbire(d, m_game);
+			dispose();
+		}
 
 		// Quand on clique sur le bouton "Régles"
 		if (s == rules) {
@@ -305,7 +313,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			} while (perso1 == perso2);
 			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
 			this.validate();
-			
+
 		}
 		if (s == fg1) {
 			do {
@@ -313,7 +321,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			} while (perso1 == perso2);
 			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
 			this.validate();
-			
+
 		}
 		// Boutons du joueur 2
 		if (s == fd2) {
@@ -323,7 +331,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
 			this.validate();
 
-			
 		}
 		if (s == fg2) {
 			do {
@@ -331,12 +338,10 @@ public class HomeWindow extends JFrame implements ActionListener {
 			} while (perso1 == perso2);
 			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
 			this.validate();
-			
+
 		}
 
 	}
-	
-	
 
 	// divide the sprite image
 	private BufferedImage[] splitSprite() {
@@ -370,8 +375,5 @@ public class HomeWindow extends JFrame implements ActionListener {
 			return null;
 		}
 	}
-	
-	
-
 
 }

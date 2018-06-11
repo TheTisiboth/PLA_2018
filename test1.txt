@@ -1,0 +1,24 @@
+Wizzer(Init){
+  * (Init): True ? Wizz :(Init)
+}
+
+Philosopher(Think){
+  * (Think)
+}
+
+Blocker(Init){
+  * (Init): !True ? Power :(Init)
+}
+
+Mover(Init){
+  * (Init): True ? Move :(Init)
+}
+
+Popper(Init){
+  * (Init): True ? Pop :(Init)
+}
+
+Wizzer(Init){
+  * (Init): True ? Wizz :(Init)
+}
+

@@ -1,5 +1,20 @@
 # Carnet de bord
 
+## 11/06/18
+
+### Ce qui a été fait
+* Affichage des sbires sur le terrain (invocable avec 4 touches pour chaque joueur), avec un nouveau sprite
+* Fenetre de choix d'automates, en fonction d'un fichier
+![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/6.png )
+* Barre de peinture fonctionnelle
+* Integration d'une musique de fond, ainsi que des bruitages
+
+### TODO
+* Sprite du portail
+* Gerer la fermeture de la fenetre
+* Inverser la barre de progression de la peinture du 2eme joueur
+* Explosion visuelle d'un mur quand on le frappe
+___
 ## 08/06/18
 
 ### Ce qui a été fait

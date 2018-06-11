@@ -552,12 +552,13 @@ public class Model extends GameModel {
 
 			plateau[xc][yc].setCouleur((Color) player2.getColor());
 			player2.decreasePaintStock();
+			m_frame.progresseBar2.setValue((int)(player2.getPaintStock()/(float)MesOptions.paintMax*100));
+			m_frame.doLayout();
 			plateau[xc][yc].setRefresh(true);
 		} else {
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setRefresh(true);
 			plateau[xc][yc].setE(player2);
-
 			plateau[xc][yc].setRefresh(true);
 		}
 
@@ -580,6 +581,9 @@ public class Model extends GameModel {
 			plateau[x1][y1].setE(player1);
 			plateau[x1][y1].setCouleur((Color) player1.getColor());
 			player1.decreasePaintStock();
+			m_frame.progresseBar1.setValue((int)(player1.getPaintStock()/(float)MesOptions.paintMax*100));
+			m_frame.doLayout();
+
 			plateau[x1][y1].setRefresh(true);
 		} else {
 			plateau[last_xc1][last_yc1].setE(null);

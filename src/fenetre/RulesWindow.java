@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.ricm3.game.GameUI;
+import mvc.Sounds;
 
 public class RulesWindow extends JFrame implements ActionListener {
 
@@ -83,6 +84,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 		Object s = e.getSource();
 
 		if (s == rules) {
+			Sounds.clic_sound();
 			new HomeWindow(d, m_game);
 			dispose();
 		}

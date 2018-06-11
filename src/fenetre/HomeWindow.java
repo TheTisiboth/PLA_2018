@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -24,7 +23,9 @@ import javax.swing.Timer;
 import edu.ricm3.game.GameUI;
 import mvc.Controller;
 import mvc.Model;
+import mvc.Sounds;
 import mvc.View;
+
 
 public class HomeWindow extends JFrame implements ActionListener {
 
@@ -49,6 +50,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 	int perso1, perso2;
 
 	public HomeWindow(Dimension d, GameUI game) {
+		  
+	    
 		
 		// change icon of the frame 
 		ImageIcon icon = new ImageIcon("images/item_sbire.png");
@@ -194,7 +197,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 		rules.setOpaque(false);
 		rules.setContentAreaFilled(false);
 		rules.setBorderPainted(false);
-
 		rules.addActionListener(this);
 
 		this.add(rules);
@@ -273,7 +275,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			dispose();
 		}
 		
-		// Quand on clique sur le bouton "Chois Automates
+		// Quand on clique sur le bouton "Choix Automates
 //		if(s = engrenage){
 //			new ChoixZbire();
 //			dispose();
@@ -281,12 +283,14 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Quand on clique sur le bouton "Régles"
 		if (s == rules) {
+			Sounds.clic_sound();
 			new RulesWindow(d, m_game);
 			dispose();
 		}
 
 		// Quand on clique sur le bouton "Crédits"
 		if (s == credits) {
+			Sounds.clic_sound();
 			new CreditsWindow(d, m_game);
 			dispose();
 		}
@@ -298,6 +302,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			} while (perso1 == perso2);
 			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
 			this.validate();
+			
 		}
 		if (s == fg1) {
 			do {
@@ -305,6 +310,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 			} while (perso1 == perso2);
 			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
 			this.validate();
+			
 		}
 		// Boutons du joueur 2
 		if (s == fd2) {
@@ -313,6 +319,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 			} while (perso1 == perso2);
 			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
 			this.validate();
+
+			
 		}
 		if (s == fg2) {
 			do {
@@ -320,9 +328,12 @@ public class HomeWindow extends JFrame implements ActionListener {
 			} while (perso1 == perso2);
 			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
 			this.validate();
+			
 		}
 
 	}
+	
+	
 
 	// divide the sprite image
 	private BufferedImage[] splitSprite() {
@@ -356,5 +367,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 			return null;
 		}
 	}
+	
+	
+
 
 }

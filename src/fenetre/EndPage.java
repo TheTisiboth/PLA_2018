@@ -22,6 +22,7 @@ import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
 import mvc.Graphs;
 import mvc.Model;
+import mvc.Sounds;
 
 public class EndPage extends JFrame implements ActionListener {
 
@@ -235,6 +236,7 @@ public class EndPage extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == m_rejouer) {
+			Sounds.clic_sound();
 			new GameUI(d);
 			dispose();
 		}

@@ -21,4 +21,10 @@ public class UnaryOp_I extends Expression_I {
 		}
 		return false;
 	}
+
+	@Override
+	public void exec() {
+		Expression_I op = (Expression_I) operand.make();
+		op.exec();
+	}
 }

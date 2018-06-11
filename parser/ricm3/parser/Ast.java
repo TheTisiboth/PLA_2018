@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import interpreter.*;
+import physic.entity.Physic_Entity;
 
 /* Michael PÉRIN, Verimag / Univ. Grenoble Alpes, june 2018
  *
@@ -243,6 +244,7 @@ public class Ast {
 
 		Terminal name;
 		List<Parameter> parameters;
+		Physic_Entity joueur;
 
 		FunCall(String name, List<Parameter> parameters) {
 			this.kind = "FunCall";
@@ -259,6 +261,10 @@ public class Ast {
 				output += parameter.as_tree_son_of(this);
 			}
 			return output;
+		}
+		
+		public void setJoueur(Physic_Entity joueur) {
+			this.joueur = joueur;
 		}
 		
 		@Override
@@ -371,6 +377,7 @@ public class Ast {
 		Terminal name;
 		State entry;
 		List<Behaviour> behaviours;
+		Physic_Entity joueur;
 
 		Automaton(String name, State entry, List<Behaviour> behaviours) {
 			this.kind = "Automaton";
@@ -389,6 +396,10 @@ public class Ast {
 				output += behaviour.as_tree_son_of(this);
 			}
 			return output;
+		}
+		
+		public void setJoueur(Physic_Entity joueur) {
+			this.joueur = joueur;
 		}
 		
 		@Override

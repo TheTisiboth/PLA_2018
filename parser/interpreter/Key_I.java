@@ -1,15 +1,17 @@
 package interpreter;
 
-import ricm3.parser.Ast.Value;
+import ricm3.parser.Ast.Constant;
 
-public class Direction_I {
-	Value value;
+public class Key_I {
+	Constant value;
 	
-	public Direction_I(Value value) {
+	public Key_I(Constant value) {
 		this.value = value;
 	}
 	
 	public String eval() {
 		return (String) value.make();
 	}
+	
+
 }

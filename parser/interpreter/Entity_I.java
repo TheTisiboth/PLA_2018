@@ -1,15 +1,16 @@
 package interpreter;
 
-import ricm3.parser.Ast.Expression;
+import ricm3.parser.Ast.Value;
 
 public class Entity_I {
-	Expression value;
+	Value value;
 	
-	public Entity_I(Expression value) {
+	public Entity_I(Value value) {
 		this.value = value;
 	}
 	
-//	public String eval() {
-//		return (String) value.make();
-//	}
+	public String eval() {
+		return (String) value.make();
+	}
+
 }

@@ -665,34 +665,34 @@ public class Model extends GameModel {
 
 	public void hit(Joueur j) {
 		char dir = j.getDirection();
-		Case player2;
+		Case c;
 		Entity e;
 		switch (dir) {
 		case 'R':
-			player2 = getC(j.x + 1, j.y);
+			c = getC(j.x + 1, j.y);
 			break;
 		case 'L':
-			player2 = getC(j.x - 1, j.y);
+			c = getC(j.x - 1, j.y);
 			break;
 		case 'U':
-			player2 = getC(j.x, j.y - 1);
+			c = getC(j.x, j.y - 1);
 			break;
 		case 'D':
-			player2 = getC(j.x, j.y + 1);
+			c = getC(j.x, j.y + 1);
 			break;
 		default:
-			player2 = null;
+			c = null;
 		}
-		if (player2 != null) {
-			player2.setRefresh(true);
-			e = player2.getE();
+		if (c != null) {
+			c.setRefresh(true);
+			e = c.getE();
 			if (e != null) {
 				if (e instanceof Physic_Entity) {
 					Physic_Entity p_e = (Physic_Entity) e;
 					j.hit(p_e);
 				}
 			}
-			check_case(player2);
+			check_case(c);
 		}
 	}
 
@@ -704,19 +704,19 @@ public class Model extends GameModel {
 		return null;
 	}
 
-	public void check_case(Case player2) {
-		Entity e = player2.getE();
+	public void check_case(Case c) {
+		Entity e = c.getE();
 		if (e instanceof Obstacle) {
 			Obstacle o = (Obstacle) e;
 			if (!(o.life()))
-				player2.setE(null);
+				c.setE(null);
 		} else if (e instanceof Joueur) {
-			player2.setE(null);
+			c.setE(null);
 
 		} else if (e instanceof Zbire) {
 			Zbire z = (Zbire) e;
 			if (!(z.life()))
-				player2.setE(null);
+				c.setE(null);
 		}
 	}
 

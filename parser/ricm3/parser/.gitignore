@@ -1,3 +1,6 @@
-/AutomataParser.java
+/Token.java
+/SimpleCharStream.java
 /AutomataParserConstants.java
 /AutomataParserTokenManager.java
+/ParseException.java
+/TokenMgrError.java

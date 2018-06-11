@@ -5,7 +5,6 @@
 ### Ce qui a été fait
 * Affichage des sbires sur le terrain (invocable avec 4 touches pour chaque joueur), avec un nouveau sprite
 * Fenetre de choix d'automates, en fonction d'un fichier
-![alt text](https://github.com/TheTisiboth/PLA_2018/blob/master/images/proto/6.png )
 * Barre de peinture fonctionnelle
 * Integration d'une musique de fond, ainsi que des bruitages
 

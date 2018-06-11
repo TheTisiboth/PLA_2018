@@ -82,7 +82,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		j1.addActionListener(this);
 
-		this.add(j1);
+		img.add(j1);
 
 		// Fin Textfield Jour 1
 
@@ -100,7 +100,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		j2.addActionListener(this);
 
-		this.add(j2);
+		img.add(j2);
 
 		// Fin Textfield Jour 2
 
@@ -114,7 +114,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		engrenage.addActionListener(this);
 
-		this.add(engrenage);
+		img.add(engrenage);
 		
 		// fin engrenage
 
@@ -129,7 +129,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		spritePanel1 = new JLabel(new ImageIcon(sprites[247 + perso1 * 8]));
 		spritePanel1.setBounds(240, 195, 100, 170);
 		spritePanel1.setOpaque(false);
-		this.add(spritePanel1);
+		img.add(spritePanel1);
 
 		// Bouton flecheDroiteJ1
 
@@ -139,7 +139,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		fd1.setContentAreaFilled(false);
 		fd1.setBorderPainted(false);
 		fd1.addActionListener(this);
-		this.add(fd1);
+		img.add(fd1);
 
 		// Bouton fleche gauche 1
 
@@ -149,13 +149,13 @@ public class HomeWindow extends JFrame implements ActionListener {
 		fg1.setContentAreaFilled(false);
 		fg1.setBorderPainted(false);
 		fg1.addActionListener(this);
-		this.add(fg1);
+		img.add(fg1);
 
 		// Affichage Sprites Joueur 2
 		spritePanel2 = new JLabel(new ImageIcon(sprites[247 + perso2 * 8]));
 		spritePanel2.setBounds(850, 195, 100, 170);
 		spritePanel2.setOpaque(false);
-		this.add(spritePanel2);
+		img.add(spritePanel2);
 
 		// Bouton flecheDroiteJ2
 
@@ -165,7 +165,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		fd2.setContentAreaFilled(false);
 		fd2.setBorderPainted(false);
 		fd2.addActionListener(this);
-		this.add(fd2);
+		img.add(fd2);
 
 		// Bouton fleche gauche 2
 
@@ -175,7 +175,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		fg2.setContentAreaFilled(false);
 		fg2.setBorderPainted(false);
 		fg2.addActionListener(this);
-		this.add(fg2);
+		img.add(fg2);
 
 
 		// Bouton "Click to play"
@@ -188,7 +188,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		play.addActionListener(this);
 
-		this.add(play);
+		img.add(play);
 
 		// Fin Bouton "Click to play"
 
@@ -202,7 +202,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		rules.addActionListener(this);
 
-		this.add(rules);
+		img.add(rules);
 
 		// Fin Bouton "Rules"
 
@@ -216,14 +216,13 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		credits.addActionListener(this);
 
-		this.add(credits);
+		img.add(credits);
 
 		// Fin Bouton "Crédits"
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
 
-		this.setSize(d);
 		this.doLayout();
 		this.setResizable(false);
 		this.setVisible(true);

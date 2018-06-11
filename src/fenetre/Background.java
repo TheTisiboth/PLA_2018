@@ -19,6 +19,9 @@ public class Background extends JPanel {
 		loadImage(ctrl);
 		setLayout(null);
 		setPreferredSize(d);
+		setMaximumSize(d);
+		setMinimumSize(d);
+		setSize(d);
 	}
 
 	private void loadImage(int ctrl) {

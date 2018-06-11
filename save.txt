@@ -1,8 +1,8 @@
 Exploseur
 Philosopher
-Master
+Blocker
 Mover
 Exploseur
 Philosopher
-Master
+Blocker
 Mover

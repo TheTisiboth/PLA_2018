@@ -185,11 +185,9 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			automate = new LinkedList<String>(); // contient tout les noms des
 													// automates
 			if (fichier != "save.txt") {
-				if (MesOptions.deja_parse) // si on a deja parse un fichier, il
-											// faut reinitialiser le parser
+				if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
 					AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
-				else // on crée une nouvelle instance du parser, si l'on ne l'a
-						// jamais fait
+				else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
 					new AutomataParser(new BufferedReader(new FileReader(fichier)));
 				MesOptions.deja_parse = true;
 				// On lance le parser

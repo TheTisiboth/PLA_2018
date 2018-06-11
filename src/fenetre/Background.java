@@ -39,6 +39,9 @@ public class Background extends JPanel {
 		if (ctrl == 6) {
 			imageFile = new File("images/statsj2.png");
 		}
+		if (ctrl == 7) {
+			imageFile = new File("images/automates.png");
+		}
 		try {
 			img = ImageIO.read(imageFile);
 		} catch (IOException ex) {

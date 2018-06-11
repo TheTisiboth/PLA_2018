@@ -24,6 +24,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
+
 public abstract class GameView extends Canvas {
 
 	private static final long serialVersionUID = 1L;
@@ -124,5 +125,6 @@ public abstract class GameView extends Canvas {
 	}
 
 	protected abstract void _paint(Graphics g);
+
 
 }

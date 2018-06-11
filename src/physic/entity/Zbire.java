@@ -18,7 +18,7 @@ public class Zbire extends Physic_Entity {
 	int m_w, m_h, m_idx, m_nrows, m_ncols;
 	float m_scale;
 	BufferedImage m_sprite;
-	BufferedImage[] m_sprites;
+	public BufferedImage[] m_sprites;
 	char direction;
 	private long m_lastMove;
 

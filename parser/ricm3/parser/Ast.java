@@ -54,6 +54,10 @@ public class Ast {
 	public static class Terminal extends Ast {
 		String value;
 
+		public String getValue() {
+			return value;
+		}
+
 		Terminal(String string) {
 			this.kind = "Terminal" ;
 			this.value = string;
@@ -323,7 +327,11 @@ public class Ast {
 
 	public static class AI_Definitions extends Ast {
 
-		List<Automaton> automata;
+		public List<Automaton> automata;
+
+		public List<Automaton> getAutomata() {
+			return automata;
+		}
 
 		AI_Definitions(List<Automaton> list) {
 			this.kind = "AI_Definitions";
@@ -360,6 +368,10 @@ public class Ast {
 	public static class Automaton extends Ast {
 
 		Terminal name;
+		public Terminal getName() {
+			return name;
+		}
+
 		State entry;
 		List<Behaviour> behaviours;
 

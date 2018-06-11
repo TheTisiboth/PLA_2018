@@ -420,6 +420,7 @@ public class Model extends GameModel {
 				}
 			}
 		}
+		m_frame.doLayout();
 	}
 
 	private void checkBonus() {

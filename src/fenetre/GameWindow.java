@@ -60,6 +60,13 @@ public class GameWindow extends JFrame {
 		time = new JLabel();
 		pourcentage1 = new JLabel();
 		pourcentage2 = new JLabel();
+		west = new BufferedImage[4];
+		east = new BufferedImage[4];
+		
+		for(int i=0; i<3;i++) {
+			west[i] = null;
+			east[i] =null;
+		}
 		
 		
 
@@ -356,7 +363,6 @@ public class GameWindow extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 1));
-
 		JLabel bE1 = new JLabel(new ImageIcon(east[1]));
 
 		JLabel bE2 = new JLabel(new ImageIcon(east[2]));

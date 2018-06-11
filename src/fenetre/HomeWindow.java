@@ -108,7 +108,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		engrenage.addActionListener(this);
 
-		this.add(play);
+		this.add(engrenage);
 		
 		// fin engrenage
 		

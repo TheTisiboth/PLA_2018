@@ -257,6 +257,9 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Quand on clique sur le bouton "Play"
 		if (s == play) {
+			
+			Sounds.clic_sound();
+			
 			nom_j1 = j1.getText();
 			nom_j2 = j2.getText();
 

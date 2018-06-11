@@ -40,7 +40,6 @@ public class EndPage extends JFrame implements ActionListener {
 	String j1, j2;
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
-
 		
 		// change icon of the frame 
 		ImageIcon icon = new ImageIcon("images/item_sbire.png");

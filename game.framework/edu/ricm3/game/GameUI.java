@@ -30,6 +30,7 @@ import javax.swing.Timer;
 import fenetre.EndPage;
 import fenetre.HomeWindow;
 import mvc.Model;
+import mvc.Sounds;
 
 public class GameUI {
 
@@ -161,6 +162,7 @@ public class GameUI {
 				m_lastRepaint = now;
 				if (((Model) m_model).getTimer() == false) {
 					timer = false;
+					Sounds.stop_game_sound();
 					new EndPage(((Model) m_model), m_view, this);
 					((Model) m_model).getM_frame().dispose();
 

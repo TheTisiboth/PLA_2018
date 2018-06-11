@@ -20,6 +20,7 @@ import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
 import mvc.Model;
+import mvc.Sounds;
 
 public class GameWindow extends JFrame {
 
@@ -41,6 +42,8 @@ public class GameWindow extends JFrame {
 	
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
+		
+		Sounds.game_sound();
 		
 		// change icon of the frame 
 		ImageIcon icon = new ImageIcon("images/item_sbire.png");

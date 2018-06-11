@@ -139,7 +139,7 @@ public class Model extends GameModel {
 		File Bgray = new File("images/blocgris.png");
 		File thunder = new File("images/eclair.png");
 		File stop = new File("images/stop.png");
-		File itemzbire = new File("images/eclair_guillaume.jpg");
+		File itemzbire = new File("images/sbire_item.png");
 		File recharge = new File("images/recharge.png");
 		File portal = new File("images/portail.png");
 

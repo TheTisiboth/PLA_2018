@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 import edu.ricm3.game.GameController;
@@ -33,14 +34,18 @@ public class GameWindow extends JFrame {
 	Dimension dimension;
 	long last_tick;
 	int secondes, minutes;
+	public JProgressBar progresseBar1,progresseBar2;
 	JPanel image_background;
 
-	JPanel barre_peinture_j1;
-	JPanel barre_peinture_j2;
-
 	public JLabel time, pourcentage1, pourcentage2, img_eclair1, img_eclair2, img_stop1, img_stop2;
+	
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+		
 		last_tick = 0L;
 		this.dimension = d;
 		m_model = (Model) mod;
@@ -53,6 +58,8 @@ public class GameWindow extends JFrame {
 		time = new JLabel();
 		pourcentage1 = new JLabel();
 		pourcentage2 = new JLabel();
+		
+		
 
 		Container cont = this.getContentPane();
 
@@ -72,16 +79,24 @@ public class GameWindow extends JFrame {
 		east.setOpaque(false);
 		JPanel west = createWestPanel();
 		west.setOpaque(false);
+		progresseBar1 = createBarreGauche();
+		progresseBar2 = createBarreDroite();
+
 
 		m_view.setBounds(120, 120, 960, 480);
 		north.setBounds(0, 0, 1200, 80);
 		east.setBounds(1100, 100, 100, 450);
 		west.setBounds(0, 100, 100, 450);
+		progresseBar1.setBounds(0,80,600,40);
+		progresseBar2.setBounds(600,80,600,40);
+
 
 		img.add(north);
 		img.add(m_view);
 		img.add(east);
 		img.add(west);
+		img.add(progresseBar1);
+		img.add(progresseBar2);
 		image_background = img;
 
 		// On ajoute le tout dans la fenetre
@@ -113,6 +128,8 @@ public class GameWindow extends JFrame {
 		m_controller.notifyVisible();
 	}
 
+
+
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 		super.setBounds(x, y, width, height);
@@ -126,15 +143,45 @@ public class GameWindow extends JFrame {
 		super.setSize(width, height);
 	}
 
+	private JProgressBar createBarreGauche() {
+		
+
+		JProgressBar barreJ1 = new JProgressBar();
+		barreJ1.setPreferredSize(new Dimension(600,40));
+		barreJ1.setMaximumSize(new Dimension(600,40));
+		barreJ1.setMinimumSize(new Dimension(600,40));
+		barreJ1.setValue(100);
+		barreJ1.setForeground(Color.RED);
+		barreJ1.setStringPainted(true);
+		
+		
+
+
+		return barreJ1;	
+	}
+
+	private JProgressBar createBarreDroite() {
+	
+		JProgressBar barreJ2 = new JProgressBar();
+		barreJ2.setPreferredSize(new Dimension(600,40));
+		barreJ2.setMaximumSize(new Dimension(600,40));
+		barreJ2.setMinimumSize(new Dimension(600,40));
+		barreJ2.setValue(100);
+		barreJ2.setForeground(Color.BLUE);
+		barreJ2.setStringPainted(true);
+		
+		return barreJ2;
+		
+	}
+	
+	
 	// ----------------------NORTH PANEL------------------------------//
 
 	// CENTER NORTH
 	private JPanel createCenterNorthPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		// panel.setPreferredSize(new Dimension(200, 80));
 		panel.setOpaque(false);
-		// panel.setLocation(0, 0);
 		panel.setBounds(0, 20, 200, 80);
 
 		minutes = m_model.getMinutes();
@@ -352,5 +399,6 @@ public class GameWindow extends JFrame {
 
 		return panel;
 	}
+
 
 }

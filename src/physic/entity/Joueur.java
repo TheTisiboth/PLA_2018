@@ -85,7 +85,7 @@ public class Joueur extends Physic_Entity {
 		Image img = m_sprites[m_idx];
 		int w = (int) (m_scale * m_w);
 		int h = (int) (m_scale * m_h);
-		g.drawImage(img, x * MesOptions.taille_case, y * MesOptions.taille_case, w, h, null);
+		g.drawImage(img, x * MesOptions.taille_case+(MesOptions.taille_case/4), y * MesOptions.taille_case, MesOptions.taille_case/2, MesOptions.taille_case, null);
 	}
 
 	public void canMove(Case[][] c) {
@@ -162,7 +162,7 @@ public class Joueur extends Physic_Entity {
 		else if (this.reload) {
 			paintStock += recharge;
 			if (paintStock > MesOptions.paintMax) {
-				paintStock -= MesOptions.paintMax - paintStock;
+				paintStock = MesOptions.paintMax - paintStock;
 			}
 			this.reload = false;
 		}

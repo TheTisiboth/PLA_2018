@@ -343,21 +343,21 @@ public class GameWindow extends JFrame {
 	private JPanel createEastPanel() {
 
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
-		Dimension dimension = new Dimension(120, 120);
+		panel.setLayout(new GridLayout(4, 1));
 		bE[0] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bE[0].setPreferredSize(dimension);
+
 		bE[1] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bE[1].setPreferredSize(dimension);
+
 		bE[2] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bE[2].setPreferredSize(dimension);
+
 		bE[3] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bE[3].setPreferredSize(dimension);
+
 		panel.add(bE[0]);
 		panel.add(bE[1]);
 		panel.add(bE[2]);
 		panel.add(bE[3]);
 		panel.setOpaque(false);
+
 		panel.setBounds(1080, 120, 120, 480);
 		return panel;
 
@@ -369,26 +369,25 @@ public class GameWindow extends JFrame {
 
 		// Creation de Panel à l'Ouest
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
-		Dimension dimension = new Dimension(120, 120);
+		panel.setLayout(new GridLayout(4,1));
+	
 		bW[0] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bW[0].setPreferredSize(dimension);
+		
 
 		bW[1] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bW[1].setPreferredSize(dimension);
+	
 
 		bW[2] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bW[2].setPreferredSize(dimension);
+		
 
 		bW[3] = new JLabel(new ImageIcon(m_model.m_transparent));
-		bW[3].setPreferredSize(dimension);
-
+		
 		panel.add(bW[0]);
 		panel.add(bW[1]);
 		panel.add(bW[2]);
 		panel.add(bW[3]);
 		panel.setOpaque(false);
-		panel.setBounds(0, 120, 120, 520);
+		panel.setBounds(0, 120, 120, 480);
 
 		return panel;
 	}

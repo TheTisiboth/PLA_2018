@@ -162,7 +162,7 @@ public class Joueur extends Physic_Entity {
 		else if (this.reload) {
 			paintStock += recharge;
 			if (paintStock > MesOptions.paintMax) {
-				paintStock -= MesOptions.paintMax - paintStock;
+				paintStock = MesOptions.paintMax - paintStock;
 			}
 			this.reload = false;
 		}

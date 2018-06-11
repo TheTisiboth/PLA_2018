@@ -62,14 +62,25 @@ public class Zbire extends Physic_Entity {
 
 	private void loadSprite(int type) {
 		File sprite = null;
-		if (type == 0)
-			sprite = new File("images/sbires_bleu.png");
-		else if (type == 1)
-			sprite = new File("images/sbires_jaune.png");
-		else if (type == 2)
-			sprite = new File("images/sbires_rose.png");
-		else if (type == 3)
-			sprite = new File("images/sbires_vert.png");
+		if (joueur == 1) {
+			if (type == 0)
+				sprite = new File("images/sbires_rose.png");
+			else if (type == 1)
+				sprite = new File("images/sbires_bleu.png");
+			else if (type == 2)
+				sprite = new File("images/sbires_jaune.png");
+			else if (type == 3)
+				sprite = new File("images/sbires_vert.png");
+		} else if (joueur == 2) {
+			if (type == 0)
+				sprite = new File("images/sbires_bleu_fonce.png");
+			else if (type == 1)
+				sprite = new File("images/sbires_violet.png");
+			else if (type == 2)
+				sprite = new File("images/sbires_rouge.png");
+			else if (type == 3)
+				sprite = new File("images/sbires_orange.png");
+		}
 		try {
 			m_sprite = ImageIO.read(sprite);
 		} catch (IOException ex) {
@@ -86,16 +97,16 @@ public class Zbire extends Physic_Entity {
 	}
 
 	public void step(long now) {
-			if(m_lastMove == 0) {
-				m_lastMove = now - 101L;
-			}
-			long elapsed = now - m_lastMove;
-			if (elapsed > 200L) {
-				System.out.println("Le zbire doit bougé, nbcase: "+nb_case);
-				m_idx = (m_idx == 4) ? 0 : 4;
-				m_lastMove = now;
-				nb_case--;
-			}
+		if (m_lastMove == 0) {
+			m_lastMove = now - 101L;
+		}
+		long elapsed = now - m_lastMove;
+		if (elapsed > 200L) {
+			System.out.println("Le zbire doit bougé, nbcase: " + nb_case);
+			m_idx = (m_idx == 4) ? 0 : 4;
+			m_lastMove = now;
+			nb_case--;
+		}
 	}
 
 	public void reduce_nb_case() {

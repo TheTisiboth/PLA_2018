@@ -92,7 +92,8 @@ public class Model extends GameModel {
 
 		initPlat(plateau);
 
-		player2 = new Joueur(m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F, Color.BLUE);
+		player2 = new Joueur(m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F,
+				Color.BLUE);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
@@ -354,6 +355,7 @@ public class Model extends GameModel {
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listItem.remove(item);
+			afficher_liste_sprite_zbire(player1);
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Item_Zbire) {
 			Item_Zbire item = (Item_Zbire) plateau[player2.getX()][player2.getY()].getE();
@@ -361,8 +363,32 @@ public class Model extends GameModel {
 			plateau[player2.getX()][player2.getY()].setE(null);
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listItem.remove(item);
+			afficher_liste_sprite_zbire(player2);
+
 		}
 
+	}
+
+	private void afficher_liste_sprite_zbire(Joueur player) {
+		Zbire[] zbires = player.getZbire();
+		if (player == player1) {
+
+			for (int i = 0; i < zbires.length; i++) {
+				if (zbires[i] != null) {
+					m_frame.west[i] = zbires[i].m_sprites[4];
+				} else {
+					m_frame.west[i] = null;
+				}
+			}
+		}else {
+			for (int i = 0; i < zbires.length; i++) {
+				if (zbires[i] != null) {
+					m_frame.east[i] = zbires[i].m_sprites[4];
+				} else {
+					m_frame.east[i] = null;
+				}
+			}
+		}
 	}
 
 	private void checkBonus() {
@@ -510,22 +536,22 @@ public class Model extends GameModel {
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
 		int yc = player2.getY();
-//		char dirc = player2.getDirection();
-//		char last_dirc = player2.getLast_direction();
+		// char dirc = player2.getDirection();
+		// char last_dirc = player2.getLast_direction();
 
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
 		int y1 = player1.getY();
-//
-//		char dirc1 = player1.getDirection();
-//		char last_dirc1 = player1.getLast_direction();
-//
-//		if (dirc != last_dirc)
-//			plateau[xc][yc].setRefresh(true);
-//
-//		if (dirc1 != last_dirc1)
-//			plateau[x1][y1].setRefresh(true);
+		//
+		// char dirc1 = player1.getDirection();
+		// char last_dirc1 = player1.getLast_direction();
+		//
+		// if (dirc != last_dirc)
+		// plateau[xc][yc].setRefresh(true);
+		//
+		// if (dirc1 != last_dirc1)
+		// plateau[x1][y1].setRefresh(true);
 
 		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
@@ -552,10 +578,10 @@ public class Model extends GameModel {
 
 			plateau[xc][yc].setCouleur((Color) player2.getColor());
 			player2.decreasePaintStock();
-			m_frame.progresseBar2.setValue((int)(player2.getPaintStock()/(float)MesOptions.paintMax*100));
+			m_frame.progresseBar2.setValue((int) (player2.getPaintStock() / (float) MesOptions.paintMax * 100));
 			m_frame.doLayout();
 			plateau[xc][yc].setRefresh(true);
-		} else if((last_xc != xc || last_yc != yc)){
+		} else if ((last_xc != xc || last_yc != yc)) {
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setRefresh(true);
 			plateau[xc][yc].setE(player2);
@@ -581,11 +607,11 @@ public class Model extends GameModel {
 			plateau[x1][y1].setE(player1);
 			plateau[x1][y1].setCouleur((Color) player1.getColor());
 			player1.decreasePaintStock();
-			m_frame.progresseBar1.setValue((int)(player1.getPaintStock()/(float)MesOptions.paintMax*100));
+			m_frame.progresseBar1.setValue((int) (player1.getPaintStock() / (float) MesOptions.paintMax * 100));
 			m_frame.doLayout();
 
 			plateau[x1][y1].setRefresh(true);
-		} else if (last_xc1 != x1 || last_yc1 != y1){
+		} else if (last_xc1 != x1 || last_yc1 != y1) {
 			plateau[last_xc1][last_yc1].setE(null);
 			plateau[last_xc1][last_yc1].setRefresh(true);
 			plateau[x1][y1].setE(player1);

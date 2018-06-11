@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -36,7 +37,8 @@ public class GameWindow extends JFrame {
 	int secondes, minutes;
 	public JProgressBar progresseBar1,progresseBar2;
 	JPanel image_background;
-
+	public BufferedImage[] west,east;
+	
 	public JLabel time, pourcentage1, pourcentage2, img_eclair1, img_eclair2, img_stop1, img_stop2;
 	
 
@@ -350,13 +352,13 @@ public class GameWindow extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 1));
 
-		JLabel bE1 = new JLabel("EAST 1", SwingConstants.CENTER);
+		JLabel bE1 = new JLabel(new ImageIcon(east[1]));
 
-		JLabel bE2 = new JLabel("EAST 2", SwingConstants.CENTER);
+		JLabel bE2 = new JLabel(new ImageIcon(east[2]));
 
-		JLabel bE3 = new JLabel("EAST 3", SwingConstants.CENTER);
+		JLabel bE3 = new JLabel(new ImageIcon(east[3]));
 
-		JLabel bE4 = new JLabel("EAST 4", SwingConstants.CENTER);
+		JLabel bE4 = new JLabel(new ImageIcon(east[4]));
 
 		panel.add(bE1);
 		panel.add(bE2);
@@ -376,14 +378,14 @@ public class GameWindow extends JFrame {
 		// Creation de Panel à l'Ouest
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 1));
+		
+		JLabel bW1 = new JLabel(new ImageIcon(west[1]));
 
-		JLabel bW1 = new JLabel("WEST 1", SwingConstants.CENTER);
+		JLabel bW2 = new JLabel(new ImageIcon(west[2]));
 
-		JLabel bW2 = new JLabel("WEST 2", SwingConstants.CENTER);
+		JLabel bW3 = new JLabel(new ImageIcon(west[3]));
 
-		JLabel bW3 = new JLabel("WEST 3", SwingConstants.CENTER);
-
-		JLabel bW4 = new JLabel("WEST 4", SwingConstants.CENTER);
+		JLabel bW4 = new JLabel(new ImageIcon(west[4]));
 
 		panel.add(bW1);
 		panel.add(bW2);

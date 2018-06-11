@@ -16,6 +16,7 @@ import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.GameView;
+import mvc.Sounds;
 
 public class CreditsWindow extends JFrame implements ActionListener {
 
@@ -89,6 +90,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		Object s = e.getSource();
 
 		if (s == rules) {
+			Sounds.clic_sound();
 			new HomeWindow(d, m_game);
 			dispose();
 		}

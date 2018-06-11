@@ -83,9 +83,8 @@ public class Joueur extends Physic_Entity {
 
 	public void paint(Graphics g) {
 		Image img = m_sprites[m_idx];
-		int w = (int) (m_scale * m_w);
-		int h = (int) (m_scale * m_h);
-		g.drawImage(img, x * MesOptions.taille_case+(MesOptions.taille_case/4), y * MesOptions.taille_case, MesOptions.taille_case/2, MesOptions.taille_case, null);
+		g.drawImage(img, x * MesOptions.taille_case + (MesOptions.taille_case / 4), y * MesOptions.taille_case,
+				MesOptions.taille_case / 2, MesOptions.taille_case, null);
 	}
 
 	public void canMove(Case[][] c) {
@@ -206,17 +205,17 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void step(long now) {
-//		for (int i = 0; i < 4; i++) {
-//			if (z[i] != null) {
-//				z[i].step(now);
-//				if (!z[i].life()) {
-//					System.out.println("le sbire doit disparaitre");
-//					z[i] = null;
-//					
-//				}
-//			}
-//
-//		}
+		// for (int i = 0; i < 4; i++) {
+		// if (z[i] != null) {
+		// z[i].step(now);
+		// if (!z[i].life()) {
+		// System.out.println("le sbire doit disparaitre");
+		// z[i] = null;
+		//
+		// }
+		// }
+		//
+		// }
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;

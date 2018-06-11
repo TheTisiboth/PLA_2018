@@ -136,37 +136,46 @@ public class Model extends GameModel {
 		// credit : https://erikari.itch.io/elements-supremacy-assets
 		File imageFile = new File("images/character.png");
 
-		File BriqueFile = new File("images/brique.png");
-		File SplashBlue = new File("images/splashbleu.png");
-		File SplashRed = new File("images/splashrose.png");
-		File Bblue = new File("images/blocbleu.png");
-		File Bgray = new File("images/blocgris.png");
-		File thunder = new File("images/eclair.png");
-		File stop = new File("images/stop.png");
-		File itemzbire = new File("images/sbire_item.png");
-		File recharge = new File("images/recharge.png");
-		File portal = new File("images/portail.png");
-		File transparent = new File("images/transparent.png");
+		File items = new File("images/items.png");
 
 		try {
-			m_obstacle = ImageIO.read(BriqueFile);
+			BufferedImage m_items = ImageIO.read(items);
 			m_personnage = ImageIO.read(imageFile);
-			m_Blue = ImageIO.read(SplashBlue);
-			m_Red = ImageIO.read(SplashRed);
-			m_BlockBlue = ImageIO.read(Bblue);
-			m_BlockGray = ImageIO.read(Bgray);
-			m_thunder = ImageIO.read(thunder);
-			m_stop = ImageIO.read(stop);
-			m_item = ImageIO.read(itemzbire);
-			m_recharge = ImageIO.read(recharge);
-			m_portal = ImageIO.read(portal);
-			m_transparent = ImageIO.read(transparent);
-
+			splitSprite(m_items);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			System.exit(-1);
 		}
 
+	}
+
+	private void splitSprite(BufferedImage m_items) {
+		int m_ncols = 4;
+		int m_nrows = 3;
+		int width = m_items.getWidth(null);
+		int height = m_items.getHeight(null);
+		BufferedImage[] m_listItems = new BufferedImage[m_nrows * m_ncols];
+		int m_w = width / m_ncols;
+		int m_h = height / m_nrows;
+		for (int i = 0; i < m_nrows; i++) {
+			for (int j = 0; j < m_ncols; j++) {
+				int x = j * m_w;
+				int y = i * m_h;
+				m_listItems[(i * m_ncols) + j] = m_items.getSubimage(x, y, m_w, m_h);
+			}
+		}
+		m_obstacle = m_listItems[2];
+		m_Blue = m_listItems[9]; 
+		m_Red = m_listItems[3]; 
+		m_BlockBlue = m_listItems[0]; 
+		m_BlockGray = m_listItems[1]; 
+		m_thunder = m_listItems[4];
+		m_stop = m_listItems[7];
+		m_item = m_listItems[8];
+		m_recharge = m_listItems[6];
+		m_portal = m_listItems[5];
+		m_transparent = m_listItems[10];
+		
 	}
 
 	private void initPortal() {
@@ -342,9 +351,11 @@ public class Model extends GameModel {
 
 	private void checkTP() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Portal) {
+			Sounds.portail_sound();
 			tP(player1);
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Portal) {
+			Sounds.portail_sound();
 			tP(player2);
 		}
 
@@ -367,6 +378,7 @@ public class Model extends GameModel {
 		player1.recharger(false);
 		player2.recharger(false);
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Recharge) {
+			Sounds.charge_sound();
 			Recharge r = (Recharge) plateau[player1.getX()][player1.getY()].getE();
 			player1.recharger(true);
 			plateau[player1.getX()][player1.getY()].setE(null);
@@ -374,6 +386,7 @@ public class Model extends GameModel {
 			listRecharge.remove(r);
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Recharge) {
+			Sounds.charge_sound();
 			Recharge r = (Recharge) plateau[player2.getX()][player2.getY()].getE();
 			player2.recharger(true);
 			plateau[player2.getX()][player2.getY()].setE(null);
@@ -384,6 +397,7 @@ public class Model extends GameModel {
 
 	private void checkItem() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Item_Zbire) {
+			Sounds.pop_sound();
 			Item_Zbire item = (Item_Zbire) plateau[player1.getX()][player1.getY()].getE();
 			player1.appliquerItem(1);
 			plateau[player1.getX()][player1.getY()].setE(null);
@@ -392,6 +406,7 @@ public class Model extends GameModel {
 			afficher_liste_sprite_zbire(player1);
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Item_Zbire) {
+			Sounds.pop_sound();
 			Item_Zbire item = (Item_Zbire) plateau[player2.getX()][player2.getY()].getE();
 			player2.appliquerItem(2);
 			plateau[player2.getX()][player2.getY()].setE(null);
@@ -428,6 +443,7 @@ public class Model extends GameModel {
 
 	private void checkBonus() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
+			Sounds.pop_sound();
 			Bonus bonus = (Bonus) plateau[player1.getX()][player1.getY()].getE();
 			player1.appliquerBonus(bonus, player2);
 			if (bonus instanceof Speed) {
@@ -442,6 +458,7 @@ public class Model extends GameModel {
 			listBonus.remove(bonus);
 		}
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof no.physic.entity.Bonus) {
+			Sounds.pop_sound();
 			Bonus bonus = (Bonus) plateau[player2.getX()][player2.getY()].getE();
 			statistique.plus_Joueur2_Bonus();
 			player2.appliquerBonus(bonus, player1);
@@ -755,6 +772,7 @@ public class Model extends GameModel {
 				if (e instanceof Physic_Entity) {
 					Physic_Entity p_e = (Physic_Entity) e;
 					j.hit(p_e);
+					Sounds.hit_sound();
 				}
 			}
 			check_case(player2);

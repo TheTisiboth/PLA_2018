@@ -33,13 +33,13 @@ public class MesOptions {
 	public static final int pos_init_x_j2 = nbCol - 1;
 	public static final int pos_init_y_j2 = nbLigne - 1;
 
-	public static final int min = 1; // minutes
-	
+	public static final int min = 2; // minutes
+
 	public static String nom_j1 = "Joueur 1";
 	public static String nom_j2 = "Joueur 2";
-	
+
 	public static boolean deja_parse = false;
-	
+
 	public static LinkedList<String> automates_j1;
 	public static LinkedList<String> automates_j2;
 

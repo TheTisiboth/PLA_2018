@@ -114,6 +114,8 @@ public class Model extends GameModel {
 
 		initPortal();
 
+		j1_zbire = new LinkedList<Zbire>();
+		j2_zbire = new LinkedList<Zbire>();
 	}
 
 	public long getLastTick() {
@@ -140,7 +142,7 @@ public class Model extends GameModel {
 		File Bgray = new File("images/blocgris.png");
 		File thunder = new File("images/eclair.png");
 		File stop = new File("images/stop.png");
-		File itemzbire = new File("images/eclair_guillaume.jpg");
+		File itemzbire = new File("images/sbire_item.png");
 		File recharge = new File("images/recharge.png");
 		File portal = new File("images/portail.png");
 
@@ -235,6 +237,35 @@ public class Model extends GameModel {
 
 			player2.canMove(plateau);
 			player2.step(now);
+
+			Iterator it;
+			if (!j1_zbire.isEmpty()) {
+				it = j1_zbire.iterator();
+				while (it.hasNext()) {
+					Zbire z = (Zbire) it.next();
+					if (!z.life()) {
+						plateau[z.getX()][z.getY()].setE(null);
+						j1_zbire.remove(z);
+					} else {
+						z.step(now);
+					}
+					plateau[z.getX()][z.getY()].setRefresh(true);
+				}
+			}
+			if (!j2_zbire.isEmpty()) {
+				it = j2_zbire.iterator();
+				while (it.hasNext()) {
+					Zbire z = (Zbire) it.next();
+					if (!z.life()) {
+						plateau[z.getX()][z.getY()].setE(null);
+						j2_zbire.remove(z);
+					} else {
+						z.step(now);
+					}
+					plateau[z.getX()][z.getY()].setRefresh(true);
+
+				}
+			}
 
 			checkBonus();
 			checkItem();
@@ -622,7 +653,7 @@ public class Model extends GameModel {
 
 	public void spawnzbire(Joueur j, int n, char direction) {
 		if (j.getZbire()[n] != null) {
-			System.out.println("sbire " + n);
+			// System.out.println("sbire " + n);
 			int x = j.getX();
 			int y = j.getY();
 			if (direction == 'D')
@@ -634,23 +665,22 @@ public class Model extends GameModel {
 			else if (direction == 'R')
 				x++;
 			if ((x < MesOptions.nbCol && x >= 0) && (y < MesOptions.nbLigne && y >= 0)) {
-				System.out.println("if2");
+				// System.out.println("if2");
 				if (plateau[x][y].getE() instanceof No_Physic_Entity || plateau[x][y].getE() == null) {
-					System.out.println("invoque zbire");
+					// System.out.println("invoque zbire");
 					j.getZbire()[n].setX(x);
 					j.getZbire()[n].setY(y);
 					plateau[x][y].setE(j.getZbire()[n]);
 
 					if (j == player2) {
 						statistique.plus_Nombre_zbire2();
+						j2_zbire.add(j.getZbire()[n]);
 
 					} else {
 						statistique.plus_Nombre_zbire1();
+						j1_zbire.add(j.getZbire()[n]);
 					}
-					// if(j.getZbire()[n].getJoueur() == 1)
-					// j1_zbire.add(j.getZbire()[n]);
-					// else
-					// j2_zbire.add(j.getZbire()[n]);
+
 					plateau[x][y].setRefresh(true);
 					j.resetZbire(n);
 				}

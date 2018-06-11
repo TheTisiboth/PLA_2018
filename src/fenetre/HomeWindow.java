@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -24,7 +25,6 @@ import edu.ricm3.game.GameUI;
 import mvc.Controller;
 import mvc.Model;
 import mvc.View;
-import physic.entity.Joueur;
 
 public class HomeWindow extends JFrame implements ActionListener {
 
@@ -49,6 +49,10 @@ public class HomeWindow extends JFrame implements ActionListener {
 	int perso1, perso2;
 
 	public HomeWindow(Dimension d, GameUI game) {
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
 
 		this.d = d;
 		m_game = game;

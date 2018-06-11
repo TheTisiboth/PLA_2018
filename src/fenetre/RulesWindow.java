@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +25,11 @@ public class RulesWindow extends JFrame implements ActionListener {
 
 	public RulesWindow(Dimension d, GameUI game) {
 
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+		
 		this.d = d;
 		m_game = game;
 

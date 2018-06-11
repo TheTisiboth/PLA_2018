@@ -43,6 +43,11 @@ public class GameWindow extends JFrame {
 	
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+		
 		last_tick = 0L;
 		this.dimension = d;
 		m_model = (Model) mod;

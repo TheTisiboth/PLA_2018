@@ -139,7 +139,7 @@ public class Model extends GameModel {
 		File Bgray = new File("images/blocgris.png");
 		File thunder = new File("images/eclair.png");
 		File stop = new File("images/stop.png");
-		File itemzbire = new File("images/eclair_guillaume.jpg");
+		File itemzbire = new File("images/sbire_item.png");
 		File recharge = new File("images/recharge.png");
 		File portal = new File("images/portail.png");
 
@@ -510,22 +510,22 @@ public class Model extends GameModel {
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
 		int yc = player2.getY();
-		char dirc = player2.getDirection();
-		char last_dirc = player2.getLast_direction();
+//		char dirc = player2.getDirection();
+//		char last_dirc = player2.getLast_direction();
 
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
 		int y1 = player1.getY();
-
-		char dirc1 = player1.getDirection();
-		char last_dirc1 = player1.getLast_direction();
-
-		if (dirc != last_dirc)
-			plateau[xc][yc].setRefresh(true);
-
-		if (dirc1 != last_dirc1)
-			plateau[x1][y1].setRefresh(true);
+//
+//		char dirc1 = player1.getDirection();
+//		char last_dirc1 = player1.getLast_direction();
+//
+//		if (dirc != last_dirc)
+//			plateau[xc][yc].setRefresh(true);
+//
+//		if (dirc1 != last_dirc1)
+//			plateau[x1][y1].setRefresh(true);
 
 		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
@@ -555,7 +555,7 @@ public class Model extends GameModel {
 			m_frame.progresseBar2.setValue((int)(player2.getPaintStock()/(float)MesOptions.paintMax*100));
 			m_frame.doLayout();
 			plateau[xc][yc].setRefresh(true);
-		} else {
+		} else if((last_xc != xc || last_yc != yc)){
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setRefresh(true);
 			plateau[xc][yc].setE(player2);
@@ -585,7 +585,7 @@ public class Model extends GameModel {
 			m_frame.doLayout();
 
 			plateau[x1][y1].setRefresh(true);
-		} else {
+		} else if (last_xc1 != x1 || last_yc1 != y1){
 			plateau[last_xc1][last_yc1].setE(null);
 			plateau[last_xc1][last_yc1].setRefresh(true);
 			plateau[x1][y1].setE(player1);

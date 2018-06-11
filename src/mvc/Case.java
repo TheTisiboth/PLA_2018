@@ -18,7 +18,7 @@ public class Case {
 		} else {
 			occupied = false;
 		}
-		refresh = true;
+		refresh = false;
 		refresh_buffer2 = false;
 		m_couleur = img;
 		m_couleur_init = img;

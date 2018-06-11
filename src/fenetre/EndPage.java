@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,6 +40,11 @@ public class EndPage extends JFrame implements ActionListener {
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
 
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+		
 		this.gameUI = game;
 		largeur = 1200;
 		hauteur = 600;

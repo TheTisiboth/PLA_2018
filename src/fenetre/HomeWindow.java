@@ -189,7 +189,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		rules.setBounds(-120, 520, 300, 50);
 		rules.setOpaque(false);
 		rules.setContentAreaFilled(false);
-//		rules.setBorderPainted(false);
+		rules.setBorderPainted(false);
 
 		rules.addActionListener(this);
 
@@ -203,7 +203,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		credits.setBounds(980, 520, 300, 50);
 		credits.setOpaque(false);
 		credits.setContentAreaFilled(false);
-//		credits.setBorderPainted(false);
+		credits.setBorderPainted(false);
 
 		credits.addActionListener(this);
 

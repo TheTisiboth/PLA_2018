@@ -1,8 +1,8 @@
-Exploseur
+Explorer
 Philosopher
-Master
+Blocker
 Mover
-Exploseur
+Explorer
 Philosopher
-Master
+Blocker
 Mover

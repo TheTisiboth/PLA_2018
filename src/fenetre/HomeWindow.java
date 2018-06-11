@@ -286,13 +286,14 @@ public class HomeWindow extends JFrame implements ActionListener {
 			dispose();
 		}
 
-		// Quand on clique sur le bouton "Chois Automates
+		// Quand on clique sur le bouton "Choix Automates"
 		if (s == engrenage) {
+			Sounds.clic_sound();
 			new ChoixZbire(d, m_game);
 			dispose();
 		}
 
-		// Quand on clique sur le bouton "Régles"
+		// Quand on clique sur le bouton "Règles"
 		if (s == rules) {
 			Sounds.clic_sound();
 			new RulesWindow(d, m_game);
@@ -308,6 +309,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Boutons du joueur 1
 		if (s == fd1) {
+			Sounds.clic_sound();
 			do {
 				perso1 = (perso1 == 4) ? 0 : perso1 + 1;
 			} while (perso1 == perso2);
@@ -316,6 +318,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		}
 		if (s == fg1) {
+			Sounds.clic_sound();
 			do {
 				perso1 = (perso1 == 0) ? 4 : perso1 - 1;
 			} while (perso1 == perso2);
@@ -325,6 +328,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		}
 		// Boutons du joueur 2
 		if (s == fd2) {
+			Sounds.clic_sound();
 			do {
 				perso2 = (perso2 == 4) ? 0 : perso2 + 1;
 			} while (perso1 == perso2);
@@ -333,6 +337,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		}
 		if (s == fg2) {
+			Sounds.clic_sound();
 			do {
 				perso2 = (perso2 == 0) ? 4 : perso2 - 1;
 			} while (perso1 == perso2);

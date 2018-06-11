@@ -11,16 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -32,6 +25,7 @@ import javax.swing.JTextField;
 
 import edu.ricm3.game.GameUI;
 import mvc.MesOptions;
+import mvc.Sounds;
 import ricm3.parser.Ast.AI_Definitions;
 import ricm3.parser.Ast.Automaton;
 import ricm3.parser.AutomataParser;
@@ -63,9 +57,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		comboBox = new JComboBox[8];
 		fichier = "save.txt";
 
-		// on rafraichit les 8 menu deroulant, en fonction du fichier choisi
-		// (par defaut
-		// : automata.txt
+		// on rafraichit les 8 menus déroulants, en fonction du fichier choisi
+		// par defaut : automata.txt
 
 		this.d = d;
 		m_game = game;
@@ -135,7 +128,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		j1.setBorder(null);
 		j1.setHorizontalAlignment(JTextField.CENTER);
 
-		nom_j1 = j1.getText();
+		setNom_j1(j1.getText());
 
 		j1.addActionListener(this);
 
@@ -153,7 +146,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		j2.setBorder(null);
 		j2.setHorizontalAlignment(JTextField.CENTER);
 
-		nom_j2 = j2.getText();
+		setNom_j2(j2.getText());
 
 		j2.addActionListener(this);
 
@@ -289,9 +282,10 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == home) {
+			Sounds.clic_sound();
 			boolean premiere_iteration = true;
 			for (int i = 0; i < 8; i++) {
-				// sauvegarde dans le fichier save.txt les noms des automates choisi
+				// sauvegarde dans le fichier save.txt les noms des automates choisis
 				fenetre.ecrire("save.txt", comboBox[i].getSelectedItem().toString(), premiere_iteration);
 				premiere_iteration = false;
 			}
@@ -309,6 +303,22 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			j2.setText(j2.getText());
 			MesOptions.nom_j2 = j2.getText();
 		}
+	}
+
+	public String getNom_j1() {
+		return nom_j1;
+	}
+
+	public void setNom_j1(String nom_j1) {
+		this.nom_j1 = nom_j1;
+	}
+
+	public String getNom_j2() {
+		return nom_j2;
+	}
+
+	public void setNom_j2(String nom_j2) {
+		this.nom_j2 = nom_j2;
 	}
 
 }

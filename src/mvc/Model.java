@@ -53,7 +53,7 @@ public class Model extends GameModel {
 	private float score1, score2;
 	private boolean refresh_score = true;
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
-			m_recharge, m_portal;
+			m_recharge, m_portal, m_explosions;
 	public BufferedImage m_transparent;
 	GameWindow m_frame;
 
@@ -146,6 +146,14 @@ public class Model extends GameModel {
 			ex.printStackTrace();
 			System.exit(-1);
 		}
+		
+		File explosionsImg = new File("images/explosion.png");
+		try {
+			m_explosions = ImageIO.read(explosionsImg);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			System.exit(-1);
+		}
 
 	}
 
@@ -217,7 +225,7 @@ public class Model extends GameModel {
 			}
 		} while (compteur != MesOptions.nb_obstacles);
 		for (int i = 0; i < MesOptions.nb_obstacles; i++) {
-			o[i] = new Obstacle(tab_x[i], tab_y[i], 3, m_obstacle);
+			o[i] = new Obstacle(tab_x[i], tab_y[i], 3, 10, 10, m_explosions, m_obstacle);
 			plateau[tab_x[i]][tab_y[i]].setE(o[i]);
 			plateau[tab_x[i]][tab_y[i]].setRefresh(true);
 			plateau[tab_x[i]][tab_y[i]].setCouleur(o[i].getCouleur());

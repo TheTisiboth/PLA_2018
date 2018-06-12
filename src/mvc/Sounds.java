@@ -13,8 +13,8 @@ public class Sounds {
 	static AudioStream audioStreamGame = null;
 	
 	public static void game_sound() {
-
-	    String gongFile = "sons/game.wav";
+          
+	    String gongFile = "sons/game_all.wav";
 	    InputStream in = null;
 		try {
 			in = new FileInputStream(gongFile);
@@ -28,7 +28,6 @@ public class Sounds {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		
 	    AudioPlayer.player.start(audioStreamGame);
 	}

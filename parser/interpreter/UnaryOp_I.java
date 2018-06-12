@@ -1,30 +1,25 @@
 package interpreter;
 
-import ricm3.parser.Ast.Expression;
-import ricm3.parser.Ast.Terminal;
+import physic.entity.Physic_Entity;
 
 public class UnaryOp_I extends Expression_I {
-	Terminal operator;
-	Expression operand;
+	String operator;
+	Expression_I operand;
 	
-	public UnaryOp_I(Terminal operator, Expression operand) {
+	public UnaryOp_I(String operator, Expression_I operand) {
 		this.operand = operand;
 		this.operator = operator;
 	}
 	
-	public boolean eval() {
-		Expression_I op = (Expression_I) operand.make();
-		String ope = (String) operator.make();
-		
-		if(ope == "!") {
-			return !(op.eval());
+	public boolean eval(Physic_Entity j) {
+		if(operator.equals("!")) {
+			return !(operand.eval(j));
 		}
 		return false;
 	}
 
 	@Override
-	public void exec() {
-		Expression_I op = (Expression_I) operand.make();
-		op.exec();
+	public void exec(Physic_Entity j) {
+		operand.exec(j);
 	}
 }

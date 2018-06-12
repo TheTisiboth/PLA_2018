@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import interpreter.Automaton_I;
 import mvc.MesOptions;
 
 public class Zbire extends Physic_Entity {
@@ -16,6 +17,8 @@ public class Zbire extends Physic_Entity {
 	BufferedImage m_sprite;
 	BufferedImage[] m_sprites;
 	char direction;
+	Automaton_I automate;
+	String etatCourant;
 
 	public Zbire(BufferedImage sprite, Integer rows, Integer columns, int x, int y, Color c, int n, int type,
 			float scale, int joueur) {
@@ -86,6 +89,120 @@ public class Zbire extends Physic_Entity {
 
 	public void setCouleur(Color couleur) {
 		this.couleur = couleur;
+	}
+
+	@Override
+	public boolean gotPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean key(String cle) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean myDir(String dir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cell(String dir, String entity) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean closest(String dir, String entity) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean gotStuff() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void wizz() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pop() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void move(String dir) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void turn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jump() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void protect() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jeter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void store() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void get() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void power() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void kamikaze() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

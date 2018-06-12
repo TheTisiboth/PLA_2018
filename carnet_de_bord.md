@@ -13,6 +13,7 @@
 * Manuel développeur en cours
 * Automates Move fonctionnel, reste a implémenter les autres fonctions
 * Explosions des murs
+* Faire l'automate de l'IA (du joueur), mais tres peu probable qu'on ai le temps
 
 
 

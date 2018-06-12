@@ -102,17 +102,17 @@ public class GameWindow extends JFrame {
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
-
-		this.setResizable(false);
-		this.doLayout();
-		this.setVisible(true);
+	
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
 		this.addWindowListener(new WindowListener(m_model));
 
+		this.setSize(d);
 		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		this.setVisible(true);
 
 		// let's hook the controller,
 		// so it gets mouse events and keyboard events.

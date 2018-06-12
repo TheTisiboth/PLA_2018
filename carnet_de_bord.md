@@ -9,7 +9,7 @@
 * Correction d'invocation de 3 sbires en meme temps
 * Sprites de toutes les entitées définitif
 
-* TODO
+### TODO
 * Manuel développeur en cours
 * Automates Move fonctionnel, reste a implémenter les autres fonctions
 * Explosions des murs
@@ -24,6 +24,7 @@ ___
 * Fenetre de choix d'automates, en fonction d'un fichier
 * Barre de peinture fonctionnelle
 * Integration d'une musique de fond, ainsi que des bruitages
+* Matrice de sprite des items
 
 ### TODO
 * Sprite du portail

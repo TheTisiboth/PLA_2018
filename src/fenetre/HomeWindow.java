@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import edu.ricm3.game.GameUI;
+import edu.ricm3.game.WindowListener;
 import mvc.Controller;
 import mvc.MesOptions;
 import mvc.Model;
@@ -225,6 +227,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		this.pack();
 		this.setLocationRelativeTo(null);
+		this.addWindowListener(new WindowListener(new Model(1, 2)));
 
 	}
 
@@ -379,6 +382,11 @@ public class HomeWindow extends JFrame implements ActionListener {
 			System.exit(-1);
 			return null;
 		}
+	}
+	
+	public void windowClosing(WindowEvent e) {
+		
+		System.exit(0);
 	}
 
 }

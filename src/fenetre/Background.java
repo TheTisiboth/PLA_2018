@@ -19,6 +19,9 @@ public class Background extends JPanel {
 		loadImage(ctrl);
 		setLayout(null);
 		setPreferredSize(d);
+		setMaximumSize(d);
+		setMinimumSize(d);
+		setSize(d);
 	}
 
 	private void loadImage(int ctrl) {
@@ -38,6 +41,9 @@ public class Background extends JPanel {
 		// if the player 2 has won
 		if (ctrl == 6) {
 			imageFile = new File("images/statsj2.png");
+		}
+		if (ctrl == 7) {
+			imageFile = new File("images/automates.png");
 		}
 		try {
 			img = ImageIO.read(imageFile);

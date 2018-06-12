@@ -1,9 +1,22 @@
 # Carnet de bord
 
 ## 12/06/18
-* Shutdown des fenêtres OK
-* Musique de fond OK
 
+### Ce qui a été fait
+* Shutdown des fenêtres 
+* Musique de fond 
+* Manuel utilisateur 
+* Correction d'invocation de 3 sbires en meme temps
+* Sprites de toutes les entitées définitif
+
+* TODO
+* Manuel développeur en cours
+* Automates Move fonctionnel, reste a implémenter les autres fonctions
+* Explosions des murs
+
+
+
+___
 ## 11/06/18
 
 ### Ce qui a été fait

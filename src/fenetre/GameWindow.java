@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -390,6 +391,11 @@ public class GameWindow extends JFrame {
 		panel.setBounds(0, 120, 120, 480);
 
 		return panel;
+	}
+	
+	public void windowClosing(WindowEvent e) {
+		m_model.shutdown();
+		System.exit(0);
 	}
 
 }

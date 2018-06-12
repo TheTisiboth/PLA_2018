@@ -49,8 +49,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 	public ChoixZbire(Dimension d, GameUI game) {
 		showMsgError = 0; // évite d'avoir un double affichage
-		JPanel eastPanel = new JPanel();
-		JPanel westPanel = new JPanel();
+		final JPanel eastPanel = new JPanel();
+		final JPanel westPanel = new JPanel();
 		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		img = new Background(d, 7);
@@ -112,7 +112,6 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
 				fichier = o.toString();
 				refreshAutomate(eastPanel, westPanel);
-
 			}
 		});
 

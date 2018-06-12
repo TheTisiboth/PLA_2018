@@ -51,7 +51,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 
 		rules.addActionListener(this);
 
-		this.add(rules);
+		img.add(rules);
 
 		// Fin Bouton "Rules"
 

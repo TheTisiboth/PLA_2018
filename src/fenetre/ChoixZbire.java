@@ -79,7 +79,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		home.addActionListener(this);
 
-		this.add(home);
+		img.add(home);
 
 		eastPanel.setBounds(160, 200, 300, 350);
 		eastPanel.setOpaque(false);
@@ -132,7 +132,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		j1.addActionListener(this);
 
-		this.add(j1);
+		img.add(j1);
 
 		// Fin Textfield Jour 1
 
@@ -150,7 +150,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		j2.addActionListener(this);
 
-		this.add(j2);
+		img.add(j2);
 
 		// Fin Textfield Jour 2
 

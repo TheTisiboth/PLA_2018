@@ -219,12 +219,15 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
 
-		this.doLayout();
+		this.setSize(d);
+		this.pack();
+//		this.validate();
+		this.setLocationRelativeTo(null);
+
 		this.setResizable(false);
 		this.setVisible(true);
 
-		this.pack();
-		this.setLocationRelativeTo(null);
+		
 
 	}
 

@@ -79,7 +79,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		home.addActionListener(this);
 
-		this.add(home);
+		img.add(home);
 
 		eastPanel.setBounds(160, 200, 300, 350);
 		eastPanel.setOpaque(false);
@@ -131,7 +131,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		j1.addActionListener(this);
 
-		this.add(j1);
+		img.add(j1);
 
 		// Fin Textfield Jour 1
 
@@ -149,14 +149,15 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		j2.addActionListener(this);
 
-		this.add(j2);
+		img.add(j2);
 
 		// Fin Textfield Jour 2
 
 		cont.add(img, BorderLayout.CENTER);
 
-		// this.setSize(d);
-		this.doLayout();
+		this.setSize(d);
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
 
@@ -177,9 +178,11 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			automate = new LinkedList<String>(); // contient tout les noms des
 													// automates
 			if (fichier != "save.txt") {
-				if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
+				if (MesOptions.deja_parse) // si on a deja parse un fichier, il
+											// faut reinitialiser le parser
 					AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
-				else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
+				else // on crée une nouvelle instance du parser, si l'on ne l'a
+						// jamais fait
 					new AutomataParser(new BufferedReader(new FileReader(fichier)));
 				MesOptions.deja_parse = true;
 				// On lance le parser
@@ -281,13 +284,16 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		Object s = e.getSource();
 		if (s == home) {
 			Sounds.clic_sound();
-			boolean premiere_iteration = true;
-			for (int i = 0; i < 8; i++) {
-				// sauvegarde dans le fichier save.txt les noms des automates choisis
-				fenetre.ecrire("save.txt", comboBox[i].getSelectedItem().toString(), premiere_iteration);
-				premiere_iteration = false;
+			if (comboBox[0].isEnabled()) {// si les boutons sont activé => fichier valide => on sauvegarde dans save.txt
+				boolean premiere_iteration = true;
+				for (int i = 0; i < 8; i++) {
+					// sauvegarde dans le fichier save.txt les noms des
+					// automates choisis
+					fenetre.ecrire("save.txt", comboBox[i].getSelectedItem().toString(), premiere_iteration);
+					premiere_iteration = false;
+				}
 			}
-
+			// si les boutons sont desactivé, c'est que le fichier etait invalide, on garde alors save.txt inchangé
 			new HomeWindow(d, m_game);
 			dispose();
 		}

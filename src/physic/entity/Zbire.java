@@ -109,7 +109,12 @@ public class Zbire extends Physic_Entity {
 	}
 
 	public void step(long now, Case[][] plateau) {
-		automate.step(this, etatCourant, plateau);
+		long elapsed = now - m_lastMove;
+		if (elapsed > 150L) {
+			automate.step(this, etatCourant, plateau);
+			m_idx = (m_idx == 4) ? 0 : 4;
+			m_lastMove = now;
+		}
 	}
 
 	public void reduce_nb_case() {
@@ -496,27 +501,35 @@ public class Zbire extends Physic_Entity {
 
 	@Override
 	public void move(String dir, Case[][] plateau) {
-		plateau[x][y].setE(null);
-		plateau[x][y].setRefresh(true);
+		int next_x = x;
+		int next_y = y;
 		String m_dir = choixDir(dir);
 		switch (m_dir) {
 		case "N":
-			y--;
+			next_y--;
 			break;
 		case "S":
-			y++;
+			next_y++;
 			break;
 		case "E":
-			x++;
+			next_x++;
 			break;
 		case "O":
-			x--;
+			next_x--;
 			break;
 		default:
 			break;
 		}
-		plateau[x][y].setE(this);
-		plateau[x][y].setRefresh(true);
+		nb_case--;
+		Case c = getC(next_x, next_y, plateau);
+		if (c != null) {
+			plateau[x][y].setE(null);
+			plateau[x][y].setRefresh(true);
+			x = next_x;
+			y = next_y;
+			plateau[x][y].setE(this);
+			plateau[x][y].setRefresh(true);
+		}
 	}
 
 	@Override

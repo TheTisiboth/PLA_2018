@@ -59,21 +59,19 @@ public class CreditsWindow extends JFrame implements ActionListener {
 
 		rules.addActionListener(this);
 
-		this.add(rules);
+		img.add(rules);
 
 		// Fin Bouton "Rules"
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
 
-		this.doLayout();
-		this.setResizable(false);
-		this.setVisible(true);
-
+		this.setSize(d);
 		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		this.setVisible(true);
 		this.addWindowListener(new WindowListener(new Model(1, 2)));
-
 
 	}
 

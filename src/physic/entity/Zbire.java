@@ -6,11 +6,15 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 import javax.imageio.ImageIO;
 
 import interpreter.Automaton_I;
+import interpreter.Behaviour_I;
 import mvc.Case;
+import mvc.Entity;
 import mvc.MesOptions;
 import no.physic.entity.No_Physic_Entity;
 import no.physic.entity.Portal;
@@ -23,15 +27,19 @@ public class Zbire extends Physic_Entity {
 	float m_scale;
 	BufferedImage m_sprite;
 	public BufferedImage[] m_sprites;
+	BufferedImage i_obstacle, i_splash, i_caseP, i_caseI;
 	String direction;
 
 	Automaton_I automate;
 	String etatCourant;
+	
+	int last_x;
+	int last_y;
 
 	private long m_lastMove;
 
 	public Zbire(int x, int y, Color c, int n, int type, float scale, int joueur, Automaton_I automate,
-			String etatCourant) {
+			String etatCourant, BufferedImage o, BufferedImage s, BufferedImage cP, BufferedImage cI) {
 		super(x, y);
 		m_nrows = 3;
 		m_ncols = 4;
@@ -47,6 +55,12 @@ public class Zbire extends Physic_Entity {
 		this.automate = automate;
 		this.etatCourant = etatCourant;
 		direction = "N";
+		last_x = x;
+		last_y = y;
+		i_obstacle = o;
+		i_splash = s;
+		i_caseP = cP;
+		i_caseI = cI;
 	}
 
 	public int getJoueur() {
@@ -120,9 +134,13 @@ public class Zbire extends Physic_Entity {
 	public void reduce_nb_case() {
 		nb_case = nb_case - 3;
 	}
+	
+	public void destroy() {
+		nb_case = -1;
+	}
 
 	public boolean life() {
-		return nb_case > 0;
+		return nb_case >= 0;
 	}
 
 	public int getType() {
@@ -507,24 +525,30 @@ public class Zbire extends Physic_Entity {
 		switch (m_dir) {
 		case "N":
 			next_y--;
+			direction = "N";
 			break;
 		case "S":
 			next_y++;
+			direction = "S";
 			break;
 		case "E":
 			next_x++;
+			direction = "E";
 			break;
 		case "O":
 			next_x--;
+			direction = "O";
 			break;
 		default:
 			break;
 		}
 		nb_case--;
 		Case c = getC(next_x, next_y, plateau);
-		if (c != null) {
+		if (c != null && !(c.getE() instanceof Physic_Entity)) {
 			plateau[x][y].setE(null);
 			plateau[x][y].setRefresh(true);
+			last_x = x;
+			last_y = y;
 			x = next_x;
 			y = next_y;
 			plateau[x][y].setE(this);
@@ -534,8 +558,19 @@ public class Zbire extends Physic_Entity {
 
 	@Override
 	public void turn(Case[][] plateau) {
-		// TODO Auto-generated method stub
-
+		switch (direction) {
+		case "N":
+			direction = "E"; break;
+		case "E":
+			direction = "S"; break;
+		case "S":
+			direction = "O"; break;
+		case "O":
+			direction = "N"; break;
+		default:
+			System.out.println("Pb direction sbire");
+			break;
+		}
 	}
 
 	@Override
@@ -576,13 +611,28 @@ public class Zbire extends Physic_Entity {
 
 	@Override
 	public void wizz(Case[][] plateau) {
-		// TODO Auto-generated method stub
-
+		Case c = plateau[last_x][last_y];
+		if(c.getE() == null) {
+			Obstacle o = new Obstacle(last_x, last_y, 3, i_obstacle);
+			c.setE(o);
+			c.setRefresh(true);
+			c.setCouleur(o.getCouleur());
+		}
+		
+		if(nb_case == 0)
+			nb_case--;
 	}
 
 	@Override
 	public void pop(Case[][] plateau) {
-		// TODO Auto-generated method stub
+		Case c = plateau[last_x][last_y];
+		if(c.getM_couleur() != i_splash) {
+			c.setM_couleur(i_splash);
+			c.setRefresh(true);
+		}
+		
+		if(nb_case == 0)
+			nb_case--;
 
 	}
 
@@ -594,14 +644,60 @@ public class Zbire extends Physic_Entity {
 
 	@Override
 	public void pick(Case[][] plateau) {
-		// TODO Auto-generated method stub
-
+		Case c = plateau[last_x][last_y];
+		if((last_x + last_y) % 2 == 0) {
+			c.setM_couleur(i_caseP);
+			c.setRefresh(true);
+		}
+		else {
+			c.setM_couleur(i_caseI);
+			c.setRefresh(true);
+		}
+		
+		if(nb_case == 0)
+			nb_case--;
 	}
 
 	@Override
 	public void kamikaze(Case[][] plateau) {
-		// TODO Auto-generated method stub
-
+		Case c;
+		Entity e;
+		LinkedList<Case> list_c = new LinkedList<Case>();
+		list_c.add(getC(x,y, plateau));
+		list_c.add(getC(x-1,y-1, plateau));
+		list_c.add(getC(x,y-1, plateau));
+		list_c.add(getC(x+1,y-1, plateau));
+		list_c.add(getC(x+1,y, plateau));
+		list_c.add(getC(x+1,y+1, plateau));
+		list_c.add(getC(x,y+1, plateau));
+		list_c.add(getC(x-1,y+1, plateau));
+		list_c.add(getC(x-1,y, plateau));
+		ListIterator<Case> Iter = list_c.listIterator();
+		
+		while(Iter.hasNext()) {
+			c = Iter.next();
+			if(c != null) {
+				e = c.getE();
+				if(e instanceof Obstacle) {
+					Obstacle o = (Obstacle)e;
+					o.destroy();
+				}
+				else if(e instanceof Joueur) {
+					Joueur j = (Joueur)e;
+					j.x = j.getPosInit_x();
+					j.y = j.getPosInit_y();
+				}
+				else if(e instanceof Zbire) {
+					Zbire z = (Zbire)e;
+					z.destroy();
+				}
+				c.setM_couleur(i_splash);
+				c.setRefresh(true);
+			}
+		}
+		
+		if(nb_case == 0)
+			nb_case--;
 	}
-
+	
 }

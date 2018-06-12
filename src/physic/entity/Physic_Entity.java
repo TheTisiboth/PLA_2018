@@ -34,4 +34,6 @@ public abstract class Physic_Entity extends Entity {
 	public abstract void kamikaze(Case[][] plateau);
 
 	public abstract void setEtatCourant(String target);
+
+	public abstract void destroy();
 }

@@ -22,6 +22,11 @@ public class Automaton_I {
 		Behaviour_I b = null;
 		Behaviour_I tmp;
 		
+		if(etat_courant.equals("")) {
+			j.destroy();
+			return;
+		}
+		
 		while (Iter.hasNext() && b == null) {
 			tmp = Iter.next();
 			if(tmp.source.equals(etat_courant)) {

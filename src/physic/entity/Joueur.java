@@ -172,7 +172,7 @@ public class Joueur extends Physic_Entity {
 	}
 
 	// apply item zbire
-	public void appliquerItem(int joueur, LinkedList<String> listAut) {
+	public void appliquerItem(int joueur, LinkedList<String> listAut, BufferedImage obs, BufferedImage spl, BufferedImage cP, BufferedImage cI) {
 
 		Random rand = new Random();
 		int i = rand.nextInt(100);
@@ -185,7 +185,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 1);
 				nom = listAut.get(0);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur, aut, aut.entry);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[0] = zbire;
 			}
 
@@ -194,7 +194,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 2);
 				nom = listAut.get(1);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur, aut, aut.entry);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[1] = zbire;
 			}
 
@@ -203,7 +203,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 3);
 				nom = listAut.get(2);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur, aut, aut.entry);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[2] = zbire;
 			}
 
@@ -212,7 +212,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 4);
 				nom = listAut.get(3);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur, aut, aut.entry);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[3] = zbire;
 			}
 		}
@@ -416,7 +416,13 @@ public class Joueur extends Physic_Entity {
 	public int getTimeEffectFreeze() {
 		return timeEffectFreeze;
 	}
-
+	
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public boolean gotPower() {
 		// TODO Auto-generated method stub

@@ -257,12 +257,11 @@ public class Model extends GameModel {
 					it = j1_zbire.iterator();
 					while (it.hasNext()) {
 						Zbire z = (Zbire) it.next();
+						z.step(now, plateau);
 						if (!z.life()) {
 							it.remove();
 							plateau[z.getX()][z.getY()].setE(null);
 							j1_zbire.remove(z);
-						} else {
-							z.step(now, plateau);
 						}
 						plateau[z.getX()][z.getY()].setRefresh(true);
 					}
@@ -272,12 +271,11 @@ public class Model extends GameModel {
 					it = j2_zbire.iterator();
 					while (it.hasNext()) {
 						Zbire z = (Zbire) it.next();
+						z.step(now, plateau);
 						if (!z.life()) {
 							it.remove();
 							plateau[z.getX()][z.getY()].setE(null);
 							j2_zbire.remove(z);
-						} else {
-							z.step(now, plateau);
 						}
 						plateau[z.getX()][z.getY()].setRefresh(true);
 					}
@@ -405,7 +403,7 @@ public class Model extends GameModel {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Item_Zbire) {
 			Sounds.pop_sound();
 			Item_Zbire item = (Item_Zbire) plateau[player1.getX()][player1.getY()].getE();
-			player1.appliquerItem(1, MesOptions.automates_j1);
+			player1.appliquerItem(1, MesOptions.automates_j1, m_obstacle, m_Red, m_BlockBlue, m_BlockGray);
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listItem.remove(item);
@@ -414,7 +412,7 @@ public class Model extends GameModel {
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Item_Zbire) {
 			Sounds.pop_sound();
 			Item_Zbire item = (Item_Zbire) plateau[player2.getX()][player2.getY()].getE();
-			player2.appliquerItem(2, MesOptions.automates_j2);
+			player2.appliquerItem(2, MesOptions.automates_j2, m_obstacle, m_Blue, m_BlockBlue, m_BlockGray);
 			plateau[player2.getX()][player2.getY()].setE(null);
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listItem.remove(item);

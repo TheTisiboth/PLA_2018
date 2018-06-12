@@ -35,6 +35,10 @@ public class Obstacle extends Physic_Entity {
 	public void reduce_life() {
 		health_point--;
 	}
+	
+	public void destroy() {
+		health_point = 0;
+	}
 
 	public boolean life() {
 		return health_point > 0;
@@ -159,5 +163,6 @@ public class Obstacle extends Physic_Entity {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

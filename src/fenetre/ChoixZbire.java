@@ -156,8 +156,9 @@ public class ChoixZbire extends JFrame implements ActionListener {
 
 		cont.add(img, BorderLayout.CENTER);
 
-		// this.setSize(d);
-		this.doLayout();
+		this.setSize(d);
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
 

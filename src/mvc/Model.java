@@ -588,22 +588,22 @@ public class Model extends GameModel {
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
 		int yc = player2.getY();
-		// char dirc = player2.getDirection();
-		// char last_dirc = player2.getLast_direction();
+		 char dirc = player2.getDirection();
+		 char last_dirc = player2.getLast_direction();
 
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
 		int y1 = player1.getY();
 		//
-		// char dirc1 = player1.getDirection();
-		// char last_dirc1 = player1.getLast_direction();
-		//
-		// if (dirc != last_dirc)
-		// plateau[xc][yc].setRefresh(true);
-		//
-		// if (dirc1 != last_dirc1)
-		// plateau[x1][y1].setRefresh(true);
+		 char dirc1 = player1.getDirection();
+		 char last_dirc1 = player1.getLast_direction();
+		
+		 if (dirc != last_dirc)
+		 plateau[xc][yc].setRefresh(true);
+		
+		 if (dirc1 != last_dirc1)
+		 plateau[x1][y1].setRefresh(true);
 
 		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
@@ -687,8 +687,10 @@ public class Model extends GameModel {
 				x++;
 			if ((x < MesOptions.nbCol && x >= 0) && (y < MesOptions.nbLigne && y >= 0)) {
 				// System.out.println("if2");
-				if (plateau[x][y].getE() instanceof No_Physic_Entity || plateau[x][y].getE() == null) {
-					// System.out.println("invoque zbire");
+				if (plateau[x][y].getE() instanceof No_Physic_Entity || plateau[x][y].getE() == null ) {
+					if(plateau[x][y].getE() instanceof Portal ){
+						return ;
+					}
 					j.getZbire()[n].setX(x);
 					j.getZbire()[n].setY(y);
 					plateau[x][y].setE(j.getZbire()[n]);

@@ -1,5 +1,9 @@
 # Carnet de bord
 
+## 12/06/18
+* Shutdown des fenêtres OK
+* Musique de fond OK
+
 ## 11/06/18
 
 ### Ce qui a été fait

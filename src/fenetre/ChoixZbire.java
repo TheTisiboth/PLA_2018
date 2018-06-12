@@ -179,9 +179,11 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			automate = new LinkedList<String>(); // contient tout les noms des
 													// automates
 			if (fichier != "save.txt") {
-				if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
+				if (MesOptions.deja_parse) // si on a deja parse un fichier, il
+											// faut reinitialiser le parser
 					AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
-				else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
+				else // on crée une nouvelle instance du parser, si l'on ne l'a
+						// jamais fait
 					new AutomataParser(new BufferedReader(new FileReader(fichier)));
 				MesOptions.deja_parse = true;
 				// On lance le parser
@@ -282,13 +284,16 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		Object s = e.getSource();
 		if (s == home) {
 			Sounds.clic_sound();
-			boolean premiere_iteration = true;
-			for (int i = 0; i < 8; i++) {
-				// sauvegarde dans le fichier save.txt les noms des automates choisis
-				fenetre.ecrire("save.txt", comboBox[i].getSelectedItem().toString(), premiere_iteration);
-				premiere_iteration = false;
+			if (comboBox[0].isEnabled()) {// si les boutons sont activé => fichier valide => on sauvegarde dans save.txt
+				boolean premiere_iteration = true;
+				for (int i = 0; i < 8; i++) {
+					// sauvegarde dans le fichier save.txt les noms des
+					// automates choisis
+					fenetre.ecrire("save.txt", comboBox[i].getSelectedItem().toString(), premiere_iteration);
+					premiere_iteration = false;
+				}
 			}
-
+			// si les boutons sont desactivé, c'est que le fichier etait invalide, on garde alors save.txt inchangé
 			new HomeWindow(d, m_game);
 			dispose();
 		}

@@ -112,7 +112,6 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
 				fichier = o.toString();
 				refreshAutomate(eastPanel, westPanel);
-
 			}
 		});
 

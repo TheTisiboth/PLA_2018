@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -243,6 +244,10 @@ public class EndPage extends JFrame implements ActionListener {
 			new GameUI(d);
 			dispose();
 		}
+	}
+	public void windowClosing(WindowEvent e) {
+		m_model.shutdown();
+		System.exit(0);
 	}
 
 }

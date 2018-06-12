@@ -31,7 +31,7 @@ import physic.entity.Zbire;
 
 public class Model extends GameModel {
 	private Joueur player2, player1;
-	List<Zbire> j1_zbire, j2_zbire;
+	LinkedList<Zbire> j1_zbire, j2_zbire;
 	private Obstacle o[];
 
 	public Statistique statistique;
@@ -58,6 +58,7 @@ public class Model extends GameModel {
 	GameWindow m_frame;
 
 	private String name_j1, name_j2;
+	private long m_lastMove;
 
 	public String getName_j1() {
 		return name_j1;
@@ -165,17 +166,17 @@ public class Model extends GameModel {
 			}
 		}
 		m_obstacle = m_listItems[2];
-		m_Blue = m_listItems[9]; 
-		m_Red = m_listItems[3]; 
-		m_BlockBlue = m_listItems[0]; 
-		m_BlockGray = m_listItems[1]; 
+		m_Blue = m_listItems[9];
+		m_Red = m_listItems[3];
+		m_BlockBlue = m_listItems[0];
+		m_BlockGray = m_listItems[1];
 		m_thunder = m_listItems[4];
 		m_stop = m_listItems[7];
 		m_item = m_listItems[8];
 		m_recharge = m_listItems[6];
 		m_portal = m_listItems[5];
 		m_transparent = m_listItems[10];
-		
+
 	}
 
 	private void initPortal() {
@@ -242,7 +243,6 @@ public class Model extends GameModel {
 
 	@Override
 	public void step(long now) {
-
 		if (timer) {
 			player1.canMove(plateau);
 			player1.step(now);
@@ -250,33 +250,40 @@ public class Model extends GameModel {
 			player2.canMove(plateau);
 			player2.step(now);
 
-			Iterator it;
-			if (!j1_zbire.isEmpty()) {
-				it = j1_zbire.iterator();
-				while (it.hasNext()) {
-					Zbire z = (Zbire) it.next();
-					if (!z.life()) {
-						plateau[z.getX()][z.getY()].setE(null);
-						j1_zbire.remove(z);
-					} else {
-						z.step(now);
+			long elapsed = now - m_lastMove;
+			if (elapsed > 200L) {
+				Iterator it;
+				if (!j1_zbire.isEmpty()) {
+					it = j1_zbire.iterator();
+					Zbire z;
+					while (it.hasNext()) {
+						z = (Zbire) it.next();
+						if (!z.life()) {
+							it.remove();
+							plateau[z.getX()][z.getY()].setE(null);
+							j1_zbire.remove(z);
+						} else {
+							z.step(now);
+						}
+						plateau[z.getX()][z.getY()].setRefresh(true);
 					}
-					plateau[z.getX()][z.getY()].setRefresh(true);
 				}
-			}
-			if (!j2_zbire.isEmpty()) {
-				it = j2_zbire.iterator();
-				while (it.hasNext()) {
-					Zbire z = (Zbire) it.next();
-					if (!z.life()) {
-						plateau[z.getX()][z.getY()].setE(null);
-						j2_zbire.remove(z);
-					} else {
-						z.step(now);
+				if (!j2_zbire.isEmpty()) {
+					it = j2_zbire.iterator();
+					Zbire z;
+					while (it.hasNext()) {
+						z = (Zbire) it.next();
+						if (!z.life()) {
+							it.remove();
+							plateau[z.getX()][z.getY()].setE(null);
+							j2_zbire.remove(z);
+						} else {
+							z.step(now);
+						}
+						plateau[z.getX()][z.getY()].setRefresh(true);
 					}
-					plateau[z.getX()][z.getY()].setRefresh(true);
-
 				}
+				m_lastMove = now;
 			}
 
 			checkBonus();

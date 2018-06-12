@@ -97,16 +97,10 @@ public class Zbire extends Physic_Entity {
 	}
 
 	public void step(long now) {
-		if (m_lastMove == 0) {
-			m_lastMove = now - 101L;
-		}
-		long elapsed = now - m_lastMove;
-		if (elapsed > 200L) {
-			System.out.println("Le zbire doit bougé, nbcase: " + nb_case);
-			m_idx = (m_idx == 4) ? 0 : 4;
-			m_lastMove = now;
-			nb_case--;
-		}
+		System.out.println("Le zbire doit bougé, nbcase: " + nb_case);
+		m_idx = (m_idx == 4) ? 0 : 4;
+		m_lastMove = now;
+		nb_case--;
 	}
 
 	public void reduce_nb_case() {

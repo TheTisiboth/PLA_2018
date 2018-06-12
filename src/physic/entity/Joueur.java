@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 
+import interpreter.Automaton_I;
+import interpreter.Behaviour_I;
 import mvc.Case;
 import mvc.MesOptions;
 import no.physic.entity.Bonus;
@@ -44,8 +48,8 @@ public class Joueur extends Physic_Entity {
 		m_sprite = sprite;
 		m_ncols = columns;
 		m_nrows = rows;
-		last_x = x + 10;
-		last_y = y + 10;
+		last_x = x;
+		last_y = y;
 		diameter = 34;
 		m_scale = scale;
 		moveable = true;
@@ -83,9 +87,8 @@ public class Joueur extends Physic_Entity {
 
 	public void paint(Graphics g) {
 		Image img = m_sprites[m_idx];
-		int w = (int) (m_scale * m_w);
-		int h = (int) (m_scale * m_h);
-		g.drawImage(img, x * MesOptions.taille_case+(MesOptions.taille_case/4), y * MesOptions.taille_case, MesOptions.taille_case/2, MesOptions.taille_case, null);
+		g.drawImage(img, x * MesOptions.taille_case + (MesOptions.taille_case / 4), y * MesOptions.taille_case,
+				MesOptions.taille_case / 2, MesOptions.taille_case, null);
 	}
 
 	public void canMove(Case[][] c) {
@@ -162,54 +165,84 @@ public class Joueur extends Physic_Entity {
 		else if (this.reload) {
 			paintStock += recharge;
 			if (paintStock > MesOptions.paintMax) {
-				paintStock = MesOptions.paintMax - paintStock;
+				paintStock = MesOptions.paintMax;
 			}
 			this.reload = false;
 		}
 	}
 
 	// apply item zbire
-	public void appliquerItem(int joueur) {
+	public void appliquerItem(int joueur, LinkedList<String> listAut) {
 
 		Random rand = new Random();
 		int i = rand.nextInt(100);
 		Zbire zbire = null;
-
+		Automaton_I aut;
+		String nom;
+		
 		if (i >= 0 && i < 25) {
 			if (z[0] == null) {
-				System.out.println("zbire : " + 1);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 0, m_scale, joueur);
+				// System.out.println("zbire : " + 1);
+				nom = listAut.get(0);
+				aut = search(nom);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur, aut, aut.entry);
 				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
 			if (z[1] == null) {
-				System.out.println("zbire : " + 2);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 1, m_scale, joueur);
+				// System.out.println("zbire : " + 2);
+				nom = listAut.get(1);
+				aut = search(nom);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur, aut, aut.entry);
 				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
 			if (z[2] == null) {
-				System.out.println("zbire : " + 3);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 2, m_scale, joueur);
+				// System.out.println("zbire : " + 3);
+				nom = listAut.get(2);
+				aut = search(nom);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur, aut, aut.entry);
 				z[2] = zbire;
 			}
 
 		} else {
 			if (z[3] == null) {
-				System.out.println("zbire : " + 4);
-				zbire = new Zbire(m_sprite, 12, 24, -1, -1, this.couleur, 10, 3, m_scale, joueur);
+				// System.out.println("zbire : " + 4);
+				nom = listAut.get(3);
+				aut = search(nom);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur, aut, aut.entry);
 				z[3] = zbire;
 			}
 		}
 	}
+	
+	Automaton_I search(String nom) {
+		ListIterator<Automaton_I> Iter = MesOptions.automates.listIterator();
+		Automaton_I aut;
+		
+		while(Iter.hasNext()) {
+			aut = Iter.next();
+			if(aut.name.equals(nom)) {
+				return aut;
+			}
+		}
+		return null;
+	}
 
 	public void step(long now) {
-		for (int i = 0; i < 4; i++) {
-			if (z[i] != null)
-				z[i].step(now);
-		}
+		// for (int i = 0; i < 4; i++) {
+		// if (z[i] != null) {
+		// z[i].step(now);
+		// if (!z[i].life()) {
+		// System.out.println("le sbire doit disparaitre");
+		// z[i] = null;
+		//
+		// }
+		// }
+		//
+		// }
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;
@@ -327,8 +360,7 @@ public class Joueur extends Physic_Entity {
 		inMovement = b;
 	}
 
-	public Object getColor() {
-
+	public Color getColor() {
 		return couleur;
 	}
 
@@ -383,5 +415,125 @@ public class Joueur extends Physic_Entity {
 
 	public int getTimeEffectFreeze() {
 		return timeEffectFreeze;
+	}
+
+	@Override
+	public boolean gotPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean key(String cle) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean myDir(String dir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cell(String dir, String entity, Case[][] plateau) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean closest(String dir, String entity, Case[][] plateau) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean gotStuff() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void wizz(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pop(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void move(String dir, Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void turn(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jump(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hit(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void protect(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pick(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jeter(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void store(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void get(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void power(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void kamikaze(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEtatCourant(String target) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+
 public class GameController implements MouseListener, KeyListener, MouseMotionListener {
 
 	protected GameUI m_game;
@@ -109,4 +110,5 @@ public class GameController implements MouseListener, KeyListener, MouseMotionLi
 		// TODO Auto-generated method stub
 
 	}
+
 }

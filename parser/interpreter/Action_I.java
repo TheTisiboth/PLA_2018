@@ -1,5 +1,6 @@
 package interpreter;
 
+import mvc.Case;
 import physic.entity.Physic_Entity;
 
 public class Action_I {
@@ -9,8 +10,8 @@ public class Action_I {
 		exp = expression;
 	}
 	
-	public void exec(Physic_Entity j) {
-		exp.exec(j);
+	public void exec(Physic_Entity j, Case[][] plateau) {
+		exp.exec(j, plateau);
 	}
 
 }

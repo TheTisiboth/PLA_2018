@@ -1,0 +1,3 @@
+Blocker(Init){
+  * (Init): !True ? Power :(Init)
+}

@@ -1,5 +1,6 @@
 package interpreter;
 
+import mvc.Case;
 import physic.entity.Physic_Entity;
 
 public class Transition_I {
@@ -13,9 +14,9 @@ public class Transition_I {
 		act = action;
 	}
 	
-	public boolean eval(Physic_Entity j) {
-		if(cond.eval(j)) {
-			act.exec(j);
+	public boolean eval(Physic_Entity j, Case[][] plateau) {
+		if(cond.eval(j, plateau)) {
+			act.exec(j, plateau);
 			j.setEtatCourant(target);
 			return true;
 		}

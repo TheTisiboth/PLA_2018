@@ -1,5 +1,6 @@
 package interpreter;
 
+import mvc.Case;
 import physic.entity.Physic_Entity;
 
 public class Condition_I {
@@ -9,8 +10,8 @@ public class Condition_I {
 		exp = expression;
 	}
 	
-	public boolean eval(Physic_Entity j) {
-		return exp.eval(j);
+	public boolean eval(Physic_Entity j, Case[][] plateau) {
+		return exp.eval(j, plateau);
 	}
 
 }

@@ -1,4 +1,4 @@
-Kamikaze(Init){
+Exploseur(Init){
   * (Init): True ? Kamikaze :(Init)
 }
 

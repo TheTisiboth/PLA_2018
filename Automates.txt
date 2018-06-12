@@ -1,4 +1,4 @@
-CamilleCase(DEPL){
+Exploseur(DEPL){
 * (DEPL):
   | Cell(L, V) & GotPower() ? Move(L) : (DEPL)
   | Cell(R, V) & GotPower() ? Move(R) : (DEPL)

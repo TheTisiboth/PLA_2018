@@ -2,6 +2,7 @@ package interpreter;
 
 import java.util.List;
 
+import mvc.Case;
 import physic.entity.Physic_Entity;
 
 public class FunCall_I extends Expression_I {
@@ -14,7 +15,7 @@ public class FunCall_I extends Expression_I {
 	}
 
 	@Override
-	public boolean eval(Physic_Entity j) {
+	public boolean eval(Physic_Entity j, Case[][] plateau) {
 		switch (name) {
 		case "True":
 			return true;
@@ -26,13 +27,13 @@ public class FunCall_I extends Expression_I {
 			return j.myDir(parameters.get(0));
 		case "Cell":
 			if (parameters.size() == 2) {
-				return j.cell(parameters.get(0), parameters.get(1));
+				return j.cell(parameters.get(0), parameters.get(1), plateau);
 			} else {
 				return false;
 			}
 		case "Closest":
 			if (parameters.size() == 2) {
-				return j.closest(parameters.get(0), parameters.get(1));
+				return j.closest(parameters.get(0), parameters.get(1), plateau);
 			} else {
 				return false;
 			}
@@ -44,51 +45,51 @@ public class FunCall_I extends Expression_I {
 	}
 
 	@Override
-	public void exec(Physic_Entity j) {
+	public void exec(Physic_Entity j, Case[][] plateau) {
 		switch (name) {
 		case "Wizz":
-			j.wizz();
+			j.wizz(plateau);
 			break;
 		case "Pop":
-			j.pop();
+			j.pop(plateau);
 			break;
 		case "Move":
 			if (parameters.size() == 0) {
-				j.move("F");
+				j.move("F", plateau);
 				break;
 			} else {
-				j.move(parameters.get(0));
+				j.move(parameters.get(0), plateau);
 				break;
 			}
 		case "Turn":
-			j.turn();
+			j.turn(plateau);
 			break;
 		case "Jump":
-			j.jump();
+			j.jump(plateau);
 			break;
 		case "Hit":
-			j.hit();
+			j.hit(plateau);
 			break;
 		case "Protect":
-			j.protect();
+			j.protect(plateau);
 			break;
 		case "Pick":
-			j.pick();
+			j.pick(plateau);
 			break;
 		case "Throw":
-			j.jeter();
+			j.jeter(plateau);
 			break;
 		case "Store":
-			j.store();
+			j.store(plateau);
 			break;
 		case "Get":
-			j.get();
+			j.get(plateau);
 			break;
 		case "Power":
-			j.power();
+			j.power(plateau);
 			break;
 		case "Kamikaze":
-			j.kamikaze();
+			j.kamikaze(plateau);
 			break;
 		default:
 			return;

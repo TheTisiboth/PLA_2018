@@ -1,5 +1,6 @@
 package interpreter;
 
+import mvc.Case;
 import physic.entity.Physic_Entity;
 
 public class UnaryOp_I extends Expression_I {
@@ -11,15 +12,15 @@ public class UnaryOp_I extends Expression_I {
 		this.operator = operator;
 	}
 	
-	public boolean eval(Physic_Entity j) {
+	public boolean eval(Physic_Entity j, Case[][] plateau) {
 		if(operator.equals("!")) {
-			return !(operand.eval(j));
+			return !(operand.eval(j, plateau));
 		}
 		return false;
 	}
 
 	@Override
-	public void exec(Physic_Entity j) {
-		operand.exec(j);
+	public void exec(Physic_Entity j, Case[][] plateau) {
+		operand.exec(j, plateau);
 	}
 }

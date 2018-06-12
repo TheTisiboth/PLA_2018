@@ -7,7 +7,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
 import mvc.Graphs;
 import mvc.Model;
+import mvc.Sounds;
 
 public class EndPage extends JFrame implements ActionListener {
 
@@ -38,7 +41,11 @@ public class EndPage extends JFrame implements ActionListener {
 	String j1, j2;
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
-
+		
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+		
 		this.gameUI = game;
 		largeur = 1200;
 		hauteur = 600;
@@ -229,9 +236,14 @@ public class EndPage extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == m_rejouer) {
+			Sounds.clic_sound();
 			new GameUI(d);
 			dispose();
 		}
+	}
+	public void windowClosing(WindowEvent e) {
+		m_model.shutdown();
+		System.exit(0);
 	}
 
 }

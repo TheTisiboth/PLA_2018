@@ -44,4 +44,37 @@ public class fenetre {
 		}
 		return tab;
 	}
+
+	public void lecture_automata(String fichier) {
+		LinkedList<String> tab = new LinkedList<String>();
+		// lecture du fichier texte
+		try {
+			InputStream ips = new FileInputStream(fichier);
+			InputStreamReader ipsr = new InputStreamReader(ips);
+			BufferedReader br = new BufferedReader(ipsr);
+			String ligne;
+			String automate = null;
+			boolean Accolade_ouvrante = false, Accolade_fermante = false;
+			while ((ligne = br.readLine()) != null) {
+				automate = null;
+				Accolade_ouvrante = false;
+				Accolade_fermante = false;
+				while (!Accolade_fermante || !Accolade_ouvrante) {
+					automate += ligne;
+					for (int i = 0; i < ligne.length(); i++) {
+						if (ligne.charAt(i) == '{')
+							Accolade_ouvrante = true;
+						if (ligne.charAt(i) == '}')
+							Accolade_fermante = true;
+					}
+					
+				}
+				tab.add(automate);
+			}
+			br.close();
+
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+	}
 }

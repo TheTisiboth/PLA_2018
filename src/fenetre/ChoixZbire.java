@@ -55,7 +55,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		westPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
 		img = new Background(d, 7);
 		comboBox = new JComboBox[8];
-		fichier = "save.txt";
+		fichier = "automata.txt";
 
 		// on rafraichit les 8 menus déroulants, en fonction du fichier choisi
 		// par defaut : automata.txt

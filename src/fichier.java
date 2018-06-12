@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class fichier {
 
@@ -25,8 +26,7 @@ public class fichier {
 			}
 			br.close();
 
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		return tab;
@@ -46,8 +46,7 @@ public class fichier {
 			fichierSortie.close();
 			System.out.println("Le fichier " + fichier + " a ete cree!");
 
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 
@@ -63,34 +62,58 @@ public class fichier {
 			fichierSortie2.println("*{X|O}");
 			fichierSortie2.close();
 			System.out.println("Le fichier " + fichier2 + " a ete cree!");
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	public static void ecrire(String fichier, String s) {
-
+	public static LinkedList<String> lecture_automata(String fichier) {
+		LinkedList<String> tab = new LinkedList<String>();
+		// lecture du fichier texte
 		try {
-			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(fichier, true)));
+			InputStream ips = new FileInputStream(fichier);
+			InputStreamReader ipsr = new InputStreamReader(ips);
+			BufferedReader br = new BufferedReader(ipsr);
+			String ligne;
+			String automate = null;
+			boolean Accolade_ouvrante = false, Accolade_fermante = false, not_end = true;
+			while (not_end) {
+				automate = "";
+				Accolade_ouvrante = false;
+				Accolade_fermante = false;
+				while ((ligne = br.readLine()) != null && (!Accolade_fermante || !Accolade_ouvrante)) {
+					if (ligne == null)
+						not_end = false;
+					if (not_end) {
+						automate += ligne + '\n';
+						for (int i = 0; i < ligne.length(); i++) {
+							if (ligne.charAt(i) == '{')
+								Accolade_ouvrante = true;
+							if (ligne.charAt(i) == '}')
+								Accolade_fermante = true;
+						}
+					}
+					System.out.println("b");
 
-			pw.println(s);
+				}
+				tab.add(automate);
+				System.out.println("b");
+			}
+			br.close();
 
-			pw.close();
+		} catch (Exception e) {
+			System.out.println(e.toString());
 		}
-		catch (IOException exception) {
-			System.out.println("Erreur lors de la lecture : " + exception.getMessage());
-		}
-
+		return tab;
 	}
 
 	public static void main(String args[]) {
 		String f1 = "test1.txt";
-		String f2 = "test2.txt";
-		initialisation(f1, f2);
-		ArrayList<String> tab = lecture(f1);
+		System.out.println("entree du programme");
+		LinkedList<String> tab = lecture_automata(f1);
+		System.out.println(tab.toString());
 
 	}
 

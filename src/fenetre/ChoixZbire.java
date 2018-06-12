@@ -40,7 +40,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	private JButton home;
 	Dimension d;
 	GameUI m_game;
-	LinkedList<String> automate;
+	LinkedList<String> noms_automate,automate;
 	String fichier;
 	JPanel img;
 	JComboBox comboBox[];
@@ -56,6 +56,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		img = new Background(d, 7);
 		comboBox = new JComboBox[8];
 		fichier = "automata.txt";
+		automate = fenetre.lecture_automata(fichier);
 
 		// on rafraichit les 8 menus déroulants, en fonction du fichier choisi
 		// par defaut : automata.txt
@@ -175,9 +176,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			if (!(monFichier.exists()) || monFichier.length() == 0) {
 				fichier = "automata.txt";
 			}
-			automate = new LinkedList<String>(); // contient tout les noms des
-													// automates
-			if (fichier != "save.txt") {
+			noms_automate = new LinkedList<String>(); // contient tout les noms des
+			automate = fenetre.lecture_automata(fichier);										// automates
 				if (MesOptions.deja_parse) // si on a deja parse un fichier, il
 											// faut reinitialiser le parser
 					AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
@@ -192,17 +192,12 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				Iterator<Automaton> iter = list.iterator();
 				while (iter.hasNext()) {
 					// on ajoute a la liste d'automate leur noms
-					automate.add(iter.next().getName().getValue());
+					noms_automate.add(iter.next().getName().getValue());
 				}
-				if (automate.size() < 4) {
+				if (noms_automate.size() < 4) {
 					String s = "Veuillez mettre au moins 4 automates";
 					throw new ricm3.parser.ParseException(s);
 				}
-
-			} else { // fichier save.txt contient les noms des automates de la
-						// partie précédente
-				automate = fenetre.lecture(fichier);
-			}
 
 			// Affichage des 8 menus deroulant
 			if (MesOptions.deja_parse) {
@@ -216,8 +211,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			// supprimer manuellement leur contenu)
 			for (int i = 0; i < 8; i++) {
 				comboBox[i] = new JComboBox();
-				for (int j = 0; j < automate.size(); j++) {
-					comboBox[i].addItem(automate.get(j));
+				for (int j = 0; j < noms_automate.size(); j++) {
+					comboBox[i].addItem(noms_automate.get(j));
 				}
 				int x = i % 4;
 				comboBox[i].setSelectedIndex(i % 4);
@@ -288,7 +283,14 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				for (int i = 0; i < 8; i++) {
 					// sauvegarde dans le fichier save.txt les noms des
 					// automates choisis
-					fenetre.ecrire("save.txt", comboBox[i].getSelectedItem().toString(), premiere_iteration);
+					String aut_name =  comboBox[i].getSelectedItem().toString();
+					String automates = "";
+					int indice = 0;
+					for (int j = 0; j < automate.size(); j++) {
+						if(automate.get(i).contains(aut_name))
+							indice = i;
+					}
+					fenetre.ecrire("save.txt", automate.get(i), premiere_iteration);
 					premiere_iteration = false;
 				}
 			}

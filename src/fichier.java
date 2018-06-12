@@ -83,7 +83,10 @@ public class fichier {
 				automate = "";
 				Accolade_ouvrante = false;
 				Accolade_fermante = false;
-				while ((ligne = br.readLine()) != null && (!Accolade_fermante || !Accolade_ouvrante)) {
+				while((ligne = br.readLine()).equals("")){
+					
+				}
+				while (ligne != null && (!Accolade_fermante || !Accolade_ouvrante)) {
 					if (ligne == null)
 						not_end = false;
 					if (not_end) {
@@ -96,7 +99,7 @@ public class fichier {
 						}
 					}
 					System.out.println("b");
-
+					ligne = br.readLine();
 				}
 				tab.add(automate);
 				System.out.println("b");

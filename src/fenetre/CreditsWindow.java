@@ -73,7 +73,6 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		this.setVisible(true);
 		this.addWindowListener(new WindowListener(new Model(1, 2)));
 
-
 	}
 
 	@Override

@@ -68,8 +68,6 @@ public class RulesWindow extends JFrame implements ActionListener {
 		this.setResizable(false);
 		this.setVisible(true);
 
-		
-
 	}
 
 	@Override

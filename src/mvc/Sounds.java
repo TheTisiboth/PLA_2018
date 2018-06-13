@@ -1,149 +1,88 @@
 package mvc;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
+import javax.media.CannotRealizeException;
+import javax.media.Manager;
+import javax.media.NoPlayerException;
+import javax.media.Player;
+import javax.media.Time;
 
 public class Sounds {
+
+	static Player m_player_game, m_player_clic, m_player_hit, m_player_charge, m_player_pop, m_player_portail;
+
+	// load all the sounds in global players
+	// function called in GameUI when loading the first page "accueil"
 	
-	static AudioStream audioStreamGame;
-	static AudioStream audioStreamClic;
-	static AudioStream audioStreamHit;
-	static AudioStream audioStreamCharge;
-	static AudioStream audioStreamPop;
-	static AudioStream audioStreamPortail;
-	
-	public static void load_sound() {
-		String gameFile = "sons/game_all.wav";
-	    InputStream in_game = null;
-	    
-	    String popFile = "sons/pop.wav";
-	    InputStream in_pop = null;
-	    
-	    String chargeFile = "sons/charge.wav";
-	    InputStream in_charge = null;
-	    
-	    String hitFile = "sons/hit.wav";
-	    InputStream in_hit = null;
-	    
-	    String portailFile = "sons/portail.wav";
-	    InputStream in_portail = null;
-	    
-	    String clicFile = "sons/click.wav";
-	    InputStream in_clic = null;
-	    
-	    // game sound
-		try {
-			in_game = new FileInputStream(gameFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File game sound not found.. :(");
-			e.printStackTrace();
-		}
+	@SuppressWarnings("deprecation")
+	public static void load_sound() throws NoPlayerException, CannotRealizeException, IOException {
 
-		try {
-			audioStreamGame = new AudioStream(in_game);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// pop sound
-		try {
-			in_pop = new FileInputStream(popFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File pop sound not found.. :(");
-			e.printStackTrace();
-		}
+		File clicFile = new File("sons/click.wav");
+		URL clicUrl = clicFile.toURL();
 
-		try {
-			audioStreamPop = new AudioStream(in_pop);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// charge sound
-		try {
-			in_charge = new FileInputStream(chargeFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File charge sound not found.. :(");
-			e.printStackTrace();
-		}
+		File portailFile = new File("sons/portail.wav");
+		URL portailUrl = portailFile.toURL();
 
-		try {
-			audioStreamCharge = new AudioStream(in_charge);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		File hitFile = new File("sons/hit.wav");
+		URL hitUrl = hitFile.toURL();
 
-		// hit sound
-		try {
-			in_hit = new FileInputStream(hitFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File hit sound not found.. :(");
-			e.printStackTrace();
-		}
+		File chargeFile = new File("sons/charge.wav");
+		URL chargeUrl = chargeFile.toURL();
 
-		try {
-			audioStreamHit = new AudioStream(in_hit);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// portail sound
-		try {
-			in_portail = new FileInputStream(portailFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File portail sound not found.. :(");
-			e.printStackTrace();
-		}
+		File popFile = new File("sons/pop.wav");
+		URL popUrl = popFile.toURL();
 
-		try {
-			audioStreamPortail = new AudioStream(in_portail);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// clic sound
-		try {
-			in_clic = new FileInputStream(clicFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File clic sound not found.. :(");
-			e.printStackTrace();
-		}
+		File gameFile = new File("sons/game.wav");
+		URL gameUrl = gameFile.toURL();
 
-		try {
-			audioStreamClic = new AudioStream(in_clic);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// creation of the players
+		m_player_game = Manager.createRealizedPlayer(gameUrl);
+		m_player_pop = Manager.createRealizedPlayer(popUrl);
+		m_player_charge = Manager.createRealizedPlayer(chargeUrl);
+		m_player_hit = Manager.createRealizedPlayer(hitUrl);
+		m_player_clic = Manager.createRealizedPlayer(clicUrl);
+		m_player_portail = Manager.createRealizedPlayer(portailUrl);
 	}
+
+	// we rewind all the sounds with the setMediaTime(new Time(0)) command
 	
+	// the sound of the game
 	public static void game_sound() {
-	    AudioPlayer.player.start(audioStreamGame);
+		m_player_game.start();
+		m_player_game.setMediaTime(new Time(0));
 	}
-	
+
+	// the sound when the player takes a bonus
 	public static void pop_sound() {
-	    AudioPlayer.player.start(audioStreamPop);
+		m_player_pop.start();
+		m_player_pop.setMediaTime(new Time(0));
 	}
-	
+
+	// the sound when the player takes a bucket paint
 	public static void charge_sound() {
-	    AudioPlayer.player.start(audioStreamCharge);
+		m_player_charge.start();
+		m_player_charge.setMediaTime(new Time(0));
 	}
-	
+
+	// the sound when the player hit a wall
 	public static void hit_sound() {
-	    AudioPlayer.player.start(audioStreamHit);
+		m_player_hit.start();
+		m_player_hit.setMediaTime(new Time(0));
 	}
 
+	// the sound when the player enters in a portal
 	public static void portail_sound() {
-	    AudioPlayer.player.start(audioStreamPortail);
+		m_player_portail.start();
+		m_player_portail.setMediaTime(new Time(0));
 	}
 
+	// the sound when the player clicks on a button
 	public static void clic_sound() {
-	    AudioPlayer.player.start(audioStreamClic);
+		m_player_clic.start();
+		m_player_clic.setMediaTime(new Time(0));
 	}
-	
 
 }

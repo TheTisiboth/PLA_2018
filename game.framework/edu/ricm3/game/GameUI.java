@@ -22,7 +22,10 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.media.CannotRealizeException;
+import javax.media.NoPlayerException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -93,7 +96,12 @@ public class GameUI {
 
 	// creates a new window for home page to welcome the user
 	private void createWindow(Dimension d) {
-		Sounds.load_sound();
+		try {
+			Sounds.load_sound();
+		} catch (NoPlayerException | CannotRealizeException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		new HomeWindow(d, this);
 	}
 

@@ -4,5 +4,7 @@
 	<classpathentry kind="src" path="game.framework"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="parser"/>
+	<classpathentry kind="lib" path="/Users/vandal/Downloads/javax.jar"/>
+	<classpathentry kind="lib" path="/Users/vandal/Downloads/jmf-2.1.1e.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

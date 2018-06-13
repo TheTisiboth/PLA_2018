@@ -1,0 +1,17 @@
+<<<<<<< HEAD
+/Token.java
+/SimpleCharStream.java
+/AutomataParserConstants.java
+/AutomataParserTokenManager.java
+/ParseException.java
+/TokenMgrError.java
+/AutomataParser.java
+=======
+/AutomataParserTokenManager.java
+/TokenMgrError.java
+/Token.java
+/AutomataParser.java
+/ParseException.java
+/SimpleCharStream.java
+/AutomataParserConstants.java
+>>>>>>> dev

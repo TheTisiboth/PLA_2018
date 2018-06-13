@@ -1,0 +1,41 @@
+1. Presentation de l'architeccture:
+	Nous avons divisé le projet en plusieurs classes pour simplifié la compréhension du code. Tout d'abord la classe Model.java gère tout le fonctionnement du jeu (hors graphisme, algorithmie, matrice...). La classe View.java quant à elle travaille sur le rafraichissment graphique et gère l'actualisation des différentes entités à afficher. Ensuite nous avons Controller.java qui gère l'appui sur les boutons ainsi que le curseur de la souris. 
+	En ce qui concerne les entités nous avons divisé en deux sous classes les entités physiques et les entités non physiques. Les entités physiques representent un élement sur lequel on ne peut pas superposer plusieurs entités. Ceci nous permet de gérer les collisions facilement et de modulariser notre code en donnant la possibilité d'ajouter d'autres entités. Les entités non physiques sont des objets que nous pouvons ramasser ou traverser, comme les bonus ou le portail. Ceci permet des ajouts simplifiés de nouveaux élements. Nousallons maintenant décrire les classes en détail :
+	No physic entity:
+		-Bonus.java: Est la superclasse de Freeze.java et Speed.java. Permet d'instancier la durée de pop et la durée d'action.
+		-Freeze.java: Est la classe comportant les attributs du bonus freeze tel que son image.
+		-Speed.java: Est identique a Freeze.java pour le bonus speed.
+		-Item_Zbire.java: Permet l'affichage de l'image permettant de ramasser un zbire.
+		-Portal.java: Contient l'image d'affichage d'un portail.
+		-Recharge.java: Permet d'instancier le bonus de recharge de peinture avec son image et sa position.
+
+	Physic entity:
+		-Joueur.java: Permet d'instancier un joueur et de pouvoir gérer les actions qu'il subit telles que appliquer un bonus ou un item, le déplacer ou de l'afficher.
+		-Obstacle.java: Permet de gérer les obstacles représentés par des murs. On peut gérer notament leur vie lorsque l'on frappe dessus.
+		-Zbire.java: Cette classe sert à gérer les entités Zbires, nottament la gestion de leur vie et du nombre de case qui leur reste à parcourir avant de disparaitre.
+
+	mvc:
+		-Case.java: Cette classe permet de gérer toutes les cases de notre plateau de jeu. Elle comporte nottament une entité qui sera afficher ou  une couleur qui permet d'incrémenter le score des joueurs.
+		-Controller.java: gère l'appui sur les boutons ainsi que le curseur de la souris. 
+		-GameMain.java: Créé la première fenêtre puis lance le jeu.
+		-Graphs.java: Permet de faire des graphs qui seront utilisés pour les statistiques.
+		-MesOptions.java: Contient toutes les constantes utilisées dans le jeu.
+		-Model.java: Gère tout le fonctionnement du jeu d'un point de vue logiciel.
+		-Sounds.java: Gère le lancement de la musique lorsque l'on lance le jeu. gère aussi les différents son lorsqu'on joue.
+		-Statistiques.java: Permet de gérer l'affichage des statistiques à la fin du jeu.
+		-View.java: Gère toute la partie affichage, cette fonction regarde si les case ont le boolean refresh à true pour actualiser l'affichage de la case. Sinon, la case n'est pas actualisée.
+
+	fenetre:
+		-Background.java: gère l'image qui est affiché en arrière plan selon les fenêtres dans lesquels on se trouve.
+		-ChoixZbire.java: fenetre qui permet de gérer le choix d'automates selon les différents Zbires qui sont disponibles.
+		-CreditsWindow.java: Fenêtre des crédits du jeu, avec les noms des développeurs et les différents crédits des images/sons que nous avons utilisés.
+		-EndPage.java: page de fin qui affiche les statistiques détaillées de la partie.
+		-GameWindow.java: fenetre du jeu.
+		-HomeWindow.java: fenêtre d'accueil du jeu, c'est la première fenêtre qui est lancée.
+		-RulesWindow.java: Fenêtre affichant les règles du jeu.
+
+
+
+2. Diagramme de classe
+
+3. Extrait

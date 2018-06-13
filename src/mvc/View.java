@@ -4,31 +4,31 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import edu.ricm3.game.GameView;
-import mvc.*;
-import physic.entity.Joueur;
-import physic.entity.Obstacle;
 
 public class View extends GameView {
-	Color background = Color.ORANGE;
+
+	private static final long serialVersionUID = 1L;
+	Color background = new Color(255, 255, 255, 0);
 	Model m_model;
 	Controller m_ctr;
 
-	public View(Model m, Controller c) {
+	public View(Model m, Controller j1) {
 		m_model = m;
-		m_ctr = c;
+		m_ctr = j1;
 	}
 
 	@Override
 	protected void _paint(Graphics g) {
 
-		Joueur c = m_model.getJ1();
-		Joueur c1 = m_model.getJ2();
-		Obstacle[] obstacles = m_model.getObstacle(); 
-		
-		for(int i=0; i<obstacles.length ;i++) {
-			obstacles[i].paint(g);
+		Case[][] plateau = m_model.getPlateau();
+
+		for (int i = 0; i < MesOptions.nbCol; i++) {
+			for (int k = 0; k < MesOptions.nbLigne; k++) {
+				if (plateau[i][k].getRefresh()) {
+					plateau[i][k].paint(g, i, k);
+//					System.err.println("i="+i+"j="+k);
+				}
+			}
 		}
-		c.paint(g);
-		c1.paint(g);
 	}
 }

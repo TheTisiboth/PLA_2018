@@ -24,12 +24,13 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
+
 public abstract class GameView extends Canvas {
 
 	private static final long serialVersionUID = 1L;
 
 	protected GameUI m_game;
-	protected Color m_background = Color.gray;
+	protected Color m_background = new Color(255,255,255,0); // transparent color
 
 	private Image m_buffer1, m_buffer2;
 	private Image m_renderBuffer;
@@ -49,27 +50,11 @@ public abstract class GameView extends Canvas {
 				m_buffer2 = m_buffer1;
 
 			Graphics gc = m_buffer1.getGraphics();
-			gc.setColor(Color.ORANGE);
-			gc.fillRect(0, 0, m_width, m_height);
-			gc.setColor(Color.BLACK);
-			for (int i = 38; i <=38*32;i=i+38) {
-				gc.fillRect(i, 0, 2, 38*18);
-			}
-			for (int i = 38; i <= 38*18; i=i+38) {
-				gc.fillRect(0, i,38*32, 2);
-			}
-			gc = m_buffer2.getGraphics();
-
-			gc.setColor(Color.ORANGE);
-
-			gc.fillRect(0, 0, m_width, m_height);
-			gc.setColor(Color.BLACK);
-			for (int i = 38; i <=38*32;i=i+38) {
-				gc.fillRect(i, 0, 2, 38*18);
-			}
-			for (int i = 38; i <=38*18; i=i+38) {
-				gc.fillRect(0, i, 38*32, 2);
-			}
+//			gc.setColor(m_background);
+//			gc.fillRect(0, 0, m_width, m_height);
+//			gc = m_buffer2.getGraphics();
+//			gc.setColor(m_background);
+//			gc.fillRect(0, 0, m_width, m_height);
 			m_renderBuffer = m_buffer2;
 			m_drawBuffer = m_buffer1;
 		}
@@ -79,11 +64,9 @@ public abstract class GameView extends Canvas {
 		if (m_renderBuffer == m_buffer1) {
 			m_renderBuffer = m_buffer2;
 			m_drawBuffer = m_buffer1;
-//			m_buffer1 = m_buffer2; /*double buffer*/d
 		} else {
 			m_renderBuffer = m_buffer1;
 			m_drawBuffer = m_buffer2;
-//			m_buffer1 = m_buffer2;
 		}
 	}
 
@@ -103,8 +86,11 @@ public abstract class GameView extends Canvas {
 	}
 
 	public void setBounds(int x, int y, int width, int height) {
-		initDoubleBuffering(width, height);
 		super.setBounds(x, y, width, height);
+		initDoubleBuffering(width, height);
+		m_buffer1.flush();
+		m_buffer2.flush();
+
 	}
 
 	public GameModel getModel() {
@@ -124,6 +110,7 @@ public abstract class GameView extends Canvas {
 
 	@Override
 	public final void paint(Graphics g) {
+		super.paint(g);
 		if (m_swap) {
 			swap();
 			m_swap = false;
@@ -138,4 +125,6 @@ public abstract class GameView extends Canvas {
 	}
 
 	protected abstract void _paint(Graphics g);
+
+
 }

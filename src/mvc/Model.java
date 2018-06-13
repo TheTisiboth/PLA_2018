@@ -452,16 +452,23 @@ public class Model extends GameModel {
 			for (int i = 0; i < zbires.length; i++) {
 				if (zbires[i] != null) {
 					m_frame.bW[i].setIcon(new ImageIcon(zbires[i].m_sprites[4]));
+					m_frame.nW[i].setText(MesOptions.automates_j1.get(i));
 				} else {
 					m_frame.bW[i].setIcon(new ImageIcon(m_transparent));
+					m_frame.nW[i].setText("");
+
+					
 				}
 			}
 		} else {
 			for (int i = 0; i < zbires.length; i++) {
 				if (zbires[i] != null) {
 					m_frame.bE[i].setIcon(new ImageIcon(zbires[i].m_sprites[4]));
+					m_frame.nE[i].setText(MesOptions.automates_j1.get(i));
+
 				} else {
 					m_frame.bE[i].setIcon(new ImageIcon(m_transparent));
+					m_frame.nE[i].setText("");
 				}
 			}
 		}
@@ -613,9 +620,9 @@ public class Model extends GameModel {
 		}
 
 	}
-
+	//mis a jour de la matrice de case en fonction des déplacements du joueur
 	public void update_plat() {
-
+		//prise d'information du joueur 2
 		int last_xc = player2.getLastX();
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
@@ -623,6 +630,7 @@ public class Model extends GameModel {
 		char dirc = player2.getDirection();
 		char last_dirc = player2.getLast_direction();
 
+		//prise d'information du joueur 1
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
@@ -631,25 +639,28 @@ public class Model extends GameModel {
 		char dirc1 = player1.getDirection();
 		char last_dirc1 = player1.getLast_direction();
 
+		//actualisation du sprite en fonction du changement de direction
 		if (dirc != last_dirc)
 			plateau[xc][yc].setRefresh(true);
 
 		if (dirc1 != last_dirc1)
 			plateau[x1][y1].setRefresh(true);
 
+		
 		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
 
 		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Red);
 
+		//mis a jour de la matrice si le joueur 1 a bougé.
 		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
 			statistique.plus_Nombrecase_parcouru2();
 
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
-
+			//actualisation du score
 			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
 				score2++;
 				refresh_score = true;
@@ -659,7 +670,7 @@ public class Model extends GameModel {
 				refresh_score = true;
 			}
 			plateau[xc][yc].setE(player2);
-
+			//mis a jour 
 			plateau[xc][yc].setCouleur((Color) player2.getColor());
 			player2.decreasePaintStock();
 			m_frame.progresseBar2.setValue((int) (player2.getPaintStock() / (float) MesOptions.paintMax * 100));

@@ -1,5 +1,13 @@
 # Carnet de bord
 
+## 13/06/18
+
+### Ce qui a été fait
+* Optimisation images zbires
+
+
+
+___
 ## 12/06/18
 
 ### Ce qui a été fait

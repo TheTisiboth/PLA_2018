@@ -20,7 +20,7 @@ import sun.audio.AudioStream;
 public class Sounds {
 	
 	static AudioStream audioStreamGame = null;
-	private static AudioInputStream click_stream;
+
 	
 	public static void game_sound() {
 
@@ -127,17 +127,22 @@ public class Sounds {
 
 	public static void clic_sound() {
 
-	    String gongFile = "sons/click.wav";
-	    try {
-			click_stream =AudioSystem.getAudioInputStream(new File(gongFile));
-			Clip c = AudioSystem.getClip();
-			c.open(click_stream);
-			c.start();
-			
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
+		String gongFile = "sons/click.wav";
+	    InputStream in = null;
+		try {
+			in = new FileInputStream(gongFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found.. :(");
 			e.printStackTrace();
 		}
+
+		try {
+			audioStreamGame = new AudioStream(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	    AudioPlayer.player.start(audioStreamGame);
 	    
 	}
 

@@ -27,6 +27,7 @@ public class Joueur extends Physic_Entity {
 
 	private BufferedImage m_sprite;
 	private BufferedImage[] m_sprites;
+	private BufferedImage m_zbires;
 
 	private boolean moveable, reload;
 	boolean inMovement;
@@ -38,7 +39,7 @@ public class Joueur extends Physic_Entity {
 	private int timeEffectFreeze;
 
 	public Joueur(BufferedImage sprite, int rows, int columns, int personnalisation, int x, int y, float scale,
-			Color couleur) {
+			Color couleur, BufferedImage zbires) {
 
 		super(x, y);
 		m_sprite = sprite;
@@ -62,6 +63,8 @@ public class Joueur extends Physic_Entity {
 		direction = last_direction = 'D';
 
 		m_idx = 45 + m_personnalisation;
+
+		m_zbires = zbires;
 
 	}
 
@@ -176,25 +179,25 @@ public class Joueur extends Physic_Entity {
 
 		if (i >= 0 && i < 25) {
 			if (z[0] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur, m_zbires);
 				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
 			if (z[1] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur, m_zbires);
 				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
 			if (z[2] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur, m_zbires);
 				z[2] = zbire;
 			}
 
 		} else {
 			if (z[3] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur, m_zbires);
 				z[3] = zbire;
 			}
 		}

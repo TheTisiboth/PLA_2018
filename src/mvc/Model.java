@@ -53,7 +53,7 @@ public class Model extends GameModel {
 	private float score1, score2;
 	private boolean refresh_score = true;
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
-			m_recharge, m_portal;
+			m_recharge, m_portal, zbires;
 	public BufferedImage m_transparent;
 	GameWindow m_frame;
 
@@ -95,12 +95,12 @@ public class Model extends GameModel {
 		initPlat(plateau);
 
 		player2 = new Joueur(m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F,
-				Color.BLUE);
+				Color.BLUE, zbires);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
-		player1 = new Joueur(m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED);
+		player1 = new Joueur(m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED, zbires);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);
@@ -139,9 +139,12 @@ public class Model extends GameModel {
 
 		File items = new File("images/items.png");
 
+		File zbireFile = new File("images/Zbires.png");
+
 		try {
 			BufferedImage m_items = ImageIO.read(items);
 			m_personnage = ImageIO.read(imageFile);
+			zbires = ImageIO.read(zbireFile);
 			splitSprite(m_items);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -595,22 +598,22 @@ public class Model extends GameModel {
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
 		int yc = player2.getY();
-		 char dirc = player2.getDirection();
-		 char last_dirc = player2.getLast_direction();
+		char dirc = player2.getDirection();
+		char last_dirc = player2.getLast_direction();
 
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
 		int y1 = player1.getY();
 		//
-		 char dirc1 = player1.getDirection();
-		 char last_dirc1 = player1.getLast_direction();
-		
-		 if (dirc != last_dirc)
-		 plateau[xc][yc].setRefresh(true);
-		
-		 if (dirc1 != last_dirc1)
-		 plateau[x1][y1].setRefresh(true);
+		char dirc1 = player1.getDirection();
+		char last_dirc1 = player1.getLast_direction();
+
+		if (dirc != last_dirc)
+			plateau[xc][yc].setRefresh(true);
+
+		if (dirc1 != last_dirc1)
+			plateau[x1][y1].setRefresh(true);
 
 		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
@@ -694,9 +697,9 @@ public class Model extends GameModel {
 				x++;
 			if ((x < MesOptions.nbCol && x >= 0) && (y < MesOptions.nbLigne && y >= 0)) {
 				// System.out.println("if2");
-				if (plateau[x][y].getE() instanceof No_Physic_Entity || plateau[x][y].getE() == null ) {
-					if(plateau[x][y].getE() instanceof Portal ){
-						return ;
+				if (plateau[x][y].getE() instanceof No_Physic_Entity || plateau[x][y].getE() == null) {
+					if (plateau[x][y].getE() instanceof Portal) {
+						return;
 					}
 					j.getZbire()[n].setX(x);
 					j.getZbire()[n].setY(y);

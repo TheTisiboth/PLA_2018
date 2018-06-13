@@ -22,7 +22,7 @@ public class Zbire extends Physic_Entity {
 	char direction;
 	private long m_lastMove;
 
-	public Zbire(int x, int y, Color c, int n, int type, float scale, int joueur) {
+	public Zbire(int x, int y, Color c, int n, int type, float scale, int joueur, BufferedImage zbires) {
 		super(x, y);
 		m_nrows = 3;
 		m_ncols = 4;
@@ -33,7 +33,8 @@ public class Zbire extends Physic_Entity {
 		m_scale = scale;
 		this.joueur = joueur;
 		m_lastMove = 0;
-		loadSprite(type);
+		// loadSprite(type);
+		m_sprite = zbires;
 		splitSprite();
 	}
 
@@ -48,44 +49,28 @@ public class Zbire extends Physic_Entity {
 	void splitSprite() {
 		int width = m_sprite.getWidth(null);
 		int height = m_sprite.getHeight(null);
+		BufferedImage[] m_temp = new BufferedImage[8]; // on s'en sert pour trouver la matrice des zbires qui nous
+														// interesse
+		m_w = width;
+		m_h = height / 8;
+		for (int i = 0; i < 8; i++) {
+			int x = 0;
+			int y = i * m_h;
+			m_temp[i] = m_sprite.getSubimage(x, y, m_w, m_h);
+		}
+
+		int indiceSprite = (joueur == 1) ? 0 : 4;
 		m_sprites = new BufferedImage[m_nrows * m_ncols];
+		width = m_temp[type + indiceSprite].getWidth(null);
+		height = m_temp[type + indiceSprite].getHeight(null);
 		m_w = width / m_ncols;
 		m_h = height / m_nrows;
 		for (int i = 0; i < m_nrows; i++) {
 			for (int j = 0; j < m_ncols; j++) {
 				int x = j * m_w;
 				int y = i * m_h;
-				m_sprites[(i * m_ncols) + j] = m_sprite.getSubimage(x, y, m_w, m_h);
+				m_sprites[(i * m_ncols) + j] = m_temp[type + indiceSprite].getSubimage(x, y, m_w, m_h);
 			}
-		}
-	}
-
-	private void loadSprite(int type) {
-		File sprite = null;
-		if (joueur == 1) {
-			if (type == 0)
-				sprite = new File("images/sbires_rose.png");
-			else if (type == 1)
-				sprite = new File("images/sbires_bleu.png");
-			else if (type == 2)
-				sprite = new File("images/sbires_jaune.png");
-			else if (type == 3)
-				sprite = new File("images/sbires_vert.png");
-		} else if (joueur == 2) {
-			if (type == 0)
-				sprite = new File("images/sbires_bleu_fonce.png");
-			else if (type == 1)
-				sprite = new File("images/sbires_violet.png");
-			else if (type == 2)
-				sprite = new File("images/sbires_rouge.png");
-			else if (type == 3)
-				sprite = new File("images/sbires_orange.png");
-		}
-		try {
-			m_sprite = ImageIO.read(sprite);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			System.exit(-1);
 		}
 	}
 

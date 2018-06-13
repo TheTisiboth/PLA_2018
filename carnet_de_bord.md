@@ -4,6 +4,12 @@
 
 ### Ce qui a été fait
 * Optimisation images zbires
+* Automates des sbires fonctionnels
+* Diapo de la présentation
+
+### TODO
+* Optimisation du son
+* IA du joueur (en cours)
 
 
 

@@ -13,8 +13,8 @@ Philosopher(Think){
 }
 
 
-Mover(Init){
-  * (Init): True ? Move :(Init)
+Blocker(Init){
+  * (Init): !True ? Power :(Init)
 }
 
 
@@ -35,14 +35,14 @@ Wizzer(Init){
 }
 
 
-Blocker(Init){
-  * (Init): !True ? Power :(Init)
-}
-
-
 
 
 Philosopher(Think){
   * (Think)
+}
+
+
+Blocker(Init){
+  * (Init): !True ? Power :(Init)
 }
 

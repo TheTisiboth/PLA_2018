@@ -2,6 +2,7 @@ package fenetre;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,14 +15,18 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import edu.ricm3.game.GameUI;
 import mvc.LectureFichier;
 import mvc.MesOptions;
@@ -103,28 +108,64 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			}
 		};
 		File[] files = repertoire.listFiles(filter);
-		menu_fichier = new JComboBox<>(files); // menu deroulant contenant tout
-												// les fichiers .txt
 
-		menu_fichier.setBounds(500, 120, 200, 35);
-		menu_fichier.setSelectedItem(fichier);
-		for (int i = 0; i < menu_fichier.getItemCount(); i++) {
-			String s = menu_fichier.getItemAt(i).toString();
-			if ((menu_fichier.getItemAt(i)).toString().contains(fichier))
-				menu_fichier.setSelectedItem(menu_fichier.getItemAt(i));
+		JButton menu = new JButton("Choix robot");
+		File repertoireCourant = null;
+		try {
+			repertoireCourant = new File(".").getCanonicalFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		img.add(menu_fichier);
-		menu_fichier.addItemListener(new ItemListener() {
+		menu.setBounds(500, 120, 200, 35);
+		final JFileChooser fileChooser = new JFileChooser(repertoireCourant);
+		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("TEXT files (*.txt)", "txt");
+		fileChooser.addChoosableFileFilter(txtFilter);
+		fileChooser.setFileFilter(txtFilter);
+		menu.addActionListener(new ActionListener() {
 
 			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// lorsque l'on selectionne un nouveau fichier, on actualise
-				Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
-				fichier = o.toString();
-				menu_fichier.setSelectedItem(fichier);
+			public void actionPerformed(ActionEvent e) {
+				int returnVal = fileChooser.showOpenDialog((Component) e.getSource());
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					try {
+						fichier = file.toString();
+					} catch (Exception ex) {
+						System.out.println("problem accessing file" + file.getAbsolutePath());
+					}
+				} else {
+					System.out.println("File access cancelled by user.");
+				}
 				refreshAutomate(eastPanel, westPanel);
+
 			}
 		});
+
+		img.add(menu);
+		// menu_fichier = new JComboBox<>(files); // menu deroulant contenant
+		// tout
+		// // les fichiers .txt
+		//
+		// menu_fichier.setBounds(500, 120, 200, 35);
+		// menu_fichier.setSelectedItem(fichier);
+		// for (int i = 0; i < menu_fichier.getItemCount(); i++) {
+		// String s = menu_fichier.getItemAt(i).toString();
+		// if ((menu_fichier.getItemAt(i)).toString().contains(fichier))
+		// menu_fichier.setSelectedItem(menu_fichier.getItemAt(i));
+		// }
+		// img.add(menu_fichier);
+		// menu_fichier.addItemListener(new ItemListener() {
+		//
+		// @Override
+		// public void itemStateChanged(ItemEvent e) {
+		// // lorsque l'on selectionne un nouveau fichier, on actualise
+		// Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
+		// fichier = o.toString();
+		// menu_fichier.setSelectedItem(fichier);
+		// refreshAutomate(eastPanel, westPanel);
+		// }
+		// });
 
 		refreshAutomate(eastPanel, westPanel);
 
@@ -237,7 +278,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				for (int j = 0; j < noms_automate_tmp.size(); j++) {
 					comboBox[i].addItem(noms_automate_tmp.get(j));
 				}
-				comboBox[i].setSelectedItem(noms_automate.get(i%noms_automate.size()));
+				comboBox[i].setSelectedItem(noms_automate.get(i % noms_automate.size()));
 
 			}
 
@@ -301,7 +342,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		if (s == home) {
 			Sounds.clic_sound();
 			if (comboBox[0].isEnabled()) {
-				// si les boutons sont activé => fichier valide => on sauvegarde dans save.txt
+				// si les boutons sont activé => fichier valide => on sauvegarde
+				// dans save.txt
 				boolean premiere_iteration = true;
 				for (int i = 0; i < 8; i++) {
 					// sauvegarde dans le fichier save.txt des noms des

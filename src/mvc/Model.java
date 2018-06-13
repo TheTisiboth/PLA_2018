@@ -30,16 +30,16 @@ import physic.entity.Physic_Entity;
 import physic.entity.Zbire;
 
 public class Model extends GameModel {
-	private Joueur player2, player1;
-	LinkedList<Zbire> j1_zbire, j2_zbire;
-	private Obstacle o[];
+	private Joueur player2, player1; // les deux joueurs du jeu
+	LinkedList<Zbire> j1_zbire, j2_zbire; // liste des zbires invoqués des deux joueurs
+	private Obstacle o[]; // liste des obstacles sur la map
 
 	public Statistique statistique;
 	private Portal portal;
 
-	private int minutes, secondes;
+	private int minutes, secondes; // durée de la partie
 
-	long elapsed, lastTick;
+	long elapsed, lastTick; // utilisé pour gérer l'appel aux fonctions
 	private int counter_sec;
 
 	boolean timer;
@@ -48,17 +48,17 @@ public class Model extends GameModel {
 	LinkedList<Item_Zbire> listItem;
 	LinkedList<Recharge> listRecharge;
 
-	Case plateau[][];
+	Case plateau[][]; // matrice complète du plateau du jeu
 
-	private float score1, score2;
+	private float score1, score2; // scores des joueurs
 	private boolean refresh_score = true;
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
-			m_recharge, m_portal, zbires;
-	public BufferedImage m_transparent;
+			m_recharge, m_portal, zbires; // tous les sprites utilisés
+	public BufferedImage m_transparent; // sprite transparent pour gestion affichage inventaire en jeu
 	GameWindow m_frame;
 
-	private String name_j1, name_j2;
-	private long m_lastMove;
+	private String name_j1, name_j2; // noms des joueurs
+	private long m_lastMove; // time du dernier mouvement du joueur
 
 	public String getName_j1() {
 		return name_j1;
@@ -132,6 +132,7 @@ public class Model extends GameModel {
 		return m_frame;
 	}
 
+	// chargement des sprites utilisés en jeu
 	private void loadSprites() {
 
 		// credit : https://erikari.itch.io/elements-supremacy-assets
@@ -153,6 +154,7 @@ public class Model extends GameModel {
 
 	}
 
+	// divise les sprites des items vu la matrice
 	private void splitSprite(BufferedImage m_items) {
 		int m_ncols = 4;
 		int m_nrows = 3;
@@ -182,6 +184,7 @@ public class Model extends GameModel {
 
 	}
 
+	// place le portail sur une case vide du jeu
 	private void initPortal() {
 		int x, y;
 		Random rand = new Random();
@@ -196,6 +199,7 @@ public class Model extends GameModel {
 		plateau[x][y].setRefresh(true);
 	}
 
+	// place tous les obstacles de la carte
 	private void initObstacle() {
 		boolean diff = true;
 		int[] tab_x = new int[MesOptions.nb_obstacles];
@@ -229,6 +233,7 @@ public class Model extends GameModel {
 		}
 	}
 
+	// dessine les cases du jeu
 	private void initPlat(Case[][] p) {
 		for (int i = 0; i < MesOptions.nbCol; i++) {
 			for (int j = 0; j < MesOptions.nbLigne; j++) {
@@ -247,12 +252,15 @@ public class Model extends GameModel {
 	@Override
 	public void step(long now) {
 		if (timer) {
+			// on regarde d'abord si le joueur peut se déplacer, puis on appel step du
+			// joueur
 			player1.canMove(plateau);
 			player1.step(now);
 
 			player2.canMove(plateau);
 			player2.step(now);
 
+			// gestions des zbires
 			long elapsed = now - m_lastMove;
 			if (elapsed > 200L) {
 				Iterator it;
@@ -261,11 +269,13 @@ public class Model extends GameModel {
 					Zbire z;
 					while (it.hasNext()) {
 						z = (Zbire) it.next();
+						// si le zbire n'a plus de déplacement, on le supprime
 						if (!z.life()) {
 							it.remove();
 							plateau[z.getX()][z.getY()].setE(null);
 							j1_zbire.remove(z);
 						} else {
+							// déplacement du zbire
 							z.step(now);
 						}
 						plateau[z.getX()][z.getY()].setRefresh(true);
@@ -300,6 +310,7 @@ public class Model extends GameModel {
 
 			if (elapsed >= 1000L) {
 				counter_sec++;
+				// gestion des statistiques toute les 10 secondes
 				if (counter_sec == 10) {
 					counter_sec = 0;
 					statistique.plus_Score_joueur1(score1);
@@ -314,6 +325,7 @@ public class Model extends GameModel {
 					timer = false;
 				}
 
+				// gestion du compteur et pop des items
 				else {
 					secondes--;
 					if (secondes < 10) {
@@ -335,6 +347,7 @@ public class Model extends GameModel {
 		}
 	}
 
+	// permet de gérer l'affichage des bonus en cours
 	private void checkImgBonus() {
 		int speedj1 = player1.getTimeEffect();
 		int speedj2 = player2.getTimeEffect();
@@ -359,6 +372,7 @@ public class Model extends GameModel {
 
 	}
 
+	// check si un joueur se teleporte
 	private void checkTP() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Portal) {
 			Sounds.portail_sound();
@@ -371,6 +385,7 @@ public class Model extends GameModel {
 
 	}
 
+	// gestion de la teleportation
 	private void tP(Joueur j) {
 		int x, y;
 		Random rand = new Random();
@@ -384,6 +399,7 @@ public class Model extends GameModel {
 		plateau[x][y].setRefresh(true);
 	}
 
+	// verifie si un joueur se trouve sur un item de peinture
 	private void checkPaint() {
 		player1.recharger(false);
 		player2.recharger(false);
@@ -405,6 +421,7 @@ public class Model extends GameModel {
 		}
 	}
 
+	// check si un joueur est sur un item zbire
 	private void checkItem() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Item_Zbire) {
 			Sounds.pop_sound();
@@ -451,6 +468,7 @@ public class Model extends GameModel {
 		m_frame.doLayout();
 	}
 
+	// check si un joueur est sur un bonus
 	private void checkBonus() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Sounds.pop_sound();
@@ -485,6 +503,7 @@ public class Model extends GameModel {
 
 	}
 
+	// pop d'un item zbire
 	private void popItem() {
 		if (MesOptions.nb_max_items >= listItem.size()) {
 			Random rand = new Random();
@@ -507,6 +526,7 @@ public class Model extends GameModel {
 		}
 	}
 
+	// pop d'une recharge de peinture
 	private void PopPaint() {
 		if (MesOptions.nb_max_paint >= listRecharge.size()) {
 			Random rand = new Random();
@@ -530,6 +550,7 @@ public class Model extends GameModel {
 
 	}
 
+	// depop des bonus
 	private void depopBonus() {
 		if (!listBonus.isEmpty()) {
 			LinkedList<Bonus> used = (LinkedList<Bonus>) listBonus.clone();
@@ -548,6 +569,7 @@ public class Model extends GameModel {
 		}
 	}
 
+	// pop des bonus
 	private void popBonus() {
 		Random rand = new Random();
 		int i = rand.nextInt(MesOptions.popBonus);

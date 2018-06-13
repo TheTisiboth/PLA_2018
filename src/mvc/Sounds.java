@@ -1,9 +1,18 @@
 package mvc;
 
+import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -11,6 +20,7 @@ import sun.audio.AudioStream;
 public class Sounds {
 	
 	static AudioStream audioStreamGame = null;
+	private static AudioInputStream click_stream;
 	
 	public static void game_sound() {
 
@@ -33,10 +43,6 @@ public class Sounds {
 	    AudioPlayer.player.start(audioStreamGame);
 	}
 	
-	public static void stop_game_sound() {
-		AudioPlayer.player.interrupt();
-	    AudioPlayer.player.stop(audioStreamGame);
-	}
 	
 	public static void pop_sound() {
 
@@ -122,23 +128,17 @@ public class Sounds {
 	public static void clic_sound() {
 
 	    String gongFile = "sons/click.wav";
-	    InputStream in = null;
-		try {
-			in = new FileInputStream(gongFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.. :(");
+	    try {
+			click_stream =AudioSystem.getAudioInputStream(new File(gongFile));
+			Clip c = AudioSystem.getClip();
+			c.open(click_stream);
+			c.start();
+			
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		AudioStream audioStream = null;
-		try {
-			audioStream = new AudioStream(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	    AudioPlayer.player.start(audioStream);
+	    
 	}
-	
 
 }

@@ -26,25 +26,27 @@ public class Background extends JPanel {
 
 	private void loadImage(int ctrl) {
 
+		// home page
 		if (ctrl == 1)
 			imageFile = new File("images/accueil.png");
+		// game page
 		if (ctrl == 2)
 			imageFile = new File("images/game.png");
+		// rules page
 		if (ctrl == 3)
 			imageFile = new File("images/regles.png");
+		// credits page
 		if (ctrl == 4)
 			imageFile = new File("images/credits.png");
-		// if the player 1 has won
-		if (ctrl == 5) {
+		// final page : if the player 1 has won
+		if (ctrl == 5)
 			imageFile = new File("images/statsj1.png");
-		}
-		// if the player 2 has won
-		if (ctrl == 6) {
+		// final page : if the player 2 has won
+		if (ctrl == 6) 
 			imageFile = new File("images/statsj2.png");
-		}
-		if (ctrl == 7) {
+		// automata page
+		if (ctrl == 7)
 			imageFile = new File("images/automates.png");
-		}
 		try {
 			img = ImageIO.read(imageFile);
 		} catch (IOException ex) {

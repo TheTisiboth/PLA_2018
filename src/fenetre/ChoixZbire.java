@@ -9,8 +9,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -38,15 +37,12 @@ import ricm3.parser.AutomataParser;
 public class ChoixZbire extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField j1;
-	private String nom_j1;
-	private JTextField j2;
-	private String nom_j2;
+	private JTextField j1, j2;
+	private String nom_j1, nom_j2;
 	private JButton home;
 	Dimension d;
 	GameUI m_game;
-	ArrayList<String> noms_automate, noms_automate_tmp;
-	ArrayList<String> automate;
+	ArrayList<String> noms_automate, noms_automate_tmp, automate;
 	String fichier;
 	JPanel img;
 	JComboBox comboBox[];

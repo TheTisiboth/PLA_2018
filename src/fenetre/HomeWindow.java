@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,15 +30,14 @@ import javax.swing.Timer;
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.WindowListener;
 import mvc.Controller;
-import mvc.LectureFichier;
 import mvc.MesOptions;
 import mvc.Model;
 import mvc.Sounds;
 import mvc.View;
-import ricm3.parser.AutomataParser;
-import ricm3.parser.ParseException;
 import ricm3.parser.Ast.AI_Definitions;
 import ricm3.parser.Ast.Automaton;
+import ricm3.parser.AutomataParser;
+import ricm3.parser.ParseException;
 
 public class HomeWindow extends JFrame implements ActionListener {
 
@@ -65,9 +63,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 	public HomeWindow(Dimension d, GameUI game) {
 
-		// change icon of the frame
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 
 		this.d = d;
 		m_game = game;

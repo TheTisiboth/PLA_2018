@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,9 +42,6 @@ public class EndPage extends JFrame implements ActionListener {
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
 
-		// change icon of the frame
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 
 		this.gameUI = game;
 		largeur = 1200;
@@ -221,8 +217,8 @@ public class EndPage extends JFrame implements ActionListener {
 		m_rejouer = rejouer;
 		panel_center.setOpaque(false);
 		main.add(panel_center, BorderLayout.CENTER);
-		
-		cont.add(main,BorderLayout.CENTER );
+
+		cont.add(main, BorderLayout.CENTER);
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
@@ -245,6 +241,7 @@ public class EndPage extends JFrame implements ActionListener {
 			dispose();
 		}
 	}
+
 	public void windowClosing(WindowEvent e) {
 		m_model.shutdown();
 		System.exit(0);

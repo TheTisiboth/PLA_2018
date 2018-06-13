@@ -691,6 +691,7 @@ public class Zbire extends Physic_Entity {
 					Zbire z = (Zbire)e;
 					z.destroy();
 				}
+				c.setE(null);
 				c.setM_couleur(i_splash);
 				c.setRefresh(true);
 			}

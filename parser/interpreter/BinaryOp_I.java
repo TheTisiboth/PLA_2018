@@ -2,52 +2,44 @@ package interpreter;
 
 import java.util.Random;
 
-import mvc.MesOptions;
-import ricm3.parser.Ast.Expression;
-import ricm3.parser.Ast.Terminal;
+import mvc.Case;
+import physic.entity.Physic_Entity;
 
 public class BinaryOp_I extends Expression_I {
-	Terminal operator;
-	Expression left_operand;
-	Expression right_operand;
+	String operator;
+	Expression_I left_operand;
+	Expression_I right_operand;
 	
-	public BinaryOp_I(Terminal operator, Expression left_operand, Expression right_operand) {
+	public BinaryOp_I(String operator, Expression_I left_operand, Expression_I right_operand) {
 		this.operator = operator;
 		this.left_operand = left_operand;
 		this.right_operand = right_operand;
 	}
 
 	@Override
-	public boolean eval() {
-		Expression_I l_op = (Expression_I) left_operand.make();
-		Expression_I r_op = (Expression_I) right_operand.make();
-		String ope = (String) operator.make();
+	public boolean eval(Physic_Entity j, Case[][] plateau) {
 		
-		if(ope == "&") {
-			return l_op.eval() && r_op.eval();
+		if(operator.equals("&")) {
+			return left_operand.eval(j, plateau) && right_operand.eval(j, plateau);
 		}
-		else if (ope == "/") {
-			return l_op.eval() || r_op.eval();
+		else if (operator.equals("/")) {
+			return left_operand.eval(j, plateau) || right_operand.eval(j, plateau);
 		}
 		return false;
 	}
 
 	@Override
-	public void exec() {
-		Expression_I l_op = (Expression_I) left_operand.make();
-		Expression_I r_op = (Expression_I) right_operand.make();
-		String ope = (String) operator.make();
-		
-		if(ope == "&") {
-			l_op.exec();
+	public void exec(Physic_Entity j, Case[][] plateau) {
+		if(operator.equals("&")) {
+			left_operand.exec(j, plateau);
 		}
-		else if (ope == "/") {
+		else if (operator.equals("/")) {
 			Random rand = new Random();
 			int i = rand.nextInt(10);
 			if(i <= 7)
-				l_op.exec();
+				left_operand.exec(j, plateau);
 			else
-				r_op.exec();
+				right_operand.exec(j, plateau);
 		}
 	}
 }

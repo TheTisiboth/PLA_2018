@@ -7,19 +7,21 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
 import mvc.Model;
+import mvc.Sounds;
 
 public class GameWindow extends JFrame {
 
@@ -34,13 +36,20 @@ public class GameWindow extends JFrame {
 	Dimension dimension;
 	long last_tick;
 	int secondes, minutes;
-	public JProgressBar progresseBar1,progresseBar2;
+	public JProgressBar progresseBar1, progresseBar2;
 	JPanel image_background;
 
 	public JLabel time, pourcentage1, pourcentage2, img_eclair1, img_eclair2, img_stop1, img_stop2;
-	
+	public JLabel[] bE, bW;
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
+
+		Sounds.game_sound();
+
+		// change icon of the frame
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+
 		last_tick = 0L;
 		this.dimension = d;
 		m_model = (Model) mod;
@@ -53,11 +62,10 @@ public class GameWindow extends JFrame {
 		time = new JLabel();
 		pourcentage1 = new JLabel();
 		pourcentage2 = new JLabel();
-		
-		
+		bE = new JLabel[4];
+		bW = new JLabel[4];
 
 		Container cont = this.getContentPane();
-
 
 		this.setTitle("COLORicm Deluxe Version 2.0");
 		cont.setSize(d);
@@ -77,14 +85,12 @@ public class GameWindow extends JFrame {
 		progresseBar1 = createBarreGauche();
 		progresseBar2 = createBarreDroite();
 
-
 		m_view.setBounds(120, 120, 960, 480);
 		north.setBounds(0, 0, 1200, 80);
-		east.setBounds(1100, 100, 100, 450);
-		west.setBounds(0, 100, 100, 450);
-		progresseBar1.setBounds(0,80,600,40);
-		progresseBar2.setBounds(600,80,600,40);
-
+		east.setBounds(1080, 120, 120, 480);
+		west.setBounds(0, 120, 120, 480);
+		progresseBar1.setBounds(0, 80, 600, 40);
+		progresseBar2.setBounds(600, 80, 600, 40);
 
 		img.add(north);
 		img.add(m_view);
@@ -96,17 +102,17 @@ public class GameWindow extends JFrame {
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
-
-		this.setResizable(false);
-		this.doLayout();
-		this.setVisible(true);
+	
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
 		this.addWindowListener(new WindowListener(m_model));
 
+		this.setSize(d);
 		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		this.setVisible(true);
 
 		// let's hook the controller,
 		// so it gets mouse events and keyboard events.
@@ -123,8 +129,6 @@ public class GameWindow extends JFrame {
 		m_controller.notifyVisible();
 	}
 
-
-
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 		super.setBounds(x, y, width, height);
@@ -139,37 +143,32 @@ public class GameWindow extends JFrame {
 	}
 
 	private JProgressBar createBarreGauche() {
-		
 
 		JProgressBar barreJ1 = new JProgressBar();
-		barreJ1.setPreferredSize(new Dimension(600,40));
-		barreJ1.setMaximumSize(new Dimension(600,40));
-		barreJ1.setMinimumSize(new Dimension(600,40));
+		barreJ1.setPreferredSize(new Dimension(600, 40));
+		barreJ1.setMaximumSize(new Dimension(600, 40));
+		barreJ1.setMinimumSize(new Dimension(600, 40));
 		barreJ1.setValue(100);
 		barreJ1.setForeground(Color.RED);
 		barreJ1.setStringPainted(true);
-		
-		
 
-
-		return barreJ1;	
+		return barreJ1;
 	}
 
 	private JProgressBar createBarreDroite() {
 	
 		JProgressBar barreJ2 = new JProgressBar();
-		barreJ2.setPreferredSize(new Dimension(600,40));
-		barreJ2.setMaximumSize(new Dimension(600,40));
-		barreJ2.setMinimumSize(new Dimension(600,40));
+		barreJ2.setPreferredSize(new Dimension(600, 40));
+		barreJ2.setMaximumSize(new Dimension(600, 40));
+		barreJ2.setMinimumSize(new Dimension(600, 40));
 		barreJ2.setValue(100);
 		barreJ2.setForeground(Color.BLUE);
 		barreJ2.setStringPainted(true);
-		
+
 		return barreJ2;
-		
+
 	}
-	
-	
+
 	// ----------------------NORTH PANEL------------------------------//
 
 	// CENTER NORTH
@@ -315,8 +314,6 @@ public class GameWindow extends JFrame {
 		pourcentage2.setFont(new Font("Helvetica", Font.BOLD, 40));
 		pourcentagePanel.add(pourcentage2);
 		panel.add(pourcentagePanel);
-		
-		
 
 		return panel;
 	}
@@ -333,7 +330,6 @@ public class GameWindow extends JFrame {
 		CenterNorth.setBounds(500, 16, 200, 80);
 		JPanel EastNorth = createEastNorthPanel();
 		EastNorth.setBounds(700, 0, 500, 80);
-		
 
 		panel.add(WestNorth, BorderLayout.WEST);
 		panel.add(CenterNorth, BorderLayout.CENTER);
@@ -349,22 +345,21 @@ public class GameWindow extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 1));
+		bE[0] = new JLabel(new ImageIcon(m_model.m_transparent));
 
-		JLabel bE1 = new JLabel("EAST 1", SwingConstants.CENTER);
+		bE[1] = new JLabel(new ImageIcon(m_model.m_transparent));
 
-		JLabel bE2 = new JLabel("EAST 2", SwingConstants.CENTER);
+		bE[2] = new JLabel(new ImageIcon(m_model.m_transparent));
 
-		JLabel bE3 = new JLabel("EAST 3", SwingConstants.CENTER);
+		bE[3] = new JLabel(new ImageIcon(m_model.m_transparent));
 
-		JLabel bE4 = new JLabel("EAST 4", SwingConstants.CENTER);
-
-		panel.add(bE1);
-		panel.add(bE2);
-		panel.add(bE3);
-		panel.add(bE4);
+		panel.add(bE[0]);
+		panel.add(bE[1]);
+		panel.add(bE[2]);
+		panel.add(bE[3]);
 		panel.setOpaque(false);
-		panel.setBounds(0, 120, 120, 480);
 
+		panel.setBounds(1080, 120, 120, 480);
 		return panel;
 
 	}
@@ -375,25 +370,32 @@ public class GameWindow extends JFrame {
 
 		// Creation de Panel à l'Ouest
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 1));
+		panel.setLayout(new GridLayout(4,1));
+	
+		bW[0] = new JLabel(new ImageIcon(m_model.m_transparent));
+		
 
-		JLabel bW1 = new JLabel("WEST 1", SwingConstants.CENTER);
+		bW[1] = new JLabel(new ImageIcon(m_model.m_transparent));
+	
 
-		JLabel bW2 = new JLabel("WEST 2", SwingConstants.CENTER);
+		bW[2] = new JLabel(new ImageIcon(m_model.m_transparent));
+		
 
-		JLabel bW3 = new JLabel("WEST 3", SwingConstants.CENTER);
-
-		JLabel bW4 = new JLabel("WEST 4", SwingConstants.CENTER);
-
-		panel.add(bW1);
-		panel.add(bW2);
-		panel.add(bW3);
-		panel.add(bW4);
+		bW[3] = new JLabel(new ImageIcon(m_model.m_transparent));
+		
+		panel.add(bW[0]);
+		panel.add(bW[1]);
+		panel.add(bW[2]);
+		panel.add(bW[3]);
 		panel.setOpaque(false);
-		panel.setBounds(1080, 120, 120, 480);
+		panel.setBounds(0, 120, 120, 480);
 
 		return panel;
 	}
-
+	
+	public void windowClosing(WindowEvent e) {
+		m_model.shutdown();
+		System.exit(0);
+	}
 
 }

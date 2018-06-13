@@ -20,6 +20,7 @@ package edu.ricm3.game;
 import java.awt.event.WindowEvent;
 
 public class WindowListener implements java.awt.event.WindowListener {
+
 	GameModel m_model;
 
 	public WindowListener(GameModel m) {
@@ -55,5 +56,6 @@ public class WindowListener implements java.awt.event.WindowListener {
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 	}
+
 
 }

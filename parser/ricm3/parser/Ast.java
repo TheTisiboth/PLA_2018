@@ -6,6 +6,9 @@ import java.util.ListIterator;
 
 import interpreter.*;
 import physic.entity.Physic_Entity;
+import ricm3.parser.Ast.Behaviour;
+import ricm3.parser.Ast.Parameter;
+import ricm3.parser.Ast.Transition;
 
 /* Michael PÉRIN, Verimag / Univ. Grenoble Alpes, june 2018
  *
@@ -56,6 +59,10 @@ public class Ast {
 
 	public static class Terminal extends Ast {
 		String value;
+
+		public String getValue() {
+			return value;
+		}
 
 		Terminal(String string) {
 			this.kind = "Terminal";
@@ -212,6 +219,7 @@ public class Ast {
 	// FunCall(Parameters)
 
 	public static abstract class Expression extends Ast {
+		public abstract Expression_I make();
 		public abstract String toString();
 	}
 
@@ -231,8 +239,10 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new UnaryOp_I(operator, operand);
+		public UnaryOp_I make() {
+			String s = operator.toString();
+			Expression_I op = operand.make();
+			return new UnaryOp_I(s, op);
 		}
 
 		public String toString() {
@@ -259,8 +269,12 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new BinaryOp_I(operator, left_operand, right_operand);
+		public BinaryOp_I make() {
+			String op = operator.toString();
+			Expression_I l_op = left_operand.make();
+			Expression_I r_op = right_operand.make();
+			
+			return new BinaryOp_I(op, l_op, r_op);
 		}
 
 		public String toString() {
@@ -291,8 +305,19 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new FunCall_I(name, parameters);
+		public FunCall_I make() {
+			String s = name.toString();
+			
+			List<String> list = new LinkedList<String>();
+			ListIterator<Parameter> Iter = parameters.listIterator();
+
+			while (Iter.hasNext()) {
+				Parameter p = Iter.next();
+				String para = p.toString();
+				list.add(para);
+			}
+			
+			return new FunCall_I(s, list);
 		}
 
 		public String toString() {
@@ -323,8 +348,9 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new Condition_I(expression);
+		public Condition_I make() {
+			Expression_I exp = expression.make();
+			return new Condition_I(exp);
 		}
 
 		public String toString() {
@@ -346,8 +372,9 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new Action_I(expression);
+		public Action_I make() {
+			Expression_I exp = expression.make();
+			return new Action_I(exp);
 		}
 
 		public String toString() {
@@ -377,14 +404,18 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new State_I(name);
+		public String make() {
+			return name.toString();
 		}
 	}
 
 	public static class AI_Definitions extends Ast {
 
-		List<Automaton> automata;
+		public List<Automaton> automata;
+
+		public List<Automaton> getAutomata() {
+			return automata;
+		}
 
 		AI_Definitions(List<Automaton> list) {
 			this.kind = "AI_Definitions";
@@ -416,14 +447,26 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new AI_Definition_I(automata);
+		public List<Automaton_I> make() {
+			List<Automaton_I> list = new LinkedList<Automaton_I>();
+			ListIterator<Automaton> Iter = this.automata.listIterator();
+
+			while (Iter.hasNext()) {
+				Automaton automaton = Iter.next();
+				Automaton_I aut = automaton.make();
+				list.add(aut);
+			}
+			return list;
 		}
 	}
 
 	public static class Automaton extends Ast {
 
 		Terminal name;
+		public Terminal getName() {
+			return name;
+		}
+
 		State entry;
 		List<Behaviour> behaviours;
 
@@ -447,8 +490,20 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new Automaton_I(name, entry, behaviours);
+		public Automaton_I make() {
+			String nom = name.toString();
+			String etat = entry.make();
+
+			List<Behaviour_I> list = new LinkedList<Behaviour_I>();
+			ListIterator<Behaviour> Iter = behaviours.listIterator();
+
+			while (Iter.hasNext()) {
+				Behaviour b = Iter.next();
+				Behaviour_I beha = b.make();
+				list.add(beha);
+			}
+
+			return new Automaton_I(nom, etat, list);
 		}
 
 		/*
@@ -488,8 +543,18 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new Behaviour_I(source, transitions);
+		public Behaviour_I make() {
+			String s = source.make();
+
+			List<Transition_I> list = new LinkedList<Transition_I>();
+			ListIterator<Transition> Iter = transitions.listIterator();
+
+			while (Iter.hasNext()) {
+				Transition t = Iter.next();
+				Transition_I trans = t.make();
+				list.add(trans);
+			}
+			return new Behaviour_I(s, list);
 		}
 
 		public String as_transition_of(Automaton automaton) {
@@ -499,7 +564,7 @@ public class Ast {
 				Transition transition = Iter.next();
 				string += transition.as_transition_from(automaton, source);
 			}
-			return source.as_state_of(automaton) + string ;
+			return source.as_state_of(automaton) + string;
 		}
 	}
 
@@ -521,8 +586,11 @@ public class Ast {
 		}
 
 		@Override
-		public Object make() {
-			return new Transition_I(condition,action,target);
+		public Transition_I make() {
+			Condition_I cond = condition.make();
+			Action_I act = action.make();
+			String s = target.make();
+			return new Transition_I(cond, act, s);
 		}
 
 		public String toString() {
@@ -531,10 +599,10 @@ public class Ast {
 
 		public String as_transition_from(Automaton automaton, State source) {
 			String string = new String();
-			string += Dot.declare_node( this.dot_id() , this.toString(), "shape=box, fontcolor=blue, fontsize=6") ;
-			string += Dot.edge(source.dot_id_of_state_of(automaton), this.dot_id()) ;
-			string += Dot.edge(this.dot_id(), target.dot_id_of_state_of(automaton)) ;
-			return string ;
+			string += Dot.declare_node(this.dot_id(), this.toString(), "shape=box, fontcolor=blue, fontsize=6");
+			string += Dot.edge(source.dot_id_of_state_of(automaton), this.dot_id());
+			string += Dot.edge(this.dot_id(), target.dot_id_of_state_of(automaton));
+			return string;
 		}
 	}
 }

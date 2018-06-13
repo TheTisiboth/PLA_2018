@@ -18,6 +18,7 @@
 package edu.ricm3.game;
 
 public class Options {
+
 	/*
 	 * You want to use double buffering... Trust us, but you need to understand
 	 * what that means. Look at the class GameView.

@@ -7,9 +7,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -21,10 +25,14 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import edu.ricm3.game.GameUI;
+import edu.ricm3.game.WindowListener;
 import mvc.Controller;
+import mvc.MesOptions;
 import mvc.Model;
+import mvc.Sounds;
 import mvc.View;
-import physic.entity.Joueur;
+import ricm3.parser.AutomataParser;
+import ricm3.parser.Ast.AI_Definitions;
 
 public class HomeWindow extends JFrame implements ActionListener {
 
@@ -35,7 +43,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 	JTextField j1, j2;
 
-	JButton play, rules, fg1, fg2, fd1, fd2,credits,engrenage;;
+	JButton play, rules, fg1, fg2, fd1, fd2, credits, engrenage;;
 
 	String nom_j1, nom_j2;
 	private JLabel spritePanel1, spritePanel2;
@@ -49,6 +57,10 @@ public class HomeWindow extends JFrame implements ActionListener {
 	int perso1, perso2;
 
 	public HomeWindow(Dimension d, GameUI game) {
+
+		// change icon of the frame
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
 
 		this.d = d;
 		m_game = game;
@@ -64,8 +76,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		// Textfield Joueur 1
 
-		j1 = new JTextField("Joueur 1");
-		j1.setBounds(140, 117, 300, 100);
+		j1 = new JTextField(MesOptions.nom_j1);
+		j1.setBounds(140, 100, 300, 100);
 		j1.setForeground(Color.WHITE);
 		j1.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j1.setOpaque(false);
@@ -76,14 +88,14 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		j1.addActionListener(this);
 
-		this.add(j1);
+		img.add(j1);
 
 		// Fin Textfield Jour 1
 
 		// Textfield Joueur 2
 
-		j2 = new JTextField("Joueur 2");
-		j2.setBounds(765, 117, 300, 100);
+		j2 = new JTextField(MesOptions.nom_j2);
+		j2.setBounds(765, 100, 300, 100);
 		j2.setForeground(Color.WHITE);
 		j2.setFont(new Font("Helvetica", Font.BOLD, 20));
 		j2.setOpaque(false);
@@ -94,24 +106,25 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		j2.addActionListener(this);
 
-		this.add(j2);
+		img.add(j2);
 
 		// Fin Textfield Jour 2
 
-
 		// Engrenage
 		engrenage = new JButton();
-		engrenage.setBounds(400, 490, 400, 100);
+		engrenage.setBounds(380, 380, 430, 75);
 		engrenage.setOpaque(false);
 		engrenage.setContentAreaFilled(false);
 		engrenage.setBorderPainted(false);
 
 		engrenage.addActionListener(this);
 
-//		this.add(engrenage);
+
+		img.add(engrenage);
 		
 		// fin engrenage
-		
+
+		// fin engrenage
 
 		// Affichage Sprites Joueur 1
 		perso1 = 0;
@@ -120,66 +133,65 @@ public class HomeWindow extends JFrame implements ActionListener {
 		spritePanel1 = new JLabel(new ImageIcon(sprites[247 + perso1 * 8]));
 		spritePanel1.setBounds(240, 195, 100, 170);
 		spritePanel1.setOpaque(false);
-		this.add(spritePanel1);
+		img.add(spritePanel1);
 
 		// Bouton flecheDroiteJ1
 
 		fd1 = new JButton();
-		fd1.setBounds(530, 247, 50, 80);
+		fd1.setBounds(465, 247, 50, 80);
 		fd1.setOpaque(false);
 		fd1.setContentAreaFilled(false);
 		fd1.setBorderPainted(false);
 		fd1.addActionListener(this);
-		this.add(fd1);
+		img.add(fd1);
 
 		// Bouton fleche gauche 1
 
 		fg1 = new JButton();
-		fg1.setBounds(20, 247, 50, 80);
+		fg1.setBounds(68, 247, 50, 80);
 		fg1.setOpaque(false);
 		fg1.setContentAreaFilled(false);
 		fg1.setBorderPainted(false);
 		fg1.addActionListener(this);
-		this.add(fg1);
+		img.add(fg1);
 
 		// Affichage Sprites Joueur 2
 		spritePanel2 = new JLabel(new ImageIcon(sprites[247 + perso2 * 8]));
 		spritePanel2.setBounds(850, 195, 100, 170);
 		spritePanel2.setOpaque(false);
-		this.add(spritePanel2);
+		img.add(spritePanel2);
 
 		// Bouton flecheDroiteJ2
 
 		fd2 = new JButton();
-		fd2.setBounds(1140, 247, 50, 80);
+		fd2.setBounds(1080, 247, 50, 80);
 		fd2.setOpaque(false);
 		fd2.setContentAreaFilled(false);
 		fd2.setBorderPainted(false);
 		fd2.addActionListener(this);
-		this.add(fd2);
+		img.add(fd2);
 
 		// Bouton fleche gauche 2
 
 		fg2 = new JButton();
-		fg2.setBounds(630, 247, 50, 80);
+		fg2.setBounds(690, 247, 50, 80);
 		fg2.setOpaque(false);
 		fg2.setContentAreaFilled(false);
 		fg2.setBorderPainted(false);
 		fg2.addActionListener(this);
-		this.add(fg2);
-
+		img.add(fg2);
 
 		// Bouton "Click to play"
 
 		play = new JButton();
-		play.setBounds(400, 490, 400, 100);
+		play.setBounds(360, 483, 498, 70);
 		play.setOpaque(false);
 		play.setContentAreaFilled(false);
 		play.setBorderPainted(false);
 
 		play.addActionListener(this);
 
-		this.add(play);
+		img.add(play);
 
 		// Fin Bouton "Click to play"
 
@@ -190,10 +202,9 @@ public class HomeWindow extends JFrame implements ActionListener {
 		rules.setOpaque(false);
 		rules.setContentAreaFilled(false);
 		rules.setBorderPainted(false);
-
 		rules.addActionListener(this);
 
-		this.add(rules);
+		img.add(rules);
 
 		// Fin Bouton "Rules"
 
@@ -207,20 +218,19 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		credits.addActionListener(this);
 
-		this.add(credits);
+		img.add(credits);
 
 		// Fin Bouton "Crédits"
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
 
+		this.addWindowListener(new WindowListener(new Model(1, 2)));
 		this.setSize(d);
-		this.doLayout();
-		this.setResizable(false);
-		this.setVisible(true);
-
 		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		this.setVisible(true);
 
 	}
 
@@ -244,18 +254,46 @@ public class HomeWindow extends JFrame implements ActionListener {
 		// Récupération des noms des joueurs
 		if (s == j1) {
 			j1.setText(j1.getText());
+			MesOptions.nom_j1 = j1.getText();
 		}
 		if (s == j2) {
 			j2.setText(j2.getText());
+			MesOptions.nom_j2 = j2.getText();
 		}
 
 		// Quand on clique sur le bouton "Play"
 		if (s == play) {
+
+			Sounds.clic_sound();
+
 			nom_j1 = j1.getText();
 			nom_j2 = j2.getText();
 
 			// construct the game elements: model, controller, and view.
-
+			MesOptions.automates_j1 = new LinkedList<String>();
+			MesOptions.automates_j2 = new LinkedList<String>();
+			LinkedList<String> tab = fenetre.lecture("save.txt");
+			for (int i = 0; i < 4; i++) {
+				MesOptions.automates_j1.add(tab.get(i));
+			}
+			for (int i = 4; i < 8; i++) {
+				MesOptions.automates_j2.add(tab.get(i));
+			}
+			
+			try {
+			if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
+				AutomataParser.ReInit(new BufferedReader(new FileReader("automata.txt")));
+			else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
+				new AutomataParser(new BufferedReader(new FileReader("automata.txt")));
+			MesOptions.deja_parse = true;
+			// On lance le parser
+			AI_Definitions def = (AI_Definitions) AutomataParser.Run();
+			MesOptions.automates = def.make();
+			}
+			catch (Exception e1) {
+				e1.getStackTrace();
+			}
+			
 			model = new Model(perso2, perso1);
 			controller = new Controller(model);
 			view = new View(model, controller);
@@ -268,54 +306,65 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 			dispose();
 		}
-		
-		// Quand on clique sur le bouton "Chois Automates
-//		if(s = engrenage){
-//			new ChoixZbire();
-//			dispose();
-//		}
 
-		// Quand on clique sur le bouton "Régles"
+		// Quand on clique sur le bouton "Choix Automates"
+		if (s == engrenage) {
+			Sounds.clic_sound();
+			new ChoixZbire(d, m_game);
+			dispose();
+		}
+
+		// Quand on clique sur le bouton "Règles"
 		if (s == rules) {
+			Sounds.clic_sound();
 			new RulesWindow(d, m_game);
 			dispose();
 		}
 
 		// Quand on clique sur le bouton "Crédits"
 		if (s == credits) {
+			Sounds.clic_sound();
 			new CreditsWindow(d, m_game);
 			dispose();
 		}
 
 		// Boutons du joueur 1
 		if (s == fd1) {
+			Sounds.clic_sound();
 			do {
 				perso1 = (perso1 == 4) ? 0 : perso1 + 1;
 			} while (perso1 == perso2);
 			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
 			this.validate();
+
 		}
 		if (s == fg1) {
+			Sounds.clic_sound();
 			do {
 				perso1 = (perso1 == 0) ? 4 : perso1 - 1;
 			} while (perso1 == perso2);
 			spritePanel1.setIcon(new ImageIcon(sprites[247 + perso1 * 8]));
 			this.validate();
+
 		}
 		// Boutons du joueur 2
 		if (s == fd2) {
+			Sounds.clic_sound();
 			do {
 				perso2 = (perso2 == 4) ? 0 : perso2 + 1;
 			} while (perso1 == perso2);
 			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
 			this.validate();
+
 		}
 		if (s == fg2) {
+			Sounds.clic_sound();
 			do {
 				perso2 = (perso2 == 0) ? 4 : perso2 - 1;
 			} while (perso1 == perso2);
 			spritePanel2.setIcon(new ImageIcon(sprites[247 + perso2 * 8]));
 			this.validate();
+
 		}
 
 	}
@@ -351,6 +400,11 @@ public class HomeWindow extends JFrame implements ActionListener {
 			System.exit(-1);
 			return null;
 		}
+	}
+	
+	public void windowClosing(WindowEvent e) {
+		
+		System.exit(0);
 	}
 
 }

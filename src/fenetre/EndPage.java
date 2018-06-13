@@ -2,12 +2,15 @@ package fenetre;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +24,7 @@ import edu.ricm3.game.GameView;
 import edu.ricm3.game.WindowListener;
 import mvc.Graphs;
 import mvc.Model;
+import mvc.Sounds;
 
 public class EndPage extends JFrame implements ActionListener {
 
@@ -39,11 +43,20 @@ public class EndPage extends JFrame implements ActionListener {
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
 
+		// change icon of the frame
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+
 		this.gameUI = game;
 		largeur = 1200;
 		hauteur = 600;
 
 		d = new Dimension(largeur, hauteur);
+		Container cont = this.getContentPane();
+		cont.setSize(d);
+		cont.setPreferredSize(d);
+		cont.setMaximumSize(d);
+		cont.setMinimumSize(d);
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new FlowLayout());
 		JPanel panel2 = new JPanel();
@@ -61,7 +74,6 @@ public class EndPage extends JFrame implements ActionListener {
 		}
 
 		this.setTitle("COLORicm Deluxe Version 2.0 - STATISTIQUES");
-		this.setSize(d);
 		main.setLayout(new BorderLayout());
 
 		// Création des police d'écriture
@@ -173,8 +185,8 @@ public class EndPage extends JFrame implements ActionListener {
 
 		JPanel pan_graph = new JPanel();
 		pan_graph.setLayout(new FlowLayout());
-		
-		JLabel stat= new JLabel("",SwingConstants.CENTER);
+
+		JLabel stat = new JLabel("", SwingConstants.CENTER);
 		preferredSize = new Dimension(510, 80);
 
 		stat.setPreferredSize(preferredSize);
@@ -188,9 +200,8 @@ public class EndPage extends JFrame implements ActionListener {
 		// graphs.setOpaque(false);
 		pan_graph.add(graphs);
 
-		
-		JLabel titre  = new JLabel("Graphique du score en fonction du temps",SwingConstants.CENTER);
-		preferredSize =new Dimension(510, 40);
+		JLabel titre = new JLabel("Graphique du score en fonction du temps", SwingConstants.CENTER);
+		preferredSize = new Dimension(510, 40);
 
 		titre.setPreferredSize(preferredSize);
 		titre.setForeground(Color.WHITE);
@@ -210,18 +221,18 @@ public class EndPage extends JFrame implements ActionListener {
 		m_rejouer = rejouer;
 		panel_center.setOpaque(false);
 		main.add(panel_center, BorderLayout.CENTER);
-
-		this.add(main);
-
-		this.doLayout();
-		this.setResizable(false);
-		this.setVisible(true);
+		
+		cont.add(main,BorderLayout.CENTER );
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
 		this.addWindowListener(new WindowListener(m_model));
 
+		this.setSize(d);
+		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		this.setVisible(true);
 
 	}
 
@@ -229,9 +240,14 @@ public class EndPage extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 		if (s == m_rejouer) {
+			Sounds.clic_sound();
 			new GameUI(d);
 			dispose();
 		}
+	}
+	public void windowClosing(WindowEvent e) {
+		m_model.shutdown();
+		System.exit(0);
 	}
 
 }

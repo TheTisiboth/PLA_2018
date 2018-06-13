@@ -5,7 +5,9 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +17,9 @@ import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.GameView;
+import edu.ricm3.game.WindowListener;
+import mvc.Model;
+import mvc.Sounds;
 
 public class CreditsWindow extends JFrame implements ActionListener {
 
@@ -30,6 +35,10 @@ public class CreditsWindow extends JFrame implements ActionListener {
 
 	public CreditsWindow(Dimension d, GameUI game) {
 
+		// change icon of the frame 
+		ImageIcon icon = new ImageIcon("images/item_sbire.png");
+		this.setIconImage(icon.getImage());
+		
 		this.d = d;
 		m_game = game;
 
@@ -50,19 +59,19 @@ public class CreditsWindow extends JFrame implements ActionListener {
 
 		rules.addActionListener(this);
 
-		this.add(rules);
+		img.add(rules);
 
 		// Fin Bouton "Rules"
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
 
-		this.doLayout();
-		this.setResizable(false);
-		this.setVisible(true);
-
+		this.setSize(d);
 		this.pack();
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+		this.setVisible(true);
+		this.addWindowListener(new WindowListener(new Model(1, 2)));
 
 	}
 
@@ -84,10 +93,15 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		Object s = e.getSource();
 
 		if (s == rules) {
+			Sounds.clic_sound();
 			new HomeWindow(d, m_game);
 			dispose();
 		}
 
+	}
+	
+	public void windowClosing(WindowEvent e) {
+		System.exit(0);
 	}
 
 }

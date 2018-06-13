@@ -1,4 +1,4 @@
-Kamikaze(DEPL){
+Exploseur(DEPL){
 * (DEPL):
   | Cell(L, V) & GotPower() ? Move(L) : (DEPL)
   | Cell(R, V) & GotPower() ? Move(R) : (DEPL)
@@ -14,7 +14,7 @@ Peintre(DEPL){
   | Cell(F, V) & GotPower() ? Move(F) : (PEINT)
   | Cell(B, V) & GotPower() ? Move(B) : (PEINT)
   | True ? Pop : ()
-* (PEINT): true ? Pop : (DEPL)
+* (PEINT): True ? Pop : (DEPL)
 }
 
 Constructeur(DEPL){
@@ -24,7 +24,7 @@ Constructeur(DEPL){
   | Cell(F, V) & GotPower() ? Move(F) : (MUR)
   | Cell(B, V) & GotPower() ? Move(B) : (MUR)
   | True ? Wizz : ()
-* (MUR): true ? Wizz : (DEPL)
+* (MUR): True ? Wizz : (DEPL)
 }
 
 Filou(DEPL){
@@ -34,5 +34,5 @@ Filou(DEPL){
   | Cell(F, V) & GotPower() ? Move(F) : (FILOUTERIE)
   | Cell(B, V) & GotPower() ? Move(B) : (FILOUTERIE)
   | True ? Pop / Pick : ()
-* (FILOUTERIE): true ? Pop / Pick : (DEPL)
+* (FILOUTERIE): True ? Pop / Pick : (DEPL)
 }

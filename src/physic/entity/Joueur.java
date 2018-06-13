@@ -11,6 +11,7 @@ import java.util.Random;
 import interpreter.Automaton_I;
 import interpreter.Behaviour_I;
 import mvc.Case;
+import mvc.Model;
 import mvc.MesOptions;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
@@ -40,8 +41,10 @@ public class Joueur extends Physic_Entity {
 
 	char direction, last_direction;
 	private int timeEffectFreeze;
+	
+	Model m_model;
 
-	public Joueur(BufferedImage sprite, int rows, int columns, int personnalisation, int x, int y, float scale,
+	public Joueur(Model model, BufferedImage sprite, int rows, int columns, int personnalisation, int x, int y, float scale,
 			Color couleur) {
 
 		super(x, y);
@@ -64,7 +67,7 @@ public class Joueur extends Physic_Entity {
 		pos_init_x = x;
 		pos_init_y = y;
 		direction = last_direction = 'D';
-
+		m_model = model;
 		m_idx = 45 + m_personnalisation;
 
 	}
@@ -185,7 +188,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 1);
 				nom = listAut.get(0);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
+				zbire = new Zbire(m_model,-1, -1, this.couleur, 5, 0, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[0] = zbire;
 			}
 
@@ -194,7 +197,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 2);
 				nom = listAut.get(1);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
+				zbire = new Zbire(m_model,-1, -1, this.couleur, 10, 1, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[1] = zbire;
 			}
 
@@ -203,7 +206,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 3);
 				nom = listAut.get(2);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
+				zbire = new Zbire(m_model,-1, -1, this.couleur, 10, 2, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[2] = zbire;
 			}
 
@@ -212,7 +215,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 4);
 				nom = listAut.get(3);
 				aut = search(nom);
-				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
+				zbire = new Zbire(m_model,-1, -1, this.couleur, 20, 3, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
 				z[3] = zbire;
 			}
 		}

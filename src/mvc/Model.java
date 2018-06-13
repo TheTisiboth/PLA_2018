@@ -50,10 +50,18 @@ public class Model extends GameModel {
 
 	Case plateau[][];
 
-	private float score1, score2;
-	private boolean refresh_score = true;
-	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
-			m_recharge, m_portal;
+	public float score1, score2;
+	public boolean refresh_score = true;
+	BufferedImage m_personnage, m_obstacle;
+	public BufferedImage m_Blue;
+	public BufferedImage m_Red;
+	public BufferedImage m_BlockBlue;
+	public BufferedImage m_BlockGray;
+	BufferedImage m_thunder;
+	BufferedImage m_stop;
+	BufferedImage m_item;
+	BufferedImage m_recharge;
+	BufferedImage m_portal;
 	public BufferedImage m_transparent;
 	GameWindow m_frame;
 
@@ -94,13 +102,13 @@ public class Model extends GameModel {
 
 		initPlat(plateau);
 
-		player2 = new Joueur(m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F,
+		player2 = new Joueur(this,m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F,
 				Color.BLUE);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
-		player1 = new Joueur(m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED);
+		player1 = new Joueur(this,m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);

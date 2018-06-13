@@ -1,40 +1,94 @@
-Exploseur(DEPL){
-* (DEPL):
-  | Cell(L, V) & GotPower() ? Move(L) : (DEPL)
-  | Cell(R, V) & GotPower() ? Move(R) : (DEPL)
-  | Cell(F, V) & GotPower() ? Move(F) : (DEPL)
-  | Cell(B, V) & GotPower() ? Move(B) : (DEPL)
+Exploseur(DEPL1){
+* (DEPL1):
+  | Cell(L, V) & GotPower() ? Move(L) : (DEPL2)
+  | Cell(R, V) & GotPower() ? Move(R) : (DEPL2)
+  | Cell(F, V) & GotPower() ? Move(F) : (DEPL2)
+  | Cell(B, V) & GotPower() ? Move(B) : (DEPL2)
+  | True ? Kamikaze : ()
+* (DEPL2):
+  | Cell(F, V) & GotPower() ? Move(F) : (DEPL3)
+  | Cell(R, V) & GotPower() ? Move(R) : (DEPL3)
+  | Cell(L, V) & GotPower() ? Move(L) : (DEPL3)
+  | Cell(B, V) & GotPower() ? Move(B) : (DEPL3)
+  | True ? Kamikaze : ()
+* (DEPL3):
+  | Cell(R, V) & GotPower() ? Move(R) : (DEPL1)
+  | Cell(F, V) & GotPower() ? Move(F) : (DEPL1)
+  | Cell(L, V) & GotPower() ? Move(L) : (DEPL1)
+  | Cell(B, V) & GotPower() ? Move(B) : (DEPL1)
   | True ? Kamikaze : ()
 }
 
-Peintre(DEPL){
-* (DEPL):
-  | Cell(L, V) & GotPower() ? Move(L) : (PEINT)
-  | Cell(R, V) & GotPower() ? Move(R) : (PEINT)
-  | Cell(F, V) & GotPower() ? Move(F) : (PEINT)
-  | Cell(B, V) & GotPower() ? Move(B) : (PEINT)
+Peintre(DEPL1){
+* (DEPL1):
+  | Cell(L, V) & GotPower() ? Move(L) : (PEINT1)
+  | Cell(R, V) & GotPower() ? Move(R) : (PEINT1)
+  | Cell(F, V) & GotPower() ? Move(F) : (PEINT1)
+  | Cell(B, V) & GotPower() ? Move(B) : (PEINT1)
   | True ? Pop : ()
-* (PEINT): True ? Pop : (DEPL)
+* (PEINT1): True ? Pop : (DEPL2)
+* (DEPL2):
+  | Cell(F, V) & GotPower() ? Move(F) : (PEINT2)
+  | Cell(R, V) & GotPower() ? Move(R) : (PEINT2)
+  | Cell(L, V) & GotPower() ? Move(L) : (PEINT2)
+  | Cell(B, V) & GotPower() ? Move(B) : (PEINT2)
+  | True ? Pop : ()
+* (PEINT2): True ? Pop : (DEPL3)
+* (DEPL3):
+  | Cell(R, V) & GotPower() ? Move(R) : (PEINT3)
+  | Cell(F, V) & GotPower() ? Move(F) : (PEINT3)
+  | Cell(L, V) & GotPower() ? Move(L) : (PEINT3)
+  | Cell(B, V) & GotPower() ? Move(B) : (PEINT3)
+  | True ? Pop : ()
+* (PEINT3): True ? Pop : (DEPL1)
 }
 
-Constructeur(DEPL){
-* (DEPL):
-  | Cell(L, V) & GotPower() ? Move(L) : (MUR)
-  | Cell(R, V) & GotPower() ? Move(R) : (MUR)
-  | Cell(F, V) & GotPower() ? Move(F) : (MUR)
-  | Cell(B, V) & GotPower() ? Move(B) : (MUR)
+Constructeur(DEPL1){
+* (DEPL1):
+  | Cell(L, V) & GotPower() ? Move(L) : (MUR1)
+  | Cell(R, V) & GotPower() ? Move(R) : (MUR1)
+  | Cell(F, V) & GotPower() ? Move(F) : (MUR1)
+  | Cell(B, V) & GotPower() ? Move(B) : (MUR1)
   | True ? Wizz : ()
-* (MUR): True ? Wizz : (DEPL)
+* (MUR1): True ? Wizz : (DEPL2)
+* (DEPL2):
+  | Cell(F, V) & GotPower() ? Move(F) : (MUR2)
+  | Cell(R, V) & GotPower() ? Move(R) : (MUR2)
+  | Cell(L, V) & GotPower() ? Move(L) : (MUR2)
+  | Cell(B, V) & GotPower() ? Move(B) : (MUR2)
+  | True ? Wizz : ()
+* (MUR2): True ? Wizz : (DEPL3)
+* (DEPL3):
+  | Cell(R, V) & GotPower() ? Move(R) : (MUR3)
+  | Cell(F, V) & GotPower() ? Move(F) : (MUR3)
+  | Cell(L, V) & GotPower() ? Move(L) : (MUR3)
+  | Cell(B, V) & GotPower() ? Move(B) : (MUR3)
+  | True ? Wizz : ()
+* (MUR3): True ? Wizz : (DEPL1)
 }
 
-Filou(DEPL){
-* (DEPL):
-  | Cell(L, V) & GotPower() ? Move(L) : (FILOUTERIE)
-  | Cell(R, V) & GotPower() ? Move(R) : (FILOUTERIE)
-  | Cell(F, V) & GotPower() ? Move(F) : (FILOUTERIE)
-  | Cell(B, V) & GotPower() ? Move(B) : (FILOUTERIE)
+Filou(DEPL1){
+* (DEPL1):
+  | Cell(L, V) & GotPower() ? Move(L) : (FILOUTERIE1)
+  | Cell(R, V) & GotPower() ? Move(R) : (FILOUTERIE1)
+  | Cell(F, V) & GotPower() ? Move(F) : (FILOUTERIE1)
+  | Cell(B, V) & GotPower() ? Move(B) : (FILOUTERIE1)
   | True ? Pop / Pick : ()
-* (FILOUTERIE): True ? Pop / Pick : (DEPL)
+* (FILOUTERIE1): True ? Pop / Pick : (DEPL2)
+* (DEPL2):
+  | Cell(F, V) & GotPower() ? Move(F) : (FILOUTERIE2)
+  | Cell(R, V) & GotPower() ? Move(R) : (FILOUTERIE2)
+  | Cell(L, V) & GotPower() ? Move(L) : (FILOUTERIE2)
+  | Cell(B, V) & GotPower() ? Move(B) : (FILOUTERIE2)
+  | True ? Pop / Pick: ()
+* (FILOUTERIE2): True ? Pop / Pick: (DEPL3)
+* (DEPL3):
+  | Cell(R, V) & GotPower() ? Move(R) : (FILOUTERIE3)
+  | Cell(F, V) & GotPower() ? Move(F) : (FILOUTERIE3)
+  | Cell(L, V) & GotPower() ? Move(L) : (FILOUTERIE3)
+  | Cell(B, V) & GotPower() ? Move(B) : (FILOUTERIE3)
+  | True ? Pop / Pick: ()
+* (FILOUTERIE3): True ? Pop / Pick: (DEPL1)
 }
 
 Philosopher(Think){

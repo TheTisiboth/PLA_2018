@@ -728,6 +728,7 @@ public class Zbire extends Physic_Entity {
 					z.destroy();
 				}
 
+
 				if (c.getM_couleur() == m_model.m_BlockBlue || c.getM_couleur() == m_model.m_BlockGray) {
 					if (joueur == 2)
 						m_model.score2++;
@@ -747,6 +748,7 @@ public class Zbire extends Physic_Entity {
 					}
 					m_model.refresh_score = true;
 				}
+				c.setE(null);
 				c.setM_couleur(i_splash);
 				c.setRefresh(true);
 			}

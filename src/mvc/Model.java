@@ -808,8 +808,10 @@ public class Model extends GameModel {
 			if (!(o.life()))
 				c.setE(null);
 		} else if (e instanceof Joueur) {
+			Joueur j = (Joueur)e;
+			plateau[j.getPosInit_x()][j.getPosInit_y()].setE(j);
+			plateau[j.getPosInit_x()][j.getPosInit_y()].setRefresh(true);
 			c.setE(null);
-
 		} else if (e instanceof Zbire) {
 			Zbire z = (Zbire) e;
 			if (!(z.life()))

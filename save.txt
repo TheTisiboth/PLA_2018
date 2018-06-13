@@ -2,7 +2,7 @@ Exploseur
 Peintre
 Constructeur
 Filou
-Exploseur
+Explorer
 Peintre
 Constructeur
 Filou

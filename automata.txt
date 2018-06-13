@@ -235,3 +235,32 @@ SuperHero(Explore){
 
 * (Build_1): True ? Throw :(Build)
 }
+
+IA (DEPL){
+*(DEPL) :
+	|!GotPower() ? Pop(): (RECHERCHE_PEINTURE) 
+	|Cell(F,G) ? Hit : (DEPL)
+	|Cell(R,V) & !Cell(F,V) ? Move(R) : (DEPL)		
+	|Cell(L,V) & !Cell(F,V) ? Move(L) : (DEPL) 
+	|Cell(F,V) ? Move(F) : (DEPL) 	
+	
+	
+*(RECHERCHE_SBIRE) :
+	|Closest(J, L) & !(GotStuff()) ? Move(L) : (RECHERCHE_SBIRE)
+	|Closest(J, R) & !(GotStuff()) ? Move(R) : (RECHERCHE_SBIRE)
+	|Closest(J, F) & !(GotStuff()) ? Move(F) : (RECHERCHE_SBIRE)
+	|Closest(J, B) & !(GotStuff()) ? Move(B) : (RECHERCHE_SBIRE)
+	|GotStuff() ? Pop() : (LANCER_SBIRE) 
+
+*(LANCER_SBIRE) : 
+	|Cell(F,V) ? Throw(F) : (DEPL)
+	|!(Cell(F,V)) ? Move(R) / Move(L) : (LANCER_SBIRE) 
+
+
+*(RECHERCHE_PEINTURE) :
+	|Closest(M, L) & !(GotPower()) ? Move(L) : (RECHERCHE_PEINTURE)
+	|Closest(M, R) & !(GotPower()) ? Move(R) : (RECHERCHE_PEINTURE)
+	|Closest(M, F) & !(GotPower()) ? Move(F) : (RECHERCHE_PEINTURE)
+	|Closest(M, B) & !(GotPower()) ? Move(B) : (RECHERCHE_PEINTURE)
+	|GotPower() ? Pop() : (DEPL) 
+}

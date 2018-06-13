@@ -9,6 +9,7 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 
 import edu.ricm3.game.GameModel;
 import fenetre.GameWindow;
+import interpreter.Automaton_I;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
 import no.physic.entity.Item_Zbire;
@@ -51,7 +53,8 @@ public class Model extends GameModel {
 	Case plateau[][];
 
 	public float score1, score2;
-	public boolean refresh_score = true;
+	public boolean refresh_score = true, IA1,IA2;
+
 	BufferedImage m_personnage, m_obstacle;
 	public BufferedImage m_Blue;
 	public BufferedImage m_Red;
@@ -64,6 +67,7 @@ public class Model extends GameModel {
 	BufferedImage m_portal;
 	public BufferedImage m_transparent;
 	GameWindow m_frame;
+	
 
 	private String name_j1, name_j2;
 	private long m_lastMove;
@@ -101,14 +105,19 @@ public class Model extends GameModel {
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
 
 		initPlat(plateau);
-
+		
 		player2 = new Joueur(this,m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F,
-				Color.BLUE);
+					Color.BLUE,null);
+		
+
+		
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
-		player1 = new Joueur(this,m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED);
+		
+			player1 = new Joueur(this,m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED,null);
+	
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setRefresh(true);
@@ -127,6 +136,19 @@ public class Model extends GameModel {
 		j1_zbire = new LinkedList<Zbire>();
 		j2_zbire = new LinkedList<Zbire>();
 	}
+	
+	Automaton_I search(String nom) {
+		ListIterator<Automaton_I> Iter = MesOptions.automates.listIterator();
+		Automaton_I aut;
+		
+		while(Iter.hasNext()) {
+			aut = Iter.next();
+			if(aut.name.equals(nom)) {
+				return aut;
+			}
+		}
+		return null;
+	}
 
 	public long getLastTick() {
 		return lastTick;
@@ -139,6 +161,30 @@ public class Model extends GameModel {
 	public JFrame getM_frame() {
 		return m_frame;
 	}
+	public boolean isIA1() {
+		return IA1;
+	}
+
+	public void setIA1(boolean iA1) {
+		IA1 = iA1;
+		if (IA1) {
+			player1.setAutomate();
+		}
+		
+	}
+
+	public boolean isIA2() {
+		return IA2;
+	}
+
+	public void setIA2(boolean iA2) {
+		IA2 = iA2;
+		if(IA2) {
+			player2.setAutomate();
+		}
+		
+	}
+
 
 	private void loadSprites() {
 
@@ -253,10 +299,10 @@ public class Model extends GameModel {
 	public void step(long now) {
 		if (timer) {
 			player1.canMove(plateau);
-			player1.step(now);
+			player1.step(now,plateau);
 
 			player2.canMove(plateau);
-			player2.step(now);
+			player2.step(now, plateau);
 
 			long elapsed = now - m_lastMove;
 			if (elapsed > 200L) {
@@ -789,7 +835,7 @@ public class Model extends GameModel {
 					Sounds.hit_sound();
 				}
 			}
-			check_case(c);
+			j.checkCase(c, plateau);
 		}
 	}
 
@@ -801,23 +847,6 @@ public class Model extends GameModel {
 		return null;
 	}
 
-	public void check_case(Case c) {
-		Entity e = c.getE();
-		if (e instanceof Obstacle) {
-			Obstacle o = (Obstacle) e;
-			if (!(o.life()))
-				c.setE(null);
-		} else if (e instanceof Joueur) {
-			Joueur j = (Joueur)e;
-			plateau[j.getPosInit_x()][j.getPosInit_y()].setE(j);
-			plateau[j.getPosInit_x()][j.getPosInit_y()].setRefresh(true);
-			c.setE(null);
-		} else if (e instanceof Zbire) {
-			Zbire z = (Zbire) e;
-			if (!(z.life()))
-				c.setE(null);
-		}
-	}
 
 	public Portal getPortal() {
 		return portal;

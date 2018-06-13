@@ -65,8 +65,14 @@ public class FunCall_I extends Expression_I {
 			j.turn(plateau);
 			break;
 		case "Jump":
-			j.jump(plateau);
-			break;
+			if (parameters.size() == 0) {
+				j.jump("F", plateau);
+				break;
+			} else {
+				j.jump(parameters.get(0), plateau);
+				break;
+			}
+		
 		case "Hit":
 			j.hit(plateau);
 			break;

@@ -1,66 +1,48 @@
-Popper(Init){
-  * (Init): True ? Pop :(Init)
-}
+
+
 
 Wizzer(Init){
   * (Init): True ? Wizz :(Init)
 }
 
-Explorer(Explore_R){
 
-* (Explore_R):
-  | Cell(F,V) ? Move    :(Explore_R)
-  | Cell(R,V) ? Turn(R) :(Explore_R)
-  | Cell(L,V) ? Turn(L) :(Explore_R)
-  | True ? Turn(B) :(Explore_L)
 
-* (Explore_L):
-    | Cell(F,V) ? Move    :(Explore_L)
-    | Cell(L,V) ? Turn(L) :(Explore_L)
-    | Cell(R,V) ? Turn(R) :(Explore_L)
-    | True ? Turn(B) :(Explore_R)
-}
-
-Wizzer(Init){
-  * (Init): True ? Wizz :(Init)
-}
-
-Explorer(Explore_R){
-
-* (Explore_R):
-  | Cell(F,V) ? Move    :(Explore_R)
-  | Cell(R,V) ? Turn(R) :(Explore_R)
-  | Cell(L,V) ? Turn(L) :(Explore_R)
-  | True ? Turn(B) :(Explore_L)
-
-* (Explore_L):
-    | Cell(F,V) ? Move    :(Explore_L)
-    | Cell(L,V) ? Turn(L) :(Explore_L)
-    | Cell(R,V) ? Turn(R) :(Explore_L)
-    | True ? Turn(B) :(Explore_R)
-}
 
 Philosopher(Think){
   * (Think)
 }
 
-Exploseur(Init){
-  * (Init): True ? Kamikaze :(Init)
+
+Mover(Init){
+  * (Init): True ? Move :(Init)
 }
 
-Master(Think){
- * (Think_0): True ? Power :(Think_1)
- * (Think_1): True ? Power :(Think_2)
- * (Think_2): True ? Power :(Think_3)
- * (Think_3): True ? Power :(Think_4)
- * (Think_4): True ? Power :(Happy_0)
 
- * (Happy_0): True ? Power :(Happy_1)
- * (Happy_1): True ? Power :(Happy_2)
- * (Happy_2): True ? Power :(Happy_3)
- * (Happy_3): True ? Power :(Happy_4)
- * (Happy_4): True ? Power :(Happy_5)
+Mover(Init){
+  * (Init): True ? Move :(Init)
+}
 
- * (Happy_5): True ? Kamikaze   :(X)
+
+Popper(Init){
+  * (Init): True ? Pop :(Init)
+}
+
+
+
+
+Wizzer(Init){
+  * (Init): True ? Wizz :(Init)
+}
+
+
+Blocker(Init){
+  * (Init): !True ? Power :(Init)
+}
+
+
+
+
+Philosopher(Think){
+  * (Think)
 }
 

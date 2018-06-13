@@ -17,13 +17,11 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import edu.ricm3.game.GameUI;
 import mvc.LectureFichier;
 import mvc.MesOptions;
@@ -42,7 +40,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	private JButton home;
 	Dimension d;
 	GameUI m_game;
-	ArrayList<String> noms_automate,noms_automate_tmp;
+	ArrayList<String> noms_automate, noms_automate_tmp;
 	ArrayList<String> automate;
 	String fichier;
 	JPanel img;
@@ -51,7 +49,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 	int showMsgError;
 
 	public ChoixZbire(Dimension d, GameUI game) {
-		showMsgError = 0; // évite d'avoir un double affichage de message d'erreur
+		showMsgError = 0; // évite d'avoir un double affichage de message
+							// d'erreur
 		final JPanel eastPanel = new JPanel();
 		final JPanel westPanel = new JPanel();
 		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 30));
@@ -59,7 +58,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		// Jpanel img contient l'image de fond
 		img = new Background(d, 7);
 		comboBox = new JComboBox[8];
-		fichier = "automata.txt"; 
+		fichier = "save.txt";
 		automate = LectureFichier.lecture_automata(fichier);
 
 		// on rafraichit les 8 menus déroulants, en fonction du fichier choisi
@@ -111,8 +110,8 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		menu_fichier.setSelectedItem(fichier);
 		for (int i = 0; i < menu_fichier.getItemCount(); i++) {
 			String s = menu_fichier.getItemAt(i).toString();
-			if((menu_fichier.getItemAt(i)).toString().contains(fichier))
-					menu_fichier.setSelectedItem(menu_fichier.getItemAt(i));
+			if ((menu_fichier.getItemAt(i)).toString().contains(fichier))
+				menu_fichier.setSelectedItem(menu_fichier.getItemAt(i));
 		}
 		img.add(menu_fichier);
 		menu_fichier.addItemListener(new ItemListener() {
@@ -130,7 +129,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		refreshAutomate(eastPanel, westPanel);
 
 		// Textfield Joueur 1
-		
+
 		j1 = new JTextField(MesOptions.nom_j1);
 		j1.setBounds(160, 80, 300, 100);
 		j1.setForeground(Color.WHITE);
@@ -181,8 +180,6 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 	}
 
-	
-	
 	void refreshAutomate(JPanel eastPanel, JPanel westPanel) {
 		try {
 			File monFichier = new File(fichier);
@@ -190,14 +187,17 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				fichier = "automata.txt";
 			}
 			noms_automate_tmp = new ArrayList<String>();
-			noms_automate = new ArrayList<String>(); // contient tout les noms
-														// des
-			automate = LectureFichier.lecture_automata(fichier); // automates
-			if (MesOptions.deja_parse) // si on a deja parse un fichier, il
-										// faut reinitialiser le parser
+			noms_automate = new ArrayList<String>();
+
+			// Contient tout les automtates de fichier
+			automate = LectureFichier.lecture_automata(fichier);
+			if (MesOptions.deja_parse)
+				// si on a deja parse un fichier, il faut reinitialiser le
+				// parser
 				AutomataParser.ReInit(new BufferedReader(new FileReader(fichier)));
-			else // on crée une nouvelle instance du parser, si l'on ne l'a
-					// jamais fait
+			else
+				// on crée une nouvelle instance du parser, si l'on ne l'a
+				// jamais fait
 				new AutomataParser(new BufferedReader(new FileReader(fichier)));
 			MesOptions.deja_parse = true;
 			// On lance le parser
@@ -210,10 +210,13 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				noms_automate.add(iter.next().getName().getValue());
 			}
 			for (int i = 0; i < noms_automate.size(); i++) {
-				if(!noms_automate_tmp.contains(noms_automate.get(i)))
+				if (!noms_automate_tmp.contains(noms_automate.get(i)))
+					// noms_automate_tmp contient les noms d'automates a ajouter
+					// dans les menu deroulant
 					noms_automate_tmp.add(noms_automate.get(i));
+
 			}
-			
+
 			if (noms_automate.size() < 1) {
 				String s = "Veuillez mettre au moins 1 automates";
 				throw new ricm3.parser.ParseException(s);
@@ -234,7 +237,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				for (int j = 0; j < noms_automate_tmp.size(); j++) {
 					comboBox[i].addItem(noms_automate_tmp.get(j));
 				}
-				comboBox[i].setSelectedItem(noms_automate.get(i));
+				comboBox[i].setSelectedItem(noms_automate.get(i%noms_automate.size()));
 
 			}
 
@@ -297,21 +300,21 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		Object s = e.getSource();
 		if (s == home) {
 			Sounds.clic_sound();
-			if (comboBox[0].isEnabled()) {// si les boutons sont activé =>
-											// fichier valide => on sauvegarde
-											// dans save.txt
+			if (comboBox[0].isEnabled()) {
+				// si les boutons sont activé => fichier valide => on sauvegarde dans save.txt
 				boolean premiere_iteration = true;
 				for (int i = 0; i < 8; i++) {
-					// sauvegarde dans le fichier save.txt les noms des
+					// sauvegarde dans le fichier save.txt des noms des
 					// automates choisis
 					String aut_name = comboBox[i].getSelectedItem().toString();
-					int indice = -1,j=0;
-					while(j < automate.size() && indice == -1) {
+					int indice = -1, j = 0;
+					while (j < automate.size() && indice == -1) {
 						if (automate.get(j).contains(aut_name))
 							indice = j;
 						j++;
 					}
-					fenetre.ecrire("save.txt", automate.get(indice), premiere_iteration);
+					// On réécrit l'automate complet
+					LectureFichier.ecrire("save.txt", automate.get(indice), premiere_iteration);
 					premiere_iteration = false;
 				}
 			}

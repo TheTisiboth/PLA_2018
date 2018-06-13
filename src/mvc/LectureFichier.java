@@ -1,3 +1,4 @@
+package mvc;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -9,7 +10,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class fichier {
+public class LectureFichier {
 
 	public static ArrayList<String> lecture(String fichier) {
 
@@ -87,8 +88,7 @@ public class fichier {
 
 				}
 				while (ligne != null && (!Accolade_fermante || !Accolade_ouvrante)) {
-					if (ligne == null)
-						not_end = false;
+					
 					if (not_end) {
 						automate += ligne + '\n';
 						for (int i = 0; i < ligne.length(); i++) {
@@ -101,9 +101,11 @@ public class fichier {
 					// System.out.println("b");
 					if (not_end)
 						ligne = br.readLine();
+					if (ligne == null)
+						not_end = false;
 				}
 				tab.add(automate);
-				System.out.println("b");
+				
 			}
 			br.close();
 

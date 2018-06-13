@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -581,39 +582,220 @@ public class Zbire extends Physic_Entity {
 	}
 
 	@Override
-	public void jump(Case[][] plateau) {
-		// TODO Auto-generated method stub
+	public void jump(String dir, Case[][] plateau) {
+		int next_x = x;
+		int next_y = y;
+		String m_dir = choixDir(dir);
+		switch (m_dir) {
+		case "N":
+			next_y -= 2;
+			direction = "N";
+			break;
+		case "S":
+			next_y += 2;
+			direction = "S";
+			break;
+		case "E":
+			next_x += 2;
+			direction = "E";
+			break;
+		case "O":
+			next_x -= 2;
+			direction = "O";
+			break;
+		default:
+			break;
+		}
+		nb_case--;
+		Case c = getC(next_x, next_y, plateau);
+		if (c != null && !(c.getE() instanceof Physic_Entity)) {
+			plateau[x][y].setE(null);
+			plateau[x][y].setRefresh(true);
+			last_x = x;
+			last_y = y;
+			x = next_x;
+			y = next_y;
+			plateau[x][y].setE(this);
+			plateau[x][y].setRefresh(true);
+		}
 
 	}
 
 	@Override
 	public void protect(Case[][] plateau) {
-		// TODO Auto-generated method stub
+		Case c;
+		Entity e;
+		LinkedList<Case> list_c = new LinkedList<Case>();
+		list_c.add(getC(x, y, plateau));
+		list_c.add(getC(x - 1, y - 1, plateau));
+		list_c.add(getC(x, y - 1, plateau));
+		list_c.add(getC(x + 1, y - 1, plateau));
+		list_c.add(getC(x + 1, y, plateau));
+		list_c.add(getC(x + 1, y + 1, plateau));
+		list_c.add(getC(x, y + 1, plateau));
+		list_c.add(getC(x - 1, y + 1, plateau));
+		list_c.add(getC(x - 1, y, plateau));
+		ListIterator<Case> Iter = list_c.listIterator();
 
+		while (Iter.hasNext()) {
+			c = Iter.next();
+			if (c != null) {
+				e = c.getE();
+				if (!(e instanceof Obstacle)) {
+					if (c.getM_couleur() == m_model.m_BlockBlue || c.getM_couleur() == m_model.m_BlockGray) {
+						if (joueur == 2)
+							m_model.score2++;
+						else
+							m_model.score1++;
+						m_model.refresh_score = true;
+					} else if (c.getM_couleur() == m_model.m_Red) {
+						if (joueur == 2) {
+							m_model.score2++;
+							m_model.score1--;
+						}
+						m_model.refresh_score = true;
+					} else if (c.getM_couleur() == m_model.m_Blue) {
+						if (joueur == 1) {
+							m_model.score1++;
+							m_model.score2--;
+						}
+						m_model.refresh_score = true;
+					}
+					c.setM_couleur(i_splash);
+					c.setRefresh(true);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void jeter(Case[][] plateau) {
-		// TODO Auto-generated method stub
+
+		boolean diff = true;
+		Random rand = new Random();
+
+		int[] tab_x = new int[5];
+		int[] tab_y = new int[5];
+		int compteur = 0;
+		do {
+			diff = true;
+			int y = rand.nextInt(MesOptions.nbLigne);
+			int x = rand.nextInt(MesOptions.nbCol);
+			for (int i = 0; i < compteur; i++) {
+				if (tab_y[i] == y && tab_x[i] == x) {
+					diff = false;
+				}
+			}
+			if (plateau[x][y].getE() instanceof Physic_Entity) {
+				diff = false;
+			}
+			if (diff) {
+				tab_y[compteur] = y;
+				tab_x[compteur] = x;
+				compteur++;
+			}
+		} while (compteur != 5);
+		for (int i = 0; i < 5; i++) {
+			plateau[tab_x[i]][tab_y[i]].setM_couleur(i_splash);
+			plateau[tab_x[i]][tab_y[i]].setRefresh(true);
+		}
 
 	}
 
 	@Override
 	public void store(Case[][] plateau) {
-		// TODO Auto-generated method stub
+		Case c;
+		Entity e;
+		LinkedList<Case> list_c = new LinkedList<Case>();
+		list_c.add(getC(x, y, plateau));
+		list_c.add(getC(x - 1, y - 1, plateau));
+		list_c.add(getC(x + 1, y - 1, plateau));
+		list_c.add(getC(x + 1, y + 1, plateau));
+		list_c.add(getC(x - 1, y + 1, plateau));
+		ListIterator<Case> Iter = list_c.listIterator();
 
+		while (Iter.hasNext()) {
+			c = Iter.next();
+			if (c != null) {
+				e = c.getE();
+				if (!(e instanceof Obstacle)) {
+					if (c.getM_couleur() == m_model.m_BlockBlue || c.getM_couleur() == m_model.m_BlockGray) {
+						if (joueur == 2)
+							m_model.score2++;
+						else
+							m_model.score1++;
+						m_model.refresh_score = true;
+					} else if (c.getM_couleur() == m_model.m_Red) {
+						if (joueur == 2) {
+							m_model.score2++;
+							m_model.score1--;
+						}
+						m_model.refresh_score = true;
+					} else if (c.getM_couleur() == m_model.m_Blue) {
+						if (joueur == 1) {
+							m_model.score1++;
+							m_model.score2--;
+						}
+						m_model.refresh_score = true;
+					}
+					c.setM_couleur(i_splash);
+					c.setRefresh(true);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void get(Case[][] plateau) {
-		// TODO Auto-generated method stub
+		Case c;
+		Entity e;
+		LinkedList<Case> list_c = new LinkedList<Case>();
+		list_c.add(getC(x, y, plateau));
+		list_c.add(getC(x, y - 1, plateau));
+		list_c.add(getC(x + 1, y, plateau));
+		list_c.add(getC(x, y + 1, plateau));
+		list_c.add(getC(x - 1, y, plateau));
+		ListIterator<Case> Iter = list_c.listIterator();
+
+		while (Iter.hasNext()) {
+			c = Iter.next();
+			if (c != null) {
+				e = c.getE();
+				if (!(e instanceof Obstacle)) {
+					if (c.getM_couleur() == m_model.m_BlockBlue || c.getM_couleur() == m_model.m_BlockGray) {
+						if (joueur == 2)
+							m_model.score2++;
+						else
+							m_model.score1++;
+						m_model.refresh_score = true;
+					} else if (c.getM_couleur() == m_model.m_Red) {
+						if (joueur == 2) {
+							m_model.score2++;
+							m_model.score1--;
+						}
+						m_model.refresh_score = true;
+					} else if (c.getM_couleur() == m_model.m_Blue) {
+						if (joueur == 1) {
+							m_model.score1++;
+							m_model.score2--;
+						}
+						m_model.refresh_score = true;
+					}
+					c.setM_couleur(i_splash);
+					c.setRefresh(true);
+				}
+			}
+		}
 
 	}
 
 	@Override
 	public void power(Case[][] plateau) {
-		// TODO Auto-generated method stub
-
+		if (joueur == 1) {
+			m_model.getJ1().recharger(true);
+		}else {
+			m_model.getJ2().recharger(true);
+		}
 	}
 
 	@Override
@@ -666,7 +848,35 @@ public class Zbire extends Physic_Entity {
 
 	@Override
 	public void hit(Case[][] plateau) {
-		// TODO Auto-generated method stub
+		Case c = null;
+		switch (direction) {
+		case "N":
+			c = getC(x, y - 1, plateau);
+			break;
+		case "S":
+			c = getC(x, y + 1, plateau);
+			break;
+		case "E":
+			c = getC(x + 1, y, plateau);
+			break;
+		case "O":
+			c = getC(x - 1, y, plateau);
+			break;
+		default:
+			System.out.println("Pb direction sbire");
+			break;
+		}
+		if (c != null) {
+			Entity e = c.getE();
+			if (e instanceof Zbire) {
+				Zbire z = (Zbire) e;
+				z.reduce_nb_case();
+				if (!(z.life())) {
+					c.setE(null);
+					c.setRefresh(true);
+				}
+			}
+		}
 
 	}
 
@@ -727,7 +937,6 @@ public class Zbire extends Physic_Entity {
 					Zbire z = (Zbire) e;
 					z.destroy();
 				}
-
 
 				if (c.getM_couleur() == m_model.m_BlockBlue || c.getM_couleur() == m_model.m_BlockGray) {
 					if (joueur == 2)

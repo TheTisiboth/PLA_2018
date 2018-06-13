@@ -9,10 +9,9 @@ import java.util.ListIterator;
 import java.util.Random;
 
 import interpreter.Automaton_I;
-import interpreter.Behaviour_I;
 import mvc.Case;
-import mvc.Model;
 import mvc.MesOptions;
+import mvc.Model;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
 import no.physic.entity.Speed;
@@ -487,7 +486,7 @@ public class Joueur extends Physic_Entity {
 	}
 
 	@Override
-	public void jump(Case[][] plateau) {
+	public void jump(String dir, Case[][] plateau) {
 		// TODO Auto-generated method stub
 		
 	}

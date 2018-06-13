@@ -105,7 +105,7 @@ public class Obstacle extends Physic_Entity {
 	}
 
 	@Override
-	public void jump(Case[][] plateau) {
+	public void jump(String dir, Case[][] plateau) {
 		// TODO Auto-generated method stub
 		
 	}

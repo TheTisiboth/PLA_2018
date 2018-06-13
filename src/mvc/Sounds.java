@@ -14,7 +14,7 @@ public class Sounds {
 	
 	public static void game_sound() {
 
-	    String gongFile = "sons/game.wav";
+	    String gongFile = "sons/game_all.wav";
 	    InputStream in = null;
 		try {
 			in = new FileInputStream(gongFile);

@@ -10,134 +10,139 @@ import sun.audio.AudioStream;
 
 public class Sounds {
 	
-	static AudioStream audioStreamGame = null;
+	static AudioStream audioStreamGame;
+	static AudioStream audioStreamClic;
+	static AudioStream audioStreamHit;
+	static AudioStream audioStreamCharge;
+	static AudioStream audioStreamPop;
+	static AudioStream audioStreamPortail;
 	
-	public static void game_sound() {
-
-	    String gongFile = "sons/game.wav";
-	    InputStream in = null;
+	public static void load_sound() {
+		String gameFile = "sons/game_all.wav";
+	    InputStream in_game = null;
+	    
+	    String popFile = "sons/pop.wav";
+	    InputStream in_pop = null;
+	    
+	    String chargeFile = "sons/charge.wav";
+	    InputStream in_charge = null;
+	    
+	    String hitFile = "sons/hit.wav";
+	    InputStream in_hit = null;
+	    
+	    String portailFile = "sons/portail.wav";
+	    InputStream in_portail = null;
+	    
+	    String clicFile = "sons/click.wav";
+	    InputStream in_clic = null;
+	    
+	    // game sound
 		try {
-			in = new FileInputStream(gongFile);
+			in_game = new FileInputStream(gameFile);
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found.. :(");
+			System.out.println("File game sound not found.. :(");
 			e.printStackTrace();
 		}
 
 		try {
-			audioStreamGame = new AudioStream(in);
+			audioStreamGame = new AudioStream(in_game);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		// pop sound
+		try {
+			in_pop = new FileInputStream(popFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File pop sound not found.. :(");
+			e.printStackTrace();
+		}
+
+		try {
+			audioStreamPop = new AudioStream(in_pop);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-	    AudioPlayer.player.start(audioStreamGame);
+		// charge sound
+		try {
+			in_charge = new FileInputStream(chargeFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File charge sound not found.. :(");
+			e.printStackTrace();
+		}
+
+		try {
+			audioStreamCharge = new AudioStream(in_charge);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// hit sound
+		try {
+			in_hit = new FileInputStream(hitFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File hit sound not found.. :(");
+			e.printStackTrace();
+		}
+
+		try {
+			audioStreamHit = new AudioStream(in_hit);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// portail sound
+		try {
+			in_portail = new FileInputStream(portailFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File portail sound not found.. :(");
+			e.printStackTrace();
+		}
+
+		try {
+			audioStreamPortail = new AudioStream(in_portail);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// clic sound
+		try {
+			in_clic = new FileInputStream(clicFile);
+		} catch (FileNotFoundException e) {
+			System.out.println("File clic sound not found.. :(");
+			e.printStackTrace();
+		}
+
+		try {
+			audioStreamClic = new AudioStream(in_clic);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void stop_game_sound() {
-		AudioPlayer.player.interrupt();
-	    AudioPlayer.player.stop(audioStreamGame);
+	public static void game_sound() {
+	    AudioPlayer.player.start(audioStreamGame);
 	}
 	
 	public static void pop_sound() {
-
-	    String gongFile = "sons/pop.wav";
-	    InputStream in = null;
-		try {
-			in = new FileInputStream(gongFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.. :(");
-			e.printStackTrace();
-		}
-
-		try {
-			audioStreamGame = new AudioStream(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	    AudioPlayer.player.start(audioStreamGame);
+	    AudioPlayer.player.start(audioStreamPop);
 	}
 	
-
 	public static void charge_sound() {
-
-	    String gongFile = "sons/charge.wav";
-	    InputStream in = null;
-		try {
-			in = new FileInputStream(gongFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.. :(");
-			e.printStackTrace();
-		}
-
-		try {
-			audioStreamGame = new AudioStream(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	    AudioPlayer.player.start(audioStreamGame);
+	    AudioPlayer.player.start(audioStreamCharge);
 	}
 	
 	public static void hit_sound() {
-
-	    String gongFile = "sons/hit.wav";
-	    InputStream in = null;
-		try {
-			in = new FileInputStream(gongFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.. :(");
-			e.printStackTrace();
-		}
-
-		try {
-			audioStreamGame = new AudioStream(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	    AudioPlayer.player.start(audioStreamGame);
+	    AudioPlayer.player.start(audioStreamHit);
 	}
 
 	public static void portail_sound() {
-
-	    String gongFile = "sons/portail.wav";
-	    InputStream in = null;
-		try {
-			in = new FileInputStream(gongFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.. :(");
-			e.printStackTrace();
-		}
-
-		try {
-			audioStreamGame = new AudioStream(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	    AudioPlayer.player.start(audioStreamGame);
+	    AudioPlayer.player.start(audioStreamPortail);
 	}
 
 	public static void clic_sound() {
-
-	    String gongFile = "sons/click.wav";
-	    InputStream in = null;
-		try {
-			in = new FileInputStream(gongFile);
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.. :(");
-			e.printStackTrace();
-		}
-
-		AudioStream audioStream = null;
-		try {
-			audioStream = new AudioStream(in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	    AudioPlayer.player.start(audioStream);
+	    AudioPlayer.player.start(audioStreamClic);
 	}
 	
 

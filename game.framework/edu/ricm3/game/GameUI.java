@@ -93,9 +93,8 @@ public class GameUI {
 
 	// creates a new window for home page to welcome the user
 	private void createWindow(Dimension d) {
-
+		Sounds.load_sound();
 		new HomeWindow(d, this);
-
 	}
 
 	/*
@@ -163,7 +162,6 @@ public class GameUI {
 				m_lastRepaint = now;
 				if (((Model) m_model).getTimer() == false) {
 					timer = false;
-					Sounds.stop_game_sound();
 					new EndPage(((Model) m_model), m_view, this);
 					((Model) m_model).getM_frame().dispose();
 

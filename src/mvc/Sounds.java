@@ -16,7 +16,7 @@ public class Sounds {
 
 	// load all the sounds in global players
 	// function called in GameUI when loading the first page "accueil"
-	
+
 	@SuppressWarnings("deprecation")
 	public static void load_sound() throws NoPlayerException, CannotRealizeException, IOException {
 
@@ -48,7 +48,7 @@ public class Sounds {
 	}
 
 	// we rewind all the sounds with the setMediaTime(new Time(0)) command
-	
+
 	// the sound of the game
 	public static void game_sound() {
 		m_player_game.start();

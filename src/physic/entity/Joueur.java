@@ -14,31 +14,33 @@ import no.physic.entity.Speed;
 
 public class Joueur extends Physic_Entity {
 
-	private int last_x, last_y;
-	private int m_w, m_h, m_idx;
-	private int speed, timeEffect, paintStock;
-	private int m_personnalisation, m_nrows, m_ncols, diameter;
-	private int step = 1;
-	private int pos_init_x, pos_init_y;
-	private int recharge = 10;
+	private int last_x, last_y; // retiens la derniere position du joueur
+	private int m_w, m_h, m_idx; // servit pour le chargement des sprites
+	private int speed, timeEffect; // gestion des bonnus
+	private int paintStock; // stock de peinture
+	private int m_personnalisation, m_nrows, m_ncols, diameter; // personalisation des sprites
+	private int step = 1; // pas en case de chaque mouvement
+	private int pos_init_x, pos_init_y; // position initiale du zbire
+	private int recharge = 10; // value de la recharge de peinture sur chaque item
 
-	private Color couleur;
-	private Zbire z[];
+	private Color couleur; // couleur du joueur
+	private Zbire z[]; // inventaire de zbires du joueur
 
-	private BufferedImage m_sprite;
-	private BufferedImage[] m_sprites;
+	private BufferedImage m_sprite; // matrice de sprite du joueur
+	private BufferedImage[] m_sprites; // tableau des sprites du joueur
+	private BufferedImage m_zbires; // matrice de sprite des zbire
 
-	private boolean moveable, reload;
-	boolean inMovement;
+	private boolean moveable;// indique si le joueur peut bouger
+	private boolean reload; // utilisé pour la recharge de peinture avec une case de décalage
+	boolean inMovement; // indique si la touche de mouvement est enfoncée ou non
 
-	private float m_scale;
-	private long m_lastMove;
+	private long m_lastMove; // temps du dernier mouvmeent du joueur
 
-	char direction, last_direction;
-	private int timeEffectFreeze;
+	char direction, last_direction; // direction et derniere direction du joueur
+	private int timeEffectFreeze; // durée du freeze du joueur
 
 	public Joueur(BufferedImage sprite, int rows, int columns, int personnalisation, int x, int y, float scale,
-			Color couleur) {
+			Color couleur, BufferedImage zbires) {
 
 		super(x, y);
 		m_sprite = sprite;
@@ -47,7 +49,6 @@ public class Joueur extends Physic_Entity {
 		last_x = x;
 		last_y = y;
 		diameter = 34;
-		m_scale = scale;
 		moveable = true;
 		timeEffect = 0;
 		speed = 1;
@@ -62,6 +63,8 @@ public class Joueur extends Physic_Entity {
 		direction = last_direction = 'D';
 
 		m_idx = 45 + m_personnalisation;
+
+		m_zbires = zbires;
 
 	}
 
@@ -176,42 +179,31 @@ public class Joueur extends Physic_Entity {
 
 		if (i >= 0 && i < 25) {
 			if (z[0] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 0, 0.50F, joueur, m_zbires);
 				z[0] = zbire;
 			}
 
 		} else if (i >= 25 && i < 50) {
 			if (z[1] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 1, 0.50F, joueur, m_zbires);
 				z[1] = zbire;
 			}
 
 		} else if (i >= 50 && i < 75) {
 			if (z[2] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 2, 0.50F, joueur, m_zbires);
 				z[2] = zbire;
 			}
 
 		} else {
 			if (z[3] == null) {
-				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur);
+				zbire = new Zbire(-1, -1, this.couleur, 10, 3, 0.50F, joueur, m_zbires);
 				z[3] = zbire;
 			}
 		}
 	}
 
 	public void step(long now) {
-		// for (int i = 0; i < 4; i++) {
-		// if (z[i] != null) {
-		// z[i].step(now);
-		// if (!z[i].life()) {
-		// System.out.println("le sbire doit disparaitre");
-		// z[i] = null;
-		//
-		// }
-		// }
-		//
-		// }
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;

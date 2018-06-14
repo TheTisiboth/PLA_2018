@@ -30,7 +30,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-
 import fenetre.EndPage;
 import fenetre.HomeWindow;
 import mvc.Model;

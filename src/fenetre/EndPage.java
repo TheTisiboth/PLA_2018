@@ -92,7 +92,7 @@ public class EndPage extends JFrame implements ActionListener {
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 
-		txt = new JLabel("" + m_model.statistique.getNombrecase_parcouru1(), SwingConstants.CENTER);
+		txt = new JLabel("" + m_model.statistique.getNbcases_parcourues1(), SwingConstants.CENTER);
 		preferredSize = new Dimension(350, entrelayout);
 		txt.setFont(fonNumber);
 		txt.setPreferredSize(preferredSize);
@@ -139,7 +139,7 @@ public class EndPage extends JFrame implements ActionListener {
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 
-		txt1 = new JLabel("" + m_model.statistique.getNombrecase_parcouru2(), SwingConstants.CENTER);
+		txt1 = new JLabel("" + m_model.statistique.getNbcases_parcourues2(), SwingConstants.CENTER);
 		preferredSize = new Dimension(350, entrelayout);
 		txt1.setFont(fonNumber);
 		txt1.setForeground(Color.WHITE);

@@ -78,11 +78,11 @@ public class Case {
 		}
 	}
 
-	public boolean isOccuped() {
+	public boolean isOccupied() {
 		return occupied;
 	}
 
-	public void setOccuped(boolean occupied) {
+	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}
 

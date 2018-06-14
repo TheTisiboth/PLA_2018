@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -30,76 +29,62 @@ import physic.entity.Physic_Entity;
 import physic.entity.Zbire;
 
 public class Model extends GameModel {
-	private Joueur player2, player1; // les deux joueurs du jeu
-	LinkedList<Zbire> j1_zbire, j2_zbire; // liste des zbires invoqués des deux joueurs
-	private Obstacle o[]; // liste des obstacles sur la map
+	
+	private int minutes, secondes; 			// duration of the game
+	long elapsed, lastTick; 				// used to handle the calls of functions
+	private int counter_sec;				// used for statistiques
+	boolean timer;							// to know when the game is over 
+	private long m_lastMove; 				// control the speed of movements, keep in memory the last move
 
-	public Statistique statistique;
-	private Portal portal;
+	private String name_j1, name_j2; 		// name of the players 1 and 2
+	private Joueur player2, player1; 		// players 1 and 2
+	private Obstacle o[]; 					// list of the obstacles on the map
+	
+	LinkedList<Zbire> j1_zbire, j2_zbire; 	// list of sbires invoked by the 2 players
+	LinkedList<Bonus> listBonus;			// list of the bonus on the map
+	LinkedList<Item_Zbire> listItem;		// list of sbires items
+	LinkedList<Recharge> listRecharge;		// list of buckets paint for recharging
+	private Portal portal;					// variable for the unique portal on the map
 
-	private int minutes, secondes; // durée de la partie
+	Case plateau[][]; 						// matrix of the board game 
 
-	long elapsed, lastTick; // utilisé pour gérer l'appel aux fonctions
-	private int counter_sec;
-
-	boolean timer;
-
-	LinkedList<Bonus> listBonus;
-	LinkedList<Item_Zbire> listItem;
-	LinkedList<Recharge> listRecharge;
-
-	Case plateau[][]; // matrice complète du plateau du jeu
-
-	private float score1, score2; // scores des joueurs
+	private float score1, score2; 			// scores of the players 1 and 2
 	private boolean refresh_score = true;
+	
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Red, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_item,
-			m_recharge, m_portal, zbires; // tous les sprites utilisés
-	public BufferedImage m_transparent; // sprite transparent pour gestion affichage inventaire en jeu
-	GameWindow m_frame;
+			m_recharge, m_portal, zbires; 	// all the sprites images used 
+	public BufferedImage m_transparent; 	// transparent sprite (example : to display the inventory of the game)
 
-	private String name_j1, name_j2; // noms des joueurs
-	private long m_lastMove; // time du dernier mouvement du joueur
+	GameWindow m_frame;						// game window
+	public Statistique statistique;			// statistique window
 
-	public String getName_j1() {
-		return name_j1;
-	}
 
-	public void setName_j1(String name_j1) {
-		this.name_j1 = name_j1;
-	}
-
-	public String getName_j2() {
-		return name_j2;
-	}
-
-	public void setName_j2(String name_j2) {
-		this.name_j2 = name_j2;
-	}
-
+	// constructor
 	public Model(int perso1, int perso2) {
 		lastTick = 0L;
 		counter_sec = 0;
 
-		loadSprites();
+		loadSprites(); // load all the images from the sprite sheets
 
-		score1 = 0;
-		score2 = 0;
+		score1 = 0; // init
+		score2 = 0; // init
 
-		minutes = MesOptions.min;
-		secondes = 0;
+		minutes = MesOptions.min; // duration of the game in minutes
+		secondes = 0; // duration of the game in secondes
+		timer = true; // game in progress
 
-		timer = true;
-
+		// creation of the board game
 		plateau = new Case[MesOptions.nbCol][MesOptions.nbLigne];
-
 		initPlat(plateau);
 
+		// creation of player 1
 		player2 = new Joueur(m_personnage, 12, 24, perso1, MesOptions.nbCol - 1, MesOptions.nbLigne - 1, 0.25F,
 				Color.BLUE, zbires);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setE(player2);
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setCouleur((Color) player2.getColor());
 		plateau[MesOptions.pos_init_x_j2][MesOptions.pos_init_y_j2].setRefresh(true);
 
+		// creation of player 2
 		player1 = new Joueur(m_personnage, 12, 24, perso2, 0, 0, 0.25F, Color.RED, zbires);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setE(player1);
 		plateau[MesOptions.pos_init_x_j1][MesOptions.pos_init_y_j1].setCouleur((Color) player1.getColor());
@@ -118,6 +103,22 @@ public class Model extends GameModel {
 
 		j1_zbire = new LinkedList<Zbire>();
 		j2_zbire = new LinkedList<Zbire>();
+	}
+	
+	public String getName_j1() {
+		return name_j1;
+	}
+
+	public void setName_j1(String name_j1) {
+		this.name_j1 = name_j1;
+	}
+
+	public String getName_j2() {
+		return name_j2;
+	}
+
+	public void setName_j2(String name_j2) {
+		this.name_j2 = name_j2;
 	}
 
 	public long getLastTick() {
@@ -252,7 +253,8 @@ public class Model extends GameModel {
 	@Override
 	public void step(long now) {
 		if (timer) {
-			// on regarde d'abord si le joueur peut se déplacer, puis on appel step du
+			// on regarde d'abord si le joueur peut se déplacer, puis on appel
+			// step du
 			// joueur
 			player1.canMove(plateau);
 			player1.step(now);
@@ -457,7 +459,6 @@ public class Model extends GameModel {
 					m_frame.bW[i].setIcon(new ImageIcon(m_transparent));
 					m_frame.nW[i].setText("");
 
-					
 				}
 			}
 		} else {
@@ -620,9 +621,10 @@ public class Model extends GameModel {
 		}
 
 	}
-	//mis a jour de la matrice de case en fonction des déplacements du joueur
+
+	// mis a jour de la matrice de case en fonction des déplacements du joueur
 	public void update_plat() {
-		//prise d'information du joueur 2
+		// prise d'information du joueur 2
 		int last_xc = player2.getLastX();
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
@@ -630,7 +632,7 @@ public class Model extends GameModel {
 		char dirc = player2.getDirection();
 		char last_dirc = player2.getLast_direction();
 
-		//prise d'information du joueur 1
+		// prise d'information du joueur 1
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
@@ -639,28 +641,27 @@ public class Model extends GameModel {
 		char dirc1 = player1.getDirection();
 		char last_dirc1 = player1.getLast_direction();
 
-		//actualisation du sprite en fonction du changement de direction
+		// actualisation du sprite en fonction du changement de direction
 		if (dirc != last_dirc)
 			plateau[xc][yc].setRefresh(true);
 
 		if (dirc1 != last_dirc1)
 			plateau[x1][y1].setRefresh(true);
 
-		
 		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
 
 		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Red);
 
-		//mis a jour de la matrice si le joueur 1 a bougé.
+		// mis a jour de la matrice si le joueur 1 a bougé.
 		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
-			statistique.plus_Nombrecase_parcouru2();
+			statistique.plus_Nbcases_parcourues2();
 
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
-			//actualisation du score
+			// actualisation du score
 			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
 				score2++;
 				refresh_score = true;
@@ -670,7 +671,7 @@ public class Model extends GameModel {
 				refresh_score = true;
 			}
 			plateau[xc][yc].setE(player2);
-			//mis a jour 
+			// mis a jour
 			plateau[xc][yc].setCouleur((Color) player2.getColor());
 			player2.decreasePaintStock();
 			m_frame.progresseBar2.setValue((int) (player2.getPaintStock() / (float) MesOptions.paintMax * 100));
@@ -684,7 +685,7 @@ public class Model extends GameModel {
 		}
 
 		if ((last_xc1 != x1 || last_yc1 != y1) && player1.getPaintStock() != 0 && condJ2) {
-			statistique.plus_Nombrecase_parcouru1();
+			statistique.plus_Nbcases_parcourues1();
 
 			plateau[last_xc1][last_yc1].setE(null);
 			plateau[last_xc1][last_yc1].setM_couleur(m_Red);

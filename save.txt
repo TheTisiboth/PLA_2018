@@ -7,6 +7,9 @@ Mover(Init){
 Blocker(Init){
   * (Init): !True ? Power :(Init)
 }
+
+
+
 Mover(Init){
   * (Init): True ? Move :(Init)
 }

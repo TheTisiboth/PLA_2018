@@ -1,6 +1,5 @@
 package interpreter;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -25,14 +24,9 @@ public class Automaton_I {
 		Behaviour_I tmp;
 		
 		if(etat_courant.equals("X")) {
-			List<String> list_nom = new LinkedList<String>();
 			Random rand = new Random();
-			while(Iter.hasNext()) {
-				list_nom.add(Iter.next().source);
-			}
-			int i = rand.nextInt(list_nom.size());
-			etat_courant = list_nom.get(i);
-			Iter = behaviours.listIterator();
+			int i = rand.nextInt(behaviours.size());
+			b = behaviours.get(i);
 		}
 		
 		while (Iter.hasNext() && b == null) {

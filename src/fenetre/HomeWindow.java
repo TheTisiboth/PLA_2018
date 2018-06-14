@@ -9,8 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
@@ -29,6 +34,10 @@ import mvc.MesOptions;
 import mvc.Model;
 import mvc.Sounds;
 import mvc.View;
+import ricm3.parser.Ast.AI_Definitions;
+import ricm3.parser.Ast.Automaton;
+import ricm3.parser.AutomataParser;
+import ricm3.parser.ParseException;
 
 public class HomeWindow extends JFrame implements ActionListener {
 
@@ -54,9 +63,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 	public HomeWindow(Dimension d, GameUI game) {
 
-		// change icon of the frame
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 
 		this.d = d;
 		m_game = game;
@@ -114,10 +120,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 		engrenage.setBorderPainted(false);
 
 		engrenage.addActionListener(this);
-
-
 		img.add(engrenage);
-		
+
 		// fin engrenage
 
 		// fin engrenage
@@ -268,13 +272,43 @@ public class HomeWindow extends JFrame implements ActionListener {
 			// construct the game elements: model, controller, and view.
 			MesOptions.automates_j1 = new LinkedList<String>();
 			MesOptions.automates_j2 = new LinkedList<String>();
-			LinkedList<String> tab = fenetre.lecture("save.txt");
+			ArrayList<String> tab = new ArrayList<String>();
+
+			try {
+				if (MesOptions.deja_parse) // si on a deja parse un fichier, il
+					// faut reinitialiser le parser
+					AutomataParser.ReInit(new BufferedReader(new FileReader("save.txt")));
+				else // on crée une nouvelle instance du parser, si l'on ne l'a
+					// jamais fait
+					new AutomataParser(new BufferedReader(new FileReader("save.txt")));
+				MesOptions.deja_parse = true;
+				// On lance le parser
+				AI_Definitions def = (AI_Definitions) AutomataParser.Run();
+				// list contient la liste de tout les automates parsé
+				LinkedList<Automaton> list = (LinkedList<Automaton>) def.getAutomata();
+				Iterator<Automaton> iter = list.iterator();
+				while (iter.hasNext()) {
+					// on ajoute a la liste d'automate leur noms
+					tab.add(iter.next().getName().getValue());
+				}
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			for (int i = 0; i < 4; i++) {
 				MesOptions.automates_j1.add(tab.get(i));
+				//TODO supprimer l'affichage
+				System.out.println(tab.get(i));
 			}
 			for (int i = 4; i < 8; i++) {
 				MesOptions.automates_j2.add(tab.get(i));
+				System.out.println(tab.get(i));
 			}
+
 			model = new Model(perso2, perso1);
 			controller = new Controller(model);
 			view = new View(model, controller);
@@ -382,9 +416,9 @@ public class HomeWindow extends JFrame implements ActionListener {
 			return null;
 		}
 	}
-	
+
 	public void windowClosing(WindowEvent e) {
-		
+
 		System.exit(0);
 	}
 

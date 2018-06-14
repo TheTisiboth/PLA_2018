@@ -6,7 +6,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
@@ -14,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.UIManager;
+import javax.swing.SwingConstants;
 
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
@@ -37,18 +36,15 @@ public class GameWindow extends JFrame {
 	long last_tick;
 	int secondes, minutes;
 	public JProgressBar progresseBar1, progresseBar2;
-	JPanel image_background;
+	JPanel image_background,p1;
 
 	public JLabel time, pourcentage1, pourcentage2, img_eclair1, img_eclair2, img_stop1, img_stop2;
-	public JLabel[] bE, bW;
+	public JLabel[] bE, bW,nE,nW;
+	
 
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
 
 		Sounds.game_sound();
-
-		// change icon of the frame
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 
 		last_tick = 0L;
 		this.dimension = d;
@@ -64,6 +60,9 @@ public class GameWindow extends JFrame {
 		pourcentage2 = new JLabel();
 		bE = new JLabel[4];
 		bW = new JLabel[4];
+		nE = new JLabel[4];
+		nW =new JLabel[4];
+		p1 = new JPanel(new FlowLayout());
 
 		Container cont = this.getContentPane();
 
@@ -344,19 +343,21 @@ public class GameWindow extends JFrame {
 	private JPanel createEastPanel() {
 
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 1));
-		bE[0] = new JLabel(new ImageIcon(m_model.m_transparent));
-
-		bE[1] = new JLabel(new ImageIcon(m_model.m_transparent));
-
-		bE[2] = new JLabel(new ImageIcon(m_model.m_transparent));
-
-		bE[3] = new JLabel(new ImageIcon(m_model.m_transparent));
-
-		panel.add(bE[0]);
-		panel.add(bE[1]);
-		panel.add(bE[2]);
-		panel.add(bE[3]);
+		panel.setLayout(new FlowLayout());
+		Dimension img = new Dimension(120,80);
+		Dimension txt = new Dimension(120, 30);
+	
+		for(int i=0; i<bW.length;i++) {
+			bE[i] = new JLabel(new ImageIcon(m_model.m_transparent));
+			bE[i].setPreferredSize(img);
+			nE[i] = new JLabel();
+			nE[i].setPreferredSize(txt);
+			nE[i].setHorizontalAlignment(SwingConstants.CENTER);
+			nE[i].setForeground(Color.WHITE);
+			
+			panel.add(bE[i]);
+			panel.add(nE[i]);
+		}
 		panel.setOpaque(false);
 
 		panel.setBounds(1080, 120, 120, 480);
@@ -370,23 +371,24 @@ public class GameWindow extends JFrame {
 
 		// Creation de Panel à l'Ouest
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(4,1));
+		panel.setLayout(new FlowLayout());
+		Dimension img = new Dimension(120,80);
+		Dimension txt = new Dimension(120, 30);
 	
-		bW[0] = new JLabel(new ImageIcon(m_model.m_transparent));
+		for(int i=0; i<bW.length;i++) {
+			bW[i] = new JLabel(new ImageIcon(m_model.m_transparent));
+			bW[i].setPreferredSize(img);
+			nW[i] = new JLabel();
+			nW[i].setPreferredSize(txt);
+			nW[i].setHorizontalAlignment(SwingConstants.CENTER);
+			nW[i].setForeground(Color.WHITE);
+			
+			panel.add(bW[i]);
+			panel.add(nW[i]);
+		}
 		
 
-		bW[1] = new JLabel(new ImageIcon(m_model.m_transparent));
-	
 
-		bW[2] = new JLabel(new ImageIcon(m_model.m_transparent));
-		
-
-		bW[3] = new JLabel(new ImageIcon(m_model.m_transparent));
-		
-		panel.add(bW[0]);
-		panel.add(bW[1]);
-		panel.add(bW[2]);
-		panel.add(bW[3]);
 		panel.setOpaque(false);
 		panel.setBounds(0, 120, 120, 480);
 

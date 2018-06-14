@@ -1,5 +1,3 @@
-MAMAN
-*{X;O}
-*{H;X}
-*{X|O}
-*{X|O}
+Wizzer(Init){
+  * (Init): True ? Wizz :(Init)
+}

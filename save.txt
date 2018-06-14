@@ -1,41 +1,21 @@
-
-
 Exploseur(Init){
   * (Init): True ? Kamikaze :(Init)
 }
-
-
-
 Mover(Init){
   * (Init): True ? Move :(Init)
 }
-
-
-
 Blocker(Init){
   * (Init): !True ? Power :(Init)
 }
-
-
-
 Mover(Init){
   * (Init): True ? Move :(Init)
 }
-
-
-
 Popper(Init){
   * (Init): True ? Pop :(Init)
 }
-
-
-
 Wizzer(Init){
   * (Init): True ? Wizz :(Init)
 }
-
-
-
 Turner(Turn_0){
   * (Turn_0): True ? Turn(R) :(Turn_1)
   * (Turn_1): True ? Turn(R) :(Turn_2)
@@ -43,9 +23,6 @@ Turner(Turn_0){
   * (Turn_3): True ? Turn(R) :(Turn_4)
   * (Turn_4): True ? Kamikaze :()
 }
-
-
-
 Master(Think){
  * (Think_0): True ? Power :(Think_1)
  * (Think_1): True ? Power :(Think_2)

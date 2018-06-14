@@ -122,7 +122,7 @@ public class Joueur extends Physic_Entity {
 			}
 
 			// is the case occupied?
-			if (c[nextX][nextY].isOccuped()) {
+			if (c[nextX][nextY].isOccupied()) {
 				// if yes, is there a bonus above?
 				if (!c[nextX][nextY].getE().colision) {
 					moveable = true;

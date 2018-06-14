@@ -12,7 +12,6 @@ import javax.media.Time;
 
 public class Sounds {
 
-<<<<<<< HEAD
 	static Player m_player_game, m_player_clic, m_player_hit, m_player_hit2, m_player_hit3, m_player_hit4,
 			m_player_hit5, m_player_hit6, m_player_charge, m_player_pop, m_player_portail;
 	private static boolean hit1 = false; // booleans used to hit many times in short lapse of time
@@ -20,11 +19,6 @@ public class Sounds {
 	private static boolean hit3 = false;
 	private static boolean hit4 = false;
 	private static boolean hit5 = false;
-=======
-
-	static Player m_player_game, m_player_clic, m_player_hit, m_player_charge, m_player_pop, m_player_portail;
->>>>>>> 4b2112cf1ae01e556c6f98c8dd3eba95f3f82383
-
 	// load all the sounds in global players
 	// function called in GameUI when loading the first page "accueil"
 

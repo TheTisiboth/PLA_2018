@@ -457,7 +457,6 @@ public class Model extends GameModel {
 					m_frame.bW[i].setIcon(new ImageIcon(m_transparent));
 					m_frame.nW[i].setText("");
 
-					
 				}
 			}
 		} else {
@@ -620,9 +619,10 @@ public class Model extends GameModel {
 		}
 
 	}
-	//mis a jour de la matrice de case en fonction des déplacements du joueur
+
+	// mis a jour de la matrice de case en fonction des déplacements du joueur
 	public void update_plat() {
-		//prise d'information du joueur 2
+		// prise d'information du joueur 2
 		int last_xc = player2.getLastX();
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
@@ -630,7 +630,7 @@ public class Model extends GameModel {
 		char dirc = player2.getDirection();
 		char last_dirc = player2.getLast_direction();
 
-		//prise d'information du joueur 1
+		// prise d'information du joueur 1
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
@@ -639,28 +639,27 @@ public class Model extends GameModel {
 		char dirc1 = player1.getDirection();
 		char last_dirc1 = player1.getLast_direction();
 
-		//actualisation du sprite en fonction du changement de direction
+		// actualisation du sprite en fonction du changement de direction
 		if (dirc != last_dirc)
 			plateau[xc][yc].setRefresh(true);
 
 		if (dirc1 != last_dirc1)
 			plateau[x1][y1].setRefresh(true);
 
-		
 		boolean condJ1 = plateau[xc][yc].getCouleur() != player2.getColor()
 				|| (plateau[last_xc][last_yc].getM_couleur() != m_Blue);
 
 		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Red);
 
-		//mis a jour de la matrice si le joueur 1 a bougé.
+		// mis a jour de la matrice si le joueur 1 a bougé.
 		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
 			statistique.plus_Nombrecase_parcouru2();
 
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
-			//actualisation du score
+			// actualisation du score
 			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
 				score2++;
 				refresh_score = true;
@@ -670,7 +669,7 @@ public class Model extends GameModel {
 				refresh_score = true;
 			}
 			plateau[xc][yc].setE(player2);
-			//mis a jour 
+			// mis a jour
 			plateau[xc][yc].setCouleur((Color) player2.getColor());
 			player2.decreasePaintStock();
 			m_frame.progresseBar2.setValue((int) (player2.getPaintStock() / (float) MesOptions.paintMax * 100));

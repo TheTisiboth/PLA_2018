@@ -12,7 +12,13 @@ import javax.media.Time;
 
 public class Sounds {
 
-	static Player m_player_game, m_player_clic, m_player_hit, m_player_charge, m_player_pop, m_player_portail;
+	static Player m_player_game, m_player_clic, m_player_hit, m_player_hit2, m_player_hit3, m_player_hit4,
+			m_player_hit5, m_player_hit6, m_player_charge, m_player_pop, m_player_portail;
+	private static boolean hit1 = false; // booleans used to hit many times in short lapse of time
+	private static boolean hit2 = false;
+	private static boolean hit3 = false;
+	private static boolean hit4 = false;
+	private static boolean hit5 = false;
 
 	// load all the sounds in global players
 	// function called in GameUI when loading the first page "accueil"
@@ -23,10 +29,10 @@ public class Sounds {
 		File clicFile = new File("sons/click.wav");
 		URL clicUrl = clicFile.toURL();
 
-		File portailFile = new File("sons/portail.wav");
+		File portailFile = new File("sons/portail_low.wav");
 		URL portailUrl = portailFile.toURL();
 
-		File hitFile = new File("sons/hit.wav");
+		File hitFile = new File("sons/hit_low.wav");
 		URL hitUrl = hitFile.toURL();
 
 		File chargeFile = new File("sons/charge.wav");
@@ -35,7 +41,7 @@ public class Sounds {
 		File popFile = new File("sons/pop.wav");
 		URL popUrl = popFile.toURL();
 
-		File gameFile = new File("sons/game.wav");
+		File gameFile = new File("sons/game_all.wav");
 		URL gameUrl = gameFile.toURL();
 
 		// creation of the players
@@ -43,6 +49,11 @@ public class Sounds {
 		m_player_pop = Manager.createRealizedPlayer(popUrl);
 		m_player_charge = Manager.createRealizedPlayer(chargeUrl);
 		m_player_hit = Manager.createRealizedPlayer(hitUrl);
+		m_player_hit2 = Manager.createRealizedPlayer(hitUrl);
+		m_player_hit3 = Manager.createRealizedPlayer(hitUrl);
+		m_player_hit4 = Manager.createRealizedPlayer(hitUrl);
+		m_player_hit5 = Manager.createRealizedPlayer(hitUrl);
+		m_player_hit6 = Manager.createRealizedPlayer(hitUrl);
 		m_player_clic = Manager.createRealizedPlayer(clicUrl);
 		m_player_portail = Manager.createRealizedPlayer(portailUrl);
 	}
@@ -69,8 +80,32 @@ public class Sounds {
 
 	// the sound when the player hit a wall
 	public static void hit_sound() {
-		m_player_hit.start();
-		m_player_hit.setMediaTime(new Time(0));
+		if (!hit1) {
+			hit1 = true;
+			m_player_hit.setMediaTime(new Time(0));
+			m_player_hit.start();
+		} else if (!hit2) {
+			hit2 = true;
+			m_player_hit2.setMediaTime(new Time(0));
+			m_player_hit2.start();
+		} else if (!hit3) {
+			hit3 = true;
+			m_player_hit3.setMediaTime(new Time(0));
+			m_player_hit3.start();
+		} else if (!hit4) {
+			hit4 = true;
+			m_player_hit4.setMediaTime(new Time(0));
+			m_player_hit4.start();
+		} else if (!hit5) {
+			hit5 = true;
+			m_player_hit5.setMediaTime(new Time(0));
+			m_player_hit5.start();
+		} else {
+			hit1 = hit2 = hit3 = hit4 = hit5 = false;
+			m_player_hit6.setMediaTime(new Time(0));
+			m_player_hit6.start();
+		}
+
 	}
 
 	// the sound when the player enters in a portal

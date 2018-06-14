@@ -1,4 +1,6 @@
 
+
+
 Turner(Turn_0){
   * (Turn_0): True ? Turn(R) :(Turn_1)
   * (Turn_1): True ? Turn(R) :(Turn_2)
@@ -8,9 +10,13 @@ Turner(Turn_0){
 }
 
 
+
+
 Philosopher(Think){
   * (Think)
 }
+
+
 
 
 
@@ -30,9 +36,13 @@ Explorer(Explore_R){
 }
 
 
+
+
 Mover(Init){
   * (Init): True ? Move :(Init)
 }
+
+
 
 
 Turner(Turn_0){
@@ -42,6 +52,8 @@ Turner(Turn_0){
   * (Turn_3): True ? Turn(R) :(Turn_4)
   * (Turn_4): True ? Kamikaze :()
 }
+
+
 
 
 Wizzer(Init){
@@ -49,6 +61,8 @@ Wizzer(Init){
 }
 
 
+
+
 Turner(Turn_0){
   * (Turn_0): True ? Turn(R) :(Turn_1)
   * (Turn_1): True ? Turn(R) :(Turn_2)
@@ -56,6 +70,8 @@ Turner(Turn_0){
   * (Turn_3): True ? Turn(R) :(Turn_4)
   * (Turn_4): True ? Kamikaze :()
 }
+
+
 
 
 

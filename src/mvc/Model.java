@@ -29,35 +29,37 @@ import physic.entity.Physic_Entity;
 import physic.entity.Zbire;
 
 public class Model extends GameModel {
-	
-	private int minutes, secondes; 			// duration of the game
-	long elapsed, lastTick; 				// used to handle the calls of functions
-	private int counter_sec;				// used for statistiques
-	boolean timer;							// to know when the game is over 
-	private long m_lastMove; 				// control the speed of movements, keep in memory the last move
 
-	private String name_j1, name_j2; 		// name of the players 1 and 2
-	private Joueur player2, player1; 		// players 1 and 2
-	private Obstacle o[]; 					// list of the obstacles on the map
-	
-	LinkedList<Zbire> j1_zbire, j2_zbire; 	// list of sbires invoked by the 2 players
-	LinkedList<Bonus> listBonus;			// list of the bonus on the map
-	LinkedList<Item_Zbire> listItem;		// list of sbires items
-	LinkedList<Recharge> listRecharge;		// list of buckets paint for recharging
-	private Portal portal;					// variable for the unique portal on the map
+	private int minutes, secondes; // duration of the game
+	long elapsed, lastTick; // used to handle the calls of functions
+	private int counter_sec; // used for statistiques
+	boolean timer; // to know when the game is over
+	private long m_lastMove; // control the speed of movements, keep in memory
+								// the last move
 
-	Case plateau[][]; 						// matrix of the board game 
+	private String name_j1, name_j2; // name of the players 1 and 2
+	private Joueur player2, player1; // players 1 and 2
+	private Obstacle o[]; // list of the obstacles on the map
 
-	private float score1, score2; 			// scores of the players 1 and 2
+	LinkedList<Zbire> j1_zbire, j2_zbire; // list of sbires invoked by the 2
+											// players
+	LinkedList<Bonus> listBonus; // list of the bonus on the map
+	LinkedList<Item_Zbire> listItem; // list of sbires items
+	LinkedList<Recharge> listRecharge; // list of buckets paint for recharging
+	private Portal portal; // variable for the unique portal on the map
+
+	Case plateau[][]; // matrix of the board game
+
+	private float score1, score2; // scores of the players 1 and 2
 	private boolean refresh_score = true;
-	
+
 	BufferedImage m_personnage, m_obstacle, m_Blue, m_Pink, m_BlockBlue, m_BlockGray, m_thunder, m_stop, m_sbire_item,
-			m_recharge, m_portal, zbires; 	// all the sprites images used 
-	public BufferedImage m_transparent; 	// transparent sprite (example : to display the inventory of the game)
+			m_recharge, m_portal, zbires; // all the sprites images used
+	public BufferedImage m_transparent; // transparent sprite (example : to
+										// display the inventory of the game)
 
-	GameWindow m_frame;						// game window
-	public Statistique statistique;			// statistique window
-
+	GameWindow m_frame; // game window
+	public Statistique statistique; // statistique window
 
 	// constructor
 	public Model(int perso1, int perso2) {
@@ -109,7 +111,7 @@ public class Model extends GameModel {
 		j1_zbire = new LinkedList<Zbire>();
 		j2_zbire = new LinkedList<Zbire>();
 	}
-	
+
 	public String getName_j1() {
 		return name_j1;
 	}
@@ -141,7 +143,8 @@ public class Model extends GameModel {
 	// load of the sprite sheets
 	private void loadSprites() {
 
-		// credits for the sprite of charactrs : https://erikari.itch.io/elements-supremacy-assets
+		// credits for the sprite of charactrs :
+		// https://erikari.itch.io/elements-supremacy-assets
 		File imageFile = new File("images/character.png");
 		File items = new File("images/items.png");
 		File zbireFile = new File("images/Zbires.png");
@@ -164,7 +167,11 @@ public class Model extends GameModel {
 		int m_nrows = 3;
 		int width = m_items.getWidth(null);
 		int height = m_items.getHeight(null);
-		BufferedImage[] m_listItems = new BufferedImage[m_nrows * m_ncols]; // create an array of items
+		BufferedImage[] m_listItems = new BufferedImage[m_nrows * m_ncols]; // create
+																			// an
+																			// array
+																			// of
+																			// items
 		int m_w = width / m_ncols;
 		int m_h = height / m_nrows;
 		// division
@@ -175,18 +182,18 @@ public class Model extends GameModel {
 				m_listItems[(i * m_ncols) + j] = m_items.getSubimage(x, y, m_w, m_h);
 			}
 		}
-		
-		m_obstacle = m_listItems[2];		// obstacle image
-		m_Blue = m_listItems[9];			// blue splash image
-		m_Pink = m_listItems[3];			// pink splash image
-		m_BlockBlue = m_listItems[0];		// wall blue
-		m_BlockGray = m_listItems[1];		// wall gray
-		m_thunder = m_listItems[4];			// bonus acceleration
-		m_stop = m_listItems[7];			// bonus freeze
-		m_sbire_item = m_listItems[8];		// sbire item
-		m_recharge = m_listItems[6];		// recharge paint
-		m_portal = m_listItems[5];			// portal
-		m_transparent = m_listItems[10];	// transparent image
+
+		m_obstacle = m_listItems[2]; // obstacle image
+		m_Blue = m_listItems[9]; // blue splash image
+		m_Pink = m_listItems[3]; // pink splash image
+		m_BlockBlue = m_listItems[0]; // wall blue
+		m_BlockGray = m_listItems[1]; // wall gray
+		m_thunder = m_listItems[4]; // bonus acceleration
+		m_stop = m_listItems[7]; // bonus freeze
+		m_sbire_item = m_listItems[8]; // sbire item
+		m_recharge = m_listItems[6]; // recharge paint
+		m_portal = m_listItems[5]; // portal
+		m_transparent = m_listItems[10]; // transparent image
 
 	}
 
@@ -199,7 +206,7 @@ public class Model extends GameModel {
 			x = rand.nextInt(MesOptions.nbCol - 1);
 			y = rand.nextInt(MesOptions.nbLigne - 1);
 		} while (plateau[x][y].isOccupied());
-		
+
 		// creation of the portal
 		Portal p = new Portal(x, y, m_portal);
 		// positionning the portal on the free case
@@ -221,27 +228,30 @@ public class Model extends GameModel {
 			Random rand = new Random();
 			int y = rand.nextInt(MesOptions.nbLigne);
 			int x = rand.nextInt(MesOptions.nbCol);
-			// if the position of the obstacle is already taken by an other entity
+			// if the position of the obstacle is already taken by an other
+			// entity
 			// the obstacle can't be placed
 			for (int i = 0; i < compteur; i++) {
 				if (tab_y[i] == y && tab_x[i] == x) {
 					diff = false;
 				}
 			}
-			// if the obstacle is placed on the initial position of the player 1 or 2 
+			// if the obstacle is placed on the initial position of the player 1
+			// or 2
 			// aka top left corner and right bottom corner
 			// the obstacle can't be placed
 			if ((x == 0 && y == 0) || (x == MesOptions.nbCol - 1 && y == MesOptions.nbLigne - 1)) {
 				diff = false;
 			}
-			// if the position of the obstacle is valid, we save the position in an array
+			// if the position of the obstacle is valid, we save the position in
+			// an array
 			if (diff) {
 				tab_y[compteur] = y;
 				tab_x[compteur] = x;
 				compteur++;
 			}
 		} while (compteur != MesOptions.nb_obstacles);
-		
+
 		// when we have all the position of the obstacles
 		// we place them on the board game
 		for (int i = 0; i < MesOptions.nb_obstacles; i++) {
@@ -284,7 +294,7 @@ public class Model extends GameModel {
 			long elapsed = now - m_lastMove;
 			if (elapsed > 200L) {
 				Iterator it;
-				
+
 				// player 1
 				if (!j1_zbire.isEmpty()) {
 					it = j1_zbire.iterator();
@@ -322,11 +332,11 @@ public class Model extends GameModel {
 				m_lastMove = now;
 			}
 
-			checkBonus(); 		// is there a bonus on the cell?
-			checkItem();		// is there an item on the cell?
-			checkTP();			// is the player teleporting?
-			checkPaint();		// is there a bucket paint on the cell?
-			checkImgBonus();	// display images when bonus are taken
+			checkBonus(); // is there a bonus on the cell?
+			checkItem(); // is there an item on the cell?
+			checkTP(); // is the player teleporting?
+			checkPaint(); // is there a bucket paint on the cell?
+			checkImgBonus(); // display images when bonus are taken
 			update_plat();
 
 			elapsed = now - lastTick;
@@ -422,10 +432,11 @@ public class Model extends GameModel {
 		plateau[x][y].setRefresh(true);
 	}
 
-	// verifie si un joueur se trouve sur un item de peinture
+	// check if the player get a bucket paint to recharge
 	private void checkPaint() {
 		player1.recharger(false);
 		player2.recharger(false);
+		// if player 1 get a bucket paint
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Recharge) {
 			Sounds.charge_sound();
 			Recharge r = (Recharge) plateau[player1.getX()][player1.getY()].getE();
@@ -434,6 +445,7 @@ public class Model extends GameModel {
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listRecharge.remove(r);
 		}
+		// if player 2 get a bucket paint
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Recharge) {
 			Sounds.charge_sound();
 			Recharge r = (Recharge) plateau[player2.getX()][player2.getY()].getE();
@@ -444,8 +456,9 @@ public class Model extends GameModel {
 		}
 	}
 
-	// check si un joueur est sur un item zbire
+	// check if the player get a sbire item
 	private void checkItem() {
+		// if player 1 get a sbire item
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Item_Zbire) {
 			Sounds.pop_sound();
 			Item_Zbire item = (Item_Zbire) plateau[player1.getX()][player1.getY()].getE();
@@ -455,6 +468,7 @@ public class Model extends GameModel {
 			listItem.remove(item);
 			afficher_liste_sprite_zbire(player1);
 		}
+		// if player 2 get a sbire item
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof Item_Zbire) {
 			Sounds.pop_sound();
 			Item_Zbire item = (Item_Zbire) plateau[player2.getX()][player2.getY()].getE();
@@ -463,20 +477,21 @@ public class Model extends GameModel {
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listItem.remove(item);
 			afficher_liste_sprite_zbire(player2);
-
 		}
-
 	}
 
+	// display the sbires on left and right panels
 	private void afficher_liste_sprite_zbire(Joueur player) {
 		Zbire[] zbires = player.getZbire();
 		if (player == player1) {
-
 			for (int i = 0; i < zbires.length; i++) {
+				// if player 1 has a sbire : display
 				if (zbires[i] != null) {
 					m_frame.bW[i].setIcon(new ImageIcon(zbires[i].m_sprites[4]));
 					m_frame.nW[i].setText(MesOptions.automates_j1.get(i));
-				} else {
+				}
+				// otherwise : display transparent image
+				else {
 					m_frame.bW[i].setIcon(new ImageIcon(m_transparent));
 					m_frame.nW[i].setText("");
 
@@ -484,11 +499,14 @@ public class Model extends GameModel {
 			}
 		} else {
 			for (int i = 0; i < zbires.length; i++) {
+				// if player 2 has a sbire : display
 				if (zbires[i] != null) {
 					m_frame.bE[i].setIcon(new ImageIcon(zbires[i].m_sprites[4]));
 					m_frame.nE[i].setText(MesOptions.automates_j1.get(i));
 
-				} else {
+				}
+				// otherwise : display transparent image
+				else {
 					m_frame.bE[i].setIcon(new ImageIcon(m_transparent));
 					m_frame.nE[i].setText("");
 				}
@@ -497,19 +515,26 @@ public class Model extends GameModel {
 		m_frame.doLayout();
 	}
 
-	// check si un joueur est sur un bonus
+	// check if a player get a bonus
 	private void checkBonus() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Sounds.pop_sound();
 			Bonus bonus = (Bonus) plateau[player1.getX()][player1.getY()].getE();
-			player1.appliquerBonus(bonus, player2);
+			player1.appliquerBonus(bonus, player2); // apply the bonus on his
+													// behaviour
 			if (bonus instanceof Speed) {
-				m_frame.img_eclair1.setIcon(new ImageIcon("images/eclair_gauche.png"));
+				m_frame.img_eclair1.setIcon(new ImageIcon("images/eclair_gauche.png")); // display
+																						// of
+																						// the
+																						// thunder
 			} else {
-				m_frame.img_stop1.setIcon(new ImageIcon("images/stop_gauche.png"));
+				m_frame.img_stop1.setIcon(new ImageIcon("images/stop_gauche.png")); // display
+																					// of
+																					// the
+																					// stop
 			}
 			m_frame.doLayout();
-			statistique.plus_Joueur1_Bonus();
+			statistique.plus_Joueur1_Bonus(); // update bonus stats
 			plateau[player1.getX()][player1.getY()].setE(null);
 			plateau[player1.getX()][player1.getY()].setRefresh(true);
 			listBonus.remove(bonus);
@@ -517,14 +542,20 @@ public class Model extends GameModel {
 		if (plateau[player2.getX()][player2.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Sounds.pop_sound();
 			Bonus bonus = (Bonus) plateau[player2.getX()][player2.getY()].getE();
-			statistique.plus_Joueur2_Bonus();
 			player2.appliquerBonus(bonus, player1);
 			if (bonus instanceof Speed) {
-				m_frame.img_eclair2.setIcon(new ImageIcon("images/eclair_droite.png"));
+				m_frame.img_eclair2.setIcon(new ImageIcon("images/eclair_droite.png")); // display
+																						// of
+																						// the
+																						// thunder
 			} else {
-				m_frame.img_stop2.setIcon(new ImageIcon("images/stop_droite.png"));
+				m_frame.img_stop2.setIcon(new ImageIcon("images/stop_droite.png")); // display
+																					// of
+																					// the
+																					// stop
 			}
 			m_frame.doLayout();
+			statistique.plus_Joueur2_Bonus(); // update bonus stats
 			plateau[player2.getX()][player2.getY()].setE(null);
 			plateau[player2.getX()][player2.getY()].setRefresh(true);
 			listBonus.remove(bonus);
@@ -532,7 +563,7 @@ public class Model extends GameModel {
 
 	}
 
-	// pop d'un item zbire
+	// pop of item sbire
 	private void popItem() {
 		if (MesOptions.nb_max_items >= listItem.size()) {
 			Random rand = new Random();
@@ -541,9 +572,12 @@ public class Model extends GameModel {
 				boolean occuped = true;
 				int col, ligne;
 				while (occuped) {
+					// new random position
 					col = rand.nextInt(MesOptions.nbCol);
 					ligne = rand.nextInt(MesOptions.nbLigne);
+					// if the case is not occupied
 					if (!plateau[col][ligne].isOccupied()) {
+						// we create a new sbire and place it on the board game
 						Item_Zbire item = new Item_Zbire(col, ligne, m_sbire_item);
 						plateau[col][ligne].setE(item);
 						plateau[col][ligne].setRefresh(true);
@@ -555,7 +589,7 @@ public class Model extends GameModel {
 		}
 	}
 
-	// pop d'une recharge de peinture
+	// pop of a bucket paint to recharge
 	private void PopPaint() {
 		if (MesOptions.nb_max_paint >= listRecharge.size()) {
 			Random rand = new Random();
@@ -564,10 +598,14 @@ public class Model extends GameModel {
 				boolean occuped = true;
 				int col, ligne;
 				while (occuped) {
+					// new random position
 					col = rand.nextInt(MesOptions.nbCol);
 					ligne = rand.nextInt(MesOptions.nbLigne);
+					// if the case is not occupied
 					if (!plateau[col][ligne].isOccupied()) {
 						Recharge r = new Recharge(col, ligne, m_recharge);
+						// we create a new recharge and place it on the board
+						// game
 						plateau[col][ligne].setE(r);
 						plateau[col][ligne].setRefresh(true);
 						listRecharge.add(r);
@@ -579,26 +617,23 @@ public class Model extends GameModel {
 
 	}
 
-	// depop des bonus
+	// depop of the bonus
 	private void depopBonus() {
 		if (!listBonus.isEmpty()) {
 			LinkedList<Bonus> used = (LinkedList<Bonus>) listBonus.clone();
 			for (Iterator iterator = used.iterator(); iterator.hasNext();) {
-				// while (iterator.hasNext()) {
-				Bonus b = (Bonus) iterator.next();// .next();
+				Bonus b = (Bonus) iterator.next();
 				b.step();
 				if (b.getDurationPop() <= 0) {
 					listBonus.remove(b);
-
 					plateau[b.getX()][b.getY()].setE(null);
 					plateau[b.getX()][b.getY()].setRefresh(true);
-
 				}
 			}
 		}
 	}
 
-	// pop des bonus
+	// pop of the bonus
 	private void popBonus() {
 		Random rand = new Random();
 		int i = rand.nextInt(MesOptions.popBonus);
@@ -606,8 +641,10 @@ public class Model extends GameModel {
 			boolean occuped = true;
 			int col, ligne;
 			while (occuped) {
+				// new random position
 				col = rand.nextInt(MesOptions.nbCol);
 				ligne = rand.nextInt(MesOptions.nbLigne);
+				// if the cell is occupied
 				if (!plateau[col][ligne].isOccupied()) {
 					int which = rand.nextInt(3);
 					Bonus bonus;
@@ -643,9 +680,9 @@ public class Model extends GameModel {
 
 	}
 
-	// mis a jour de la matrice de case en fonction des déplacements du joueur
+	// update the matrix of cells according to the position of each player
 	public void update_plat() {
-		// prise d'information du joueur 2
+		// position of player 2
 		int last_xc = player2.getLastX();
 		int last_yc = player2.getLastY();
 		int xc = player2.getX();
@@ -653,16 +690,15 @@ public class Model extends GameModel {
 		char dirc = player2.getDirection();
 		char last_dirc = player2.getLast_direction();
 
-		// prise d'information du joueur 1
+		// position of player 1
 		int last_xc1 = player1.getLastX();
 		int last_yc1 = player1.getLastY();
 		int x1 = player1.getX();
 		int y1 = player1.getY();
-		//
 		char dirc1 = player1.getDirection();
 		char last_dirc1 = player1.getLast_direction();
 
-		// actualisation du sprite en fonction du changement de direction
+		// update the sprite image depending on the position and direction
 		if (dirc != last_dirc)
 			plateau[xc][yc].setRefresh(true);
 
@@ -675,14 +711,13 @@ public class Model extends GameModel {
 		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Pink);
 
-		// mis a jour de la matrice si le joueur 1 a bougé.
+		// update the matrix if player 2 has moved
 		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
-			statistique.plus_Nbcases_parcourues2();
-
+			statistique.plus_Nbcases_parcourues2(); // update stats
 			plateau[last_xc][last_yc].setE(null);
 			plateau[last_xc][last_yc].setM_couleur(m_Blue);
 			plateau[last_xc][last_yc].setRefresh(true);
-			// actualisation du score
+			// update score
 			if (plateau[xc][yc].getM_couleur() == m_BlockBlue || plateau[xc][yc].getM_couleur() == m_BlockGray) {
 				score2++;
 				refresh_score = true;
@@ -692,7 +727,7 @@ public class Model extends GameModel {
 				refresh_score = true;
 			}
 			plateau[xc][yc].setE(player2);
-			// mis a jour
+			// update
 			plateau[xc][yc].setCouleur((Color) player2.getColor());
 			player2.decreasePaintStock();
 			m_frame.progresseBar2.setValue((int) (player2.getPaintStock() / (float) MesOptions.paintMax * 100));
@@ -705,13 +740,13 @@ public class Model extends GameModel {
 			plateau[xc][yc].setRefresh(true);
 		}
 
+		// update the matrix if player 1 has moved
 		if ((last_xc1 != x1 || last_yc1 != y1) && player1.getPaintStock() != 0 && condJ2) {
 			statistique.plus_Nbcases_parcourues1();
-
 			plateau[last_xc1][last_yc1].setE(null);
 			plateau[last_xc1][last_yc1].setM_couleur(m_Pink);
 			plateau[last_xc1][last_yc1].setRefresh(true);
-
+			// update score
 			if (plateau[x1][y1].getM_couleur() == m_BlockBlue || plateau[x1][y1].getM_couleur() == m_BlockGray) {
 				score1++;
 				refresh_score = true;
@@ -720,13 +755,11 @@ public class Model extends GameModel {
 				score2--;
 				refresh_score = true;
 			}
-
 			plateau[x1][y1].setE(player1);
 			plateau[x1][y1].setCouleur((Color) player1.getColor());
 			player1.decreasePaintStock();
 			m_frame.progresseBar1.setValue((int) (player1.getPaintStock() / (float) MesOptions.paintMax * 100));
 			m_frame.doLayout();
-
 			plateau[x1][y1].setRefresh(true);
 		} else if (last_xc1 != x1 || last_yc1 != y1) {
 			plateau[last_xc1][last_yc1].setE(null);
@@ -737,9 +770,9 @@ public class Model extends GameModel {
 
 	}
 
+	// display sbires
 	public void spawnzbire(Joueur j, int n, char direction) {
 		if (j.getZbire()[n] != null) {
-			// System.out.println("sbire " + n);
 			int x = j.getX();
 			int y = j.getY();
 			if (direction == 'D')
@@ -751,24 +784,23 @@ public class Model extends GameModel {
 			else if (direction == 'R')
 				x++;
 			if ((x < MesOptions.nbCol && x >= 0) && (y < MesOptions.nbLigne && y >= 0)) {
-				// System.out.println("if2");
 				if (plateau[x][y].getE() instanceof No_Physic_Entity || plateau[x][y].getE() == null) {
-					if (plateau[x][y].getE() instanceof Portal) {
+					if (plateau[x][y].getE() instanceof Portal)
 						return;
-					}
 					j.getZbire()[n].setX(x);
 					j.getZbire()[n].setY(y);
 					plateau[x][y].setE(j.getZbire()[n]);
 
+					// update stats player 2
 					if (j == player2) {
 						statistique.plus_Nombre_zbire2();
 						j2_zbire.add(j.getZbire()[n]);
-
-					} else {
+					}
+					// update stats player 1
+					else {
 						statistique.plus_Nombre_zbire1();
 						j1_zbire.add(j.getZbire()[n]);
 					}
-
 					plateau[x][y].setRefresh(true);
 					j.resetZbire(n);
 					afficher_liste_sprite_zbire(j);
@@ -779,8 +811,6 @@ public class Model extends GameModel {
 
 	@Override
 	public void shutdown() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public Joueur getJ2() {
@@ -809,13 +839,13 @@ public class Model extends GameModel {
 
 	public void setM_frame(GameWindow m_frame2) {
 		m_frame = m_frame2;
-
 	}
 
 	public void hit(Joueur j) {
 		char dir = j.getDirection();
 		Case c;
 		Entity e;
+		// get the position of the cell in the front
 		switch (dir) {
 		case 'R':
 			c = getC(j.x + 1, j.y);
@@ -832,13 +862,16 @@ public class Model extends GameModel {
 		default:
 			c = null;
 		}
+		// if the case belongs to the board game
 		if (c != null) {
 			c.setRefresh(true);
+			// pick the entity in this cell
 			e = c.getE();
 			if (e != null) {
+				// if the entity is physical
 				if (e instanceof Physic_Entity) {
 					Physic_Entity p_e = (Physic_Entity) e;
-					j.hit(p_e);
+					j.hit(p_e); // we hit
 					Sounds.hit_sound();
 				}
 			}
@@ -854,19 +887,24 @@ public class Model extends GameModel {
 		return null;
 	}
 
+	// check what's on the cell
 	public void check_case(Case c) {
 		Entity e = c.getE();
+		// the cell has an obstacle
 		if (e instanceof Obstacle) {
 			Obstacle o = (Obstacle) e;
 			if (!(o.life()))
-				c.setE(null);
-		} else if (e instanceof Joueur) {
-			c.setE(null);
-
-		} else if (e instanceof Zbire) {
+				c.setE(null);	// no more life : dispappear
+		} 
+		// the cell has a player
+		else if (e instanceof Joueur) {
+			c.setE(null);		// no more life : dispappear
+		} 
+		// the cell has a sbire
+		else if (e instanceof Zbire) {
 			Zbire z = (Zbire) e;
 			if (!(z.life()))
-				c.setE(null);
+				c.setE(null); 	// no more life : dispappear
 		}
 	}
 

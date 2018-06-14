@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,9 +42,6 @@ public class EndPage extends JFrame implements ActionListener {
 
 	public EndPage(GameModel mod, GameView m_view, GameUI game) {
 
-		// change icon of the frame
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 
 		this.gameUI = game;
 		largeur = 1200;
@@ -96,7 +92,7 @@ public class EndPage extends JFrame implements ActionListener {
 		txt.setPreferredSize(preferredSize);
 		panel1.add(txt);
 
-		txt = new JLabel("" + m_model.statistique.getNombrecase_parcouru1(), SwingConstants.CENTER);
+		txt = new JLabel("" + m_model.statistique.getNbcases_parcourues1(), SwingConstants.CENTER);
 		preferredSize = new Dimension(350, entrelayout);
 		txt.setFont(fonNumber);
 		txt.setPreferredSize(preferredSize);
@@ -143,7 +139,7 @@ public class EndPage extends JFrame implements ActionListener {
 		txt1.setPreferredSize(preferredSize);
 		panel2.add(txt1);
 
-		txt1 = new JLabel("" + m_model.statistique.getNombrecase_parcouru2(), SwingConstants.CENTER);
+		txt1 = new JLabel("" + m_model.statistique.getNbcases_parcourues2(), SwingConstants.CENTER);
 		preferredSize = new Dimension(350, entrelayout);
 		txt1.setFont(fonNumber);
 		txt1.setForeground(Color.WHITE);
@@ -221,8 +217,8 @@ public class EndPage extends JFrame implements ActionListener {
 		m_rejouer = rejouer;
 		panel_center.setOpaque(false);
 		main.add(panel_center, BorderLayout.CENTER);
-		
-		cont.add(main,BorderLayout.CENTER );
+
+		cont.add(main, BorderLayout.CENTER);
 
 		// hook window events so that we exit the Java Platform
 		// when the window is closed by the end user.
@@ -245,6 +241,7 @@ public class EndPage extends JFrame implements ActionListener {
 			dispose();
 		}
 	}
+
 	public void windowClosing(WindowEvent e) {
 		m_model.shutdown();
 		System.exit(0);

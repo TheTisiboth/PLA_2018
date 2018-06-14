@@ -27,25 +27,27 @@ import no.physic.entity.Speed;
 
 public class Joueur extends Physic_Entity {
 
-	private int last_x, last_y;
-	private int m_w, m_h, m_idx;
-	private int speed, timeEffect, paintStock;
-	private int m_personnalisation, m_nrows, m_ncols, diameter;
-	private int step = 1;
-	private int pos_init_x, pos_init_y;
-	private int recharge = 10;
+	private int last_x, last_y; // retiens la derniere position du joueur
+	private int m_w, m_h, m_idx; // servit pour le chargement des sprites
+	private int speed, timeEffect; // gestion des bonnus
+	private int paintStock; // stock de peinture
+	private int m_personnalisation, m_nrows, m_ncols, diameter; // personalisation des sprites
+	private int step = 1; // pas en case de chaque mouvement
+	private int pos_init_x, pos_init_y; // position initiale du zbire
+	private int recharge = 10; // value de la recharge de peinture sur chaque item
 
-	private Color couleur;
-	private Zbire z[];
+	private Color couleur; // couleur du joueur
+	private Zbire z[]; // inventaire de zbires du joueur
 
-	private BufferedImage m_sprite;
-	private BufferedImage[] m_sprites;
+	private BufferedImage m_sprite; // matrice de sprite du joueur
+	private BufferedImage[] m_sprites; // tableau des sprites du joueur
+	private BufferedImage m_zbires; // matrice de sprite des zbire
 
-	private boolean moveable, reload;
-	boolean inMovement;
+	private boolean moveable;// indique si le joueur peut bouger
+	private boolean reload; // utilisé pour la recharge de peinture avec une case de décalage
+	boolean inMovement; // indique si la touche de mouvement est enfoncée ou non
 
-	private float m_scale;
-	private long m_lastMove;
+	private long m_lastMove; // temps du dernier mouvmeent du joueur
 
 	char direction, last_direction;
 	private int timeEffectFreeze;
@@ -55,8 +57,7 @@ public class Joueur extends Physic_Entity {
 	Model m_model;
 
 	public Joueur(Model model, BufferedImage sprite, int rows, int columns, int personnalisation, int x, int y,
-			float scale, Color couleur, Automaton_I automaton_I) {
-
+			float scale, Color couleur, Automaton_I automaton_I, BufferedImage zbires) {
 		super(x, y);
 		this.automaton = automaton_I;
 		if (automaton_I != null) {
@@ -69,7 +70,6 @@ public class Joueur extends Physic_Entity {
 		last_x = x;
 		last_y = y;
 		diameter = 34;
-		m_scale = scale;
 		moveable = true;
 		timeEffect = 0;
 		speed = 1;
@@ -84,6 +84,8 @@ public class Joueur extends Physic_Entity {
 		direction = last_direction = 'D';
 		m_model = model;
 		m_idx = 45 + m_personnalisation;
+
+		m_zbires = zbires;
 
 	}
 
@@ -141,7 +143,7 @@ public class Joueur extends Physic_Entity {
 			}
 
 			// is the case occupied?
-			if (c[nextX][nextY].isOccuped()) {
+			if (c[nextX][nextY].isOccupied()) {
 				// if yes, is there a bonus above?
 				if (!c[nextX][nextY].getE().colision) {
 					moveable = true;
@@ -204,7 +206,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 1);
 				nom = listAut.get(0);
 				aut = search(nom);
-				zbire = new Zbire(m_model, -1, -1, this.couleur, 5, 0, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI);
+				zbire = new Zbire(m_model, -1, -1, this.couleur, 5, 0, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI, m_zbires);
 				z[0] = zbire;
 			}
 
@@ -213,8 +215,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 2);
 				nom = listAut.get(1);
 				aut = search(nom);
-				zbire = new Zbire(m_model, -1, -1, this.couleur, 10, 1, 0.50F, joueur, aut, aut.entry, obs, spl, cP,
-						cI);
+				zbire = new Zbire(m_model, -1, -1, this.couleur, 10, 1, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI, m_zbires);
 				z[1] = zbire;
 			}
 
@@ -223,8 +224,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 3);
 				nom = listAut.get(2);
 				aut = search(nom);
-				zbire = new Zbire(m_model, -1, -1, this.couleur, 10, 2, 0.50F, joueur, aut, aut.entry, obs, spl, cP,
-						cI);
+				zbire = new Zbire(m_model, -1, -1, this.couleur, 10, 2, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI, m_zbires);
 				z[2] = zbire;
 			}
 
@@ -233,8 +233,7 @@ public class Joueur extends Physic_Entity {
 				// System.out.println("zbire : " + 4);
 				nom = listAut.get(3);
 				aut = search(nom);
-				zbire = new Zbire(m_model, -1, -1, this.couleur, 20, 3, 0.50F, joueur, aut, aut.entry, obs, spl, cP,
-						cI);
+				zbire = new Zbire(m_model, -1, -1, this.couleur, 20, 3, 0.50F, joueur, aut, aut.entry, obs, spl, cP, cI, m_zbires);
 				z[3] = zbire;
 			}
 		}
@@ -254,7 +253,6 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void step(long now, Case[][] plateau) {
-
 		long elapsed = now - m_lastMove;
 		last_x = x;
 		last_y = y;

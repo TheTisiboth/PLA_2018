@@ -1,22 +1,33 @@
 package fenetre;
 
 import java.awt.BorderLayout;
+
 import java.awt.Checkbox;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+
+import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,9 +36,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.WindowListener;
+import javafx.scene.control.CheckBox;
 import mvc.Controller;
 import mvc.MesOptions;
 import mvc.Model;
@@ -35,6 +46,9 @@ import mvc.Sounds;
 import mvc.View;
 import ricm3.parser.AutomataParser;
 import ricm3.parser.Ast.AI_Definitions;
+import ricm3.parser.Ast.Automaton;
+import ricm3.parser.ParseException;
+
 
 public class HomeWindow extends JFrame implements ActionListener {
 
@@ -46,7 +60,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 	JTextField j1, j2;
 
 	JButton play, rules, fg1, fg2, fd1, fd2, credits, engrenage;
-	public JCheckBox checkbox_j1, checkbox_j2;
+	public JCheckBox checkBox1, checkBox2;
 	String nom_j1, nom_j2;
 	private JLabel spritePanel1, spritePanel2;
 	BufferedImage[] sprites;
@@ -59,10 +73,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 	int perso1, perso2;
 
 	public HomeWindow(Dimension d, GameUI game) {
-
-		// change icon of the frame
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 
 		this.d = d;
 		m_game = game;
@@ -109,6 +119,14 @@ public class HomeWindow extends JFrame implements ActionListener {
 		j2.addActionListener(this);
 
 		img.add(j2);
+
+		checkBox1 = new JCheckBox("", new CheckBoxIcon(216, 63, 130));
+		checkBox2 = new JCheckBox("", new CheckBoxIcon(Color.BLUE));
+
+		checkBox1.setBounds(235, 440, 20, 20);
+		checkBox2.setBounds(950, 440, 20, 20);
+		img.add(checkBox1);
+		img.add(checkBox2);
 
 		// Fin Textfield Jour 2
 
@@ -220,17 +238,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 		credits.addActionListener(this);
 		img.add(credits);
 
-		checkbox_j1 = new JCheckBox("", false);
-		checkbox_j1.setBounds(200, 400, 120, 50);
-		checkbox_j1.setOpaque(false);
-
-		img.add(checkbox_j1);
-
-		checkbox_j2 = new JCheckBox("", false);
-		checkbox_j2.setBounds(880, 400, 120, 50);
-		checkbox_j2.setOpaque(false);
-
-		img.add(checkbox_j2);
+		
 
 		// Fin Bouton "Crédits"
 
@@ -284,29 +292,45 @@ public class HomeWindow extends JFrame implements ActionListener {
 			// construct the game elements: model, controller, and view.
 			MesOptions.automates_j1 = new LinkedList<String>();
 			MesOptions.automates_j2 = new LinkedList<String>();
-			LinkedList<String> tab = fenetre.lecture("save.txt");
-			for (int i = 0; i < 4; i++) {
-				MesOptions.automates_j1.add(tab.get(i));
-			}
-			for (int i = 4; i < 8; i++) {
-				MesOptions.automates_j2.add(tab.get(i));
-			}
+			ArrayList<String> tab = new ArrayList<String>();
 
 			try {
-				if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
-					AutomataParser.ReInit(new BufferedReader(new FileReader("automata.txt")));
-				else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
-					new AutomataParser(new BufferedReader(new FileReader("automata.txt")));
+				if (MesOptions.deja_parse) // si on a deja parse un fichier, il
+					// faut reinitialiser le parser
+					AutomataParser.ReInit(new BufferedReader(new FileReader("save.txt")));
+				else // on crée une nouvelle instance du parser, si l'on ne l'a
+						// jamais fait
+					new AutomataParser(new BufferedReader(new FileReader("save.txt")));
 				MesOptions.deja_parse = true;
 				// On lance le parser
 				AI_Definitions def = (AI_Definitions) AutomataParser.Run();
-				MesOptions.automates = def.make();
-			} catch (Exception e1) {
-				e1.getStackTrace();
-				e1.printStackTrace();
+				// list contient la liste de tout les automates parsé
+				MesOptions.automates = def.make(); // créer la liste d'automates.
+				LinkedList<Automaton> list = (LinkedList<Automaton>) def.getAutomata();
 				
+				Iterator<Automaton> iter = list.iterator();
+				while (iter.hasNext()) {
+					// on ajoute a la liste d'automate leur noms
+					tab.add(iter.next().getName().getValue());
+				}
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 
+			for (int i = 0; i < 4; i++) {
+				MesOptions.automates_j1.add(tab.get(i));
+				// TODO supprimer l'affichage
+				System.out.println(tab.get(i));
+			}
+			for (int i = 4; i < 8; i++) {
+				MesOptions.automates_j2.add(tab.get(i));
+				System.out.println(tab.get(i));
+			}
+			
 			model = new Model(perso2, perso1);
 			controller = new Controller(model);
 			view = new View(model, controller);
@@ -315,8 +339,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 			m_game.setM_view(view);
 
 			model.setM_frame(new GameWindow(d, controller, view, model, nom_j1, nom_j2));
-			model.setIA1(checkbox_j1.isSelected());
-			model.setIA2(checkbox_j2.isSelected());
+			model.setIA1(checkBox1.isSelected());
+			model.setIA2(checkBox2.isSelected());
 			m_game.createTimer();
 
 			dispose();
@@ -422,4 +446,41 @@ public class HomeWindow extends JFrame implements ActionListener {
 		System.exit(0);
 	}
 
+}
+
+class CheckBoxIcon implements Icon {
+	int r;
+	int g;
+	int b;
+	Color c;
+
+	public CheckBoxIcon(int r, int g, int b) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
+
+	}
+
+	public CheckBoxIcon(Color c) {
+		this.c = c;
+	}
+
+	public void paintIcon(Component component, Graphics g, int x, int y) {
+		AbstractButton abstractButton = (AbstractButton) component;
+		ButtonModel buttonModel = abstractButton.getModel();
+		Color color = (buttonModel.isSelected()) ? ((c != null) ? c : new Color(r, this.g, b)) : Color.WHITE;
+		g.setColor(color);
+		g.fillRect(0, 0, 20, 20);
+		g.drawRect(0, 0, 20, 20);
+		// g.drawImage(img, x, y, width, height, observer)
+
+	}
+
+	public int getIconWidth() {
+		return 20;
+	}
+
+	public int getIconHeight() {
+		return 20;
+	}
 }

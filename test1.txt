@@ -1,6 +1,10 @@
+
+
 Wizzer(Init){
   * (Init): True ? Wizz :(Init)
 }
+
+
 
 Philosopher(Think){
   * (Think)
@@ -18,7 +22,5 @@ Popper(Init){
   * (Init): True ? Pop :(Init)
 }
 
-Wizzer(Init){
-  * (Init): True ? Wizz :(Init)
-}
+
 

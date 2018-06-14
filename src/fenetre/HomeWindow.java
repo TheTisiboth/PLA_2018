@@ -116,8 +116,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		img.add(j2);
 
-		
-		JCheckBox checkBox1 = new JCheckBox("", new CheckBoxIcon(216,63,130));
+		JCheckBox checkBox1 = new JCheckBox("", new CheckBoxIcon(216, 63, 130));
 		JCheckBox checkBox2 = new JCheckBox("", new CheckBoxIcon(Color.BLUE));
 
 		checkBox1.setBounds(235, 440, 20, 20);
@@ -449,20 +448,21 @@ class CheckBoxIcon implements Icon {
 		this.r = r;
 		this.g = g;
 		this.b = b;
-		
+
 	}
-	public CheckBoxIcon (Color c) {
+
+	public CheckBoxIcon(Color c) {
 		this.c = c;
 	}
 
 	public void paintIcon(Component component, Graphics g, int x, int y) {
 		AbstractButton abstractButton = (AbstractButton) component;
 		ButtonModel buttonModel = abstractButton.getModel();
-		Color color = (buttonModel.isSelected()) ?((c!=null)?c: new Color(r, this.g, b)) : Color.WHITE;
+		Color color = (buttonModel.isSelected()) ? ((c != null) ? c : new Color(r, this.g, b)) : Color.WHITE;
 		g.setColor(color);
-		g.fillRect(0, 0, 20,20);
-		g.drawRect(0,0, 20, 20);
-//		g.drawImage(img, x, y, width, height, observer)
+		g.fillRect(0, 0, 20, 20);
+		g.drawRect(0, 0, 20, 20);
+		// g.drawImage(img, x, y, width, height, observer)
 
 	}
 

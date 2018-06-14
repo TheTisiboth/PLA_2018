@@ -2,9 +2,11 @@ package fenetre;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -19,8 +21,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +35,7 @@ import javax.swing.Timer;
 
 import edu.ricm3.game.GameUI;
 import edu.ricm3.game.WindowListener;
+import javafx.scene.control.CheckBox;
 import mvc.Controller;
 import mvc.MesOptions;
 import mvc.Model;
@@ -62,7 +69,6 @@ public class HomeWindow extends JFrame implements ActionListener {
 	int perso1, perso2;
 
 	public HomeWindow(Dimension d, GameUI game) {
-
 
 		this.d = d;
 		m_game = game;
@@ -109,6 +115,15 @@ public class HomeWindow extends JFrame implements ActionListener {
 		j2.addActionListener(this);
 
 		img.add(j2);
+
+		
+		JCheckBox checkBox1 = new JCheckBox("", new CheckBoxIcon(216,63,130));
+		JCheckBox checkBox2 = new JCheckBox("", new CheckBoxIcon(Color.BLUE));
+
+		checkBox1.setBounds(235, 440, 20, 20);
+		checkBox2.setBounds(950, 440, 20, 20);
+		img.add(checkBox1);
+		img.add(checkBox2);
 
 		// Fin Textfield Jour 2
 
@@ -279,7 +294,7 @@ public class HomeWindow extends JFrame implements ActionListener {
 					// faut reinitialiser le parser
 					AutomataParser.ReInit(new BufferedReader(new FileReader("save.txt")));
 				else // on crée une nouvelle instance du parser, si l'on ne l'a
-					// jamais fait
+						// jamais fait
 					new AutomataParser(new BufferedReader(new FileReader("save.txt")));
 				MesOptions.deja_parse = true;
 				// On lance le parser
@@ -298,10 +313,10 @@ public class HomeWindow extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			for (int i = 0; i < 4; i++) {
 				MesOptions.automates_j1.add(tab.get(i));
-				//TODO supprimer l'affichage
+				// TODO supprimer l'affichage
 				System.out.println(tab.get(i));
 			}
 			for (int i = 4; i < 8; i++) {
@@ -422,4 +437,40 @@ public class HomeWindow extends JFrame implements ActionListener {
 		System.exit(0);
 	}
 
+}
+
+class CheckBoxIcon implements Icon {
+	int r;
+	int g;
+	int b;
+	Color c;
+
+	public CheckBoxIcon(int r, int g, int b) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		
+	}
+	public CheckBoxIcon (Color c) {
+		this.c = c;
+	}
+
+	public void paintIcon(Component component, Graphics g, int x, int y) {
+		AbstractButton abstractButton = (AbstractButton) component;
+		ButtonModel buttonModel = abstractButton.getModel();
+		Color color = (buttonModel.isSelected()) ?((c!=null)?c: new Color(r, this.g, b)) : Color.WHITE;
+		g.setColor(color);
+		g.fillRect(0, 0, 20,20);
+		g.drawRect(0,0, 20, 20);
+//		g.drawImage(img, x, y, width, height, observer)
+
+	}
+
+	public int getIconWidth() {
+		return 20;
+	}
+
+	public int getIconHeight() {
+		return 20;
+	}
 }

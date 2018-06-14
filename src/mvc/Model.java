@@ -432,7 +432,7 @@ public class Model extends GameModel {
 		plateau[x][y].setRefresh(true);
 	}
 
-	private void checkPaint() {
+	public void checkPaint() {
 		player1.recharger(false);
 		player2.recharger(false);
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Recharge) {
@@ -453,7 +453,7 @@ public class Model extends GameModel {
 		}
 	}
 
-	private void checkItem() {
+	public void checkItem() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof Item_Zbire) {
 			Sounds.pop_sound();
 			Item_Zbire item = (Item_Zbire) plateau[player1.getX()][player1.getY()].getE();
@@ -499,7 +499,7 @@ public class Model extends GameModel {
 		m_frame.doLayout();
 	}
 
-	private void checkBonus() {
+	public void checkBonus() {
 		if (plateau[player1.getX()][player1.getY()].getE() instanceof no.physic.entity.Bonus) {
 			Sounds.pop_sound();
 			Bonus bonus = (Bonus) plateau[player1.getX()][player1.getY()].getE();
@@ -669,7 +669,7 @@ public class Model extends GameModel {
 		boolean condJ2 = plateau[x1][y1].getCouleur() != player1.getColor()
 				|| (plateau[last_xc1][last_yc1].getM_couleur() != m_Red);
 
-		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() != 0 && condJ1) {
+		if ((last_xc != xc || last_yc != yc) && player2.getPaintStock() > 0 && condJ1) {
 			statistique.plus_Nombrecase_parcouru2();
 
 			plateau[last_xc][last_yc].setE(null);
@@ -698,7 +698,7 @@ public class Model extends GameModel {
 			plateau[xc][yc].setRefresh(true);
 		}
 
-		if ((last_xc1 != x1 || last_yc1 != y1) && player1.getPaintStock() != 0 && condJ2) {
+		if ((last_xc1 != x1 || last_yc1 != y1) && player1.getPaintStock() > 0 && condJ2) {
 			statistique.plus_Nombrecase_parcouru1();
 
 			plateau[last_xc1][last_yc1].setE(null);

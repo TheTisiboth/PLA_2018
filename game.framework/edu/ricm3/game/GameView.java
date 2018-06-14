@@ -110,7 +110,7 @@ public abstract class GameView extends Canvas {
 
 	@Override
 	public final void paint(Graphics g) {
-		super.paint(g);
+//		super.paint(g);
 		if (m_swap) {
 			swap();
 			m_swap = false;

@@ -13,6 +13,7 @@ import interpreter.Behaviour_I;
 import mvc.Case;
 import mvc.Entity;
 import mvc.Model;
+import mvc.Sounds;
 import mvc.MesOptions;
 import no.physic.entity.Bonus;
 import no.physic.entity.Freeze;
@@ -178,7 +179,7 @@ public class Joueur extends Physic_Entity {
 			this.reload = true;
 		} // charge the paint now
 		else if (this.reload) {
-			paintStock += recharge;
+			paintStock += MesOptions.recharge;
 			if (paintStock > MesOptions.paintMax) {
 				paintStock = MesOptions.paintMax;
 			}
@@ -251,17 +252,6 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void step(long now, Case[][] plateau) {
-		// for (int i = 0; i < 4; i++) {
-		// if (z[i] != null) {
-		// z[i].step(now);
-		// if (!z[i].life()) {
-		// System.out.println("le sbire doit disparaitre");
-		// z[i] = null;
-		//
-		// }
-		// }
-		//
-		// }
 
 		long elapsed = now - m_lastMove;
 		last_x = x;
@@ -269,12 +259,6 @@ public class Joueur extends Physic_Entity {
 
 		// On change la durée avant la prochaine action selon le bonus
 		long time = 150L;
-		if (automaton != null) {
-			if (elapsed > 300L) {
-				automaton.step(this, etatcourant, plateau);
-				m_lastMove = now;
-			}
-		}
 
 		// case 1 : Freeze
 		if (elapsed > time && speed < 1 && timeEffectFreeze > 0) {
@@ -285,6 +269,13 @@ public class Joueur extends Physic_Entity {
 		} // case 2 : Speed
 		else if (speed > 1 && elapsed > time / speed && timeEffect > 0) {
 			time /= speed;
+		}
+
+		if (automaton != null) {
+			if (elapsed > 2 * time) {
+				automaton.step(this, etatcourant, plateau);
+				m_lastMove = now;
+			}
 		}
 
 		if (inMovement && elapsed > time && moveable) {
@@ -424,7 +415,8 @@ public class Joueur extends Physic_Entity {
 	}
 
 	public void decreasePaintStock() {
-		paintStock--;
+		if (paintStock > 0)
+			paintStock--;
 	}
 
 	public int getPosInit_x() {
@@ -633,6 +625,7 @@ public class Joueur extends Physic_Entity {
 
 	@Override
 	public boolean closest(String dir, String entity, Case[][] plateau) {
+
 		String m_dir = null;
 		int nb_case = 0;
 		int min = 100;
@@ -641,45 +634,58 @@ public class Joueur extends Physic_Entity {
 		int y_recherche = y;
 		Case c;
 
-		// recherche dans la direction nord indice 0
-		while (y_recherche > 0 && !trouve) {
-			y_recherche--;
-			nb_case++;
-			c = plateau[x_recherche][y_recherche];
-			trouve = entite(c, entity);
-		}
-		if (trouve) {
-			m_dir = "N";
-			min = nb_case;
+		// recherche dans la direction (carré nord) nord indice 0
+		for (int i = 0; i < y_recherche; i++) {
+			nb_case = y_recherche - i + x_recherche;
+			for (int j = 0; j < MesOptions.nbCol - 1; j++) {
+
+				if (j < x_recherche) {
+					nb_case--;
+				} else {
+					nb_case++;
+				}
+
+				c = plateau[j][i];
+				trouve = entite(c, entity);
+
+				if (trouve && nb_case < min) {
+					m_dir = "N";
+					min = nb_case;
+				}
+			}
+
 		}
 
-		// recherche dans la direction sud indice 1
-		y_recherche = y;
-		nb_case = 0;
-		while (y_recherche < MesOptions.nbLigne - 1 && !trouve) {
-			y_recherche++;
-			nb_case++;
-			c = plateau[x_recherche][y_recherche];
-			trouve = entite(c, entity);
-		}
-		if (trouve) {
-			if (nb_case < min) {
-				min = nb_case;
-				m_dir = "S";
+		// recherche dans la direction (carré sud) sud indice 1
+		for (int i = y_recherche; i < MesOptions.nbLigne; i++) {
+			nb_case = MesOptions.nbLigne - i + x_recherche;
+			for (int j = 0; j < MesOptions.nbCol - 1; j++) {
+
+				if (j < x_recherche) {
+					nb_case--;
+				} else {
+					nb_case++;
+				}
+
+				c = plateau[j][i];
+				trouve = entite(c, entity);
+
+				if (trouve && nb_case < min) {
+					m_dir = "S";
+					min = nb_case;
+				}
 			}
+
 		}
 
 		// recherche dans la direction est indice 2
-		y_recherche = y;
 		nb_case = 0;
-		while (x_recherche < MesOptions.nbCol - 1 && !trouve) {
+		while (x_recherche < MesOptions.nbCol - 1) {
 			x_recherche++;
 			nb_case++;
 			c = plateau[x_recherche][y_recherche];
 			trouve = entite(c, entity);
-		}
-		if (trouve) {
-			if (nb_case < min) {
+			if (trouve && nb_case < min) {
 				min = nb_case;
 				m_dir = "E";
 			}
@@ -688,14 +694,12 @@ public class Joueur extends Physic_Entity {
 		// recherche dans la direction ouest indice 3
 		x_recherche = x;
 		nb_case = 0;
-		while (x_recherche > 0 && !trouve) {
+		while (x_recherche > 0) {
 			x_recherche--;
 			nb_case++;
 			c = plateau[x_recherche][y_recherche];
 			trouve = entite(c, entity);
-		}
-		if (trouve) {
-			if (nb_case < min) {
+			if (trouve && nb_case < min) {
 				min = nb_case;
 				m_dir = "O";
 			}
@@ -705,12 +709,22 @@ public class Joueur extends Physic_Entity {
 			return false;
 
 		switch (dir) {
-		case "N":
+		case "N":	
 		case "S":
 		case "E":
 		case "O":
+			return dir.equals(m_dir);
 		case "F":
-			return m_dir.equals(dir);
+			switch (direction) {
+			case 'U':
+				return m_dir.equals("N");
+			case 'D':
+				return m_dir.equals("S");
+			case 'L':
+				return m_dir.equals("O");
+			case 'R':
+				return m_dir.equals("E");
+			}
 		case "B":
 			switch (direction) {
 			case 'U':
@@ -779,7 +793,7 @@ public class Joueur extends Physic_Entity {
 	public void move(String dir, Case[][] plateau) {
 		int next_x = x;
 		int next_y = y;
-		
+
 		switch (dir) {
 		case "F":
 			switch (direction) {
@@ -815,7 +829,7 @@ public class Joueur extends Physic_Entity {
 				break;
 			case 'R':
 				next_x--;
-				direction ='L';
+				direction = 'L';
 				break;
 			default:
 				break;
@@ -829,15 +843,15 @@ public class Joueur extends Physic_Entity {
 				break;
 			case 'D':
 				next_x--;
-				direction ='L';
+				direction = 'L';
 				break;
 			case 'L':
 				next_y--;
-				direction ='U';
+				direction = 'U';
 				break;
 			case 'R':
 				next_y++;
-				direction ='D';
+				direction = 'D';
 				break;
 			default:
 				break;
@@ -851,15 +865,15 @@ public class Joueur extends Physic_Entity {
 				break;
 			case 'D':
 				next_x++;
-				direction ='R';
+				direction = 'R';
 				break;
 			case 'L':
 				next_y++;
-				direction ='D';
+				direction = 'D';
 				break;
 			case 'R':
 				next_y--;
-				direction ='U';
+				direction = 'U';
 				break;
 			default:
 				break;
@@ -870,20 +884,22 @@ public class Joueur extends Physic_Entity {
 		}
 		Case c = getC(next_x, next_y, plateau);
 		if (c != null && !(c.getE() instanceof Physic_Entity)) {
-			plateau[x][y].setE(null);
-			plateau[x][y].setRefresh(true);
 			last_x = x;
 			last_y = y;
 			x = next_x;
 			y = next_y;
+			m_model.checkPaint();
+			m_model.checkBonus();
+			m_model.checkItem();
+			plateau[last_x][last_y].setE(null);
+			plateau[last_x][last_y].setRefresh(true);
 			plateau[x][y].setE(this);
 			plateau[x][y].setRefresh(true);
-			decreasePaintStock();
+			//
 
 		}
 
 	}
-
 
 	@Override
 	public void turn(Case[][] plateau) {

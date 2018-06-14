@@ -12,6 +12,7 @@ import javax.media.Time;
 
 public class Sounds {
 
+
 	static Player m_player_game, m_player_clic, m_player_hit, m_player_charge, m_player_pop, m_player_portail;
 
 	// load all the sounds in global players

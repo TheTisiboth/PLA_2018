@@ -148,7 +148,7 @@ public class GameWindow extends JFrame {
 		barreJ1.setMaximumSize(new Dimension(600, 40));
 		barreJ1.setMinimumSize(new Dimension(600, 40));
 		barreJ1.setValue(100);
-		barreJ1.setForeground(Color.RED);
+		barreJ1.setForeground(new Color(216, 63, 130));
 		barreJ1.setStringPainted(true);
 
 		return barreJ1;

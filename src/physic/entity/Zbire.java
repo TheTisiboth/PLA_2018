@@ -618,7 +618,6 @@ public class Zbire extends Physic_Entity {
 			plateau[x][y].setE(this);
 			plateau[x][y].setRefresh(true);
 		}
-
 	}
 
 	@Override
@@ -793,7 +792,7 @@ public class Zbire extends Physic_Entity {
 	public void power(Case[][] plateau) {
 		if (joueur == 1) {
 			m_model.getJ1().recharger(true);
-		}else {
+		} else {
 			m_model.getJ2().recharger(true);
 		}
 	}
@@ -965,6 +964,14 @@ public class Zbire extends Physic_Entity {
 
 		if (nb_case == 0)
 			nb_case--;
+	}
+
+	public void setlast_X(int x) {
+		last_x = x;
+	}
+
+	public void setlast_Y(int y) {
+		last_y = y;
 	}
 
 }

@@ -1,6 +1,7 @@
 package fenetre;
 
 import java.awt.BorderLayout;
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,8 +45,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 	JTextField j1, j2;
 
-	JButton play, rules, fg1, fg2, fd1, fd2, credits, engrenage;;
-
+	JButton play, rules, fg1, fg2, fd1, fd2, credits, engrenage;
+	public JCheckBox checkbox_j1, checkbox_j2;
 	String nom_j1, nom_j2;
 	private JLabel spritePanel1, spritePanel2;
 	BufferedImage[] sprites;
@@ -119,9 +121,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 
 		engrenage.addActionListener(this);
 
-
 		img.add(engrenage);
-		
+
 		// fin engrenage
 
 		// fin engrenage
@@ -217,8 +218,19 @@ public class HomeWindow extends JFrame implements ActionListener {
 		credits.setBorderPainted(false);
 
 		credits.addActionListener(this);
-
 		img.add(credits);
+
+		checkbox_j1 = new JCheckBox("", false);
+		checkbox_j1.setBounds(200, 400, 120, 50);
+		checkbox_j1.setOpaque(false);
+
+		img.add(checkbox_j1);
+
+		checkbox_j2 = new JCheckBox("", false);
+		checkbox_j2.setBounds(880, 400, 120, 50);
+		checkbox_j2.setOpaque(false);
+
+		img.add(checkbox_j2);
 
 		// Fin Bouton "Crédits"
 
@@ -279,21 +291,22 @@ public class HomeWindow extends JFrame implements ActionListener {
 			for (int i = 4; i < 8; i++) {
 				MesOptions.automates_j2.add(tab.get(i));
 			}
-			
+
 			try {
-			if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
-				AutomataParser.ReInit(new BufferedReader(new FileReader("automata.txt")));
-			else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
-				new AutomataParser(new BufferedReader(new FileReader("automata.txt")));
-			MesOptions.deja_parse = true;
-			// On lance le parser
-			AI_Definitions def = (AI_Definitions) AutomataParser.Run();
-			MesOptions.automates = def.make();
-			}
-			catch (Exception e1) {
+				if (MesOptions.deja_parse) // si on a deja parse un fichier, il faut reinitialiser le parser
+					AutomataParser.ReInit(new BufferedReader(new FileReader("automata.txt")));
+				else // on crée une nouvelle instance du parser, si l'on ne l'a jamais fait
+					new AutomataParser(new BufferedReader(new FileReader("automata.txt")));
+				MesOptions.deja_parse = true;
+				// On lance le parser
+				AI_Definitions def = (AI_Definitions) AutomataParser.Run();
+				MesOptions.automates = def.make();
+			} catch (Exception e1) {
 				e1.getStackTrace();
+				e1.printStackTrace();
+				
 			}
-			
+
 			model = new Model(perso2, perso1);
 			controller = new Controller(model);
 			view = new View(model, controller);
@@ -302,6 +315,8 @@ public class HomeWindow extends JFrame implements ActionListener {
 			m_game.setM_view(view);
 
 			model.setM_frame(new GameWindow(d, controller, view, model, nom_j1, nom_j2));
+			model.setIA1(checkbox_j1.isSelected());
+			model.setIA2(checkbox_j2.isSelected());
 			m_game.createTimer();
 
 			dispose();
@@ -401,9 +416,9 @@ public class HomeWindow extends JFrame implements ActionListener {
 			return null;
 		}
 	}
-	
+
 	public void windowClosing(WindowEvent e) {
-		
+
 		System.exit(0);
 	}
 

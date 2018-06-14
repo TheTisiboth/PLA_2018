@@ -34,6 +34,7 @@ public class Obstacle extends Physic_Entity {
 
 	public void reduce_life() {
 		health_point--;
+		
 	}
 	
 	public void destroy() {

@@ -46,7 +46,7 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		
 		JPanel img = new Background(d, 4);
 		
-		// Début bouton "Rules"
+		// return button
 
 		return_button = new JButton();
 		return_button.setBounds(-120, 10, 400, 80);
@@ -57,8 +57,6 @@ public class CreditsWindow extends JFrame implements ActionListener {
 		return_button.addActionListener(this);
 
 		img.add(return_button);
-
-		// Fin Bouton "Rules"
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);

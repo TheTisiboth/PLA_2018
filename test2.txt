@@ -1,3 +1,0 @@
-Wizzer(Init){
-  * (Init): True ? Wizz :(Init)
-}

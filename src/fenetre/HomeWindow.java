@@ -324,11 +324,11 @@ public class HomeWindow extends JFrame implements ActionListener {
 			for (int i = 0; i < 4; i++) {
 				MesOptions.automates_j1.add(tab.get(i));
 				// TODO supprimer l'affichage
-				System.out.println(tab.get(i));
+//				System.out.println(tab.get(i));
 			}
 			for (int i = 4; i < 8; i++) {
 				MesOptions.automates_j2.add(tab.get(i));
-				System.out.println(tab.get(i));
+//				System.out.println(tab.get(i));
 			}
 			
 			model = new Model(perso2, perso1);

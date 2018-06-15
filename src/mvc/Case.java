@@ -18,7 +18,7 @@ public class Case {
 		} else {
 			occupied = false;
 		}
-		refresh = false;
+		refresh = true;
 		refresh_buffer2 = false;
 		m_couleur = img;
 		m_couleur_init = img;
@@ -78,11 +78,11 @@ public class Case {
 		}
 	}
 
-	public boolean isOccuped() {
+	public boolean isOccupied() {
 		return occupied;
 	}
 
-	public void setOccuped(boolean occupied) {
+	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}
 

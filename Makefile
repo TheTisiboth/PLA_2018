@@ -2,7 +2,7 @@ graphviz_executable = open
 java_interpreter    = java
 dot_output_file     = ./ast.dot
 project_directory   = .
-parser_class        = ricm3/parser/AutomataParser
+parser_class        = ricm3.parser.AutomataParser
 
 test1 = "Philosopher(Think){ * (Think) }"
 
@@ -137,5 +137,5 @@ SuperHero(Explore){\
 test%:
 	@ clear
 	@ echo ``Parsing = \"$(test$*)\"``
-	@ cd $(project_directory)/bin ; $(java_interpreter) $(parser_class) ../Automates.txt > $(dot_output_file)
+	@ cd $(project_directory)/bin ; $(java_interpreter) $(parser_class) -ast -file ../Automates.txt > $(dot_output_file)
 	@ dot -Tps -o ast.ps bin/ast.dot

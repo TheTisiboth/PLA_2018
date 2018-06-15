@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,16 +22,11 @@ public class RulesWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	JPanel main;
 	JLabel m_text;
-	JButton rules;
+	JButton return_button;
 	Dimension d;
 	GameUI m_game;
 
 	public RulesWindow(Dimension d, GameUI game) {
-
-		
-		// change icon of the frame 
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 		
 		this.d = d;
 		m_game = game;
@@ -46,17 +40,17 @@ public class RulesWindow extends JFrame implements ActionListener {
 
 		JPanel img = new Background(d, 3);
 
-		rules = new JButton();
-		rules.setBounds(-120, 10, 400, 80);
-		rules.setOpaque(false);
-		rules.setContentAreaFilled(false);
-		rules.setBorderPainted(false);
+		// return button
+		
+		return_button = new JButton();
+		return_button.setBounds(-120, 10, 400, 80);
+		return_button.setOpaque(false);
+		return_button.setContentAreaFilled(false);
+		return_button.setBorderPainted(false);
 
-		rules.addActionListener(this);
+		return_button.addActionListener(this);
 
-		img.add(rules);
-
-		// Fin Bouton "Rules"
+		img.add(return_button);
 
 		// On ajoute le tout dans la fenetre
 		cont.add(img, BorderLayout.CENTER);
@@ -87,7 +81,7 @@ public class RulesWindow extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object s = e.getSource();
 
-		if (s == rules) {
+		if (s == return_button) {
 			Sounds.clic_sound();
 			new HomeWindow(d, m_game);
 			dispose();

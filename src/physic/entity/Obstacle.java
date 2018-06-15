@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import mvc.Case;
 import mvc.MesOptions;
 
 public class Obstacle extends Physic_Entity {
@@ -33,10 +34,136 @@ public class Obstacle extends Physic_Entity {
 
 	public void reduce_life() {
 		health_point--;
+		
+	}
+	
+	public void destroy() {
+		health_point = 0;
 	}
 
 	public boolean life() {
 		return health_point > 0;
 	}
+
+	@Override
+	public boolean gotPower() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean key(String cle) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean myDir(String dir) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean cell(String dir, String entity, Case[][] plateau) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean closest(String dir, String entity, Case[][] plateau) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean gotStuff() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void wizz(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pop(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void move(String dir, Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void turn(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jump(String dir, Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hit(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void protect(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pick(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void jeter(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void store(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void get(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void power(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void kamikaze(Case[][] plateau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEtatCourant(String target) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

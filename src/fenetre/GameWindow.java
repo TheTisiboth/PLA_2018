@@ -6,7 +6,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
@@ -15,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 import edu.ricm3.game.GameController;
 import edu.ricm3.game.GameModel;
@@ -47,10 +45,6 @@ public class GameWindow extends JFrame {
 	public GameWindow(Dimension d, GameController ctrl, GameView view, GameModel mod, String j1, String j2) {
 
 		Sounds.game_sound();
-
-		// change icon of the frame
-		ImageIcon icon = new ImageIcon("images/item_sbire.png");
-		this.setIconImage(icon.getImage());
 
 		last_tick = 0L;
 		this.dimension = d;
@@ -154,7 +148,7 @@ public class GameWindow extends JFrame {
 		barreJ1.setMaximumSize(new Dimension(600, 40));
 		barreJ1.setMinimumSize(new Dimension(600, 40));
 		barreJ1.setValue(100);
-		barreJ1.setForeground(Color.RED);
+		barreJ1.setForeground(new Color(216, 63, 130));
 		barreJ1.setStringPainted(true);
 
 		return barreJ1;

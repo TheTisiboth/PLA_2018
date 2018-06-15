@@ -9,8 +9,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -26,6 +25,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
 
 import edu.ricm3.game.GameUI;
 import mvc.LectureFichier;
@@ -38,15 +39,12 @@ import ricm3.parser.AutomataParser;
 public class ChoixZbire extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField j1;
-	private String nom_j1;
-	private JTextField j2;
-	private String nom_j2;
+	private JTextField j1, j2;
+	private String nom_j1, nom_j2;
 	private JButton home;
 	Dimension d;
 	GameUI m_game;
-	ArrayList<String> noms_automate, noms_automate_tmp;
-	ArrayList<String> automate;
+	ArrayList<String> noms_automate, noms_automate_tmp, automate;
 	String fichier;
 	JPanel img;
 	JComboBox comboBox[];
@@ -64,7 +62,6 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		img = new Background(d, 7);
 		comboBox = new JComboBox[8];
 		fichier = "save.txt";
-		automate = LectureFichier.lecture_automata(fichier);
 
 		// on rafraichit les 8 menus déroulants, en fonction du fichier choisi
 		// par defaut : automata.txt
@@ -118,7 +115,9 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		}
 		menu.setBounds(500, 120, 200, 35);
+		// fenetre pour choisir un fichier
 		final JFileChooser fileChooser = new JFileChooser(repertoireCourant);
+		// on filtre les fichier .txt
 		FileNameExtensionFilter txtFilter = new FileNameExtensionFilter("TEXT files (*.txt)", "txt");
 		fileChooser.addChoosableFileFilter(txtFilter);
 		fileChooser.setFileFilter(txtFilter);
@@ -130,6 +129,7 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
 					try {
+						// on récupere le fichier choisi
 						fichier = file.toString();
 					} catch (Exception ex) {
 						System.out.println("problem accessing file" + file.getAbsolutePath());
@@ -137,35 +137,13 @@ public class ChoixZbire extends JFrame implements ActionListener {
 				} else {
 					System.out.println("File access cancelled by user.");
 				}
+				// on rafraichit les menu déroulant
 				refreshAutomate(eastPanel, westPanel);
 
 			}
 		});
 
 		img.add(menu);
-		// menu_fichier = new JComboBox<>(files); // menu deroulant contenant
-		// tout
-		// // les fichiers .txt
-		//
-		// menu_fichier.setBounds(500, 120, 200, 35);
-		// menu_fichier.setSelectedItem(fichier);
-		// for (int i = 0; i < menu_fichier.getItemCount(); i++) {
-		// String s = menu_fichier.getItemAt(i).toString();
-		// if ((menu_fichier.getItemAt(i)).toString().contains(fichier))
-		// menu_fichier.setSelectedItem(menu_fichier.getItemAt(i));
-		// }
-		// img.add(menu_fichier);
-		// menu_fichier.addItemListener(new ItemListener() {
-		//
-		// @Override
-		// public void itemStateChanged(ItemEvent e) {
-		// // lorsque l'on selectionne un nouveau fichier, on actualise
-		// Object o = menu_fichier.getItemAt(menu_fichier.getSelectedIndex());
-		// fichier = o.toString();
-		// menu_fichier.setSelectedItem(fichier);
-		// refreshAutomate(eastPanel, westPanel);
-		// }
-		// });
 
 		refreshAutomate(eastPanel, westPanel);
 
@@ -227,11 +205,10 @@ public class ChoixZbire extends JFrame implements ActionListener {
 			if (!(monFichier.exists()) || monFichier.length() == 0) {
 				fichier = "automata.txt";
 			}
+
 			noms_automate_tmp = new ArrayList<String>();
 			noms_automate = new ArrayList<String>();
 
-			// Contient tout les automtates de fichier
-			automate = LectureFichier.lecture_automata(fichier);
 			if (MesOptions.deja_parse)
 				// si on a deja parse un fichier, il faut reinitialiser le
 				// parser
@@ -341,6 +318,9 @@ public class ChoixZbire extends JFrame implements ActionListener {
 		Object s = e.getSource();
 		if (s == home) {
 			Sounds.clic_sound();
+			// On lit dans le fichier tout les automates, que l'on sauvegarde
+			// dans save.txt
+			automate = LectureFichier.lecture_automata(fichier);
 			if (comboBox[0].isEnabled()) {
 				// si les boutons sont activé => fichier valide => on sauvegarde
 				// dans save.txt
@@ -358,6 +338,23 @@ public class ChoixZbire extends JFrame implements ActionListener {
 					// On réécrit l'automate complet
 					LectureFichier.ecrire("save.txt", automate.get(indice), premiere_iteration);
 					premiere_iteration = false;
+				}
+				
+				int indice = 0;
+				boolean trouve = false;
+				while (indice < automate.size() && !trouve) {
+					if (automate.get(indice).contains("IA")) {
+						LectureFichier.ecrire("save.txt", automate.get(indice), false);
+						trouve = true;
+					}
+					indice++;
+				}
+				if(!trouve) {
+					try {
+						throw new Exception("Automate de l'IA manquant");
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 			// si les boutons sont desactivé, c'est que le fichier etait

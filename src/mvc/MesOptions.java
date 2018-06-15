@@ -1,6 +1,9 @@
 package mvc;
 
 import java.util.LinkedList;
+import java.util.List;
+
+import interpreter.Automaton_I;
 
 public class MesOptions {
 	public static final int taille_case = 40; // 40x40 pixels
@@ -42,5 +45,6 @@ public class MesOptions {
 
 	public static LinkedList<String> automates_j1;
 	public static LinkedList<String> automates_j2;
+	public static List<Automaton_I> automates;
 
 }

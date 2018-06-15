@@ -8,13 +8,14 @@ import edu.ricm3.game.GameView;
 public class View extends GameView {
 
 	private static final long serialVersionUID = 1L;
-	Color background = new Color(255, 255, 255, 0);
+	Color background = new Color(255, 255, 255, 0); // transparent
 	Model m_model;
 	Controller m_ctr;
 
-	public View(Model m, Controller j1) {
+	// constructor 
+	public View(Model m, Controller c) {
 		m_model = m;
-		m_ctr = j1;
+		m_ctr = c;
 	}
 
 	@Override
@@ -26,7 +27,6 @@ public class View extends GameView {
 			for (int k = 0; k < MesOptions.nbLigne; k++) {
 				if (plateau[i][k].getRefresh()) {
 					plateau[i][k].paint(g, i, k);
-//					System.err.println("i="+i+"j="+k);
 				}
 			}
 		}

@@ -1,6 +1,11 @@
 # PLA
 ## Nom du jeu : COLORicm
 
+## Lancement du jeu / Run the game
+
+Il suffit de double cliquer sur le fichier COLORicm.jar
+You just have to dobble click on the file COLORIcm.jar
+
 ### Objectif :
 * colorier le plus vite possible un plateau (peinture limitée)
 * multijoueurs : 1 contre 1 (2 joueurs)

@@ -50,3 +50,6 @@
 * MOVE : se deplace sur une case adjacente (pas de diagonale)
 * POP : téléportation aléatoire sur le plateau
 * WIZZ : à voir
+
+# Avancement du projet 
+Pour voir l'avancement du projet, se référer au fichier carnet_de_bord.md

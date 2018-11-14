@@ -1,6 +1,19 @@
 # PLA
 ## Nom du jeu : COLORicm
 
+# Avancement du projet 
+Pour voir l'avancement du projet, se référer au fichier carnet_de_bord.md
+
+# Manuel de l'utilisateur 
+
+Pour accéder au manuel utilisateur, il suffit d'ouvrir le fichier manuel_utilisateur_compressed.pdf
+Il contient toutes les règles, les touches,etc, permettant de comprendre comment jouer au jeu
+
+# Présentation 
+
+Pour voir le PDF de notre présentation, il suffit d'ouvrir le fichier COLORicm.pdf.
+
+
 ## Lancement du jeu / Run the game
 
 * Il suffit de double cliquer sur le fichier COLORicm.jar
@@ -50,6 +63,3 @@
 * MOVE : se deplace sur une case adjacente (pas de diagonale)
 * POP : téléportation aléatoire sur le plateau
 * WIZZ : à voir
-
-# Avancement du projet 
-Pour voir l'avancement du projet, se référer au fichier carnet_de_bord.md

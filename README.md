@@ -1,5 +1,4 @@
-# PLA
-## Nom du jeu : COLORicm
+# COLORicm
 
 # Avancement du projet 
 Pour voir l'avancement du projet, se référer au fichier carnet_de_bord.md
